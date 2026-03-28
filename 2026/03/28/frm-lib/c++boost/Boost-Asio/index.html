@@ -28,7 +28,7 @@
 <meta property="og:description" content="Asio Boost.Asio 是一个跨平台的C++库，用于网络和底层I&#x2F;O编程，它使用现代C++方法为开发人员提供一致的异步模型。   库学习建议   核心概念优先级：  io_context + 异步操作模型 ✓ TCP&#x2F;UDP编程基础 ✓ 异步回调与completion handler ✓ 定时器与deadline_timer ✓ 简单的异步链 ✓    可暂缓的内容：">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-03-28T12:54:19.501Z">
-<meta property="article:modified_time" content="2026-03-28T12:59:21.211Z">
+<meta property="article:modified_time" content="2026-03-28T13:00:44.733Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="blog">
 <meta name="twitter:card" content="summary">
@@ -203,7 +203,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-03-28 20:54:19 / 修改时间：20:59:21" itemprop="dateCreated datePublished" datetime="2026-03-28T20:54:19+08:00">2026-03-28</time>
+      <time title="创建时间：2026-03-28 20:54:19 / 修改时间：21:00:44" itemprop="dateCreated datePublished" datetime="2026-03-28T20:54:19+08:00">2026-03-28</time>
     </span>
 
   
@@ -239,6 +239,8 @@
 <h2 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h2><blockquote>
 <p>通过展示如何对定时器执行阻塞来介绍 asio<br>所有的 asio 类都可以通过简单的包含 <strong>&lt;boost&#x2F;asio.hpp&gt;</strong> 头文件来使用</p>
 </blockquote>
+<span id="more"></span>
+
 <h3 id="Timer-1"><a href="#Timer-1" class="headerlink" title="Timer 1"></a>Timer 1</h3><p>所有使用 asio 的程序都需要 <strong>至少有一个 I&#x2F;O 执行上下文</strong> ，例如 <strong>io_contex</strong> 或 <strong>thread_pool</strong> 对象。I&#x2F;O 执行上下文提供对 I&#x2F;O 功能的访问。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	boost::asio::io_context io;</span><br><span class="line"></span><br><span class="line">	boost::<span class="function">asio::steady_timer <span class="title">timer</span><span class="params">(io, boost::asio::chrono::milliseconds(<span class="number">2700</span>))</span></span>;</span><br><span class="line"></span><br><span class="line">	timer.<span class="built_in">wait</span>();</span><br><span class="line"></span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;Hello World!\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
