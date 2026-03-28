@@ -269,7 +269,7 @@
 <hr>
 <h2 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h2><p>Git仓库和GitHub仓库之间的传输是通过 <strong>SSH</strong> 进行加密的，所以需要一些设置。</p>
 <ol>
-<li><p><strong>创建SSH Key</strong> 。在当前的用户主目录下，可以查看是否有 <strong>.ssh目录</strong> ，若存在，则可以查看该目录下是否有 <strong>id_rsa</strong> 与 <strong>id_rsa.pub</strong> 文件，若存在则可以直接从第二步开始。<br>若不存在该目录与文件，可以创建SSH Key:<br><code> ssh-keygen -t rsa -C &quot;email@example.com&quot;</code><br>将<a href="mailto:&#101;&#109;&#x61;&#105;&#108;&#x40;&#101;&#120;&#x61;&#109;&#112;&#x6c;&#101;&#x2e;&#x63;&#x6f;&#x6d;">email@example.com</a>换为自己的邮箱地址。<br><strong>id_rsa</strong> 是 <strong>私钥</strong><br><strong>id_rsa.pub</strong> 是 <strong>公钥</strong></p>
+<li><p><strong>创建SSH Key</strong> 。在当前的用户主目录下，可以查看是否有 <strong>.ssh目录</strong> ，若存在，则可以查看该目录下是否有 <strong>id_rsa</strong> 与 <strong>id_rsa.pub</strong> 文件，若存在则可以直接从第二步开始。<br>若不存在该目录与文件，可以创建SSH Key:<br><code> ssh-keygen -t rsa -C &quot;email@example.com&quot;</code><br>将<a href="mailto:&#101;&#109;&#97;&#105;&#x6c;&#64;&#x65;&#120;&#x61;&#x6d;&#x70;&#x6c;&#101;&#x2e;&#x63;&#x6f;&#x6d;">email@example.com</a>换为自己的邮箱地址。<br><strong>id_rsa</strong> 是 <strong>私钥</strong><br><strong>id_rsa.pub</strong> 是 <strong>公钥</strong></p>
 </li>
 <li><p><strong>在GitHub中添加SSH密钥</strong> 。在 <strong>Account&#x2F;SSH and GPG keys</strong> 中，点击 <strong>New SSH key</strong> 加入SSH公钥（id_rsa.pub文件中的内容）。</p>
 </li>
@@ -307,8 +307,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2026/03/28/frm-lib/c++boost/Boost-Asio/" rel="next" title="C++ Boost::Asio">
-                  C++ Boost::Asio <i class="fa fa-angle-right"></i>
+                <a href="/2026/03/28/frm-lib/c++boost/Boost-Thread/" rel="next" title="C++ Boost::Thread">
+                  C++ Boost::Thread <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
