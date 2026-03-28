@@ -1,12 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>nvim配置文件 | Volador235&#39;s blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990-- nvim 主题vim.cmd.colorscheme">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"بحث...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990-- nvim 主题vim.cmd.colorscheme">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nvim配置文件">
 <meta property="og:url" content="http://iloging.github.io/2026/03/28/tools/vim-config/index.html">
@@ -18,233 +32,253 @@
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="vim">
 <meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/2026/03/28/tools/vim-config/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh","comments":true,"permalink":"http://iloging.github.io/2026/03/28/tools/vim-config/","path":"2026/03/28/tools/vim-config/","title":"nvim配置文件"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>nvim配置文件 | Volador235's blog</title>
   
-    <link rel="alternate" href="/atom.xml" title="Volador235's blog" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+
+
+
 
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
 
   
+
+
+
+
+
+
   
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
 
-<meta name="generator" content="Hexo 8.1.1"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Volador235&#39;s blog</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Welcome to my blog!</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Suche"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://iLogIng.github.io"></form>
-      </div>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="تشغيل شريط التصفح" role="button">
     </div>
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="بحث" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
 </header>
-
-      <div class="outer">
-        <section id="main"><article id="post-tools/vim-config" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/03/28/tools/vim-config/" class="article-date">
-  <time class="dt-published" datetime="2026-03-28T08:26:02.000Z" itemprop="datePublished">2026-03-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
   
-    <h1 class="p-name article-title" itemprop="headline name">
-      nvim配置文件
-    </h1>
-  
+  <aside class="sidebar">
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">-- nvim 主题</span><br><span class="line">vim.cmd.colorscheme(<span class="string">&quot;torte&quot;</span>)</span><br><span class="line"></span><br><span class="line">--[[</span><br><span class="line">--  安装lazy.nvim</span><br><span class="line">--]]</span><br><span class="line"><span class="built_in">local</span> lazypath = vim.fn.stdpath(<span class="string">&quot;data&quot;</span>) .. <span class="string">&quot;/lazy/lazy.nvim&quot;</span></span><br><span class="line"><span class="keyword">if</span> not vim.loop.fs_stat(lazypath) <span class="keyword">then</span></span><br><span class="line">  vim.fn.system(&#123;</span><br><span class="line">    <span class="string">&quot;git&quot;</span>,</span><br><span class="line">    <span class="string">&quot;clone&quot;</span>,</span><br><span class="line">    <span class="string">&quot;--filter=blob:none&quot;</span>,</span><br><span class="line">    <span class="string">&quot;https://github.com/folke/lazy.nvim.git&quot;</span>,</span><br><span class="line">    <span class="string">&quot;--branch=stable&quot;</span>,</span><br><span class="line">    lazypath,</span><br><span class="line">  &#125;)</span><br><span class="line">end</span><br><span class="line">vim.opt.rtp:prepend(lazypath)</span><br><span class="line"></span><br><span class="line">--[[</span><br><span class="line">--  基础配置</span><br><span class="line">--]]</span><br><span class="line">vim.opt.compatible = <span class="literal">false</span>      -- 不使用vi兼容</span><br><span class="line"></span><br><span class="line">vim.syntax = <span class="literal">true</span>               -- 启用语法高亮</span><br><span class="line"></span><br><span class="line">vim.o.number = <span class="literal">true</span>             -- 显示行号</span><br><span class="line">vim.o.relativenumber = <span class="literal">true</span>     -- 显示相对行号</span><br><span class="line">vim.o.cursorline = <span class="literal">true</span>         -- 高亮显示当前行</span><br><span class="line">vim.opt.signcolumn = <span class="string">&#x27;yes&#x27;</span>      -- 始终显示标记列</span><br><span class="line">vim.o.title = <span class="literal">true</span>              -- 终端标题显示当前文件</span><br><span class="line">vim.opt.scrolloff = 3           -- 光标上下保留3行缓冲</span><br><span class="line"></span><br><span class="line">vim.o.ignorecase = <span class="literal">true</span>         -- 搜索时忽略大小写</span><br><span class="line">vim.o.smartcase = <span class="literal">true</span>          -- 如果包含大小写则开启精确匹配</span><br><span class="line">vim.o.hlsearch = <span class="literal">true</span>           -- 高亮所有搜索结果</span><br><span class="line">vim.o.incsearch = <span class="literal">true</span>          -- 边输入边高亮匹配</span><br><span class="line"></span><br><span class="line">vim.o.expandtab = <span class="literal">true</span>          -- 将Tab转换为空格</span><br><span class="line">vim.opt.tabstop = 4             -- Tab显示为4个空格宽度</span><br><span class="line">vim.opt.shiftwidth = 4          -- 自动缩进使用4</span><br><span class="line">vim.opt.softtabstop = 4         -- 在编辑时Tab键当作4个空格</span><br><span class="line">vim.o.autoindent = <span class="literal">true</span>         -- 自动缩进</span><br><span class="line">vim.o.smartindent = <span class="literal">true</span>        -- 智能缩进</span><br><span class="line"></span><br><span class="line">vim.opt.backspace = &#123;<span class="string">&#x27;indent&#x27;</span>, <span class="string">&#x27;eol&#x27;</span>, <span class="string">&#x27;start&#x27;</span>&#125;          -- 允许退格键删除：缩进、换行</span><br><span class="line">vim.o.wildmenu = <span class="literal">true</span>           -- 命令模式补全时显示菜单</span><br><span class="line">vim.opt.wildmode = <span class="string">&#x27;longest:full,full&#x27;</span>                  -- 补全模式：最长匹配，然后列表</span><br><span class="line">vim.opt.updatetime = 300        -- 减少更新延迟</span><br><span class="line">vim.opt.mouse = <span class="string">&#x27;a&#x27;</span>             -- 启用鼠标支持</span><br><span class="line"></span><br><span class="line">vim.opt.encoding = <span class="string">&#x27;utf-8&#x27;</span>      -- 内部使用UIF-8编码</span><br><span class="line">vim.opt.fileencodings = <span class="string">&#x27;utf-8,gbk&#x27;</span>                     -- 尝试解码的文件编码列表</span><br><span class="line">vim.opt.clipboard = <span class="string">&#x27;unnamedplus&#x27;</span>                       -- 启用系统剪贴板支持</span><br><span class="line"></span><br><span class="line">vim.opt.laststatus = 2          -- 始终显示状态栏</span><br><span class="line">vim.opt.statusline =</span><br><span class="line">[[%f %m%=[%&#123;&amp;fileencoding?&amp;fileencoding:&amp;encoding&#125;] [%Y] %l:%c %p%%]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">--[[</span><br><span class="line">--  插件管理</span><br><span class="line">--]]</span><br><span class="line"></span><br><span class="line">-- 增强语法高亮：Markdown、Makefile、LaTeX</span><br><span class="line">require(<span class="string">&quot;lazy&quot;</span>).setup(&#123;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;nvim-treesitter/nvim-treesitter&quot;</span>,</span><br><span class="line">      build = <span class="string">&quot;:TSUpdate&quot;</span>,</span><br><span class="line">      opts = &#123;</span><br><span class="line">        -- 只安装这几种语言的解析器</span><br><span class="line">        ensure_installed = &#123;</span><br><span class="line">          <span class="string">&quot;markdown&quot;</span>,       -- Markdown 基础语法</span><br><span class="line">          <span class="string">&quot;markdown_inline&quot;</span>,-- Markdown 内联元素（如粗体、代码）更精细的高亮</span><br><span class="line">          <span class="string">&quot;make&quot;</span>,           -- Makefile</span><br><span class="line">          <span class="string">&quot;latex&quot;</span>,          -- LaTeX / BibTeX</span><br><span class="line">        &#125;,</span><br><span class="line">        highlight = &#123;</span><br><span class="line">          <span class="built_in">enable</span> = <span class="literal">true</span>,                -- 启用 Tree-sitter 高亮</span><br><span class="line">          additional_vim_regex_highlighting = <span class="literal">false</span>, -- 关闭 Vim 正则高亮避免冲突</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">      config = <span class="keyword">function</span>(_, opts)</span><br><span class="line">        -- 标准 setup 调用</span><br><span class="line">        require(<span class="string">&quot;nvim-treesitter.configs&quot;</span>).setup(opts)</span><br><span class="line">      end,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://iloging.github.io/2026/03/28/tools/vim-config/" data-id="cuidOFnCCoKuoYVURf1ecQCFP" data-title="nvim配置文件" class="article-share-link"><span class="fa fa-share">Teilen</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2026/03/28/language/JavaScript%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          JavaScript特性
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2026/03/28/language/assembly/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">汇编语言杂记</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-Boost/" rel="tag">C++Boost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/asm/" rel="tag">asm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/C-Boost/" style="font-size: 10px;">C++Boost</a> <a href="/tags/asm/" style="font-size: 10px;">asm</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/03/">March 2026</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2026/03/28/language/JavaScript%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B/">JavaScript特性</a>
-          </li>
-        
-          <li>
-            <a href="/2026/03/28/tools/vim-config/">nvim配置文件</a>
-          </li>
-        
-          <li>
-            <a href="/2026/03/28/language/assembly/">汇编语言杂记</a>
-          </li>
-        
-          <li>
-            <a href="/2026/03/28/frm-lib/hexo-note/">hexo-note</a>
-          </li>
-        
-          <li>
-            <a href="/2026/03/28/frm-lib/c++boost/Boost-Thread/">C++ Boost::Thread</a>
-          </li>
-        
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          المحتويات
+        </li>
+        <li class="sidebar-nav-overview">
+          عام
+        </li>
       </ul>
-    </div>
-  </div>
 
-  
-</aside>
-        
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">المقالات</span>
+        </a>
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2026 iLogIng<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">الوسوم</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
     </div>
-  </div>
-</footer>
+
+    
+  </aside>
+
 
     </div>
-    <nav id="mobile-nav">
+
+    <div class="main-inner post posts-expand">
+
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
+
+
+<div class="post-block">
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
   
-</nav>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/tools/vim-config/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="nvim配置文件 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          nvim配置文件
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">نُشر في</span>
+      
+
+      <time title="أُنشأ: 2026-03-28 16:26:02 / عُدل: 16:43:09" itemprop="dateCreated datePublished" datetime="2026-03-28T16:26:02+08:00">2026-03-28</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">-- nvim 主题</span><br><span class="line">vim.cmd.colorscheme(<span class="string">&quot;torte&quot;</span>)</span><br><span class="line"></span><br><span class="line">--[[</span><br><span class="line">--  安装lazy.nvim</span><br><span class="line">--]]</span><br><span class="line"><span class="built_in">local</span> lazypath = vim.fn.stdpath(<span class="string">&quot;data&quot;</span>) .. <span class="string">&quot;/lazy/lazy.nvim&quot;</span></span><br><span class="line"><span class="keyword">if</span> not vim.loop.fs_stat(lazypath) <span class="keyword">then</span></span><br><span class="line">  vim.fn.system(&#123;</span><br><span class="line">    <span class="string">&quot;git&quot;</span>,</span><br><span class="line">    <span class="string">&quot;clone&quot;</span>,</span><br><span class="line">    <span class="string">&quot;--filter=blob:none&quot;</span>,</span><br><span class="line">    <span class="string">&quot;https://github.com/folke/lazy.nvim.git&quot;</span>,</span><br><span class="line">    <span class="string">&quot;--branch=stable&quot;</span>,</span><br><span class="line">    lazypath,</span><br><span class="line">  &#125;)</span><br><span class="line">end</span><br><span class="line">vim.opt.rtp:prepend(lazypath)</span><br><span class="line"></span><br><span class="line">--[[</span><br><span class="line">--  基础配置</span><br><span class="line">--]]</span><br><span class="line">vim.opt.compatible = <span class="literal">false</span>      -- 不使用vi兼容</span><br><span class="line"></span><br><span class="line">vim.syntax = <span class="literal">true</span>               -- 启用语法高亮</span><br><span class="line"></span><br><span class="line">vim.o.number = <span class="literal">true</span>             -- 显示行号</span><br><span class="line">vim.o.relativenumber = <span class="literal">true</span>     -- 显示相对行号</span><br><span class="line">vim.o.cursorline = <span class="literal">true</span>         -- 高亮显示当前行</span><br><span class="line">vim.opt.signcolumn = <span class="string">&#x27;yes&#x27;</span>      -- 始终显示标记列</span><br><span class="line">vim.o.title = <span class="literal">true</span>              -- 终端标题显示当前文件</span><br><span class="line">vim.opt.scrolloff = 3           -- 光标上下保留3行缓冲</span><br><span class="line"></span><br><span class="line">vim.o.ignorecase = <span class="literal">true</span>         -- 搜索时忽略大小写</span><br><span class="line">vim.o.smartcase = <span class="literal">true</span>          -- 如果包含大小写则开启精确匹配</span><br><span class="line">vim.o.hlsearch = <span class="literal">true</span>           -- 高亮所有搜索结果</span><br><span class="line">vim.o.incsearch = <span class="literal">true</span>          -- 边输入边高亮匹配</span><br><span class="line"></span><br><span class="line">vim.o.expandtab = <span class="literal">true</span>          -- 将Tab转换为空格</span><br><span class="line">vim.opt.tabstop = 4             -- Tab显示为4个空格宽度</span><br><span class="line">vim.opt.shiftwidth = 4          -- 自动缩进使用4</span><br><span class="line">vim.opt.softtabstop = 4         -- 在编辑时Tab键当作4个空格</span><br><span class="line">vim.o.autoindent = <span class="literal">true</span>         -- 自动缩进</span><br><span class="line">vim.o.smartindent = <span class="literal">true</span>        -- 智能缩进</span><br><span class="line"></span><br><span class="line">vim.opt.backspace = &#123;<span class="string">&#x27;indent&#x27;</span>, <span class="string">&#x27;eol&#x27;</span>, <span class="string">&#x27;start&#x27;</span>&#125;          -- 允许退格键删除：缩进、换行</span><br><span class="line">vim.o.wildmenu = <span class="literal">true</span>           -- 命令模式补全时显示菜单</span><br><span class="line">vim.opt.wildmode = <span class="string">&#x27;longest:full,full&#x27;</span>                  -- 补全模式：最长匹配，然后列表</span><br><span class="line">vim.opt.updatetime = 300        -- 减少更新延迟</span><br><span class="line">vim.opt.mouse = <span class="string">&#x27;a&#x27;</span>             -- 启用鼠标支持</span><br><span class="line"></span><br><span class="line">vim.opt.encoding = <span class="string">&#x27;utf-8&#x27;</span>      -- 内部使用UIF-8编码</span><br><span class="line">vim.opt.fileencodings = <span class="string">&#x27;utf-8,gbk&#x27;</span>                     -- 尝试解码的文件编码列表</span><br><span class="line">vim.opt.clipboard = <span class="string">&#x27;unnamedplus&#x27;</span>                       -- 启用系统剪贴板支持</span><br><span class="line"></span><br><span class="line">vim.opt.laststatus = 2          -- 始终显示状态栏</span><br><span class="line">vim.opt.statusline =</span><br><span class="line">[[%f %m%=[%&#123;&amp;fileencoding?&amp;fileencoding:&amp;encoding&#125;] [%Y] %l:%c %p%%]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">--[[</span><br><span class="line">--  插件管理</span><br><span class="line">--]]</span><br><span class="line"></span><br><span class="line">-- 增强语法高亮：Markdown、Makefile、LaTeX</span><br><span class="line">require(<span class="string">&quot;lazy&quot;</span>).setup(&#123;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;nvim-treesitter/nvim-treesitter&quot;</span>,</span><br><span class="line">      build = <span class="string">&quot;:TSUpdate&quot;</span>,</span><br><span class="line">      opts = &#123;</span><br><span class="line">        -- 只安装这几种语言的解析器</span><br><span class="line">        ensure_installed = &#123;</span><br><span class="line">          <span class="string">&quot;markdown&quot;</span>,       -- Markdown 基础语法</span><br><span class="line">          <span class="string">&quot;markdown_inline&quot;</span>,-- Markdown 内联元素（如粗体、代码）更精细的高亮</span><br><span class="line">          <span class="string">&quot;make&quot;</span>,           -- Makefile</span><br><span class="line">          <span class="string">&quot;latex&quot;</span>,          -- LaTeX / BibTeX</span><br><span class="line">        &#125;,</span><br><span class="line">        highlight = &#123;</span><br><span class="line">          <span class="built_in">enable</span> = <span class="literal">true</span>,                -- 启用 Tree-sitter 高亮</span><br><span class="line">          additional_vim_regex_highlighting = <span class="literal">false</span>, -- 关闭 Vim 正则高亮避免冲突</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">      config = <span class="keyword">function</span>(_, opts)</span><br><span class="line">        -- 标准 setup 调用</span><br><span class="line">        require(<span class="string">&quot;nvim-treesitter.configs&quot;</span>).setup(opts)</span><br><span class="line">      end,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
     
 
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vim/" rel="tag"># vim</a>
+          </div>
 
-<script src="/js/jquery-3.6.4.min.js"></script>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/28/language/assembly/" rel="prev" title="汇编语言杂记">
+                  <i class="fa fa-angle-left"></i> 汇编语言杂记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/03/28/language/JavaScript%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B/" rel="next" title="JavaScript特性">
+                  JavaScript特性 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
 
 
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
   </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
 </body>
 </html>

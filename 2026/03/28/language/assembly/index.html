@@ -1,12 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>汇编语言杂记 | Volador235&#39;s blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="汇编语言杂记 NASM GDB ld ar gcc xxd&#x2F;GHex  寄存器名称与主要用途   寄存器 传统名称 主要用途    RAX 累加器 (Accumulator) 函数返回值、算术运算、系统调用号   RCX 计数器 (Counter) 第4个整数参数、循环计数、通用寄存器   RDX 数据寄存器 (Data) 第3个整数参数、与RAX配合用于乘除法、通用寄存器   RBX">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"بحث...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="汇编语言杂记 NASM GDB ld ar gcc xxd&#x2F;GHex  寄存器名称与主要用途   寄存器 传统名称 主要用途    RAX 累加器 (Accumulator) 函数返回值、算术运算、系统调用号   RCX 计数器 (Counter) 第4个整数参数、循环计数、通用寄存器   RDX 数据寄存器 (Data) 第3个整数参数、与RAX配合用于乘除法、通用寄存器   RBX">
 <meta property="og:type" content="article">
 <meta property="og:title" content="汇编语言杂记">
 <meta property="og:url" content="http://iloging.github.io/2026/03/28/language/assembly/index.html">
@@ -20,89 +34,185 @@
 <meta property="article:tag" content="asm">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.notion.so./%E4%BF%9D%E5%AD%98%E8%B4%A3%E4%BB%BB%E8%A7%84%E5%88%99.png">
+
+
+<link rel="canonical" href="http://iloging.github.io/2026/03/28/language/assembly/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh","comments":true,"permalink":"http://iloging.github.io/2026/03/28/language/assembly/","path":"2026/03/28/language/assembly/","title":"汇编语言杂记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>汇编语言杂记 | Volador235's blog</title>
   
-    <link rel="alternate" href="/atom.xml" title="Volador235's blog" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+
+
+
 
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
 
   
+
+
+
+
+
+
   
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
 
-<meta name="generator" content="Hexo 8.1.1"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Volador235&#39;s blog</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Welcome to my blog!</a>
-        </h2>
-      
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="تشغيل شريط التصفح" role="button">
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="بحث" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
         
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Suche"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://iLogIng.github.io"></form>
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          المحتويات
+        </li>
+        <li class="sidebar-nav-overview">
+          عام
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%9D%82%E8%AE%B0"><span class="nav-number">1.</span> <span class="nav-text">汇编语言杂记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E5%90%8D%E7%A7%B0%E4%B8%8E%E4%B8%BB%E8%A6%81%E7%94%A8%E9%80%94"><span class="nav-number">1.1.</span> <span class="nav-text">寄存器名称与主要用途</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">1.1.1.</span> <span class="nav-text">通用寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E5%AF%84%E5%AD%98%E5%99%A8-SIMD"><span class="nav-number">1.1.2.</span> <span class="nav-text">向量寄存器(SIMD)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E5%BF%97-RFlags%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">1.2.</span> <span class="nav-text">标志 RFlags寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4"><span class="nav-number">1.3.</span> <span class="nav-text">命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#System-V-ABI-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A"><span class="nav-number">1.4.</span> <span class="nav-text">System V ABI 函数调用约定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E5%B8%A7%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.5.</span> <span class="nav-text">栈帧的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AC%E7%A7%BB%E6%8C%87%E4%BB%A4%E5%8F%8A%E5%85%B6%E5%8E%9F%E7%90%86"><span class="nav-number">1.6.</span> <span class="nav-text">转移指令及其原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%97%A0%E6%9D%A1%E4%BB%B6%E8%BD%AC%E7%A7%BB%E6%8C%87%E4%BB%A4"><span class="nav-number">1.6.1.</span> <span class="nav-text">一、无条件转移指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%BF%87%E7%A8%8B%EF%BC%88%E5%87%BD%E6%95%B0%EF%BC%89%E8%B0%83%E7%94%A8%E4%B8%8E%E8%BF%94%E5%9B%9E%E6%8C%87%E4%BB%A4"><span class="nav-number">1.6.2.</span> <span class="nav-text">二、过程（函数）调用与返回指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%9D%A1%E4%BB%B6%E8%BD%AC%E7%A7%BB%E6%8C%87%E4%BB%A4%EF%BC%88%E6%9C%80%E5%B8%B8%E7%94%A8%E3%80%81%E6%9C%80%E5%A4%8D%E6%9D%82%EF%BC%89"><span class="nav-number">1.6.3.</span> <span class="nav-text">三、条件转移指令（最常用、最复杂）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E9%9C%80%E8%A6%81%E7%89%B9%E5%88%AB%E6%B3%A8%E6%84%8F%E7%9A%84%E2%80%9C%E7%89%B9%E6%AE%8A%E2%80%9D%E8%BD%AC%E7%A7%BB%E6%8C%87%E4%BB%A4"><span class="nav-number">1.6.4.</span> <span class="nav-text">四、需要特别注意的“特殊”转移指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87SYSCALL%E4%BD%BF%E7%94%A8Linux%E5%86%85%E6%A0%B8%E6%93%8D%E4%BD%9C"><span class="nav-number">1.7.</span> <span class="nav-text">通过SYSCALL使用Linux内核操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B%E5%AE%9A%E4%B9%89-Procedure"><span class="nav-number">1.7.1.</span> <span class="nav-text">过程定义 Procedure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8F%E5%AE%9A%E4%B9%89-Macro"><span class="nav-number">1.7.2.</span> <span class="nav-text">宏定义 Macro</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E5%A4%96%E9%83%A8%E8%BF%87%E7%A8%8B%E5%BA%93"><span class="nav-number">1.7.3.</span> <span class="nav-text">构建外部过程库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%BC%96%E5%86%99%E5%8F%AF%E9%87%8D%E7%94%A8%E7%9A%84%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81"><span class="nav-number">1.7.4.</span> <span class="nav-text">一、编写可重用的汇编代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%93%E5%8C%85%E4%B8%BA%E5%BA%93"><span class="nav-number">1.7.5.</span> <span class="nav-text">二、编译与打包为库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%9C%A8%E6%B1%87%E7%BC%96%E6%BA%90%E6%96%87%E4%BB%B6%E4%B8%AD%E5%BC%95%E7%94%A8%E4%B8%8E%E9%93%BE%E6%8E%A5"><span class="nav-number">1.7.6.</span> <span class="nav-text">三、在汇编源文件中引用与链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%85%B3%E9%94%AE%E7%BB%86%E8%8A%82%E4%B8%8E%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97"><span class="nav-number">1.7.7.</span> <span class="nav-text">四、关键细节与避坑指南</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wrt-%E4%B8%8E-plt"><span class="nav-number">1.7.8.</span> <span class="nav-text">wrt 与 plt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-wrt-plt%EF%BC%9F"><span class="nav-number">1.7.9.</span> <span class="nav-text">为什么需要 wrt ..plt？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%95%E6%97%B6%E5%BF%85%E9%A1%BB%E4%BD%BF%E7%94%A8-wrt-plt%EF%BC%9F"><span class="nav-number">1.7.10.</span> <span class="nav-text">何时必须使用 wrt ..plt？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A-got-%E5%92%8C-plt-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.7.11.</span> <span class="nav-text">补充：..got 和 ..plt 的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5%E6%B1%87%E7%BC%96%E4%B8%8EC%E4%BB%A3%E7%A0%81"><span class="nav-number">1.7.12.</span> <span class="nav-text">链接汇编与C代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8C%87%E4%BB%A4"><span class="nav-number">1.7.13.</span> <span class="nav-text">字符串指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%A0%B8%E5%BF%83%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8C%87%E4%BB%A4"><span class="nav-number">1.7.14.</span> <span class="nav-text">一、核心字符串指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E9%87%8D%E5%A4%8D%E5%89%8D%E7%BC%80"><span class="nav-number">1.7.15.</span> <span class="nav-text">二、重复前缀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%96%B9%E5%90%91%E6%A0%87%E5%BF%97-DF"><span class="nav-number">1.7.16.</span> <span class="nav-text">三、方向标志 DF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E9%9C%80%E8%A6%81%E6%8E%8C%E6%8F%A1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.7.17.</span> <span class="nav-text">四、需要掌握的知识点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E7%A4%BA%E4%BE%8B%EF%BC%9A%E7%94%A8-REP-MOVSB-%E5%A4%8D%E5%88%B6%E5%86%85%E5%AD%98"><span class="nav-number">1.7.18.</span> <span class="nav-text">五、示例：用 REP MOVSB 复制内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%AD%A6%E4%B9%A0%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.7.19.</span> <span class="nav-text">六、学习建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.7.20.</span> <span class="nav-text">七、字符串指令详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8C%87%E4%BB%A4%E5%9F%BA%E7%A1%80"><span class="nav-number">1.7.21.</span> <span class="nav-text">一、字符串指令基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%90%84%E6%8C%87%E4%BB%A4%E4%B8%8E%E9%87%8D%E5%A4%8D%E5%89%8D%E7%BC%80%E7%9A%84%E7%BB%84%E5%90%88%E5%8A%9F%E8%83%BD"><span class="nav-number">1.7.22.</span> <span class="nav-text">二、各指令与重复前缀的组合功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-MOVS%EF%BC%88Move-String%EF%BC%89"><span class="nav-number">1.7.23.</span> <span class="nav-text">1. MOVS（Move String）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-STOS%EF%BC%88Store-String%EF%BC%89"><span class="nav-number">1.7.24.</span> <span class="nav-text">2. STOS（Store String）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-LODS%EF%BC%88Load-String%EF%BC%89"><span class="nav-number">1.7.25.</span> <span class="nav-text">3. LODS（Load String）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-CMPS%EF%BC%88Compare-String%EF%BC%89"><span class="nav-number">1.7.26.</span> <span class="nav-text">4. CMPS（Compare String）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-SCAS%EF%BC%88Scan-String%EF%BC%89"><span class="nav-number">1.7.27.</span> <span class="nav-text">5. SCAS（Scan String）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%80%BB%E7%BB%93%E4%B8%8E%E5%B8%B8%E7%94%A8%E7%BB%84%E5%90%88"><span class="nav-number">1.7.28.</span> <span class="nav-text">三、总结与常用组合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%87%E7%BC%96%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E6%B1%87%E6%80%BB"><span class="nav-number">1.7.29.</span> <span class="nav-text">汇编文件后缀汇总</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">المقالات</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">الوسوم</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
       </div>
     </div>
-  </div>
-</header>
 
-      <div class="outer">
-        <section id="main"><article id="post-language/assembly" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/03/28/language/assembly/" class="article-date">
-  <time class="dt-published" datetime="2026-03-28T08:22:37.000Z" itemprop="datePublished">2026-03-28</time>
-</a>
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      汇编语言杂记
-    </h1>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
   
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/language/assembly/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="汇编语言杂记 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          汇编语言杂记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">نُشر في</span>
       
-        <h1 id="汇编语言杂记"><a href="#汇编语言杂记" class="headerlink" title="汇编语言杂记"></a>汇编语言杂记</h1><ul>
+
+      <time title="أُنشأ: 2026-03-28 16:22:37 / عُدل: 16:43:03" itemprop="dateCreated datePublished" datetime="2026-03-28T16:22:37+08:00">2026-03-28</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="汇编语言杂记"><a href="#汇编语言杂记" class="headerlink" title="汇编语言杂记"></a>汇编语言杂记</h1><ul>
 <li><strong>NASM</strong></li>
 <li><strong>GDB</strong></li>
 <li><strong>ld</strong></li>
@@ -1144,150 +1254,75 @@
 </li>
 </ul>
 
-      
     </div>
-    <footer class="article-footer">
-      <a data-url="http://iloging.github.io/2026/03/28/language/assembly/" data-id="cuidmTDpYNH7_yl0Qw67lePMq" data-title="汇编语言杂记" class="article-share-link"><span class="fa fa-share">Teilen</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/asm/" rel="tag">asm</a></li></ul>
 
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/asm/" rel="tag"># asm</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/28/frm-lib/hexo-note/" rel="prev" title="hexo-note">
+                  <i class="fa fa-angle-left"></i> hexo-note
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/03/28/tools/vim-config/" rel="next" title="nvim配置文件">
+                  nvim配置文件 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
     </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2026/03/28/tools/vim-config/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          nvim配置文件
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2026/03/28/frm-lib/hexo-note/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">hexo-note</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-Boost/" rel="tag">C++Boost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/asm/" rel="tag">asm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
-    </div>
+  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
   </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/C-Boost/" style="font-size: 10px;">C++Boost</a> <a href="/tags/asm/" style="font-size: 10px;">asm</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/03/">March 2026</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2026/03/28/language/JavaScript%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B/">JavaScript特性</a>
-          </li>
-        
-          <li>
-            <a href="/2026/03/28/tools/vim-config/">nvim配置文件</a>
-          </li>
-        
-          <li>
-            <a href="/2026/03/28/language/assembly/">汇编语言杂记</a>
-          </li>
-        
-          <li>
-            <a href="/2026/03/28/frm-lib/hexo-note/">hexo-note</a>
-          </li>
-        
-          <li>
-            <a href="/2026/03/28/frm-lib/c++boost/Boost-Thread/">C++ Boost::Thread</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2026 iLogIng<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
 
     </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
+  </footer>
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
   </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
 </body>
 </html>
