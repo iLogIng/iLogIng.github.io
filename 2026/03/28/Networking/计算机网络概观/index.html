@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="基于 《计算机网络：自顶向下方法》   因特网是一个世界范围内的计算机网络  入网设备 被称为 主机(host) 或 段系统(end system) 端系统通过  通信链路 (communication link) 分组交换机 (packet switch)  的网络连接在一起。  通信链路 是一组物理媒介，是信息流的载体。   链路 有由其性质决定的 传输速率(transmission rat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络概观">
+<meta property="og:url" content="http://iloging.github.io/2026/03/28/Networking/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%A7%82/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="基于 《计算机网络：自顶向下方法》   因特网是一个世界范围内的计算机网络  入网设备 被称为 主机(host) 或 段系统(end system) 端系统通过  通信链路 (communication link) 分组交换机 (packet switch)  的网络连接在一起。  通信链路 是一组物理媒介，是信息流的载体。   链路 有由其性质决定的 传输速率(transmission rat">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-28T07:50:52.000Z">
+<meta property="article:modified_time" content="2026-03-28T14:06:08.699Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="NetWorking">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/2026/03/28/Networking/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%A7%82/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/2026/03/28/Networking/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%A7%82/","path":"2026/03/28/Networking/计算机网络概观/","title":"计算机网络概观"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>计算机网络概观 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%EF%BC%88protocol%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">协议（protocol）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%B9%E7%BC%98%E7%BD%91%E7%BB%9C"><span class="nav-number">2.</span> <span class="nav-text">边缘网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%A0%B8%E5%BF%83"><span class="nav-number">3.</span> <span class="nav-text">网络核心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%97%B6%E5%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">网络时延</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E6%A0%88"><span class="nav-number">4.1.</span> <span class="nav-text">协议栈</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/Networking/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%A7%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="计算机网络概观 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计算机网络概观
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-03-28 15:50:52 / 修改时间：22:06:08" itemprop="dateCreated datePublished" datetime="2026-03-28T15:50:52+08:00">2026-03-28</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>基于 《计算机网络：自顶向下方法》</p>
+</blockquote>
+<blockquote>
+<p><strong>因特网是一个世界范围内的计算机网络</strong></p>
+</blockquote>
+<p><strong>入网设备</strong> 被称为 <strong>主机(host)</strong> 或 <strong>段系统(end system)</strong></p>
+<p><strong>端系统</strong>通过</p>
+<ul>
+<li>通信链路 (communication link)</li>
+<li>分组交换机 (packet switch)</li>
+</ul>
+<p>的网络连接在一起。</p>
+<blockquote>
+<p><strong>通信链路</strong> 是一组物理媒介，是信息流的载体。</p>
+</blockquote>
+<blockquote>
+<p><strong>链路</strong> 有由其性质决定的 <em><strong>传输速率(transmission rate)</strong></em> 以 <em><strong>bit&#x2F;s (bps)</strong></em> 为度量。</p>
+</blockquote>
+<p>网络中的信息是以信息包的形式被 <strong>分组(packet)</strong> 流通的，从始端由网络传送至目的端，并在目的端装配复原。</p>
+<p>当今，因特网中有两种常见的交换机：</p>
+<ul>
+<li><strong>路由器 (router)</strong> 通常用于网络核心中</li>
+<li><strong>链路层交换机 (link-layer switch)</strong> 通常用于接入网中</li>
+</ul>
+<p>二者的功能都是向目的端转发分组。</p>
+<blockquote>
+<p><strong>路径 (route &#x2F; path)</strong> 从 <em>发送端系统</em> 到 <em>接收端系统</em> ，一个分组所经历的 <strong>一系列通信链路 和 分组交换机</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>端系统</strong> 通过 <em><strong>因特网服务商 (Internet Service Provider , IPS)</strong></em> 接入因特网。</p>
+</blockquote>
+<p>端系统，分组交换机和其他英特网组件都要运行多个 <strong>协议（protocol）</strong> 这些协议控制英特网中信息的接收和发送。</p>
+<p>因特网的主题协议统称为 <strong>TCP&#x2F;IP</strong></p>
+<ul>
+<li><strong>TCP (Transmission Control Protocol, 传输控制协议)</strong></li>
+<li><strong>IP (Internet Protocol, 网际协议)</strong> 定义了在路由器和端系统之间，发送和接收分组的格式。</li>
+</ul>
+<p><strong>因特网标准 (Internet Standard)</strong> 由 <strong>因特网工程任务组 (Internet Engineering Task Fore, IETF)</strong> 研发。其标准文档称为 <strong>请求评论 (Requst For Comment, RFC)</strong></p>
+<p>涉及多个相互交换数据的应用称为 <strong>分布式应用 (distributed application)</strong> 。（如：社交媒体、多人游戏、交通信息… …）</p>
+<p>与因特网相连的端系统提供了一个 <strong>套接字接口 (Socket interface)</strong> 套接字接口规定了运行在一端系统上的程序 <em><strong>请求</strong></em> 因特网基础设施向运行在另一台端系统上的 <em><strong>特定目的程序</strong></em> <strong>交付数据</strong> 的方式，是入网设备必须遵守的规则集合。</p>
+<h3 id="协议（protocol）"><a href="#协议（protocol）" class="headerlink" title="协议（protocol）"></a>协议（protocol）</h3><blockquote>
+<p>因特网广泛使用协议，不同协议用于完成不同的通信任务<br>为完成一项工作，要求两个（或多个） <strong>通信实体</strong> 运行相同的协议。</p>
+</blockquote>
+<ul>
+<li><strong>协议</strong> 定义了在两个（或多个）通信实体之间<strong>交换报文的<em>格式</em>和<em>顺序</em></strong> ，以及报文的 <strong>发送&#x2F;接收</strong> 或遇到其他事件时<strong>应采取的操作</strong>。</li>
+</ul>
+<h3 id="边缘网络"><a href="#边缘网络" class="headerlink" title="边缘网络"></a>边缘网络</h3><blockquote>
+<p>端系统身处因特网边缘，故有此称谓。</p>
+</blockquote>
+<p>端系统，因其容纳应用程序，故可称作 <strong>主机（host）</strong>，分为两类：</p>
+<ul>
+<li><strong>客户端（client）</strong></li>
+<li><strong>服务器（server）</strong></li>
+</ul>
+<blockquote>
+<p><strong>接入网：</strong> 将端系统物理连接到 <strong>边缘路由器 (Edge router)</strong> 的网络。该路由器是端系统接入网络后的第一台路由器。</p>
+</blockquote>
+<p>对于每个 <strong>传输器-接收器 对</strong>，一比特(<em><strong>1 bit</strong></em>)通过传播电磁波或光脉冲的方式，<strong>跨越物理媒介 (physical medium)</strong> 进行发送。且对于路径上的每个 <strong>传输器-接收器 对</strong>而言，不必具有相同类型。<br>物理媒介分为两种类型：</p>
+<ul>
+<li><strong>导引型媒介 (guided media)</strong></li>
+<li><strong>非导引型媒介 (unguided media)</strong></li>
+</ul>
+<blockquote>
+<p>物理链路的成本与其他网络成本相比是最小的，但是其安装与铺设成本才是其昂贵的原因。</p>
+</blockquote>
+<h3 id="网络核心"><a href="#网络核心" class="headerlink" title="网络核心"></a>网络核心</h3><blockquote>
+<p>端系统间彼此交换 <strong>报文 (message)</strong> ，该报文可以 <em><strong>执行某种控制功能</strong></em> 或 <em><strong>承载某些数据</strong></em>。</p>
+</blockquote>
+<p>为了从 <em><strong>源端系统</strong></em> 向 <em><strong>目标端系统</strong></em> 发送一个 <strong>报文</strong> ，源将 <strong>长报文</strong> 划分为较小的数据块，这一划分报文，使其适于网络传送的过程成为 <strong>分组 (packet)</strong> 。在源于目的之间，每个分组都通过 <strong>通信链路</strong> 和 <strong>分组交换机 (packet switch)</strong> 传送，交换主机主要有 <strong>路由器 (router)</strong> 和 <strong>链路层交换机 (link-layer switch)</strong> 两类。</p>
+<p>文分组以 <strong>等于</strong> 该链路最大传输速率的速度通过通信链路。即，若发送一个 *<strong>L bit</strong> 的分组，链路的传输速率为 <strong>R bit</strong> ，则分组通过链路的时间为 <strong>L&#x2F;R sec</strong></p>
+<p>多数交换机在 <strong>输入端</strong> 使用 <strong>存储转发器 (store-and-forward transmission)</strong> 机制。先缓存一个接收的分组后，再将其发出。<br>即，<strong>接收-转发 时间延迟为：</strong></p>
+<ul>
+<li><em><strong>d_{end-end} &#x3D; N * L&#x2F;R</strong></em><blockquote>
+<p>总时间延迟为：<br><em><strong>L&#x2F;R + (N-2) * L&#x2F;R + L&#x2F;R &#x3D; N * L&#x2F;R</strong></em><br><strong>P 个分组经过N条链路的时间延迟为 <em>(N + P - 1) * L&#x2F;R</em></strong></p>
+</blockquote>
+</li>
+</ul>
+<p>每台交换机有多条链路与之相连，对于每条相连的链路，该分组交换机具有一个 <strong>（输出缓存, output buffer 也称为 <em>输出队列 output queue</em>）</strong> 用于存储路由器准备发往某条链路的分组。</p>
+<p>即，一个分组在链路中存在：</p>
+<ul>
+<li><strong>转发时延</strong></li>
+<li><strong>排队时延 (queuing delay)</strong><br>在缓存占满后，将出现 <strong>分组丢失 (丢包 packet loss)</strong> 问题，从到达分组或已排队分组之一选择丢弃。</li>
+</ul>
+<p><strong>因特网中所采用的转发方式</strong></p>
+<p>根据网络包中的 <strong>源端系统</strong> 的 <strong>IP地址</strong> ，相同一台 <strong>相邻路由器</strong> 进行转发，由每台路由器自己维护 <strong>转发表 (forwarding table)</strong> 进行控制。每个分组包括每台路由器在传输中都不知道某一个分组在网络中的完整路径，路由器仅知道某个分组发往的下一台 路由器&#x2F;交换机（网络节点）。</p>
+<p>路由器的 <strong>转发表 (forwarding table)</strong> 由 <strong>路由选择协议 (routing protocol)</strong> 来规范其 <strong>自动设置</strong>转发表的行为。</p>
+<blockquote>
+<p>以上为 <strong>分组交换 (packet switching) 机制</strong></p>
+</blockquote>
+<ul>
+<li><strong>频分复用 (Frequency-Division Multiplexing, FDM)</strong> <ul>
+<li>链路的频谱由跨越链路创建的所有连接共享。特别的，在连接期间，链路对每条连接专门设定一个 <strong>频段</strong> （电话网络中通常是 <em><strong>4Hz</strong></em> 宽）。该频段宽度就是 <strong>带宽 (bandwidth)</strong> 链路频谱中按带宽分有多个不同的频段。（每条链路持续得到部分带宽）</li>
+</ul>
+</li>
+<li><strong>时分复用 (Time-Division Multiplexing, TDM)</strong><ul>
+<li>时间被划分为固定时段的 <strong>帧</strong> ，每个帧有被划分为固定数量的 <strong>时隙</strong> 。网络跨越一条链路，创建一条链接，网络在每个帧中为该连接指定一个时隙。</li>
+<li><strong>[帧 是一系列任务的集合]</strong> 每条电路得到一个时隙，在 **静默期（silent period）**专用电路处于空闲状态，并不被利用。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>段系统经由一个 <strong>接入 ISP</strong> 与因特网相连，但为使各入网端系统互联互通，则需要 <strong>接入ISP 自身互联</strong> 组建 <strong>网络的网络（因特网）</strong></p>
+<p><strong>因特网网络结构的构成发展</strong></p>
+<ol>
+<li><strong>网络结构 1</strong><ul>
+<li>使用单一的 <strong>全球传输ISP</strong>(供应商) 互联所有的 <strong>接入ISP</strong>(客户)</li>
+</ul>
+</li>
+<li><strong>网络结构 2</strong> 两层结构<ul>
+<li>多个公司建立并运营各自的<strong>全球传输LSP</strong>，相互竞争各自争取<strong>接入ISP</strong>。且多个全球传输ISP之间，必须互联。</li>
+</ul>
+</li>
+<li><strong>网络结构 3</strong> 等级化网络结构（两层客户端-供应端关系）<ul>
+<li>任何给定的区域有其自身的 <strong>区域ISP(reginal ISP)</strong> 。每个区域ISP都与 <strong>第一层ISP(tier-1 ISP)</strong> 相连。（第一层ISP位于该等级结构的顶部）</li>
+</ul>
+</li>
+<li><strong>网络结构 4</strong><ul>
+<li>在等级话网络结构3上增加， <strong>存在点(<em>Point of Presence, PoP</em>)</strong> 、 <strong>多宿(<em>multi-home</em>)</strong> 、 <strong>对等(<em>peer to peer</em>)</strong> 、 <strong>英特网交换点(<em>Internet Exchange Point, IXP</em>)</strong> 构成的一个<strong>生态系统</strong></li>
+<li><strong>PoP</strong><ul>
+<li>存在于等级结构的 <strong>所有层次</strong> 中,底层（接入ISP）除外。PoP是 <strong>供应商网络</strong> 中的一台或一组路由器（在相同位置）群组。其中， <strong>客户ISP</strong> 与 <strong>供应商ISP</strong> 连接，从第三方电信供应商租用高速链路并将其路由器之一直接与PoP的一台路由器相连</li>
+</ul>
+</li>
+<li><strong>多宿</strong><ul>
+<li>除第一层ISP，其他任何ISP都可以选择多宿，与 <strong>多个供应商ISP</strong> 相连，以保障其与其它网络的连接</li>
+</ul>
+</li>
+<li><strong>对等</strong><ul>
+<li>不与上层供应商产生通信流量，而是与 <strong>平级ISP</strong> 相连，将两个平级ISP的网络相连，跨网传输不需要向上层供应商ISP产生路由成本。平级ISP间传输，无流量结算。</li>
+</ul>
+</li>
+<li><strong>IXP</strong><ul>
+<li>是一个汇合点，多个ISP可以在此处一起对等</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>网络结构 5</strong><ul>
+<li>在网络结构4的顶部增加 <strong>内容供应商网络(content provider network)</strong> 构建而成</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="网络时延"><a href="#网络时延" class="headerlink" title="网络时延"></a>网络时延</h2><p>在分组从一台主机经历通信链路传输到另一台主机的过程中，其必定在每个节点都会受到集中不同类型的时延制约。</p>
+<ul>
+<li><strong>total modal delay</strong><ul>
+<li><strong>节点处理时延(<em>nodal processing delay</em>)</strong></li>
+<li><strong>排队时延(<em>queuing delay</em>)</strong><ul>
+<li>是最复杂的成分，受某时刻的网络环境影响</li>
+<li>分组大小，到达顺序，相对位置等都会产生影响</li>
+<li>在表征排队时延时，通常使用统计量进行度量</li>
+</ul>
+</li>
+<li><strong>传输时延(<em>transmission delay</em>)</strong><ul>
+<li>节点向链路发送整个分组的时间</li>
+</ul>
+</li>
+<li><strong>传播时延(<em>propagation delay</em>)</strong><ul>
+<li>分组在两个节点间链路中传播的时间，受制于传播媒介的物理性质</li>
+</ul>
+</li>
+<li><strong>…</strong></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="协议栈"><a href="#协议栈" class="headerlink" title="协议栈"></a>协议栈</h3><p><strong>OSI网络分层(7层)</strong></p>
+<ul>
+<li><strong>应用层</strong></li>
+<li><strong>表示层</strong></li>
+<li><strong>会话层</strong></li>
+<li><strong>传输层</strong></li>
+<li><strong>网络层</strong></li>
+<li><strong>数据链路层</strong></li>
+<li><strong>物理层</strong></li>
+</ul>
+<p>目前常使用的是 <strong>5层</strong> 协议栈（TCP&#x2F;IP协议簇）</p>
+<ol>
+<li><strong>应用层</strong><ul>
+<li>网络应用程序和应用层协议所在之处，位于应用层的消息分组成为 <strong>报文(<em>message</em>)</strong></li>
+</ul>
+</li>
+<li><strong>运输层</strong><ul>
+<li>英特网中的运输层在程序端点之间传送应用层报文，位于运输层的分组称为 <strong>报文段(<em>segment</em>)</strong></li>
+</ul>
+</li>
+<li><strong>网络层</strong><ul>
+<li>英特网的网络层负责将称为 <strong>数据报(<em>datagram</em>)</strong> 的网络层分组从一台主机传输到另一端主机</li>
+</ul>
+</li>
+<li><strong>链路层</strong><ul>
+<li>为了将分组从一个节点移动到路径上的下一个节点，网络层必须依靠 <strong>链路层的服务</strong></li>
+<li>链路层提供的服务取决于应用于该链路的特定的链路层协议</li>
+<li>链路层的分组称为 <strong>帧(<em>frame</em>)</strong></li>
+</ul>
+</li>
+<li><strong>物理层</strong><ul>
+<li>将 <strong>帧</strong> 中的一个个 <strong>bit</strong> 从一个节点移动到下一个节点</li>
+</ul>
+</li>
+</ol>
+<p>在各个层中，使用上一层传来的分组，加上该层的 <strong>首部</strong> ，即， <em><strong>首部字段 + 有效载荷字段(来自上一层的分组)</strong></em></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NetWorking/" rel="tag"># NetWorking</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/28/tools/git-note/" rel="prev" title="git-note">
+                  <i class="fa fa-angle-left"></i> git-note
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/03/28/frm-lib/c++boost/Boost-Thread/" rel="next" title="C++ Boost::Thread">
+                  C++ Boost::Thread <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
