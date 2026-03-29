@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="该笔记，以官方异步TCP服务器实现用例为基础记录几种改造方向  官方用例异步 TCP daytime服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="包装Asio编写异步TCP服务器模型">
+<meta property="og:url" content="http://iloging.github.io/2026/03/28/frm-lib/c++boost/%E5%8C%85%E8%A3%85Asio%E7%BC%96%E5%86%99%E5%BC%82%E6%AD%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="该笔记，以官方异步TCP服务器实现用例为基础记录几种改造方向  官方用例异步 TCP daytime服务器">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-28T07:50:52.000Z">
+<meta property="article:modified_time" content="2026-03-29T09:01:45.135Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="C++Boost">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/2026/03/28/frm-lib/c++boost/%E5%8C%85%E8%A3%85Asio%E7%BC%96%E5%86%99%E5%BC%82%E6%AD%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%A8%A1%E5%9E%8B/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/2026/03/28/frm-lib/c++boost/%E5%8C%85%E8%A3%85Asio%E7%BC%96%E5%86%99%E5%BC%82%E6%AD%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%A8%A1%E5%9E%8B/","path":"2026/03/28/frm-lib/c++boost/包装Asio编写异步服务器模型/","title":"包装Asio编写异步TCP服务器模型"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>包装Asio编写异步TCP服务器模型 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B"><span class="nav-number">1.</span> <span class="nav-text">官方用例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">官方用例的问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%B9%E9%80%A0%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">改造方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">回调函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF%E6%8E%A5%E5%8F%A3%E7%B1%BB"><span class="nav-number">2.2.</span> <span class="nav-text">继承接口类</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/frm-lib/c++boost/%E5%8C%85%E8%A3%85Asio%E7%BC%96%E5%86%99%E5%BC%82%E6%AD%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="包装Asio编写异步TCP服务器模型 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          包装Asio编写异步TCP服务器模型
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-03-28 15:50:52" itemprop="dateCreated datePublished" datetime="2026-03-28T15:50:52+08:00">2026-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-29 17:01:45" itemprop="dateModified" datetime="2026-03-29T17:01:45+08:00">2026-03-29</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>该笔记，以官方异步TCP服务器实现用例为基础<br>记录几种改造方向</p>
+</blockquote>
+<h1 id="官方用例"><a href="#官方用例" class="headerlink" title="官方用例"></a>官方用例</h1><p><a target="_blank" rel="noopener" href="https://boost.ac.cn/doc/libs/latest/doc/html/boost_asio/tutorial/tutdaytime3.html">异步 TCP daytime服务器</a></p>
+<span id="more"></span>
+
+<p><strong>tcp_connection类</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// tcp连接类，继承自 std::enable_shared_from_this&lt;tcp_connection&gt;</span></span><br><span class="line"><span class="comment">//      提供了一个更安全的获取对象自身指针引用的方法</span></span><br><span class="line"><span class="comment">// 将业务逻辑 make_daytime_string 硬编码在该对象中</span></span><br><span class="line"><span class="comment">// </span></span><br><span class="line"><span class="comment">// tcp连接 以及 套接字接口 （运输层 + 套接字）</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">tcp_connection</span></span><br><span class="line">    : <span class="keyword">public</span> std::enable_shared_from_this&lt;tcp_connection&gt;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> pointer = std::shared_ptr&lt;tcp_connection&gt;;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line"></span><br><span class="line">    tcp::socket socket_;</span><br><span class="line">    std::string message_;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">tcp_connection</span>(boost::asio::io_context &amp;io_context)</span><br><span class="line">        : <span class="built_in">socket_</span>(io_context)</span><br><span class="line">    &#123; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">handle_write</span><span class="params">(<span class="type">const</span> boost::system::error_code &amp;ec, <span class="type">size_t</span> len)</span></span></span><br><span class="line"><span class="function">    </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> pointer <span class="title">create</span><span class="params">(boost::asio::io_context &amp;io_context)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 通过shared_ptr将该tcp连接对象引出</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">pointer</span>(<span class="keyword">new</span> <span class="built_in">tcp_connection</span>(io_context));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 引用该tcp连接的套接字对象</span></span><br><span class="line">    <span class="function">tcp::socket &amp;<span class="title">socket</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> socket_;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 打开连接，发送字节流</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">start</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 返回的响应字节流</span></span><br><span class="line">        message_ = <span class="built_in">make_daytime_string</span>();</span><br><span class="line">        <span class="comment">// 异步输出字节流</span></span><br><span class="line">        <span class="comment">//      使用该tcp连接的套接字</span></span><br><span class="line">        <span class="comment">//      传输的字节流</span></span><br><span class="line">        boost::asio::<span class="built_in">async_write</span>(socket_, boost::asio::<span class="built_in">buffer</span>(message_),</span><br><span class="line">            <span class="comment">// 获取指向自身的shared_ptr指针引用</span></span><br><span class="line">            <span class="comment">// 包装 handle_write() 方法，对字节流输出进行处理</span></span><br><span class="line">            [self = <span class="built_in">shared_from_this</span>()]</span><br><span class="line">            (<span class="type">const</span> boost::system::error_code &amp;error, std::<span class="type">size_t</span> bytes_transferred) &#123;</span><br><span class="line">                self-&gt;<span class="built_in">handle_write</span>(error, bytes_transferred);</span><br><span class="line">            &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>tcp_server类</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 服务器主机（服务器进程）（应用层处理）</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">tcp_server</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">tcp_server</span>(boost::asio::io_context &amp;io_context)</span><br><span class="line">        : <span class="built_in">io_context_</span>(io_context),</span><br><span class="line">            <span class="built_in">acceptor_</span>(io_context, tcp::<span class="built_in">endpoint</span>(tcp::<span class="built_in">v4</span>(), <span class="number">8013</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 打开服务器 start server</span></span><br><span class="line">        <span class="built_in">start_accept</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    boost::asio::io_context &amp;io_context_;</span><br><span class="line">    tcp::acceptor acceptor_;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 接受完成事件</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">handle_accept</span><span class="params">(tcp_connection::pointer new_connection, <span class="type">const</span> boost::system::error_code &amp;error)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 无错误，则建立一个新tcp连接</span></span><br><span class="line">        <span class="keyword">if</span>(!error)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 打开一个tcp连接</span></span><br><span class="line">            new_connection-&gt;<span class="built_in">start</span>();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 发起一次异步接收操作，等待客户端连接</span></span><br><span class="line">        <span class="built_in">start_accept</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 发起一次异步接收操作，等待客户端连接</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">start_accept</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 建立新连接 发送数据</span></span><br><span class="line">        tcp_connection::pointer new_connection = tcp_connection::<span class="built_in">create</span>(io_context_);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 处理接受连接，（handle_accept中的start发送数据，至指定tcp连接占用的套接字接口）</span></span><br><span class="line">        acceptor_.<span class="built_in">async_accept</span>(new_connection-&gt;<span class="built_in">socket</span>(),</span><br><span class="line">            [<span class="keyword">this</span>, new_connection]</span><br><span class="line">            (<span class="type">const</span> boost::system::error_code &amp;error) &#123;</span><br><span class="line">                <span class="keyword">this</span>-&gt;<span class="built_in">handle_accept</span>(new_connection, error);</span><br><span class="line">            &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用方法</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">boost::asio::io_context io_context;</span><br><span class="line"><span class="function">tcp_server <span class="title">server</span><span class="params">(io_context)</span></span>;</span><br><span class="line">io_context.<span class="built_in">run</span>();</span><br></pre></td></tr></table></figure>
+
+<h2 id="官方用例的问题"><a href="#官方用例的问题" class="headerlink" title="官方用例的问题"></a>官方用例的问题</h2><p>该服务器实现，将 <strong>TCP连接逻辑</strong> 与 <strong>业务处理逻辑</strong> 耦合在一个 *<strong>tcp_connection类</strong> 中。仅能作为一个简单的库使用用例。</p>
+<ul>
+<li>连接与业务强耦合</li>
+<li>难以复用代码进行功能扩充</li>
+</ul>
+<h1 id="改造方法"><a href="#改造方法" class="headerlink" title="改造方法"></a>改造方法</h1><p>对于以上的问题，有以下 <strong>两种简洁的改进方法</strong></p>
+<blockquote>
+<p>是将连接与业务分离的两种方式</p>
+</blockquote>
+<h2 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h2><blockquote>
+<p>使用回调lambda函数的方式解决业务写死在tcp_connection类中的问题</p>
+</blockquote>
+<p><strong>改造tcp_connection</strong></p>
+<ul>
+<li>添加 <code>handler_type = std::function&lt;void(tcp_connection&amp;)&gt;</code> 类型，承载函数回调</li>
+<li>保存一个函数对象 <code>handler_type handler_</code></li>
+<li>在连接打开后直接调用 <strong>保存的函数对象</strong></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">tcp_connection</span></span><br><span class="line">    :   <span class="keyword">public</span> std::enable_shared_from_this&lt;tcp_connection&gt;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> pointer = std::shared_ptr&lt;tcp_connection&gt;;</span><br><span class="line">    <span class="keyword">using</span> handler_type = std::function&lt;<span class="built_in">void</span>(pointer)&gt;;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    tcp::socket socket_;</span><br><span class="line">    handler_type handler_;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">tcp_connection</span>(boost::asio::io_context &amp;io_context_, handler_type handler)</span><br><span class="line">        : <span class="built_in">socket_</span>(io_context_),</span><br><span class="line">        <span class="built_in">handler_</span>(std::<span class="built_in">move</span>(handler))</span><br><span class="line">    &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> pointer <span class="title">create</span><span class="params">(boost::asio::io_context &amp;io_context_, handler_type handler)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">pointer</span>(<span class="keyword">new</span> <span class="built_in">tcp_connection</span>(io_context_, std::<span class="built_in">move</span>(handler)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">tcp::socket &amp;<span class="title">socket</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> socket_;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">start</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 传入指向该对象的shared_ptr</span></span><br><span class="line">        <span class="built_in">handler_</span>(<span class="built_in">shared_from_this</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>改造tcp_server</strong></p>
+<ul>
+<li>同样的，保存一个 <strong>回调函数对象</strong> <code>handler_type handler_</code></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">tcp_server</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> handler_type = std::function&lt;<span class="built_in">void</span>(tcp_connection::pointer)&gt;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    boost::asio::io_context &amp;io_context_;</span><br><span class="line">    tcp::acceptor acceptor_;</span><br><span class="line">    handler_type handler_;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">tcp_server</span>(boost::asio::io_context &amp;io_context, handler_type handler, <span class="type">const</span> <span class="type">int</span> PORT, tcp transport_proto = tcp::<span class="built_in">v4</span>())</span><br><span class="line">        : <span class="built_in">io_context_</span>(io_context),</span><br><span class="line">        <span class="built_in">acceptor_</span>(io_context, tcp::<span class="built_in">endpoint</span>(transport_proto, PORT)),</span><br><span class="line">        <span class="built_in">handler_</span>(std::<span class="built_in">move</span>(handler))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">start_accept</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">start_accept</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        tcp_connection::pointer new_connection =</span><br><span class="line">            tcp_connection::<span class="built_in">create</span>(io_context_, handler_);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 异步接受请求</span></span><br><span class="line">        acceptor_.<span class="built_in">async_accept</span>(new_connection-&gt;<span class="built_in">socket</span>(),</span><br><span class="line">            [<span class="keyword">this</span>, new_connection]</span><br><span class="line">            (<span class="type">const</span> boost::system::error_code &amp;error) &#123;</span><br><span class="line">                <span class="keyword">this</span>-&gt;<span class="built_in">handle_accept</span>(new_connection, error);</span><br><span class="line">            &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">handle_accept</span><span class="params">(tcp_connection::pointer new_connection, <span class="type">const</span> boost::system::error_code &amp;error)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!error)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 调起业务方法</span></span><br><span class="line">            new_connection-&gt;<span class="built_in">start</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 处理连接后，继续接受请求</span></span><br><span class="line">        <span class="built_in">start_accept</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用方法</strong></p>
+<ul>
+<li>需要一串客户的字节流请求，激活异步回调</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">echo_handler</span><span class="params">(TCPServer::tcp_connection::pointer conn)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> buffer = std::<span class="built_in">make_shared</span>&lt;std::string&gt;();</span><br><span class="line">    <span class="comment">// 异步读取一行</span></span><br><span class="line">    boost::asio::<span class="built_in">async_read_until</span>(conn-&gt;<span class="built_in">socket</span>(), boost::asio::<span class="built_in">dynamic_buffer</span>(*buffer), <span class="string">&quot;\n&quot;</span>,</span><br><span class="line">        [conn, buffer]</span><br><span class="line">        (<span class="type">const</span> boost::system::error_code &amp;ec, <span class="type">size_t</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!ec) &#123;</span><br><span class="line">                <span class="comment">// 异步写回读取到的内容</span></span><br><span class="line">                boost::asio::<span class="built_in">async_write</span>(conn-&gt;<span class="built_in">socket</span>(), boost::asio::<span class="built_in">buffer</span>(*buffer),</span><br><span class="line">                    [conn]</span><br><span class="line">                    (<span class="type">const</span> boost::system::error_code &amp;ec, <span class="type">size_t</span>) &#123;</span><br><span class="line">                        <span class="comment">// 无论成功或失败，关闭连接（客户端将收到 EOF）</span></span><br><span class="line">                        conn-&gt;<span class="built_in">socket</span>().<span class="built_in">close</span>();</span><br><span class="line">                        <span class="keyword">if</span> (ec) &#123;</span><br><span class="line">                            std::cerr &lt;&lt; <span class="string">&quot;Write error: &quot;</span> &lt;&lt; ec.<span class="built_in">message</span>() &lt;&lt; std::endl;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            std::cout &lt;&lt; <span class="string">&quot;Echoed and closed connection&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 读取失败，关闭连接</span></span><br><span class="line">                conn-&gt;<span class="built_in">socket</span>().<span class="built_in">close</span>();</span><br><span class="line">                std::cerr &lt;&lt; <span class="string">&quot;Read error: &quot;</span> &lt;&lt; ec.<span class="built_in">message</span>() &lt;&lt; std::endl;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        boost::asio::io_context io;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用 lambda 包装业务逻辑，也可以直接传入 echo_handler</span></span><br><span class="line">        <span class="function">tcp_server <span class="title">server</span><span class="params">(io,</span></span></span><br><span class="line"><span class="params"><span class="function">            [](tcp_connection::pointer conn) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">                <span class="comment">// 调用独立的业务处理函数 echo_handler</span></span></span></span><br><span class="line"><span class="params"><span class="function">                echo_handler(conn);</span></span></span><br><span class="line"><span class="params"><span class="function">            &#125;,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="number">8031</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Server started on port 8031&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        io.<span class="built_in">run</span>();</span><br><span class="line">    &#125; <span class="built_in">catch</span> (std::exception &amp;e) &#123;</span><br><span class="line">        std::cerr &lt;&lt; <span class="string">&quot;Exception: &quot;</span> &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>适配的client代码</strong></p>
+<ul>
+<li>发往服务器一段字节流</li>
+<li>回显服务器应答</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> asio = boost::asio;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> PORT = <span class="number">8031</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span> boost::asio::ip::tcp;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(argc != <span class="number">2</span>) &#123;</span><br><span class="line">            std::cerr &lt;&lt; <span class="string">&quot;Usage: client &lt;host.ip&gt;&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        boost::asio::io_context io_context;</span><br><span class="line">        <span class="function">tcp::resolver <span class="title">resolver</span><span class="params">(io_context)</span></span>;</span><br><span class="line">        <span class="comment">// 连接服务器 ip:port</span></span><br><span class="line">        tcp::resolver::results_type endpoints =</span><br><span class="line">            resolver.<span class="built_in">resolve</span>(argv[<span class="number">1</span>], std::<span class="built_in">to_string</span>(PORT));</span><br><span class="line">        <span class="function">tcp::socket <span class="title">socket</span><span class="params">(io_context)</span></span>;</span><br><span class="line">        <span class="comment">// 建立tcp连接</span></span><br><span class="line">        boost::asio::<span class="built_in">connect</span>(socket, endpoints);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 先向服务端发送一行数据（必须包含换行符）asyc_read_until</span></span><br><span class="line">        std::string message = <span class="string">&quot;Hello from client\n&quot;</span>;</span><br><span class="line">        boost::asio::<span class="built_in">write</span>(socket, boost::asio::<span class="built_in">buffer</span>(message));</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Sent: &quot;</span> &lt;&lt; message;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 读取服务端的回显</span></span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            std::array&lt;<span class="type">char</span>, 128&gt; buf;</span><br><span class="line">            boost::system::error_code error;</span><br><span class="line">            <span class="type">size_t</span> len = socket.<span class="built_in">read_some</span>(boost::asio::<span class="built_in">buffer</span>(buf), error);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(error == boost::asio::error::eof)</span><br><span class="line">                <span class="keyword">break</span>; <span class="comment">// 读至文件结尾</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(error)</span><br><span class="line">                <span class="keyword">throw</span> boost::system::<span class="built_in">system_error</span>(error);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(len &gt; <span class="number">0</span>)</span><br><span class="line">                std::cout.<span class="built_in">write</span>(buf.<span class="built_in">data</span>(), len);</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;\nConnection closed by server.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">catch</span>(std::exception&amp; e) &#123;</span><br><span class="line">        std::cerr &lt;&lt; <span class="string">&quot;Error: &quot;</span> &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="继承接口类"><a href="#继承接口类" class="headerlink" title="继承接口类"></a>继承接口类</h2><blockquote>
+<p>定义一个名为 request_handler 的抽象类接口</p>
+</blockquote>
+<p><strong>request_handler抽象类接口</strong></p>
+<ul>
+<li>其中handle纯虚函数接口的读写逻辑由子类实现</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">request_handler</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">request_handler</span>() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理一个连接，具体读写逻辑由子类实现</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">handle</span><span class="params">(tcp_connection::pointer conn)</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>改造tcp_connection类</strong></p>
+<ul>
+<li>使用 shared_ptr 持有指向 request_handler 对象的指针</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">tcp_connection</span></span><br><span class="line">    : <span class="keyword">public</span> std::enable_shared_from_this&lt;tcp_connection&gt;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> pointer = std::shared_ptr&lt;tcp_connection&gt;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    tcp::socket socket_;</span><br><span class="line">    std::shared_ptr&lt;request_handler&gt; handler_;  <span class="comment">// 用 shared_ptr 管理，保证生命周期</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">tcp_connection</span>(boost::asio::io_context&amp; io_context,</span><br><span class="line">                   std::shared_ptr&lt;request_handler&gt; handler)</span><br><span class="line">        : <span class="built_in">socket_</span>(io_context), <span class="built_in">handler_</span>(std::<span class="built_in">move</span>(handler))</span><br><span class="line">    &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> pointer <span class="title">create</span><span class="params">(boost::asio::io_context&amp; io_context,</span></span></span><br><span class="line"><span class="params"><span class="function">                          std::shared_ptr&lt;request_handler&gt; handler)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">pointer</span>(<span class="keyword">new</span> <span class="built_in">tcp_connection</span>(io_context, std::<span class="built_in">move</span>(handler)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">tcp::socket&amp; <span class="title">socket</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> socket_; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">start</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 调用抽象接口，具体处理逻辑由 handler_ 决定</span></span><br><span class="line">        handler_-&gt;<span class="built_in">handle</span>(<span class="built_in">shared_from_this</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>改造tcp_server类</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">tcp_server</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    boost::asio::io_context&amp; io_context_;</span><br><span class="line">    tcp::acceptor acceptor_;</span><br><span class="line">    std::shared_ptr&lt;request_handler&gt; handler_;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">tcp_server</span>(boost::asio::io_context&amp; io_context,</span><br><span class="line">               std::shared_ptr&lt;request_handler&gt; handler,</span><br><span class="line">               <span class="type">int</span> port, tcp protocol = tcp::<span class="built_in">v4</span>())</span><br><span class="line">        : <span class="built_in">io_context_</span>(io_context),</span><br><span class="line">            <span class="built_in">acceptor_</span>(io_context, tcp::<span class="built_in">endpoint</span>(protocol, port)),</span><br><span class="line">            <span class="built_in">handler_</span>(std::<span class="built_in">move</span>(handler))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">start_accept</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">start_accept</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> new_connection =</span><br><span class="line">            tcp_connection::<span class="built_in">create</span>(io_context_, handler_);</span><br><span class="line"></span><br><span class="line">        acceptor_.<span class="built_in">async_accept</span>(new_connection-&gt;<span class="built_in">socket</span>(),</span><br><span class="line">            [<span class="keyword">this</span>, new_connection]</span><br><span class="line">            (<span class="type">const</span> boost::system::error_code&amp; ec) &#123;</span><br><span class="line">                <span class="built_in">handle_accept</span>(new_connection, ec);</span><br><span class="line">            &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">handle_accept</span><span class="params">(tcp_connection::pointer new_connection,</span></span></span><br><span class="line"><span class="params"><span class="function">                       <span class="type">const</span> boost::system::error_code&amp; ec)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!ec) &#123;</span><br><span class="line">            <span class="comment">// 打开连接</span></span><br><span class="line">            new_connection-&gt;<span class="built_in">start</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">start_accept</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>实际业务编写</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">echo_handler</span></span><br><span class="line">    :   <span class="keyword">public</span> request_handler</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">handle</span><span class="params">(tcp_connection&amp; conn)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> buffer = std::<span class="built_in">make_shared</span>&lt;std::string&gt;();</span><br><span class="line">        <span class="keyword">auto</span>&amp; socket = conn.<span class="built_in">socket</span>();</span><br><span class="line">        boost::asio::<span class="built_in">async_read_until</span>(socket, boost::asio::<span class="built_in">dynamic_buffer</span>(*buffer), <span class="string">&quot;\n&quot;</span>,</span><br><span class="line">            [&amp;conn, buffer]</span><br><span class="line">            (<span class="type">const</span> boost::system::error_code&amp; ec, <span class="type">size_t</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!ec) &#123;</span><br><span class="line">                    boost::asio::<span class="built_in">async_write</span>(conn.<span class="built_in">socket</span>(), boost::asio::<span class="built_in">buffer</span>(*buffer),</span><br><span class="line">                        [self = conn.<span class="built_in">shared_from_this</span>()]</span><br><span class="line">                        (<span class="keyword">auto</span>, <span class="keyword">auto</span>) &#123;&#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 业务编写</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">hello_handler</span></span><br><span class="line">    :   <span class="keyword">public</span> request_handler</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">handle</span><span class="params">(tcp_connection&amp; conn)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        boost::asio::<span class="built_in">async_write</span>(conn.<span class="built_in">socket</span>(), boost::asio::<span class="built_in">buffer</span>(<span class="string">&quot;Hello World\n&quot;</span>),</span><br><span class="line">            [self = conn.<span class="built_in">shared_from_this</span>()]</span><br><span class="line">            (<span class="keyword">auto</span>, <span class="keyword">auto</span>) &#123;&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用示例</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    boost::asio::io_context io;</span><br><span class="line">    <span class="keyword">auto</span> handler = std::<span class="built_in">make_shared</span>&lt;hello_handler&gt;(); <span class="comment">// 或 echo_handler()</span></span><br><span class="line">    <span class="function">tcp_server <span class="title">server</span><span class="params">(io, handler, <span class="number">8031</span>)</span></span>;</span><br><span class="line">    io.<span class="built_in">run</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C-Boost/" rel="tag"># C++Boost</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/28/tools/git-note/" rel="prev" title="git-note">
+                  <i class="fa fa-angle-left"></i> git-note
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/03/28/Networking/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%A7%82/" rel="next" title="计算机网络概观">
+                  计算机网络概观 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
