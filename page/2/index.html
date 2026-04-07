@@ -352,7 +352,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/tools/git-note/">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/02/02/tools/make-note/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -370,7 +370,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/03/28/tools/git-note/" class="post-title-link" itemprop="url">git-note</a>
+          <a href="/2026/02/02/tools/make-note/" class="post-title-link" itemprop="url">make-note</a>
         </h2>
 
         <div class="post-meta-container">
@@ -381,14 +381,108 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2026-03-28 15:50:41" itemprop="dateCreated datePublished" datetime="2026-03-28T15:50:41+08:00">2026-03-28</time>
+      <time title="创建时间：2026-02-02 10:29:23" itemprop="dateCreated datePublished" datetime="2026-02-02T10:29:23+08:00">2026-02-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-04-06 22:31:10" itemprop="dateModified" datetime="2026-04-06T22:31:10+08:00">2026-04-06</time>
+      <time title="修改时间：2026-04-07 21:17:23" itemprop="dateModified" datetime="2026-04-07T21:17:23+08:00">2026-04-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Makefile"><a href="#Makefile" class="headerlink" title="Makefile"></a>Makefile</h1><blockquote>
+<p>在Linux环境下，常常使用<code>make</code>程序自动化变异大型源码。<br>项目提供一个<code>Makefile</code>文件，<code>make</code>以此为基础进行程序的编译和链接。<br><code>make</code>并不限定为构建C&#x2F;C++项目服务，还可以用于任何文件的组织与处理，但主要用于Unix&#x2F;Linux环境的自动化开发。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/make/manual/html_node/index.html#SEC_Contents">GNU make</a></p>
+<hr>
+<h2 id="Makefile基础"><a href="#Makefile基础" class="headerlink" title="Makefile基础"></a>Makefile基础</h2><p>在Linux环境下，输入<code>make</code>命令，程序在当前目录下查找一个名为<code>Makefile</code>的文件，然后，根据该文件定的规则，自动化的执行任意命令。</p>
+<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p><code>Makefile</code>文件由若干条<strong>规则(Rule)<strong>构成，每一条规则指出一个</strong>目标文件(Target)</strong>，若干<strong>依赖文件(prerequisites)</strong>，以及生成目标文件的命令。<br><strong>规则</strong>如下：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 目标文件: 依赖文件1 依赖文件2 ... </span></span><br><span class="line">    <span class="comment"># 命令</span></span><br><span class="line"><span class="section">m.txt: a.txt b.txt</span></span><br><span class="line">    cat a.txt b.txt &gt; m.txt</span><br></pre></td></tr></table></figure>
+<p>以上规则使用cat命令将文件a.txt b.txt合并写入m.txt</p>
+<blockquote>
+<p><em><strong>!注意：在Makefile的规则中，命令必须以Tab开头，不能是空格</strong></em></p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/02/02/tools/make-note/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2025/11/20/tools/git-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/11/20/tools/git-note/" class="post-title-link" itemprop="url">git-note</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-11-20 16:10:21" itemprop="dateCreated datePublished" datetime="2025-11-20T16:10:21+08:00">2025-11-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-04-07 21:12:11" itemprop="dateModified" datetime="2026-04-07T21:12:11+08:00">2026-04-07</time>
     </span>
 
   
@@ -422,95 +516,7 @@
 </ol>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2026/03/28/tools/git-note/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/tools/make-note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/03/28/tools/make-note/" class="post-title-link" itemprop="url">make-note</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-03-28 15:50:30 / 修改时间：18:31:47" itemprop="dateCreated datePublished" datetime="2026-03-28T15:50:30+08:00">2026-03-28</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Makefile"><a href="#Makefile" class="headerlink" title="Makefile"></a>Makefile</h1><blockquote>
-<p>在Linux环境下，常常使用<code>make</code>程序自动化变异大型源码。<br>项目提供一个<code>Makefile</code>文件，<code>make</code>以此为基础进行程序的编译和链接。<br><code>make</code>并不限定为构建C&#x2F;C++项目服务，还可以用于任何文件的组织与处理，但主要用于Unix&#x2F;Linux环境的自动化开发。</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/make/manual/html_node/index.html#SEC_Contents">GNU make</a></p>
-<hr>
-<h2 id="Makefile基础"><a href="#Makefile基础" class="headerlink" title="Makefile基础"></a>Makefile基础</h2><p>在Linux环境下，输入<code>make</code>命令，程序在当前目录下查找一个名为<code>Makefile</code>的文件，然后，根据该文件定的规则，自动化的执行任意命令。</p>
-<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p><code>Makefile</code>文件由若干条<strong>规则(Rule)<strong>构成，每一条规则指出一个</strong>目标文件(Target)</strong>，若干<strong>依赖文件(prerequisites)</strong>，以及生成目标文件的命令。<br><strong>规则</strong>如下：</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 目标文件: 依赖文件1 依赖文件2 ... </span></span><br><span class="line">    <span class="comment"># 命令</span></span><br><span class="line"><span class="section">m.txt: a.txt b.txt</span></span><br><span class="line">    cat a.txt b.txt &gt; m.txt</span><br></pre></td></tr></table></figure>
-<p>以上规则使用cat命令将文件a.txt b.txt合并写入m.txt</p>
-<blockquote>
-<p><em><strong>!注意：在Makefile的规则中，命令必须以Tab开头，不能是空格</strong></em></p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/03/28/tools/make-note/#more" rel="contents">
+              <a class="btn" href="/2025/11/20/tools/git-note/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
