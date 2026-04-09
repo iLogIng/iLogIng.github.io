@@ -28,8 +28,9 @@
 <meta property="og:description" content="neovim 基础配置文件">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-03-28T08:26:02.000Z">
-<meta property="article:modified_time" content="2026-03-28T10:31:55.632Z">
+<meta property="article:modified_time" content="2026-04-07T14:10:19.540Z">
 <meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="tool">
 <meta property="article:tag" content="vim">
 <meta name="twitter:card" content="summary">
 
@@ -140,7 +141,7 @@
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -200,9 +201,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-03-28 16:26:02 / 修改时间：18:31:55" itemprop="dateCreated datePublished" datetime="2026-03-28T16:26:02+08:00">2026-03-28</time>
+      <time title="创建时间：2026-03-28 16:26:02" itemprop="dateCreated datePublished" datetime="2026-03-28T16:26:02+08:00">2026-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-04-07 22:10:19" itemprop="dateModified" datetime="2026-04-07T22:10:19+08:00">2026-04-07</time>
     </span>
 
   
@@ -216,6 +223,7 @@
     
     
     <div class="post-body" itemprop="articleBody"><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">-- nvim 主题</span><br><span class="line">vim.cmd.colorscheme(<span class="string">&quot;torte&quot;</span>)</span><br><span class="line"></span><br><span class="line">--[[</span><br><span class="line">--  安装lazy.nvim</span><br><span class="line">--]]</span><br><span class="line"><span class="built_in">local</span> lazypath = vim.fn.stdpath(<span class="string">&quot;data&quot;</span>) .. <span class="string">&quot;/lazy/lazy.nvim&quot;</span></span><br><span class="line"><span class="keyword">if</span> not vim.loop.fs_stat(lazypath) <span class="keyword">then</span></span><br><span class="line">  vim.fn.system(&#123;</span><br><span class="line">    <span class="string">&quot;git&quot;</span>,</span><br><span class="line">    <span class="string">&quot;clone&quot;</span>,</span><br><span class="line">    <span class="string">&quot;--filter=blob:none&quot;</span>,</span><br><span class="line">    <span class="string">&quot;https://github.com/folke/lazy.nvim.git&quot;</span>,</span><br><span class="line">    <span class="string">&quot;--branch=stable&quot;</span>,</span><br><span class="line">    lazypath,</span><br><span class="line">  &#125;)</span><br><span class="line">end</span><br><span class="line">vim.opt.rtp:prepend(lazypath)</span><br><span class="line"></span><br><span class="line">--[[</span><br><span class="line">--  基础配置</span><br><span class="line">--]]</span><br><span class="line">vim.opt.compatible = <span class="literal">false</span>      -- 不使用vi兼容</span><br><span class="line"></span><br><span class="line">vim.syntax = <span class="literal">true</span>               -- 启用语法高亮</span><br><span class="line"></span><br><span class="line">vim.o.number = <span class="literal">true</span>             -- 显示行号</span><br><span class="line">vim.o.relativenumber = <span class="literal">true</span>     -- 显示相对行号</span><br><span class="line">vim.o.cursorline = <span class="literal">true</span>         -- 高亮显示当前行</span><br><span class="line">vim.opt.signcolumn = <span class="string">&#x27;yes&#x27;</span>      -- 始终显示标记列</span><br><span class="line">vim.o.title = <span class="literal">true</span>              -- 终端标题显示当前文件</span><br><span class="line">vim.opt.scrolloff = 3           -- 光标上下保留3行缓冲</span><br><span class="line"></span><br><span class="line">vim.o.ignorecase = <span class="literal">true</span>         -- 搜索时忽略大小写</span><br><span class="line">vim.o.smartcase = <span class="literal">true</span>          -- 如果包含大小写则开启精确匹配</span><br><span class="line">vim.o.hlsearch = <span class="literal">true</span>           -- 高亮所有搜索结果</span><br><span class="line">vim.o.incsearch = <span class="literal">true</span>          -- 边输入边高亮匹配</span><br><span class="line"></span><br><span class="line">vim.o.expandtab = <span class="literal">true</span>          -- 将Tab转换为空格</span><br><span class="line">vim.opt.tabstop = 4             -- Tab显示为4个空格宽度</span><br><span class="line">vim.opt.shiftwidth = 4          -- 自动缩进使用4</span><br><span class="line">vim.opt.softtabstop = 4         -- 在编辑时Tab键当作4个空格</span><br><span class="line">vim.o.autoindent = <span class="literal">true</span>         -- 自动缩进</span><br><span class="line">vim.o.smartindent = <span class="literal">true</span>        -- 智能缩进</span><br><span class="line"></span><br><span class="line">vim.opt.backspace = &#123;<span class="string">&#x27;indent&#x27;</span>, <span class="string">&#x27;eol&#x27;</span>, <span class="string">&#x27;start&#x27;</span>&#125;          -- 允许退格键删除：缩进、换行</span><br><span class="line">vim.o.wildmenu = <span class="literal">true</span>           -- 命令模式补全时显示菜单</span><br><span class="line">vim.opt.wildmode = <span class="string">&#x27;longest:full,full&#x27;</span>                  -- 补全模式：最长匹配，然后列表</span><br><span class="line">vim.opt.updatetime = 300        -- 减少更新延迟</span><br><span class="line">vim.opt.mouse = <span class="string">&#x27;a&#x27;</span>             -- 启用鼠标支持</span><br><span class="line"></span><br><span class="line">vim.opt.encoding = <span class="string">&#x27;utf-8&#x27;</span>      -- 内部使用UIF-8编码</span><br><span class="line">vim.opt.fileencodings = <span class="string">&#x27;utf-8,gbk&#x27;</span>                     -- 尝试解码的文件编码列表</span><br><span class="line">vim.opt.clipboard = <span class="string">&#x27;unnamedplus&#x27;</span>                       -- 启用系统剪贴板支持</span><br><span class="line"></span><br><span class="line">vim.opt.laststatus = 2          -- 始终显示状态栏</span><br><span class="line">vim.opt.statusline =</span><br><span class="line">[[%f %m%=[%&#123;&amp;fileencoding?&amp;fileencoding:&amp;encoding&#125;] [%Y] %l:%c %p%%]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">--[[</span><br><span class="line">--  插件管理</span><br><span class="line">--]]</span><br><span class="line"></span><br><span class="line">-- 增强语法高亮：Markdown、Makefile、LaTeX</span><br><span class="line">require(<span class="string">&quot;lazy&quot;</span>).setup(&#123;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;nvim-treesitter/nvim-treesitter&quot;</span>,</span><br><span class="line">      build = <span class="string">&quot;:TSUpdate&quot;</span>,</span><br><span class="line">      opts = &#123;</span><br><span class="line">        -- 只安装这几种语言的解析器</span><br><span class="line">        ensure_installed = &#123;</span><br><span class="line">          <span class="string">&quot;markdown&quot;</span>,       -- Markdown 基础语法</span><br><span class="line">          <span class="string">&quot;markdown_inline&quot;</span>,-- Markdown 内联元素（如粗体、代码）更精细的高亮</span><br><span class="line">          <span class="string">&quot;make&quot;</span>,           -- Makefile</span><br><span class="line">          <span class="string">&quot;latex&quot;</span>,          -- LaTeX / BibTeX</span><br><span class="line">        &#125;,</span><br><span class="line">        highlight = &#123;</span><br><span class="line">          <span class="built_in">enable</span> = <span class="literal">true</span>,                -- 启用 Tree-sitter 高亮</span><br><span class="line">          additional_vim_regex_highlighting = <span class="literal">false</span>, -- 关闭 Vim 正则高亮避免冲突</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">      config = <span class="keyword">function</span>(_, opts)</span><br><span class="line">        -- 标准 setup 调用</span><br><span class="line">        require(<span class="string">&quot;nvim-treesitter.configs&quot;</span>).setup(opts)</span><br><span class="line">      end,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -225,19 +233,20 @@
     <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/vim/" rel="tag"># vim</a>
+              <a href="/tags/tool/" rel="tag"># tool</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2026/03/28/language/assembly/" rel="prev" title="汇编语言杂记">
-                  <i class="fa fa-angle-left"></i> 汇编语言杂记
+                <a href="/2026/03/28/frm-lib/hexo-note/" rel="prev" title="hexo-note">
+                  <i class="fa fa-angle-left"></i> hexo-note
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2026/03/28/language/JavaScript%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B/" rel="next" title="JavaScript特性">
-                  JavaScript特性 <i class="fa fa-angle-right"></i>
+                <a href="/2026/03/29/frm-lib/c++boost/%E5%8C%85%E8%A3%85Asio%E7%BC%96%E5%86%99%E5%BC%82%E6%AD%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%A8%A1%E5%9E%8B/" rel="next" title="包装Asio编写异步TCP服务器模型">
+                  包装Asio编写异步TCP服务器模型 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>

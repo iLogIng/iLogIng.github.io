@@ -136,7 +136,7 @@
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -247,167 +247,6 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/Networking/%E5%BA%94%E7%94%A8%E5%B1%82/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/03/28/Networking/%E5%BA%94%E7%94%A8%E5%B1%82/" class="post-title-link" itemprop="url">应用层杂记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-03-28 22:50:52 / 修改时间：22:14:27" itemprop="dateCreated datePublished" datetime="2026-03-28T22:50:52+08:00">2026-03-28</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>基于 《计算机网络：自顶向下方法》</p>
-</blockquote>
-<hr>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/language/JavaScript%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/03/28/language/JavaScript%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">JavaScript特性</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-03-28 16:36:02 / 修改时间：18:31:36" itemprop="dateCreated datePublished" datetime="2026-03-28T16:36:02+08:00">2026-03-28</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="关于JavaScript特性与异步模型"><a href="#关于JavaScript特性与异步模型" class="headerlink" title="关于JavaScript特性与异步模型"></a>关于JavaScript特性与异步模型</h1><h2 id="执行上下文"><a href="#执行上下文" class="headerlink" title="执行上下文"></a>执行上下文</h2><p>JS在第一次执行时会根据web引擎创建 <strong>全局上下文</strong> 在该上下文中运行JS脚本，在 <strong>调用函数时 从内存堆中提取函数</strong> 创建该函数的<strong>函数执行上下文</strong> 再将程序的执行转入 <strong>该函数上下文中</strong> 函数执行后再 <strong>返回全局上下文</strong>（这与C&#x2F;C++的函数栈帧不同，反倒与thread机制类似，即进行上下文的保存和转换， 据此可推知： <strong>JS所实现的单线程异步是以此为基础实现的</strong>）</p>
-<ul>
-<li><p>关于JS中函数的存储</p>
-<p>  是的，JS将定义的函数及其形参都按一定规则存入内存堆，在调用时从堆中提取。</p>
-</li>
-</ul>
-<h2 id="调用栈"><a href="#调用栈" class="headerlink" title="调用栈"></a>调用栈</h2><p>调用栈是JS引擎 <strong>跟踪</strong> 被调用函数所处位置的方式，JS使用其管理 <strong>执行上下文</strong>。</p>
-<p>JS为每个被调用的函数创建一个 <strong>函数上下文</strong> 并依次压入调用栈中，由于JS为单线程语言，所以 <strong>只维护一个调用栈</strong> 当栈空后 <strong>脚本停止</strong> 。当执行的是一个递归函数，且陷入无限递归时会产生 <strong>栈溢出。</strong></p>
-<p>由于JS为单线程语言，只维护一个调用栈，所以 <strong>一次只执行一个操作</strong> 所有操作都是 <strong>同步的</strong> 而JS的 <strong>异步</strong> 特性可以在等待另一个任务完成时，执行其他任务。</p>
-<h2 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h2><p>JS引擎从文件顶部向下执行，创建 <strong>执行上下文</strong> 和 管理 <strong>调用堆栈</strong></p>
-<p>在程序运行时，有可能会遇到执行时间很长的 <strong>阻塞函数</strong> 会阻塞交互行为，</p>
-<p>所以使用Web API传入回调函数，函数向宿主环境发送任务消息后返回上一层上下文继续执行，其任务交由宿主环境进行处理，再接收宿主环境返回的完成信息（包含之前所注册的回调函数），压入 <strong>任务队列</strong> （或回调队列），再由 <strong>事件循环</strong> 检查任务队列中的内容，当 <strong>调用栈</strong> 和 <strong>任务队列</strong> 都为空后 <strong>脚本停止</strong> 。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/03/28/language/JavaScript%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/tools/vim-config/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -436,9 +275,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-03-28 16:26:02 / 修改时间：18:31:55" itemprop="dateCreated datePublished" datetime="2026-03-28T16:26:02+08:00">2026-03-28</time>
+      <time title="创建时间：2026-03-28 16:26:02" itemprop="dateCreated datePublished" datetime="2026-03-28T16:26:02+08:00">2026-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-04-07 22:10:19" itemprop="dateModified" datetime="2026-04-07T22:10:19+08:00">2026-04-07</time>
     </span>
 
   
@@ -455,139 +300,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/03/28/tools/vim-config/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/language/assembly/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/03/28/language/assembly/" class="post-title-link" itemprop="url">汇编语言杂记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-03-28 16:22:37 / 修改时间：18:31:31" itemprop="dateCreated datePublished" datetime="2026-03-28T16:22:37+08:00">2026-03-28</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="汇编语言杂记"><a href="#汇编语言杂记" class="headerlink" title="汇编语言杂记"></a>汇编语言杂记</h1><ul>
-<li><strong>NASM</strong></li>
-<li><strong>GDB</strong></li>
-<li><strong>ld</strong></li>
-<li><strong>ar</strong></li>
-<li><strong>gcc</strong></li>
-<li><strong>xxd&#x2F;GHex</strong></li>
-</ul>
-<h2 id="寄存器名称与主要用途"><a href="#寄存器名称与主要用途" class="headerlink" title="寄存器名称与主要用途"></a>寄存器名称与主要用途</h2><table>
-<thead>
-<tr>
-<th>寄存器</th>
-<th>传统名称</th>
-<th>主要用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>RAX</td>
-<td>累加器 (Accumulator)</td>
-<td>函数返回值、算术运算、系统调用号</td>
-</tr>
-<tr>
-<td>RCX</td>
-<td>计数器 (Counter)</td>
-<td>第4个整数参数、循环计数、通用寄存器</td>
-</tr>
-<tr>
-<td>RDX</td>
-<td>数据寄存器 (Data)</td>
-<td>第3个整数参数、与RAX配合用于乘除法、通用寄存器</td>
-</tr>
-<tr>
-<td>RBX</td>
-<td>基址寄存器 (Base)</td>
-<td>被调用者保存、常用于存储基地址</td>
-</tr>
-<tr>
-<td>RSP</td>
-<td>栈指针 (Stack Pointer)</td>
-<td>指向当前栈顶、永远指向内存中的栈顶</td>
-</tr>
-<tr>
-<td>RBP</td>
-<td>基址指针 (Base Pointer)</td>
-<td>被调用者保存、通常用作栈帧基址（可选）</td>
-</tr>
-<tr>
-<td>RSI</td>
-<td>源索引 (Source Index)</td>
-<td>第2个整数参数、字符串&#x2F;数组操作源地址</td>
-</tr>
-<tr>
-<td>RDI</td>
-<td>目的索引 (Destination Index)</td>
-<td>第1个整数参数、字符串&#x2F;数组操作目的地址</td>
-</tr>
-</tbody></table>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/03/28/language/assembly/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -765,6 +477,323 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/03/28/frm-lib/c++boost/Boost-Asio/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/frm-lib/c++boost/Boost-Thread/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/03/28/frm-lib/c++boost/Boost-Thread/" class="post-title-link" itemprop="url">C++ Boost::Thread</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-03-28 15:50:52 / 修改时间：18:31:13" itemprop="dateCreated datePublished" datetime="2026-03-28T15:50:52+08:00">2026-03-28</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h1><blockquote>
+<p>Thread是Boost库中进行平台无关的线程调用对象</p>
+</blockquote>
+<p><strong>Thread 线程</strong><br><strong>mutex 互斥量<br>_lock RAII锁</strong><br><strong>condition_variaty 条件表达式<br>barrier屏障 latch锁存器<br>Future Promise Packaged_task</strong></p>
+<blockquote>
+</blockquote>
+<h2 id="线程管理"><a href="#线程管理" class="headerlink" title="线程管理"></a>线程管理</h2><h3 id="启动线程"><a href="#启动线程" class="headerlink" title="启动线程"></a>启动线程</h3><p>向 <strong>boost::thread</strong> 对象中传入一个函数对象。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">callable_test</span></span><br><span class="line">&#123;</span><br><span class="line">	std::string str;</span><br><span class="line">	<span class="built_in">callable_test</span>() &#123; str = <span class="string">&quot;&quot;</span>; &#125;</span><br><span class="line">	<span class="built_in">callable_test</span>(std::string s) &#123; str = s; &#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">int</span> n = <span class="number">1</span>)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			std::cout &lt;&lt; i &lt;&lt; <span class="string">&#x27;\t&#x27;</span> &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">callable x;</span><br><span class="line"></span><br><span class="line"><span class="function">boost::thread <span class="title">th1</span><span class="params">(x)</span></span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/03/28/frm-lib/c++boost/Boost-Thread/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/02/12/languages/assembly/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/02/12/languages/assembly/" class="post-title-link" itemprop="url">汇编语言杂记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-02-12 18:55:07" itemprop="dateCreated datePublished" datetime="2026-02-12T18:55:07+08:00">2026-02-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-04-09 21:45:12" itemprop="dateModified" datetime="2026-04-09T21:45:12+08:00">2026-04-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="汇编语言杂记"><a href="#汇编语言杂记" class="headerlink" title="汇编语言杂记"></a>汇编语言杂记</h1><ul>
+<li><strong>NASM</strong></li>
+<li><strong>GDB</strong></li>
+<li><strong>ld</strong></li>
+<li><strong>ar</strong></li>
+<li><strong>gcc</strong></li>
+<li><strong>xxd&#x2F;GHex</strong></li>
+</ul>
+<h2 id="寄存器名称与主要用途"><a href="#寄存器名称与主要用途" class="headerlink" title="寄存器名称与主要用途"></a>寄存器名称与主要用途</h2><table>
+<thead>
+<tr>
+<th>寄存器</th>
+<th>传统名称</th>
+<th>主要用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RAX</td>
+<td>累加器 (Accumulator)</td>
+<td>函数返回值、算术运算、系统调用号</td>
+</tr>
+<tr>
+<td>RCX</td>
+<td>计数器 (Counter)</td>
+<td>第4个整数参数、循环计数、通用寄存器</td>
+</tr>
+<tr>
+<td>RDX</td>
+<td>数据寄存器 (Data)</td>
+<td>第3个整数参数、与RAX配合用于乘除法、通用寄存器</td>
+</tr>
+<tr>
+<td>RBX</td>
+<td>基址寄存器 (Base)</td>
+<td>被调用者保存、常用于存储基地址</td>
+</tr>
+<tr>
+<td>RSP</td>
+<td>栈指针 (Stack Pointer)</td>
+<td>指向当前栈顶、永远指向内存中的栈顶</td>
+</tr>
+<tr>
+<td>RBP</td>
+<td>基址指针 (Base Pointer)</td>
+<td>被调用者保存、通常用作栈帧基址（可选）</td>
+</tr>
+<tr>
+<td>RSI</td>
+<td>源索引 (Source Index)</td>
+<td>第2个整数参数、字符串&#x2F;数组操作源地址</td>
+</tr>
+<tr>
+<td>RDI</td>
+<td>目的索引 (Destination Index)</td>
+<td>第1个整数参数、字符串&#x2F;数组操作目的地址</td>
+</tr>
+</tbody></table>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/02/12/languages/assembly/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/02/02/tools/make-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/02/02/tools/make-note/" class="post-title-link" itemprop="url">make-note</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-02-02 10:29:23" itemprop="dateCreated datePublished" datetime="2026-02-02T10:29:23+08:00">2026-02-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-04-07 22:10:08" itemprop="dateModified" datetime="2026-04-07T22:10:08+08:00">2026-04-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Makefile"><a href="#Makefile" class="headerlink" title="Makefile"></a>Makefile</h1><blockquote>
+<p>在Linux环境下，常常使用<code>make</code>程序自动化变异大型源码。<br>项目提供一个<code>Makefile</code>文件，<code>make</code>以此为基础进行程序的编译和链接。<br><code>make</code>并不限定为构建C&#x2F;C++项目服务，还可以用于任何文件的组织与处理，但主要用于Unix&#x2F;Linux环境的自动化开发。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/make/manual/html_node/index.html#SEC_Contents">GNU make</a></p>
+<hr>
+<h2 id="Makefile基础"><a href="#Makefile基础" class="headerlink" title="Makefile基础"></a>Makefile基础</h2><p>在Linux环境下，输入<code>make</code>命令，程序在当前目录下查找一个名为<code>Makefile</code>的文件，然后，根据该文件定的规则，自动化的执行任意命令。</p>
+<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p><code>Makefile</code>文件由若干条<strong>规则(Rule)<strong>构成，每一条规则指出一个</strong>目标文件(Target)</strong>，若干<strong>依赖文件(prerequisites)</strong>，以及生成目标文件的命令。<br><strong>规则</strong>如下：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 目标文件: 依赖文件1 依赖文件2 ... </span></span><br><span class="line">    <span class="comment"># 命令</span></span><br><span class="line"><span class="section">m.txt: a.txt b.txt</span></span><br><span class="line">    cat a.txt b.txt &gt; m.txt</span><br></pre></td></tr></table></figure>
+<p>以上规则使用cat命令将文件a.txt b.txt合并写入m.txt</p>
+<blockquote>
+<p><em><strong>!注意：在Makefile的规则中，命令必须以Tab开头，不能是空格</strong></em></p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/02/02/tools/make-note/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
