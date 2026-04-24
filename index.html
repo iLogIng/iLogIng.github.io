@@ -131,12 +131,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -158,6 +158,290 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/04/23/tools/claude-code/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/04/23/tools/claude-code/" class="post-title-link" itemprop="url">claude code 命令行</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-04-23 21:12:44 / 修改时间：23:40:57" itemprop="dateCreated datePublished" datetime="2026-04-23T21:12:44+08:00">2026-04-23</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><strong>npm 命令行安装</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g @anthropic-ai/claude-code</span><br></pre></td></tr></table></figure>
+<h2 id="模型配置"><a href="#模型配置" class="headerlink" title="模型配置"></a>模型配置</h2><p><strong>配置默认模型为Opus 4</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ claude config <span class="built_in">set</span> model claude-4-opus</span><br></pre></td></tr></table></figure>
+
+<p><strong>配置为Sonnet 4</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ claude config <span class="built_in">set</span> model claude-4-sonnet</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看配置"><a href="#查看配置" class="headerlink" title="查看配置"></a>查看配置</h2><p><strong>查看所有配置</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ claude config list</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看特定配置</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ claude config get &lt;component&gt;</span><br></pre></td></tr></table></figure>
+
+<!--main-->
+
+<h1 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h1><p><strong>帮助</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ claude <span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>特定帮助</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ claude <span class="built_in">help</span> get &lt;component&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置国内模型"><a href="#配置国内模型" class="headerlink" title="配置国内模型"></a>配置国内模型</h2><p><strong>配置文件：</strong> <em><strong>~&#x2F;.claude&#x2F;settings.json</strong></em></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;ANTHROPIC_BASE_URL&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://api.example.com/v1&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;ANTHROPIC_AUTH_TOKEN&quot;</span><span class="punctuation">:</span> <span class="string">&quot;your-api-key-here&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;model&quot;</span><span class="punctuation">:</span> <span class="string">&quot;glm-4.6&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;custom-model&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;GLM-4.6&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;endpoint&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://api.example.com/v1/chat/completions&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;api_key&quot;</span><span class="punctuation">:</span> <span class="string">&quot;your-api-key-here&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;model_type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;code&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>配置说明</strong></p>
+<ul>
+<li>env.ANTHROPIC_BASE_URL: 国内大模型的API端点URL</li>
+<li>env.ANTHROPIC_AUTH_TOKEN: 您的API密钥</li>
+<li>model: 默认使用的模型名称</li>
+<li>custom-model: 自定义模型配置<ul>
+<li>name: 模型名称（自定义）</li>
+<li>endpoint: API端点URL</li>
+<li>api_key: API密钥</li>
+<li>model_type: 模型类型（通常为”code”）</li>
+</ul>
+</li>
+</ul>
+<h1 id="国内使用"><a href="#国内使用" class="headerlink" title="国内使用"></a>国内使用</h1><blockquote>
+<p><em><strong>注意：Claude 母公司 Anthropic 错误的政治倾向，以及对中国的偏见，致使其对中国用户采取严格的禁用策略。</strong></em></p>
+<p><em><strong>好好利用工具</strong></em><br><em><strong>认清个人立场</strong></em></p>
+</blockquote>
+<p><strong>配置文件：</strong> <em><strong>~&#x2F;.claude&#x2F;settings.json</strong></em></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;env&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;ANTHROPIC_AUTH_TOKEN&quot;</span>: <span class="string">&quot;your_zhipu_api_key&quot;</span>,</span><br><span class="line">        <span class="string">&quot;ANTHROPIC_BASE_URL&quot;</span>: <span class="string">&quot;https://open.bigmodel.cn/api/anthropic&quot;</span>,</span><br><span class="line">        <span class="string">&quot;API_TIMEOUT_MS&quot;</span>: <span class="string">&quot;3000000&quot;</span>,</span><br><span class="line">        <span class="string">&quot;CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC&quot;</span>: 1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>env.ANTHROPIC_BASE_URL: 国内大模型的API端点URL</li>
+<li>env.ANTHROPIC_AUTH_TOKEN: 您的API密钥</li>
+<li>env.API_TIMEOUT_MD: API的超时时间（毫秒计算）</li>
+<li>env.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: 禁用非必要流量</li>
+</ul>
+<blockquote>
+<p>关于URL与API_KEY可以查看所使用大模型官方的API文档</p>
+</blockquote>
+<h2 id="解决claude-code无法连接到Anthropic服务"><a href="#解决claude-code无法连接到Anthropic服务" class="headerlink" title="解决claude code无法连接到Anthropic服务"></a>解决claude code无法连接到Anthropic服务</h2><p><strong>可能遇到的报错信息</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Unable to connect to Anthropic services</span><br><span class="line">Failed to connect to api.anthropic.com: ERR BAD REQUEST</span><br><span class="line">lease check your internet connection and network settings.</span><br><span class="line">Note: Claude Code might not be available <span class="keyword">in</span> your country, Check supported countries atnttps://anthropic.com/supported-countriesS E:ltoollclaude code&gt;</span><br></pre></td></tr></table></figure>
+
+<p>需要修改 <code>.claude.json</code> 文件，一般与<code>.claude/</code>目录处于同一目录</p>
+<p>在 <code>.claude.json</code> 中添加以下属性</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;hasCompletedOnboarding&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>之后可以通过</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ claude</span><br></pre></td></tr></table></figure>
+
+<p>在项目文件中使用claude code</p>
+<h2 id="提示词工程"><a href="#提示词工程" class="headerlink" title="提示词工程"></a>提示词工程</h2><h3 id="事先声明"><a href="#事先声明" class="headerlink" title="事先声明"></a>事先声明</h3><ol>
+<li><p><strong>AI 是 <em>外置大脑</em> 而非个人的替身</strong></p>
+<ul>
+<li>要保证项目代码的最终决策权在我们自己，你需要不断引导它分析约束、评估风险、给出可选方案，而不是直接接受第一个答案。</li>
+</ul>
+</li>
+<li><p><strong>好的架构是分视图、分阶段、分模块的</strong></p>
+<ul>
+<li>你必须在提示词里显式要求 AI 从不同架构视图（逻辑、过程、开发、部署、数据）思考，避免它过早陷入细节。</li>
+<li>你最好能事先规范化项目的顶层设计，再与AI进行总体的设计讨论，逐步深入。</li>
+</ul>
+</li>
+<li><p><strong>每一次讨论都是一次 <em>架构评审</em></strong></p>
+<ul>
+<li>把提示词设计成微小的评审会议：输入上下文、假设，要求 AI 输出分析、质疑、建议。</li>
+<li>但是，绝不能被AI牵着鼻子走，在整理AI的建议时需要自己的思考，纠正AI偏离预期设计的想法。</li>
+</ul>
+</li>
+</ol>
+<h3 id="如何表述清楚任务"><a href="#如何表述清楚任务" class="headerlink" title="如何表述清楚任务"></a>如何表述清楚任务</h3><blockquote>
+<p><strong>需要以 <em>架构师</em> 的方式进行思考</strong></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/04/03/frm-lib/c++boost/Boost-Log/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/04/03/frm-lib/c++boost/Boost-Log/" class="post-title-link" itemprop="url">C++ Boost::Log</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-04-03 19:03:06" itemprop="dateCreated datePublished" datetime="2026-04-03T19:03:06+08:00">2026-04-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-04-10 23:24:34" itemprop="dateModified" datetime="2026-04-10T23:24:34+08:00">2026-04-10</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Log"><a href="#Log" class="headerlink" title="Log"></a>Log</h1><blockquote>
+<p>一个高度模块化和可扩展的C++日志库，旨在为应用程序提供灵活的日志记录功能。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://boost.ac.cn/doc/libs/latest/libs/log/doc/html/index.html#log.intro">Boost::Log Refference</a></p>
+<h3 id="设计理念"><a href="#设计理念" class="headerlink" title="设计理念"></a>设计理念</h3><p>提供 <strong>高度模块化</strong> 和 <strong>可扩展</strong> 的日志处理。各个模块可以独立使用和替换，并且能够添加自定义功能。支持宽&#x2F;窄字符记录。</p>
+<h3 id="三层架构"><a href="#三层架构" class="headerlink" title="三层架构"></a>三层架构</h3><ol>
+<li><strong>日志数据收集层</strong><ul>
+<li>负责从程序中处理收集的日志事件</li>
+</ul>
+</li>
+<li><strong>收集数据处理层</strong><ul>
+<li>负责处理收集到的日志事件</li>
+</ul>
+</li>
+<li><strong>连接前两层的中央枢纽</strong><ul>
+<li>协调管理日志在上两层之间的流转</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><strong>设计要点：</strong> 这个架构的核心优势是正交性，即日志的收集、处理方式和日志内容本身是相互独立的。这种设计让库不仅能用于传统日志记录，还能用于向用户发出通知、累积统计信息等场景。</p>
+</blockquote>
+<!-- main -->
+
+<h3 id="关键组件"><a href="#关键组件" class="headerlink" title="关键组件"></a>关键组件</h3><p>构成以上三层的具体组件：</p>
+<ul>
+<li><p><strong>日志源 (Logging Sources)：</strong> <em><strong>日志事件的发起者</strong></em> 。最常见的是日志记录器 (Logger)，它提供了类似 std::ostream 的流式接口来 <strong>格式化</strong> 日志消息。库也支持其他类型的源，如捕获子进程的控制台输出等。</p>
+</li>
+<li><p><strong>属性与属性值 (Attributes and Attribute Values)：</strong> <strong>日志记录的<em>元数据</em></strong> 。一个属性本质上是获取某个值的函数（例如获取当前时间），其返回的值就是 <em>属性值</em> ，会在日志处理的后续阶段使用。属性分为 <em>三种</em> 类型：</p>
+<ul>
+<li><p><em><strong>全局属性</strong></em> ：附加到 <em>所有</em> 日志记录，优先级最低。</p>
+</li>
+<li><p><em><strong>线程特定属性</strong></em> ：仅附加到 <em>特定线程</em> 生成的记录。</p>
+</li>
+<li><p><em><strong>源特定属性</strong></em> ：<strong>由日志源维护</strong> ，仅附加到通过 <em>该源生成的记录</em> ，优先级最高。</p>
+</li>
+<li><p>当同名属性出现在多个集合中时，优先级高的属性会覆盖优先级低的。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>日志核心 (Logging Core)：</strong> 中央枢纽的具体实现。它负责接收日志事件，并应用全局过滤器来决定哪些日志记录可以继续传递。核心被实现为 <em><strong>单例 (Singleton)</strong></em> ，可通过 boost::log::core::get() 访问。</p>
+</li>
+<li><p><strong>过滤器 (Filters)：</strong> 核心的一部分功能。过滤器用于在核心层面 <em><strong>筛选</strong></em> 日志记录，决定其是否被处理。</p>
+</li>
+<li><p><strong>接收器 (Sinks)：</strong> 日志处理的最终目的地。它是处理层的核心，负责将日志记录 <em><strong>格式化并输出到文件</strong></em> 、控制台、网络等不同目标。接收器采用前后端分离的设计：</p>
+<ul>
+<li><p><strong>前端 (Frontend)：</strong> 负责接收日志记录，并决定同步、异步等传递策略。</p>
+</li>
+<li><p><strong>后端 (Backend)：</strong> 负责执行实际的格式化操作并将日志写入最终目标。</p>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -631,171 +915,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2025/11/20/tools/git-note/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2025/11/08/CS-infra/Networking/%E5%BA%94%E7%94%A8%E5%B1%82/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/11/08/CS-infra/Networking/%E5%BA%94%E7%94%A8%E5%B1%82/" class="post-title-link" itemprop="url">应用层杂记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-11-08 19:47:22" itemprop="dateCreated datePublished" datetime="2025-11-08T19:47:22+08:00">2025-11-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-04-09 21:40:07" itemprop="dateModified" datetime="2026-04-09T21:40:07+08:00">2026-04-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>基于 《计算机网络：自顶向下方法》</p>
-</blockquote>
-<hr>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2025/10/18/frm-lib/c++boost/%E5%8C%85%E8%A3%85Asio%E7%BC%96%E5%86%99%E5%BC%82%E6%AD%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/10/18/frm-lib/c++boost/%E5%8C%85%E8%A3%85Asio%E7%BC%96%E5%86%99%E5%BC%82%E6%AD%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">包装Asio编写异步TCP服务器模型</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-10-18 18:33:07" itemprop="dateCreated datePublished" datetime="2025-10-18T18:33:07+08:00">2025-10-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-04-09 21:51:10" itemprop="dateModified" datetime="2026-04-09T21:51:10+08:00">2026-04-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>该笔记，以官方异步TCP服务器实现用例为基础<br>记录几种改造方向</p>
-</blockquote>
-<h1 id="官方用例"><a href="#官方用例" class="headerlink" title="官方用例"></a>官方用例</h1><p><a target="_blank" rel="noopener" href="https://boost.ac.cn/doc/libs/latest/doc/html/boost_asio/tutorial/tutdaytime3.html">异步 TCP daytime服务器</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/10/18/frm-lib/c++boost/%E5%8C%85%E8%A3%85Asio%E7%BC%96%E5%86%99%E5%BC%82%E6%AD%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%A8%A1%E5%9E%8B/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
