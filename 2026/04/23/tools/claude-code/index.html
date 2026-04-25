@@ -28,7 +28,7 @@
 <meta property="og:description" content="开始安装npm 命令行安装 1$ npm install -g @anthropic-ai&#x2F;claude-code 模型配置配置默认模型为Opus 4 1$ claude config set model claude-4-opus  配置为Sonnet 4 1$ claude config set model claude-4-sonnet  查看配置查看所有配置 1$ claude confi">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-04-23T13:12:44.000Z">
-<meta property="article:modified_time" content="2026-04-23T15:40:57.566Z">
+<meta property="article:modified_time" content="2026-04-25T09:33:56.647Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="AI Agent">
 <meta property="article:tag" content="tool">
@@ -124,7 +124,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.</span> <span class="nav-text">模型配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">查看配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">基本命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%9B%BD%E5%86%85%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">配置国内模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BD%E5%86%85%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">国内使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3claude-code%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E5%88%B0Anthropic%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.1.</span> <span class="nav-text">解决claude code无法连接到Anthropic服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">提示词工程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%85%88%E5%A3%B0%E6%98%8E"><span class="nav-number">3.2.1.</span> <span class="nav-text">事先声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A1%A8%E8%BF%B0%E6%B8%85%E6%A5%9A%E4%BB%BB%E5%8A%A1"><span class="nav-number">3.2.2.</span> <span class="nav-text">如何表述清楚任务</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.</span> <span class="nav-text">模型配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">查看配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">基本命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%9B%BD%E5%86%85%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">配置国内模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BD%E5%86%85%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">国内使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3claude-code%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E5%88%B0Anthropic%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.1.</span> <span class="nav-text">解决claude code无法连接到Anthropic服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">提示词工程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%85%88%E5%A3%B0%E6%98%8E"><span class="nav-number">3.2.1.</span> <span class="nav-text">事先声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CLAUDE-md-%E4%B8%8E%E5%AF%B9%E8%AF%9D-Prompt-%E7%9A%84%E5%88%86%E5%B7%A5"><span class="nav-number">3.2.2.</span> <span class="nav-text">CLAUDE.md 与对话 Prompt 的分工</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A1%A8%E8%BF%B0%E6%B8%85%E6%A5%9A%E4%BB%BB%E5%8A%A1"><span class="nav-number">3.2.3.</span> <span class="nav-text">如何表述清楚任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E4%B8%8A%E4%B8%8B%E6%96%87%E6%9E%84%E5%BB%BA%E4%B8%8E%E7%BA%A6%E6%9D%9F%E6%BE%84%E6%B8%85"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">1. 上下文构建与约束澄清</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%9E%B6%E6%9E%84%E9%A3%8E%E6%A0%BC%E4%B8%8E%E5%85%B3%E9%94%AE%E5%86%B3%E7%AD%96"><span class="nav-number">3.2.3.2.</span> <span class="nav-text">2. 架构风格与关键决策</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E8%BE%B9%E7%95%8C%E5%AE%9A%E4%B9%89"><span class="nav-number">3.2.3.3.</span> <span class="nav-text">3. 结构设计与边界定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%8A%80%E6%9C%AF%E6%A0%88%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E8%AF%AD%E5%AE%9A%E4%B9%89"><span class="nav-number">3.2.3.4.</span> <span class="nav-text">4. 技术栈与实现原语定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E8%AF%84%E4%BC%B0%E3%80%81%E9%AA%8C%E8%AF%81%E4%B8%8E%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90"><span class="nav-number">3.2.3.5.</span> <span class="nav-text">5. 评估、验证与文档生成</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E6%8F%90%E7%A4%BA%E8%AF%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E6%9D%BF"><span class="nav-number">3.2.4.</span> <span class="nav-text">项目提示词设计模板</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -202,9 +202,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-04-23 21:12:44 / 修改时间：23:40:57" itemprop="dateCreated datePublished" datetime="2026-04-23T21:12:44+08:00">2026-04-23</time>
+      <time title="创建时间：2026-04-23 21:12:44" itemprop="dateCreated datePublished" datetime="2026-04-23T21:12:44+08:00">2026-04-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-04-25 17:33:56" itemprop="dateModified" datetime="2026-04-25T17:33:56+08:00">2026-04-25</time>
     </span>
 
   
@@ -281,8 +287,12 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ claude</span><br></pre></td></tr></table></figure>
 
 <p>在项目文件中使用claude code</p>
-<h2 id="提示词工程"><a href="#提示词工程" class="headerlink" title="提示词工程"></a>提示词工程</h2><h3 id="事先声明"><a href="#事先声明" class="headerlink" title="事先声明"></a>事先声明</h3><ol>
-<li><p><strong>AI 是 <em>外置大脑</em> 而非个人的替身</strong></p>
+<h2 id="提示词工程"><a href="#提示词工程" class="headerlink" title="提示词工程"></a>提示词工程</h2><blockquote>
+<p><strong>核心公式：</strong> 好的提示词 &#x3D; 明确的角色 × 充分的上下文 × 结构化的输出 × 可验证的标准</p>
+<p>提示词不是一次写成的，需要根据 AI 的回复不断修正迭代。</p>
+</blockquote>
+<h3 id="事先声明"><a href="#事先声明" class="headerlink" title="事先声明"></a>事先声明</h3><ol>
+<li><p><strong>将AI视为 <em>协作者</em> 而非个人的替身</strong></p>
 <ul>
 <li>要保证项目代码的最终决策权在我们自己，你需要不断引导它分析约束、评估风险、给出可选方案，而不是直接接受第一个答案。</li>
 </ul>
@@ -300,9 +310,363 @@
 </ul>
 </li>
 </ol>
+<h3 id="CLAUDE-md-与对话-Prompt-的分工"><a href="#CLAUDE-md-与对话-Prompt-的分工" class="headerlink" title="CLAUDE.md 与对话 Prompt 的分工"></a>CLAUDE.md 与对话 Prompt 的分工</h3><table>
+<thead>
+<tr>
+<th>存储位置</th>
+<th>适合的内容</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CLAUDE.md</td>
+<td>项目架构、编码规范、测试规范、目录结构、常用命令</td>
+<td>持久化，自动加载到每次对话</td>
+</tr>
+<tr>
+<td>对话 Prompt</td>
+<td>当前任务上下文、具体需求、临时约束、输出格式</td>
+<td>会话级，一次性，灵活调整</td>
+</tr>
+</tbody></table>
 <h3 id="如何表述清楚任务"><a href="#如何表述清楚任务" class="headerlink" title="如何表述清楚任务"></a>如何表述清楚任务</h3><blockquote>
-<p><strong>需要以 <em>架构师</em> 的方式进行思考</strong></p>
+<p><strong>需要以 <em>架构师</em> 的方式进行思考</strong><br>聚焦于”为什么做”、”如何做”<br>使用层进式的方式进行讨论<br>提出需求 -&gt; 暴露问题 -&gt; 修改架构</p>
 </blockquote>
+<h4 id="1-上下文构建与约束澄清"><a href="#1-上下文构建与约束澄清" class="headerlink" title="1. 上下文构建与约束澄清"></a>1. 上下文构建与约束澄清</h4><p><strong>目标：</strong> 让 AI 快速理解项目全貌，产出需求疑点清单和风险假设。</p>
+<p>需要包含：</p>
+<ol>
+<li><strong>项目背景</strong><ul>
+<li>团队人员信息</li>
+<li>项目摘要</li>
+<li>项目周期</li>
+</ul>
+</li>
+<li><strong>项目目标</strong><ul>
+<li>目标领域</li>
+<li>核心业务目标<ul>
+<li>多个子目标…</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>项目关键约束</strong></li>
+</ol>
+<blockquote>
+<p>产出一份结构化的项目分析清单<br>包含：</p>
+<ul>
+<li>结构化的需求疑点清单</li>
+<li>风险假设列表</li>
+</ul>
+</blockquote>
+<p><strong>可复用 Prompt 模板：</strong></p>
+<blockquote>
+<p>你是一名资深[架构师&#x2F;领域专家]，请以”评审者”视角分析以下项目信息：</p>
+<p><strong>项目背景</strong></p>
+<ul>
+<li>项目名称：[项目名]</li>
+<li>团队规模：[人数]，角色：[前端&#x2F;后端&#x2F;测试&#x2F;PM]</li>
+<li>项目周期：[开始] ~ [结束]</li>
+<li>当前阶段：[需求&#x2F;设计&#x2F;编码&#x2F;测试]</li>
+</ul>
+<p><strong>核心目标</strong></p>
+<ul>
+<li>业务目标：[一句话]</li>
+<li>关键指标：[如 QPS、响应时间、用户量]</li>
+</ul>
+<p><strong>已知约束</strong></p>
+<ul>
+<li>技术栈：[语言&#x2F;框架&#x2F;数据库]</li>
+<li>继承系统：[如有，描述]</li>
+<li>合规要求：[如有，指明]</li>
+<li>资源限制：[预算&#x2F;人力&#x2F;时间]</li>
+</ul>
+<p><strong>请输出：</strong></p>
+<ol>
+<li>一份结构化的需求疑点清单（至少5条）</li>
+<li>一份风险假设列表（按影响程度排序）</li>
+<li>针对疑点给出的补充建议</li>
+</ol>
+</blockquote>
+<p><strong>常见反模式：</strong></p>
+<table>
+<thead>
+<tr>
+<th>反模式</th>
+<th>问题</th>
+<th>正确做法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>一次性堆砌所有信息</td>
+<td>AI 注意力被稀释，关键约束被忽略</td>
+<td>按层进式逐步给出，每一轮聚焦一个层面</td>
+</tr>
+<tr>
+<td>只给目标不给约束</td>
+<td>AI 可能选一个无法落地的方案</td>
+<td>显式声明否定约束（”不使用XX”）</td>
+</tr>
+<tr>
+<td>模糊指标</td>
+<td>无法做验收</td>
+<td>给出具体数字和范围</td>
+</tr>
+</tbody></table>
+<p><strong>自检清单：</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 角色定义是否具体？（”10年后端经验的Java架构师” vs “一名开发者”）</li>
+<li><input disabled="" type="checkbox"> 是否给出了具体数字和范围？（避免”大量用户”、”很快”）</li>
+<li><input disabled="" type="checkbox"> 是否说明了”不要做什么”？（否定约束同样重要）</li>
+<li><input disabled="" type="checkbox"> 是否指定了输出格式？</li>
+</ul>
+<hr>
+<h4 id="2-架构风格与关键决策"><a href="#2-架构风格与关键决策" class="headerlink" title="2. 架构风格与关键决策"></a>2. 架构风格与关键决策</h4><p><strong>目标：</strong> 对比多个候选方案，输出决策记录（ADR）草稿。</p>
+<ol>
+<li><strong>项目的基础架构</strong></li>
+<li><strong>各个待选的项目架构与现有约束的冲突</strong></li>
+<li><strong>团队的组织能力需要</strong></li>
+</ol>
+<blockquote>
+<p>输出格式：<br>针对每个待选架构的风格简述，进行表格化输出，给出推荐理由<br>针对各个待选的架构风格，简述其与现有约束需要的冲突，以及如何权衡冲突<br>为最终的选择编写一份 Architecture Decision Record (ADR) 草稿</p>
+</blockquote>
+<p><strong>可复用 Prompt 模板：</strong></p>
+<blockquote>
+<p>[粘贴阶段一的产出]</p>
+<p>请从可选架构方案中，评估以下候选项：</p>
+<ol>
+<li>[方案A：如微服务]</li>
+<li>[方案B：如单体+模块化]</li>
+<li>[方案C：如事件驱动]</li>
+</ol>
+<p><strong>评估维度：</strong></p>
+<ul>
+<li>与现有约束的匹配程度（低&#x2F;中&#x2F;高）</li>
+<li>团队能力要求</li>
+<li>迁移成本</li>
+<li>长期可维护性</li>
+</ul>
+<p><strong>输出格式：</strong></p>
+<ol>
+<li>对比表格（方案 × 评估维度）</li>
+<li>每个方案的权衡分析（2-3句话）</li>
+<li>你的推荐方案 + 核心理由</li>
+<li>一份 ADR（Architecture Decision Record）草稿</li>
+</ol>
+</blockquote>
+<p><strong>常见反模式：</strong></p>
+<table>
+<thead>
+<tr>
+<th>反模式</th>
+<th>问题</th>
+<th>正确做法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>直接让 AI 选方案</td>
+<td>失去决策权，难以追溯原因</td>
+<td>要求给出多个选项和权衡分析</td>
+</tr>
+<tr>
+<td>忽略团队能力</td>
+<td>选了最优方案但团队无法交付</td>
+<td>把团队技术栈作为硬约束</td>
+</tr>
+</tbody></table>
+<p><strong>自检清单：</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 我是否要求了”对比”而非”单一推荐”？</li>
+<li><input disabled="" type="checkbox"> 我是否给了明确的评估维度？</li>
+<li><input disabled="" type="checkbox"> 我是否考虑了团队能力约束？</li>
+</ul>
+<hr>
+<h4 id="3-结构设计与边界定义"><a href="#3-结构设计与边界定义" class="headerlink" title="3. 结构设计与边界定义"></a>3. 结构设计与边界定义</h4><p><strong>目标：</strong> 产出模块划分、接口契约和依赖关系。</p>
+<p>该部分用于：</p>
+<ul>
+<li>划分模块&#x2F;服务</li>
+<li>定义边界上下文（DDD）</li>
+<li>确定各组件职责和接口契约</li>
+</ul>
+<p>该部分是针对各个模块进行设计</p>
+<blockquote>
+<p>产出格式：</p>
+<ul>
+<li>模块列表</li>
+<li>接口概要</li>
+<li>初步的模块与服务依赖图（使用mermaid文本输出）</li>
+</ul>
+</blockquote>
+<p><strong>可复用 Prompt 模板：</strong></p>
+<blockquote>
+<p>我们已确定采用[架构方案]，请以此为基础进行结构设计。</p>
+<p><strong>设计输入：</strong></p>
+<ul>
+<li>核心业务用例：[列表]</li>
+<li>关键实体：[列表]</li>
+<li>跨切面关注点：[日志&#x2F;鉴权&#x2F;监控…]</li>
+</ul>
+<p><strong>设计原则：</strong></p>
+<ul>
+<li>[如：领域驱动、按业务能力划分]</li>
+<li>[如：模块间松耦合、接口优先]</li>
+</ul>
+<p><strong>输出格式：</strong></p>
+<ol>
+<li>模块列表（名称 + 职责 + 依赖）</li>
+<li>接口概要（模块间关键 API）</li>
+<li>依赖关系图（使用 mermaid）</li>
+<li>关键设计决策说明</li>
+</ol>
+</blockquote>
+<p><strong>常见反模式：</strong></p>
+<table>
+<thead>
+<tr>
+<th>反模式</th>
+<th>问题</th>
+<th>正确做法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>描述模糊（”设计一个系统”）</td>
+<td>AI 产出过于泛化</td>
+<td>给出明确的模块划分依据和原则</td>
+</tr>
+<tr>
+<td>不分层直接出细节</td>
+<td>过早陷入代码级实现</td>
+<td>先逻辑视图再过程视图，逐步聚焦</td>
+</tr>
+</tbody></table>
+<p><strong>自检清单：</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 每个模块的职责是否单一、无歧义？</li>
+<li><input disabled="" type="checkbox"> 接口契约是否包含入参&#x2F;出参&#x2F;异常？</li>
+<li><input disabled="" type="checkbox"> 是否明确了模块间的依赖方向？</li>
+</ul>
+<hr>
+<h4 id="4-技术栈与实现原语定义"><a href="#4-技术栈与实现原语定义" class="headerlink" title="4. 技术栈与实现原语定义"></a>4. 技术栈与实现原语定义</h4><p><strong>目标：</strong> 确定具体选型和编码规范。</p>
+<p>该部分用于：</p>
+<ul>
+<li>深究框架、库、中间件的选择</li>
+<li>定义编码原则</li>
+<li>错误处理模式</li>
+<li>安全策略</li>
+<li><em>等实现原语</em></li>
+</ul>
+<blockquote>
+<p>产出格式：</p>
+<ul>
+<li>选型决策表</li>
+<li>项目实现规范草稿</li>
+</ul>
+</blockquote>
+<p><strong>可复用 Prompt 模板：</strong></p>
+<blockquote>
+<p>请为以下模块做出技术选型：[模块列表]</p>
+<p><strong>选型约束：</strong></p>
+<ul>
+<li>语言：[强制约束]</li>
+<li>许可协议：[限制性要求]</li>
+<li>团队熟悉度：[现有技术栈]</li>
+<li>性能要求：[具体指标]</li>
+</ul>
+<p><strong>请输出：</strong></p>
+<ol>
+<li>每个候选技术的对比表（框架 × [性能&#x2F;社区&#x2F;学习成本&#x2F;许可]）</li>
+<li>推荐方案及理由</li>
+<li>编码规范草稿（命名、错误处理、测试策略、安全实践）</li>
+</ol>
+</blockquote>
+<p><strong>常见反模式：</strong></p>
+<table>
+<thead>
+<tr>
+<th>反模式</th>
+<th>问题</th>
+<th>正确做法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>只看技术先进不考虑生态</td>
+<td>选冷门库后期维护困难</td>
+<td>把社区活跃度和许可证纳入评估</td>
+</tr>
+<tr>
+<td>忽视非功能性约束</td>
+<td>上线后出现性能&#x2F;安全问题</td>
+<td>显式声明性能、安全、合规要求</td>
+</tr>
+</tbody></table>
+<p><strong>自检清单：</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 选型标准是否可量化？</li>
+<li><input disabled="" type="checkbox"> 是否考虑了长期维护成本？</li>
+<li><input disabled="" type="checkbox"> 编码规范是否包含”禁止模式”？</li>
+</ul>
+<hr>
+<h4 id="5-评估、验证与文档生成"><a href="#5-评估、验证与文档生成" class="headerlink" title="5. 评估、验证与文档生成"></a>5. 评估、验证与文档生成</h4><p><strong>目标：</strong> 验证设计质量，生成可交付物。</p>
+<p>该部分用于：</p>
+<ul>
+<li>使用AI对现有设计进行评审，</li>
+<li>使用AI将设计转化为相应的需求文档</li>
+</ul>
+<p><strong>可复用 Prompt 模板：</strong></p>
+<blockquote>
+<p>请以[特定角色，如安全工程师&#x2F;性能专家]视角，评审以下设计：</p>
+<p><strong>设计输入：</strong> [粘贴阶段二~四的产出]</p>
+<p><strong>评审重点：</strong></p>
+<ol>
+<li>[如：安全漏洞分析]</li>
+<li>[如：性能瓶颈识别]</li>
+<li>[如：边界情况覆盖]</li>
+</ol>
+<p><strong>输出格式：</strong></p>
+<ol>
+<li>发现的问题列表（严重程度 × 影响范围 × 修改建议）</li>
+<li>未覆盖的场景分析</li>
+<li>改进优先级排序</li>
+</ol>
+<hr>
+<p>问题确认后，请根据最终设计生成：</p>
+<ol>
+<li>技术方案文档</li>
+<li>API 接口文档</li>
+<li>[其他所需的文档类型]</li>
+</ol>
+</blockquote>
+<p><strong>常见反模式：</strong></p>
+<table>
+<thead>
+<tr>
+<th>反模式</th>
+<th>问题</th>
+<th>正确做法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>只让 AI “检查一下”</td>
+<td>输出过于笼统无法落地</td>
+<td>给出具体检查点（安全&#x2F;性能&#x2F;边界）</td>
+</tr>
+<tr>
+<td>不指定受众</td>
+<td>文档风格与使用者不匹配</td>
+<td>说明文档受众（技术团队&#x2F;管理层）</td>
+</tr>
+</tbody></table>
+<p><strong>自检清单：</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 评审角色是否匹配当前关注点？</li>
+<li><input disabled="" type="checkbox"> 是否要求了优先级排序？</li>
+<li><input disabled="" type="checkbox"> 文档受众是谁？</li>
+</ul>
+<hr>
+<h3 id="项目提示词设计模板"><a href="#项目提示词设计模板" class="headerlink" title="项目提示词设计模板"></a>项目提示词设计模板</h3><p>以下为完整的可复用模板，整合了上述五个阶段。按顺序使用即可覆盖从需求澄清到文档生成的全流程。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 项目提示词设计模板</span></span><br><span class="line"></span><br><span class="line"><span class="quote">&gt; 使用说明：根据当前阶段选择对应的 Prompt 模板，填充括号内容后与 AI 协作。</span></span><br><span class="line"><span class="quote">&gt; 建议按顺序推进，不要跳步。</span></span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section">## 阶段一：上下文与约束澄清</span></span><br><span class="line"></span><br><span class="line"><span class="section">### Prompt 模板</span></span><br><span class="line"></span><br><span class="line">你是一名资深[架构师/领域专家]，请以”评审者”视角分析以下项目信息：</span><br><span class="line"></span><br><span class="line"><span class="strong">**项目背景**</span></span><br><span class="line"><span class="bullet">-</span> 项目名称：[项目名]</span><br><span class="line"><span class="bullet">-</span> 团队规模：[人数]，角色：[前端/后端/测试/PM]</span><br><span class="line"><span class="bullet">-</span> 项目周期：[开始] ~ [结束]</span><br><span class="line"><span class="bullet">-</span> 当前阶段：[需求/设计/编码/测试]</span><br><span class="line"></span><br><span class="line"><span class="strong">**核心目标**</span></span><br><span class="line"><span class="bullet">-</span> 业务目标：[一句话]</span><br><span class="line"><span class="bullet">-</span> 关键指标：[如 QPS、响应时间、用户量]</span><br><span class="line"></span><br><span class="line"><span class="strong">**已知约束**</span></span><br><span class="line"><span class="bullet">-</span> 技术栈：[语言/框架/数据库]</span><br><span class="line"><span class="bullet">-</span> 继承系统：[如有，描述]</span><br><span class="line"><span class="bullet">-</span> 合规要求：[如有，指明]</span><br><span class="line"><span class="bullet">-</span> 资源限制：[预算/人力/时间]</span><br><span class="line"></span><br><span class="line"><span class="strong">**请输出：**</span></span><br><span class="line"><span class="bullet">1.</span> 一份结构化的需求疑点清单（至少5条）</span><br><span class="line"><span class="bullet">2.</span> 一份风险假设列表（按影响程度排序）</span><br><span class="line"><span class="bullet">3.</span> 针对疑点给出的补充建议</span><br><span class="line"></span><br><span class="line"><span class="section">### 自检清单</span></span><br><span class="line"><span class="bullet">-</span> [ ] 我是否给出了具体数字和范围？</span><br><span class="line"><span class="bullet">-</span> [ ] 我是否说明了”不要做什么”？</span><br><span class="line"><span class="bullet">-</span> [ ] 我是否指定了输出格式？</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section">## 阶段二：架构风格与关键决策</span></span><br><span class="line"></span><br><span class="line"><span class="section">### Prompt 模板</span></span><br><span class="line"></span><br><span class="line">基于以下约束：[粘贴阶段一的产出]</span><br><span class="line"></span><br><span class="line">请从可选架构方案中，评估以下候选项：</span><br><span class="line"><span class="bullet">1.</span> [方案A：如微服务]</span><br><span class="line"><span class="bullet">2.</span> [方案B：如单体+模块化]</span><br><span class="line"><span class="bullet">3.</span> [方案C：如事件驱动]</span><br><span class="line"></span><br><span class="line"><span class="strong">**评估维度：**</span></span><br><span class="line"><span class="bullet">-</span> 与现有约束的匹配程度（低/中/高）</span><br><span class="line"><span class="bullet">-</span> 团队能力要求</span><br><span class="line"><span class="bullet">-</span> 迁移成本</span><br><span class="line"><span class="bullet">-</span> 长期可维护性</span><br><span class="line"></span><br><span class="line"><span class="strong">**输出格式：**</span></span><br><span class="line"><span class="bullet">1.</span> 对比表格（方案 × 评估维度）</span><br><span class="line"><span class="bullet">2.</span> 每个方案的权衡分析（2-3句话）</span><br><span class="line"><span class="bullet">3.</span> 你的推荐方案 + 核心理由</span><br><span class="line"><span class="bullet">4.</span> 一份 ADR（Architecture Decision Record）草稿</span><br><span class="line"></span><br><span class="line"><span class="section">### 自检清单</span></span><br><span class="line"><span class="bullet">-</span> [ ] 我是否要求了”对比”而非”单一推荐”？</span><br><span class="line"><span class="bullet">-</span> [ ] 我是否给了明确的评估维度？</span><br><span class="line"><span class="bullet">-</span> [ ] 我是否要求了权衡分析？</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section">## 阶段三：结构设计与边界定义</span></span><br><span class="line"></span><br><span class="line"><span class="section">### Prompt 模板</span></span><br><span class="line"></span><br><span class="line">我们已确定采用[架构方案]，请以此为基础进行结构设计。</span><br><span class="line"></span><br><span class="line"><span class="strong">**设计输入：**</span></span><br><span class="line"><span class="bullet">-</span> 核心业务用例：[列表]</span><br><span class="line"><span class="bullet">-</span> 关键实体：[列表]</span><br><span class="line"><span class="bullet">-</span> 跨切面关注点：[日志/鉴权/监控...]</span><br><span class="line"></span><br><span class="line"><span class="strong">**设计原则：**</span></span><br><span class="line"><span class="bullet">-</span> [如：领域驱动、按业务能力划分]</span><br><span class="line"><span class="bullet">-</span> [如：模块间松耦合、接口优先]</span><br><span class="line"></span><br><span class="line"><span class="strong">**输出格式：**</span></span><br><span class="line"><span class="bullet">1.</span> 模块列表（名称 + 职责 + 依赖）</span><br><span class="line"><span class="bullet">2.</span> 接口概要（模块间关键 API）</span><br><span class="line"><span class="bullet">3.</span> 依赖关系图（使用 mermaid）</span><br><span class="line"><span class="bullet">4.</span> 关键设计决策说明</span><br><span class="line"></span><br><span class="line"><span class="section">### 自检清单</span></span><br><span class="line"><span class="bullet">-</span> [ ] 每个模块的职责是否单一、无歧义？</span><br><span class="line"><span class="bullet">-</span> [ ] 接口契约是否包含入参/出参/异常？</span><br><span class="line"><span class="bullet">-</span> [ ] 是否明确了模块间的依赖方向？</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section">## 阶段四：技术栈与实现原语</span></span><br><span class="line"></span><br><span class="line"><span class="section">### Prompt 模板</span></span><br><span class="line"></span><br><span class="line">请为以下模块做出技术选型：[模块列表]</span><br><span class="line"></span><br><span class="line"><span class="strong">**选型约束：**</span></span><br><span class="line"><span class="bullet">-</span> 语言：[强制约束]</span><br><span class="line"><span class="bullet">-</span> 许可协议：[限制性要求]</span><br><span class="line"><span class="bullet">-</span> 团队熟悉度：[现有技术栈]</span><br><span class="line"><span class="bullet">-</span> 性能要求：[具体指标]</span><br><span class="line"></span><br><span class="line"><span class="strong">**请输出：**</span></span><br><span class="line"><span class="bullet">1.</span> 每个候选技术的对比表（框架 × [性能/社区/学习成本/许可]）</span><br><span class="line"><span class="bullet">2.</span> 推荐方案及理由</span><br><span class="line"><span class="bullet">3.</span> 编码规范草稿（命名、错误处理、测试策略、安全实践）</span><br><span class="line"></span><br><span class="line"><span class="section">### 自检清单</span></span><br><span class="line"><span class="bullet">-</span> [ ] 选型标准是否可量化？</span><br><span class="line"><span class="bullet">-</span> [ ] 是否考虑了长期维护成本？</span><br><span class="line"><span class="bullet">-</span> [ ] 编码规范是否包含”禁止模式”？</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section">## 阶段五：评审与文档生成</span></span><br><span class="line"></span><br><span class="line"><span class="section">### Prompt 模板</span></span><br><span class="line"></span><br><span class="line">请以[特定角色，如安全工程师/性能专家]视角，评审以下设计：</span><br><span class="line"></span><br><span class="line"><span class="strong">**设计输入：**</span> [粘贴阶段二~四的产出]</span><br><span class="line"></span><br><span class="line"><span class="strong">**评审重点：**</span></span><br><span class="line"><span class="bullet">1.</span> [如：安全漏洞分析]</span><br><span class="line"><span class="bullet">2.</span> [如：性能瓶颈识别]</span><br><span class="line"><span class="bullet">3.</span> [如：边界情况覆盖]</span><br><span class="line"></span><br><span class="line"><span class="strong">**输出格式：**</span></span><br><span class="line"><span class="bullet">1.</span> 发现的问题列表（严重程度 × 影响范围 × 修改建议）</span><br><span class="line"><span class="bullet">2.</span> 未覆盖的场景分析</span><br><span class="line"><span class="bullet">3.</span> 改进优先级排序</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">问题确认后，请根据最终设计生成：</span><br><span class="line"><span class="bullet">1.</span> 技术方案文档</span><br><span class="line"><span class="bullet">2.</span> API 接口文档</span><br><span class="line"><span class="bullet">3.</span> [其他所需的文档类型]</span><br><span class="line"></span><br><span class="line"><span class="section">### 自检清单</span></span><br><span class="line"><span class="bullet">-</span> [ ] 评审角色是否匹配当前关注点？</span><br><span class="line"><span class="bullet">-</span> [ ] 是否要求了优先级排序？</span><br><span class="line"><span class="bullet">-</span> [ ] 文档受众是谁？</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section">## 附录：提示词质量通用检查清单</span></span><br><span class="line"></span><br><span class="line">| # | 检查项 | 好的例子 | 坏的例子 |</span><br><span class="line">|---|--------|----------|----------|</span><br><span class="line">| 1 | 角色是否具体？ | “你是一名有10年后端经验的Java架构师” | “你是一名开发者” |</span><br><span class="line">| 2 | 上下文是否充分？ | 给出背景、目标、约束各3-5条 | “帮我设计一个电商系统” |</span><br><span class="line">| 3 | 任务是否分解？ | 每一步只聚焦一个层面 | “设计并实现整个系统” |</span><br><span class="line">| 4 | 输出格式是否指定？ | “表格输出，包含方案、优点、风险三列” | “分析一下” |</span><br><span class="line">| 5 | 是否要求选项？ | “给出3个候选方案并对比” | “哪个方案最好？” |</span><br><span class="line">| 6 | 是否有否定约束？ | “不要使用NoSQL数据库” | 无 |</span><br><span class="line">| 7 | 是否有验收标准？ | “输出的API需包含路径、方法、参数、返回示例” | “输出API设计” |</span><br></pre></td></tr></table></figure>
+
+
+
 
     </div>
 
