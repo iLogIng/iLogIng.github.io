@@ -131,7 +131,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -158,6 +158,173 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/10/CS-infra/OS/xv6-projects/initial-reverse/initial-reverse/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/05/10/CS-infra/OS/xv6-projects/initial-reverse/initial-reverse/" class="post-title-link" itemprop="url">initial-reverse</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-05-10 16:10:00 / 修改时间：16:11:55" itemprop="dateCreated datePublished" datetime="2026-05-10T16:10:00+08:00">2026-05-10</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h1><blockquote>
+<p>reverse 程序的功能分别是进行文件的压缩(wzip)与解压缩(wunzip)<br>使用 <em>游程编码(REL)</em> 进行压缩</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">prompt&gt; ./reverse</span><br><span class="line">prompt&gt; ./reverse input.txt</span><br><span class="line">prompt&gt; ./reverse input.txt output.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="依赖例程"><a href="#依赖例程" class="headerlink" title="依赖例程"></a>依赖例程</h2><ul>
+<li><p><strong>fopen()</strong></p>
+</li>
+<li><p><strong>fgets()</strong></p>
+</li>
+<li><p><strong>fclose()</strong></p>
+</li>
+<li><p><strong>getline()</strong></p>
+</li>
+<li><p><strong>printf()</strong></p>
+</li>
+<li><p><strong>fwrite()</strong></p>
+</li>
+<li><p><strong>fread()</strong></p>
+</li>
+<li><p><strong>perror()</strong></p>
+</li>
+<li><p><strong>strerror()</strong></p>
+</li>
+</ul>
+<h2 id="实验需求"><a href="#实验需求" class="headerlink" title="实验需求"></a>实验需求</h2><ul>
+<li><p><strong>输入与输出相同：</strong> 如果输入文件和输出文件是同一个文件</p>
+<ul>
+<li>打印错误消息 “Input and output file must differ” 并以返回码 1 退出。</li>
+</ul>
+</li>
+<li><p><strong>字符串长度：</strong> 你不能对一行的长度做任何假设。因此，你可能需要读取非常长的输入行…</p>
+</li>
+<li><p><strong>文件长度：</strong> 你不能对文件的长度做任何假设，即文件可能<strong>非常</strong>长。</p>
+</li>
+<li><p><strong>无效文件：</strong> 如果用户指定了输入文件或输出文件，但当你尝试打开该文件（例如 <code>input.txt</code>）时因某种原因失败，应打印以下精确的错误消息：<code>error: cannot open file &#39;input.txt&#39;</code>，然后以返回码 1 退出（即调用 <code>exit(1);</code>）。</p>
+</li>
+<li><p><strong>传递给程序的参数过多：</strong> 如果用户运行 <code>reverse</code> 时参数过多，打印 <code>usage: reverse &lt;input&gt; &lt;output&gt;</code> 并以返回码 1 退出。</p>
+</li>
+<li><p><strong>如何打印错误消息：</strong> 发生任何错误时，应使用 <code>fprintf()</code> 将错误打印到屏幕上，并将错误消息发送到 <code>stderr</code>（标准错误）而不是 <code>stdout</code>（标准输出）。在 C 代码中通过以下方式实现：<code>fprintf(stderr, &quot;whatever the error message is\n&quot;);</code></p>
+</li>
+</ul>
+<p>要退出，调用 <code>exit(1)</code>。你传递给 <code>exit()</code> 的数字（本例中为 1）可供用户查看程序是返回了错误（即返回非零值）还是正常退出（即返回了 0）。</p>
+<p>对于读取输入文件，以下例程会让你的工作变得轻松：<code>fopen()</code>、<code>getline()</code> 和 <code>fclose()</code>。</p>
+<p>对于打印（到屏幕或到文件），使用 <code>fprintf()</code>。注意，通过将 <code>stdout</code> 传递给 <code>fprintf()</code> 可以很容易地写入标准输出；通过传入 <code>fopen</code> 返回的 <code>FILE *</code> 也可以很容易地写入文件，例如：<code>fp=fopen(...); fprintf(fp, ...);</code>。</p>
+<h2 id="流程分析"><a href="#流程分析" class="headerlink" title="流程分析"></a>流程分析</h2><h3 id="reverse-1"><a href="#reverse-1" class="headerlink" title="reverse"></a>reverse</h3><blockquote>
+<p>使用 <code>fprintf(stderr, ...)</code> 进行错误信息的反馈</p>
+</blockquote>
+<ol>
+<li><p>命令行参数</p>
+<ul>
+<li><code>./reverse</code></li>
+<li><code>./reverse input.txt</code></li>
+<li><code>./reverse intput.txt output.txt</code><ul>
+<li>当 input.txt &#x3D;&#x3D; output.txt 时打印错误信息<ul>
+<li><code>Input and output file must differ</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>传参过多<ul>
+<li>打印错误信息<ul>
+<li><code>usage: reverse &lt;input&gt; &lt;output&gt;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>文件探查</p>
+<ul>
+<li>文件不存在<ul>
+<li>打印错误信息<ul>
+<li><code>error: cannot open file &#39;input.txt&#39;</code></li>
+</ul>
+</li>
+<li>然后以返回码 1 退出 exit(1)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>文件处理</p>
+<ul>
+<li>不对读入的字符串与文件长度做出假设<ul>
+<li>需要进行动态扩容</li>
+<li>或者直接使用 getline() 例程处理</li>
+</ul>
+</li>
+<li>将指定输入文件中的数据并将其反转<ul>
+<li>将文件中的各行按照与输入流相反的顺序打印</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>文件关闭</p>
+</li>
+</ol>
+<p><strong><a href="./code/reverse.c">reverse.c</a></strong></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -767,145 +934,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/03/28/frm-lib/hexo-note/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/02/12/languages/assembly/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/02/12/languages/assembly/" class="post-title-link" itemprop="url">汇编语言杂记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-02-12 18:55:07" itemprop="dateCreated datePublished" datetime="2026-02-12T18:55:07+08:00">2026-02-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-04-09 21:45:12" itemprop="dateModified" datetime="2026-04-09T21:45:12+08:00">2026-04-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="汇编语言杂记"><a href="#汇编语言杂记" class="headerlink" title="汇编语言杂记"></a>汇编语言杂记</h1><ul>
-<li><strong>NASM</strong></li>
-<li><strong>GDB</strong></li>
-<li><strong>ld</strong></li>
-<li><strong>ar</strong></li>
-<li><strong>gcc</strong></li>
-<li><strong>xxd&#x2F;GHex</strong></li>
-</ul>
-<h2 id="寄存器名称与主要用途"><a href="#寄存器名称与主要用途" class="headerlink" title="寄存器名称与主要用途"></a>寄存器名称与主要用途</h2><table>
-<thead>
-<tr>
-<th>寄存器</th>
-<th>传统名称</th>
-<th>主要用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>RAX</td>
-<td>累加器 (Accumulator)</td>
-<td>函数返回值、算术运算、系统调用号</td>
-</tr>
-<tr>
-<td>RCX</td>
-<td>计数器 (Counter)</td>
-<td>第4个整数参数、循环计数、通用寄存器</td>
-</tr>
-<tr>
-<td>RDX</td>
-<td>数据寄存器 (Data)</td>
-<td>第3个整数参数、与RAX配合用于乘除法、通用寄存器</td>
-</tr>
-<tr>
-<td>RBX</td>
-<td>基址寄存器 (Base)</td>
-<td>被调用者保存、常用于存储基地址</td>
-</tr>
-<tr>
-<td>RSP</td>
-<td>栈指针 (Stack Pointer)</td>
-<td>指向当前栈顶、永远指向内存中的栈顶</td>
-</tr>
-<tr>
-<td>RBP</td>
-<td>基址指针 (Base Pointer)</td>
-<td>被调用者保存、通常用作栈帧基址（可选）</td>
-</tr>
-<tr>
-<td>RSI</td>
-<td>源索引 (Source Index)</td>
-<td>第2个整数参数、字符串&#x2F;数组操作源地址</td>
-</tr>
-<tr>
-<td>RDI</td>
-<td>目的索引 (Destination Index)</td>
-<td>第1个整数参数、字符串&#x2F;数组操作目的地址</td>
-</tr>
-</tbody></table>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/02/12/languages/assembly/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
