@@ -167,7 +167,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/12/CS-infra/OS/xv6-projects/initial-kv/initial-kv/">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/15/CS-infra/OS/xv6-projects/process-shell/process-shell/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -185,7 +185,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/05/12/CS-infra/OS/xv6-projects/initial-kv/initial-kv/" class="post-title-link" itemprop="url">initial-kv</a>
+          <a href="/2026/05/15/CS-infra/OS/xv6-projects/process-shell/process-shell/" class="post-title-link" itemprop="url">process-shell</a>
         </h2>
 
         <div class="post-meta-container">
@@ -195,219 +195,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-05-12 12:12:00" itemprop="dateCreated datePublished" datetime="2026-05-12T12:12:00+08:00">2026-05-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-13 12:14:31" itemprop="dateModified" datetime="2026-05-13T12:14:31+08:00">2026-05-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="kv程序设计"><a href="#kv程序设计" class="headerlink" title="kv程序设计"></a>kv程序设计</h1><h2 id="程序要求"><a href="#程序要求" class="headerlink" title="程序要求"></a>程序要求</h2><h3 id="命令设计"><a href="#命令设计" class="headerlink" title="命令设计"></a>命令设计</h3><ul>
-<li><p><em><strong>put</strong></em>：</p>
-<blockquote>
-<p>格式: <code>p,key,value</code></p>
-</blockquote>
-<ul>
-<li>其中 <code>key</code> 是 <em>整数</em> ，<code>value</code> 是 <em>任意字符串</em></li>
-</ul>
-</li>
-<li><p><em><strong>get</strong></em>：</p>
-<blockquote>
-<p>格式: <code>g,key</code></p>
-</blockquote>
-<ul>
-<li>其中 <code>key</code> 是整数。<ul>
-<li>键存在：系统应打印出<code>key,value</code> <code>\n</code></li>
-<li>键不存在：单独一行打印错误消息，格式为 <code>K not found</code>，其中 <code>K</code> 是键的实际整数值</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><em><strong>delete</strong></em>：</p>
-<blockquote>
-<p>格式：<code>d,key</code></p>
-</blockquote>
-<ul>
-<li>功能：<ul>
-<li>删除相应的键值对（不打印任何内容）</li>
-<li>删除失败（并打印 <code>K not found</code>，其中 <code>K</code> 是键的实际值，即某个整数）。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><em><strong>clear</strong></em>：</p>
-<blockquote>
-<p>格式: <code>c</code></p>
-</blockquote>
-<ul>
-<li>功能：从数据库中移除所有键值对。</li>
-</ul>
-</li>
-<li><p><em><strong>all</strong></em>：</p>
-<blockquote>
-<p>格式: <code>a</code></p>
-</blockquote>
-<ul>
-<li>功能：任意顺序打印数据库中的所有键值对，每行一个键值对 <code>key,value</code></li>
-</ul>
-</li>
-</ul>
-<h2 id="合适的例程"><a href="#合适的例程" class="headerlink" title="合适的例程"></a>合适的例程</h2><ul>
-<li><p>文件操作</p>
-<ul>
-<li>fopen</li>
-<li>fwrite</li>
-<li>fread</li>
-<li>getline</li>
-<li>fprintf</li>
-</ul>
-</li>
-<li><p>字符串处理</p>
-<ul>
-<li>strsep(char** line, char** delim)<blockquote>
-<p>char** token &#x3D; strsep(char** line, char** delim)<br>按 delim 分割 *line</p>
-<ul>
-<li>返回 顺序第一个delim前的 token</li>
-<li>*line 指向 顺序第一个delim后的 token</li>
-<li>相当于 原 *line &#x3D; token <em>append</em> 后*line</li>
-</ul>
-</blockquote>
-</li>
-<li>stoi</li>
-</ul>
-</li>
-</ul>
-<h2 id="程序流程"><a href="#程序流程" class="headerlink" title="程序流程"></a>程序流程</h2><ol>
-<li><p>命令行校验</p>
-</li>
-<li><p>命令解析</p>
-<blockquote>
-<p>循环处理</p>
-</blockquote>
-<ul>
-<li>字符串解析</li>
-</ul>
-</li>
-<li><p>命令操作</p>
-<ul>
-<li><p>标准输出</p>
-<ul>
-<li><code>printf()</code></li>
-</ul>
-</li>
-<li><p>持久化处理</p>
-<blockquote>
-<p>文件操作 ABI<br>格式 <code>key,value</code></p>
-</blockquote>
-<ul>
-<li><code>fopen()</code></li>
-<li><code>fwrite()</code></li>
-<li><code>fread()</code></li>
-</ul>
-</li>
-<li><p>错误&#x2F;异常处理</p>
-<blockquote>
-<p>使用 <code>fprintf(err, ...)</code> 进行提示</p>
-</blockquote>
-<ul>
-<li>错误命令<ul>
-<li>非程序命令：<ul>
-<li><code>bad command</code></li>
-<li>不影响剩余的命令解析</li>
-</ul>
-</li>
-<li>意外错误：<ul>
-<li>打印相应的异常&#x2F;错误信息</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">    A[数据操作命令]</span><br><span class="line">    B[主程序]</span><br><span class="line"></span><br><span class="line">    subgraph E[数据流操作]</span><br><span class="line">        C[字符串解析]</span><br><span class="line">        D[文件操作]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    F[异常处理]</span><br><span class="line">    F -.- E</span><br><span class="line">    F -.- A</span><br><span class="line"></span><br><span class="line">    C --&gt; A</span><br><span class="line">    D -- 命令行解析 --&gt; A</span><br><span class="line">    A --&gt; B</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p><strong><a href="./code/kv.c">kv.c</a></strong><br><strong><a href="./code/util.c">util.c</a></strong><br><strong><a href="./code/util.h">util.h</a></strong></p>
-
       
-    </div>
 
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/12/CS-infra/OS/xv6-projects/process-shell/process-shell/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/05/12/CS-infra/OS/xv6-projects/process-shell/process-shell/" class="post-title-link" itemprop="url">initial-kv</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-05-12 12:12:00" itemprop="dateCreated datePublished" datetime="2026-05-12T12:12:00+08:00">2026-05-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-15 22:30:20" itemprop="dateModified" datetime="2026-05-15T22:30:20+08:00">2026-05-15</time>
+      <time title="创建时间：2026-05-15 22:34:00 / 修改时间：22:35:02" itemprop="dateCreated datePublished" datetime="2026-05-15T22:34:00+08:00">2026-05-15</time>
     </span>
 
   
@@ -624,6 +414,210 @@
 <li>批处理模式：测试 3, 4, 13, 14</li>
 <li>边界：测试 21</li>
 </ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/12/CS-infra/OS/xv6-projects/initial-kv/initial-kv/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/05/12/CS-infra/OS/xv6-projects/initial-kv/initial-kv/" class="post-title-link" itemprop="url">initial-kv</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-12 12:12:00" itemprop="dateCreated datePublished" datetime="2026-05-12T12:12:00+08:00">2026-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-13 12:14:31" itemprop="dateModified" datetime="2026-05-13T12:14:31+08:00">2026-05-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="kv程序设计"><a href="#kv程序设计" class="headerlink" title="kv程序设计"></a>kv程序设计</h1><h2 id="程序要求"><a href="#程序要求" class="headerlink" title="程序要求"></a>程序要求</h2><h3 id="命令设计"><a href="#命令设计" class="headerlink" title="命令设计"></a>命令设计</h3><ul>
+<li><p><em><strong>put</strong></em>：</p>
+<blockquote>
+<p>格式: <code>p,key,value</code></p>
+</blockquote>
+<ul>
+<li>其中 <code>key</code> 是 <em>整数</em> ，<code>value</code> 是 <em>任意字符串</em></li>
+</ul>
+</li>
+<li><p><em><strong>get</strong></em>：</p>
+<blockquote>
+<p>格式: <code>g,key</code></p>
+</blockquote>
+<ul>
+<li>其中 <code>key</code> 是整数。<ul>
+<li>键存在：系统应打印出<code>key,value</code> <code>\n</code></li>
+<li>键不存在：单独一行打印错误消息，格式为 <code>K not found</code>，其中 <code>K</code> 是键的实际整数值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><em><strong>delete</strong></em>：</p>
+<blockquote>
+<p>格式：<code>d,key</code></p>
+</blockquote>
+<ul>
+<li>功能：<ul>
+<li>删除相应的键值对（不打印任何内容）</li>
+<li>删除失败（并打印 <code>K not found</code>，其中 <code>K</code> 是键的实际值，即某个整数）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><em><strong>clear</strong></em>：</p>
+<blockquote>
+<p>格式: <code>c</code></p>
+</blockquote>
+<ul>
+<li>功能：从数据库中移除所有键值对。</li>
+</ul>
+</li>
+<li><p><em><strong>all</strong></em>：</p>
+<blockquote>
+<p>格式: <code>a</code></p>
+</blockquote>
+<ul>
+<li>功能：任意顺序打印数据库中的所有键值对，每行一个键值对 <code>key,value</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="合适的例程"><a href="#合适的例程" class="headerlink" title="合适的例程"></a>合适的例程</h2><ul>
+<li><p>文件操作</p>
+<ul>
+<li>fopen</li>
+<li>fwrite</li>
+<li>fread</li>
+<li>getline</li>
+<li>fprintf</li>
+</ul>
+</li>
+<li><p>字符串处理</p>
+<ul>
+<li>strsep(char** line, char** delim)<blockquote>
+<p>char** token &#x3D; strsep(char** line, char** delim)<br>按 delim 分割 *line</p>
+<ul>
+<li>返回 顺序第一个delim前的 token</li>
+<li>*line 指向 顺序第一个delim后的 token</li>
+<li>相当于 原 *line &#x3D; token <em>append</em> 后*line</li>
+</ul>
+</blockquote>
+</li>
+<li>stoi</li>
+</ul>
+</li>
+</ul>
+<h2 id="程序流程"><a href="#程序流程" class="headerlink" title="程序流程"></a>程序流程</h2><ol>
+<li><p>命令行校验</p>
+</li>
+<li><p>命令解析</p>
+<blockquote>
+<p>循环处理</p>
+</blockquote>
+<ul>
+<li>字符串解析</li>
+</ul>
+</li>
+<li><p>命令操作</p>
+<ul>
+<li><p>标准输出</p>
+<ul>
+<li><code>printf()</code></li>
+</ul>
+</li>
+<li><p>持久化处理</p>
+<blockquote>
+<p>文件操作 ABI<br>格式 <code>key,value</code></p>
+</blockquote>
+<ul>
+<li><code>fopen()</code></li>
+<li><code>fwrite()</code></li>
+<li><code>fread()</code></li>
+</ul>
+</li>
+<li><p>错误&#x2F;异常处理</p>
+<blockquote>
+<p>使用 <code>fprintf(err, ...)</code> 进行提示</p>
+</blockquote>
+<ul>
+<li>错误命令<ul>
+<li>非程序命令：<ul>
+<li><code>bad command</code></li>
+<li>不影响剩余的命令解析</li>
+</ul>
+</li>
+<li>意外错误：<ul>
+<li>打印相应的异常&#x2F;错误信息</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">    A[数据操作命令]</span><br><span class="line">    B[主程序]</span><br><span class="line"></span><br><span class="line">    subgraph E[数据流操作]</span><br><span class="line">        C[字符串解析]</span><br><span class="line">        D[文件操作]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    F[异常处理]</span><br><span class="line">    F -.- E</span><br><span class="line">    F -.- A</span><br><span class="line"></span><br><span class="line">    C --&gt; A</span><br><span class="line">    D -- 命令行解析 --&gt; A</span><br><span class="line">    A --&gt; B</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong><a href="./code/kv.c">kv.c</a></strong><br><strong><a href="./code/util.c">util.c</a></strong><br><strong><a href="./code/util.h">util.h</a></strong></p>
 
       
     </div>
