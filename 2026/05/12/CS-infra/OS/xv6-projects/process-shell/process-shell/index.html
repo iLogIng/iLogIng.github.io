@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="wish 程序设计设计目标 进一步熟悉 Linux 编程环境 学习进程的 创建、销毁、管理 接触 shell 中的必要功能   设计需求两种模式 为每一个新命令创建一个进程  交互模式 提示符回显，循环，直接输入命令  12prompt&gt; .&#x2F;wishwish&gt;  允许用户直接输入命令。  批处理模式 无提示符回显，单次调用从文件读取需要执行的命令  1prompt&gt; .&#x2F;wis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="initial-kv">
+<meta property="og:url" content="http://iloging.github.io/2026/05/12/CS-infra/OS/xv6-projects/process-shell/process-shell/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="wish 程序设计设计目标 进一步熟悉 Linux 编程环境 学习进程的 创建、销毁、管理 接触 shell 中的必要功能   设计需求两种模式 为每一个新命令创建一个进程  交互模式 提示符回显，循环，直接输入命令  12prompt&gt; .&#x2F;wishwish&gt;  允许用户直接输入命令。  批处理模式 无提示符回显，单次调用从文件读取需要执行的命令  1prompt&gt; .&#x2F;wis">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-12T04:12:00.000Z">
+<meta property="article:modified_time" content="2026-05-15T14:30:20.328Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="Operating System">
+<meta property="article:tag" content="xv6-project">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/2026/05/12/CS-infra/OS/xv6-projects/process-shell/process-shell/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/2026/05/12/CS-infra/OS/xv6-projects/process-shell/process-shell/","path":"2026/05/12/CS-infra/OS/xv6-projects/process-shell/process-shell/","title":"initial-kv"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>initial-kv | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#wish-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.</span> <span class="nav-text">wish 程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87"><span class="nav-number">1.1.</span> <span class="nav-text">设计目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E9%9C%80%E6%B1%82"><span class="nav-number">1.2.</span> <span class="nav-text">设计需求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">两种模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">交互模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%B9%E5%A4%84%E7%90%86%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">批处理模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.2.</span> <span class="nav-text">功能结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E4%BE%8B%E7%A8%8B"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">参考例程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%ACShell"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">基本Shell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%BB%BA%E5%91%BD%E4%BB%A4"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">内建命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-number">1.2.2.5.</span> <span class="nav-text">重定向</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="nav-number">1.2.2.6.</span> <span class="nav-text">并行命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E9%94%99%E8%AF%AF"><span class="nav-number">1.2.2.7.</span> <span class="nav-text">程序错误</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">1.2.2.8.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.3.</span> <span class="nav-text">程序流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%82%B9"><span class="nav-number">1.2.4.</span> <span class="nav-text">测试点</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/12/CS-infra/OS/xv6-projects/process-shell/process-shell/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="initial-kv | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          initial-kv
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-12 12:12:00" itemprop="dateCreated datePublished" datetime="2026-05-12T12:12:00+08:00">2026-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-15 22:30:20" itemprop="dateModified" datetime="2026-05-15T22:30:20+08:00">2026-05-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="wish-程序设计"><a href="#wish-程序设计" class="headerlink" title="wish 程序设计"></a>wish 程序设计</h1><h2 id="设计目标"><a href="#设计目标" class="headerlink" title="设计目标"></a>设计目标</h2><ul>
+<li>进一步熟悉 Linux 编程环境</li>
+<li>学习进程的 <strong>创建、销毁、管理</strong></li>
+<li>接触 shell 中的必要功能</li>
+</ul>
+<hr>
+<h2 id="设计需求"><a href="#设计需求" class="headerlink" title="设计需求"></a>设计需求</h2><h3 id="两种模式"><a href="#两种模式" class="headerlink" title="两种模式"></a>两种模式</h3><blockquote>
+<p>为每一个新命令创建一个进程</p>
+</blockquote>
+<h4 id="交互模式"><a href="#交互模式" class="headerlink" title="交互模式"></a>交互模式</h4><blockquote>
+<p>提示符回显，循环，直接输入命令</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">prompt&gt; ./wish</span><br><span class="line">wish&gt;</span><br></pre></td></tr></table></figure>
+
+<p>允许用户直接输入命令。</p>
+<hr>
+<h4 id="批处理模式"><a href="#批处理模式" class="headerlink" title="批处理模式"></a>批处理模式</h4><blockquote>
+<p>无提示符回显，单次调用<br>从文件读取需要执行的命令</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prompt&gt; ./wish batch.txt</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="功能结构"><a href="#功能结构" class="headerlink" title="功能结构"></a>功能结构</h3><h4 id="参考例程"><a href="#参考例程" class="headerlink" title="参考例程"></a>参考例程</h4><ul>
+<li><p><strong>fopen()</strong></p>
+</li>
+<li><p><strong>fclose()</strong></p>
+</li>
+<li><p><strong>fprintf()</strong></p>
+</li>
+<li><p><strong>getline()</strong></p>
+</li>
+<li><p><strong>strsep()</strong></p>
+</li>
+<li><p><strong>strdup()</strong></p>
+</li>
+<li><p><strong>fork()</strong></p>
+</li>
+<li><p><strong>execv()</strong></p>
+</li>
+<li><p><strong>wait()</strong></p>
+</li>
+<li><p><strong>waitpid()</strong></p>
+</li>
+<li><p><strong>chdir()</strong></p>
+</li>
+<li><p><strong>getcwd()</strong></p>
+</li>
+<li><p><strong>access()</strong></p>
+</li>
+</ul>
+<hr>
+<h4 id="基本Shell"><a href="#基本Shell" class="headerlink" title="基本Shell"></a>基本Shell</h4><ul>
+<li>运行在一个 while 循环中，反复请求输入，接收执行命令</li>
+<li>使用 <code>exit</code> 退出</li>
+<li>对于两种模式<ul>
+<li>交互模式：在一个循环中</li>
+<li>批处理模式：通过读文件，执行命令</li>
+</ul>
+</li>
+<li>退出方式<ul>
+<li>遇到 <code>EOF</code> 后，调用 <code>exit(0)</code> 退出</li>
+</ul>
+</li>
+</ul>
+<h4 id="路径"><a href="#路径" class="headerlink" title="路径"></a>路径</h4><p>用户必须指定一个 <strong>路径变量</strong> 来描述要搜索可执行文件的目录集合</p>
+<p>使用 <strong>绝对路径</strong> 或 <strong>相对路径</strong> 指定二进制文件</p>
+<h4 id="内建命令"><a href="#内建命令" class="headerlink" title="内建命令"></a>内建命令</h4><p>每当shell接收一个命令时，检查该命令是否属于 <strong>内建命令</strong></p>
+<p>本项目实现：</p>
+<ul>
+<li><code>exit</code><ul>
+<li>退出shell程序</li>
+</ul>
+</li>
+<li><code>cd</code><ul>
+<li>总是接收1个参数。更改当前目录.</li>
+</ul>
+</li>
+<li><code>path</code><ul>
+<li>接收0&#x2F;多个参数。覆盖shell搜索路径</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h4><p>使用 <code>&gt;</code> 命令提供重定向功能</p>
+<h4 id="并行命令"><a href="#并行命令" class="headerlink" title="并行命令"></a>并行命令</h4><p>通过 <code>&amp;</code> 实现命令并行</p>
+<p>一定同时运行 <code>&amp;</code> 两侧的命令</p>
+<h4 id="程序错误"><a href="#程序错误" class="headerlink" title="程序错误"></a>程序错误</h4><ul>
+<li>打印 <strong>唯一且仅有的错误信息</strong></li>
+<li>调用 <code>exit(1)</code> 退出</li>
+</ul>
+<hr>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>针对 <em>空白字符</em> 健壮</li>
+<li>检查系统调用的返回码</li>
+</ul>
+<hr>
+<h3 id="程序流程"><a href="#程序流程" class="headerlink" title="程序流程"></a>程序流程</h3><ol>
+<li><p>解析程序命令行</p>
+<ul>
+<li><strong>交互式</strong></li>
+<li><strong>批处理</strong></li>
+</ul>
+</li>
+<li><p>根据命令行调用方式，处理程序</p>
+<blockquote>
+<p>循环在遇到 EOF 后，使用 <code>exit(0)</code> 退出</p>
+</blockquote>
+<ul>
+<li><strong>交互式</strong><blockquote>
+<p>进行循环</p>
+</blockquote>
+<ul>
+<li>逐行读取命令</li>
+<li>输入 exit 内建命令退出</li>
+</ul>
+</li>
+<li><strong>批处理</strong><blockquote>
+<p>直接读取文件</p>
+</blockquote>
+<ul>
+<li>逐行读取命令</li>
+<li>完成后直接退出<ul>
+<li>EOF 后，退出</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>命令调用解析</p>
+<blockquote>
+<p>编写一个查找表结构进行处理</p>
+</blockquote>
+<ul>
+<li><strong>内建命令</strong><ul>
+<li>exit</li>
+<li>path</li>
+<li>cd</li>
+</ul>
+</li>
+<li><strong>系统命令</strong> <ul>
+<li>path 更新pash_route</li>
+</ul>
+</li>
+<li><strong>命令调用</strong><ul>
+<li>为系统命令添加路径前缀<blockquote>
+<ul>
+<li><em>access()</em></li>
+<li><em>snprintf()</em></li>
+</ul>
+</blockquote>
+<ul>
+<li>sys_cmd_full_cat();</li>
+</ul>
+</li>
+<li>通过系统调用运行命令<blockquote>
+<ul>
+<li><em>fork()</em></li>
+<li><em>execv()</em></li>
+<li><em>wait()&#x2F;waitpid()</em></li>
+</ul>
+</blockquote>
+<ul>
+<li>cmd_executor();<ul>
+<li>fork() {<ul>
+<li>execv();</li>
+<li>waitpid();</li>
+</ul>
+</li>
+<li>}</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>特性支持</p>
+<blockquote>
+<p>重定向<br>并行命令</p>
+</blockquote>
+<ul>
+<li>添加 parse_line() 针对 <code>&gt;</code> <code>&amp;</code> 进行分词</li>
+<li>在shell_execute()中添加功能</li>
+<li>使用 <code>&amp;</code> 进行分段</li>
+</ul>
+</li>
+<li><p>错误处理</p>
+</li>
+</ol>
+<hr>
+<h3 id="测试点"><a href="#测试点" class="headerlink" title="测试点"></a>测试点</h3><blockquote>
+<p>按功能划分</p>
+</blockquote>
+<ul>
+<li>内建命令 (cd&#x2F;exit)：测试 1, 2, 5</li>
+<li>路径搜索：测试 6, 7, 15</li>
+<li>重定向：测试 8, 9, 10, 11, 12</li>
+<li>并行命令：测试 16, 17, 18, 19, 22</li>
+<li>重定向+并行组合：测试 20</li>
+<li>批处理模式：测试 3, 4, 13, 14</li>
+<li>边界：测试 21</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Operating-System/" rel="tag"># Operating System</a>
+              <a href="/tags/xv6-project/" rel="tag"># xv6-project</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/05/10/CS-infra/OS/xv6-projects/initial-reverse/initial-reverse/" rel="prev" title="initial-reverse">
+                  <i class="fa fa-angle-left"></i> initial-reverse
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/05/12/CS-infra/OS/xv6-projects/initial-kv/initial-kv/" rel="next" title="initial-kv">
+                  initial-kv <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
