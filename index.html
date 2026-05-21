@@ -197,7 +197,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-05-15 22:34:00 / 修改时间：22:35:02" itemprop="dateCreated datePublished" datetime="2026-05-15T22:34:00+08:00">2026-05-15</time>
+      <time title="创建时间：2026-05-15 22:34:00 / 修改时间：22:37:15" itemprop="dateCreated datePublished" datetime="2026-05-15T22:34:00+08:00">2026-05-15</time>
     </span>
 
   
@@ -274,147 +274,14 @@
 </ul>
 </li>
 </ul>
-<h4 id="路径"><a href="#路径" class="headerlink" title="路径"></a>路径</h4><p>用户必须指定一个 <strong>路径变量</strong> 来描述要搜索可执行文件的目录集合</p>
-<p>使用 <strong>绝对路径</strong> 或 <strong>相对路径</strong> 指定二进制文件</p>
-<h4 id="内建命令"><a href="#内建命令" class="headerlink" title="内建命令"></a>内建命令</h4><p>每当shell接收一个命令时，检查该命令是否属于 <strong>内建命令</strong></p>
-<p>本项目实现：</p>
-<ul>
-<li><code>exit</code><ul>
-<li>退出shell程序</li>
-</ul>
-</li>
-<li><code>cd</code><ul>
-<li>总是接收1个参数。更改当前目录.</li>
-</ul>
-</li>
-<li><code>path</code><ul>
-<li>接收0&#x2F;多个参数。覆盖shell搜索路径</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h4 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h4><p>使用 <code>&gt;</code> 命令提供重定向功能</p>
-<h4 id="并行命令"><a href="#并行命令" class="headerlink" title="并行命令"></a>并行命令</h4><p>通过 <code>&amp;</code> 实现命令并行</p>
-<p>一定同时运行 <code>&amp;</code> 两侧的命令</p>
-<h4 id="程序错误"><a href="#程序错误" class="headerlink" title="程序错误"></a>程序错误</h4><ul>
-<li>打印 <strong>唯一且仅有的错误信息</strong></li>
-<li>调用 <code>exit(1)</code> 退出</li>
-</ul>
-<hr>
-<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
-<li>针对 <em>空白字符</em> 健壮</li>
-<li>检查系统调用的返回码</li>
-</ul>
-<hr>
-<h3 id="程序流程"><a href="#程序流程" class="headerlink" title="程序流程"></a>程序流程</h3><ol>
-<li><p>解析程序命令行</p>
-<ul>
-<li><strong>交互式</strong></li>
-<li><strong>批处理</strong></li>
-</ul>
-</li>
-<li><p>根据命令行调用方式，处理程序</p>
-<blockquote>
-<p>循环在遇到 EOF 后，使用 <code>exit(0)</code> 退出</p>
-</blockquote>
-<ul>
-<li><strong>交互式</strong><blockquote>
-<p>进行循环</p>
-</blockquote>
-<ul>
-<li>逐行读取命令</li>
-<li>输入 exit 内建命令退出</li>
-</ul>
-</li>
-<li><strong>批处理</strong><blockquote>
-<p>直接读取文件</p>
-</blockquote>
-<ul>
-<li>逐行读取命令</li>
-<li>完成后直接退出<ul>
-<li>EOF 后，退出</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>命令调用解析</p>
-<blockquote>
-<p>编写一个查找表结构进行处理</p>
-</blockquote>
-<ul>
-<li><strong>内建命令</strong><ul>
-<li>exit</li>
-<li>path</li>
-<li>cd</li>
-</ul>
-</li>
-<li><strong>系统命令</strong> <ul>
-<li>path 更新pash_route</li>
-</ul>
-</li>
-<li><strong>命令调用</strong><ul>
-<li>为系统命令添加路径前缀<blockquote>
-<ul>
-<li><em>access()</em></li>
-<li><em>snprintf()</em></li>
-</ul>
-</blockquote>
-<ul>
-<li>sys_cmd_full_cat();</li>
-</ul>
-</li>
-<li>通过系统调用运行命令<blockquote>
-<ul>
-<li><em>fork()</em></li>
-<li><em>execv()</em></li>
-<li><em>wait()&#x2F;waitpid()</em></li>
-</ul>
-</blockquote>
-<ul>
-<li>cmd_executor();<ul>
-<li>fork() {<ul>
-<li>execv();</li>
-<li>waitpid();</li>
-</ul>
-</li>
-<li>}</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>特性支持</p>
-<blockquote>
-<p>重定向<br>并行命令</p>
-</blockquote>
-<ul>
-<li>添加 parse_line() 针对 <code>&gt;</code> <code>&amp;</code> 进行分词</li>
-<li>在shell_execute()中添加功能</li>
-<li>使用 <code>&amp;</code> 进行分段</li>
-</ul>
-</li>
-<li><p>错误处理</p>
-</li>
-</ol>
-<hr>
-<h3 id="测试点"><a href="#测试点" class="headerlink" title="测试点"></a>测试点</h3><blockquote>
-<p>按功能划分</p>
-</blockquote>
-<ul>
-<li>内建命令 (cd&#x2F;exit)：测试 1, 2, 5</li>
-<li>路径搜索：测试 6, 7, 15</li>
-<li>重定向：测试 8, 9, 10, 11, 12</li>
-<li>并行命令：测试 16, 17, 18, 19, 22</li>
-<li>重定向+并行组合：测试 20</li>
-<li>批处理模式：测试 3, 4, 13, 14</li>
-<li>边界：测试 21</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/05/15/CS-infra/OS/xv6-projects/process-shell/process-shell/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -476,7 +343,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-13 12:14:31" itemprop="dateModified" datetime="2026-05-13T12:14:31+08:00">2026-05-13</time>
+      <time title="修改时间：2026-05-15 22:37:36" itemprop="dateModified" datetime="2026-05-15T22:37:36+08:00">2026-05-15</time>
     </span>
 
   
@@ -564,61 +431,14 @@
 </ul>
 </li>
 </ul>
-<h2 id="程序流程"><a href="#程序流程" class="headerlink" title="程序流程"></a>程序流程</h2><ol>
-<li><p>命令行校验</p>
-</li>
-<li><p>命令解析</p>
-<blockquote>
-<p>循环处理</p>
-</blockquote>
-<ul>
-<li>字符串解析</li>
-</ul>
-</li>
-<li><p>命令操作</p>
-<ul>
-<li><p>标准输出</p>
-<ul>
-<li><code>printf()</code></li>
-</ul>
-</li>
-<li><p>持久化处理</p>
-<blockquote>
-<p>文件操作 ABI<br>格式 <code>key,value</code></p>
-</blockquote>
-<ul>
-<li><code>fopen()</code></li>
-<li><code>fwrite()</code></li>
-<li><code>fread()</code></li>
-</ul>
-</li>
-<li><p>错误&#x2F;异常处理</p>
-<blockquote>
-<p>使用 <code>fprintf(err, ...)</code> 进行提示</p>
-</blockquote>
-<ul>
-<li>错误命令<ul>
-<li>非程序命令：<ul>
-<li><code>bad command</code></li>
-<li>不影响剩余的命令解析</li>
-</ul>
-</li>
-<li>意外错误：<ul>
-<li>打印相应的异常&#x2F;错误信息</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">    A[数据操作命令]</span><br><span class="line">    B[主程序]</span><br><span class="line"></span><br><span class="line">    subgraph E[数据流操作]</span><br><span class="line">        C[字符串解析]</span><br><span class="line">        D[文件操作]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    F[异常处理]</span><br><span class="line">    F -.- E</span><br><span class="line">    F -.- A</span><br><span class="line"></span><br><span class="line">    C --&gt; A</span><br><span class="line">    D -- 命令行解析 --&gt; A</span><br><span class="line">    A --&gt; B</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p><strong><a href="./code/kv.c">kv.c</a></strong><br><strong><a href="./code/util.c">util.c</a></strong><br><strong><a href="./code/util.h">util.h</a></strong></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/05/12/CS-infra/OS/xv6-projects/initial-kv/initial-kv/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -672,9 +492,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-05-10 16:10:00 / 修改时间：16:11:55" itemprop="dateCreated datePublished" datetime="2026-05-10T16:10:00+08:00">2026-05-10</time>
+      <time title="创建时间：2026-05-10 16:10:00" itemprop="dateCreated datePublished" datetime="2026-05-10T16:10:00+08:00">2026-05-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-15 22:38:03" itemprop="dateModified" datetime="2026-05-15T22:38:03+08:00">2026-05-15</time>
     </span>
 
   
@@ -732,60 +558,14 @@
 <p>要退出，调用 <code>exit(1)</code>。你传递给 <code>exit()</code> 的数字（本例中为 1）可供用户查看程序是返回了错误（即返回非零值）还是正常退出（即返回了 0）。</p>
 <p>对于读取输入文件，以下例程会让你的工作变得轻松：<code>fopen()</code>、<code>getline()</code> 和 <code>fclose()</code>。</p>
 <p>对于打印（到屏幕或到文件），使用 <code>fprintf()</code>。注意，通过将 <code>stdout</code> 传递给 <code>fprintf()</code> 可以很容易地写入标准输出；通过传入 <code>fopen</code> 返回的 <code>FILE *</code> 也可以很容易地写入文件，例如：<code>fp=fopen(...); fprintf(fp, ...);</code>。</p>
-<h2 id="流程分析"><a href="#流程分析" class="headerlink" title="流程分析"></a>流程分析</h2><h3 id="reverse-1"><a href="#reverse-1" class="headerlink" title="reverse"></a>reverse</h3><blockquote>
-<p>使用 <code>fprintf(stderr, ...)</code> 进行错误信息的反馈</p>
-</blockquote>
-<ol>
-<li><p>命令行参数</p>
-<ul>
-<li><code>./reverse</code></li>
-<li><code>./reverse input.txt</code></li>
-<li><code>./reverse intput.txt output.txt</code><ul>
-<li>当 input.txt &#x3D;&#x3D; output.txt 时打印错误信息<ul>
-<li><code>Input and output file must differ</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>传参过多<ul>
-<li>打印错误信息<ul>
-<li><code>usage: reverse &lt;input&gt; &lt;output&gt;</code></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>文件探查</p>
-<ul>
-<li>文件不存在<ul>
-<li>打印错误信息<ul>
-<li><code>error: cannot open file &#39;input.txt&#39;</code></li>
-</ul>
-</li>
-<li>然后以返回码 1 退出 exit(1)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>文件处理</p>
-<ul>
-<li>不对读入的字符串与文件长度做出假设<ul>
-<li>需要进行动态扩容</li>
-<li>或者直接使用 getline() 例程处理</li>
-</ul>
-</li>
-<li>将指定输入文件中的数据并将其反转<ul>
-<li>将文件中的各行按照与输入流相反的顺序打印</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>文件关闭</p>
-</li>
-</ol>
-<p><strong><a href="./code/reverse.c">reverse.c</a></strong></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/05/10/CS-infra/OS/xv6-projects/initial-reverse/initial-reverse/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
