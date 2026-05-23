@@ -28,7 +28,7 @@
 <meta property="og:description" content="程序即数据、数据即程序  How to Design Programs一书聚焦于 GUI 与 批处理 程序  I.Fixed-Size Data 12345678910111213lang racket; factorial function(define (factorial n)    (if (&#x3D; n 0)        1        (* n (factorial (- n 1)))">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-05-21T11:13:00.000Z">
-<meta property="article:modified_time" content="2026-05-23T05:00:11.134Z">
+<meta property="article:modified_time" content="2026-05-23T07:41:12.833Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="Books">
 <meta property="article:tag" content="HtDP">
@@ -210,7 +210,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-23 13:00:11" itemprop="dateModified" datetime="2026-05-23T13:00:11+08:00">2026-05-23</time>
+      <time title="修改时间：2026-05-23 15:41:12" itemprop="dateModified" datetime="2026-05-23T15:41:12+08:00">2026-05-23</time>
     </span>
 
   
@@ -350,7 +350,7 @@
 <h4 id="match"><a href="#match" class="headerlink" title="match"></a>match</h4><blockquote>
 <p>更强大的匹配工具<br>可以解构数据、匹配字符串、复合结构等</p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(define (describe x)</span><br><span class="line">  (match x</span><br><span class="line">    [0          (printf &quot;zero\n&quot;)]</span><br><span class="line">    [(? string? s) (string-append &quot;string: &quot; s)]</span><br><span class="line">    [(list a b) (printf &quot;list, [0]: ~a, [1]: ~a\n&quot; a b)]</span><br><span class="line">    [_          (printf &quot;other&quot;)]))</span><br><span class="line">(describe 0)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(define (describe x)</span><br><span class="line">  (match x</span><br><span class="line">    [0              (printf &quot;zero\n&quot;)]</span><br><span class="line">    [(? string? s)  (string-append &quot;string: &quot; s)]</span><br><span class="line">    [(list a b)     (printf &quot;list, [0]: ~a, [1]: ~a\n&quot; a b)]</span><br><span class="line">    [_              (printf &quot;other&quot;)]))</span><br><span class="line">(describe 0)</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="Predicates-谓词"><a href="#Predicates-谓词" class="headerlink" title="Predicates 谓词"></a>Predicates 谓词</h2><p>谓词是一个函数，用于消耗一个值并判断该值是否属于某类数据<br>通过返回的Boolean值，控制程序流向，对控制流进行抽象</p>
@@ -446,8 +446,66 @@
 <p><strong>参考以下例子</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">(define (number-&gt;square size)</span><br><span class="line">    (square size &quot;solid&quot; &quot;red&quot;))</span><br><span class="line"></span><br><span class="line">(define SQUARE-SIZE 720)</span><br><span class="line"></span><br><span class="line">(define (reset s key)</span><br><span class="line">    (match key</span><br><span class="line">        [&quot;escape&quot;           0]</span><br><span class="line">        [&quot;/&quot;                (/ s 2)]</span><br><span class="line">        [&quot;*&quot;                (* s 2)]</span><br><span class="line">        [&quot;shift&quot;            s]</span><br><span class="line">        [_                  SQUARE-SIZE]))</span><br><span class="line"></span><br><span class="line">(big-bang SQUARE-SIZE</span><br><span class="line">    [to-draw number-&gt;square]</span><br><span class="line">    [on-tick sub1]</span><br><span class="line">    [on-key reset]</span><br><span class="line">    [stop-when zero?])</span><br></pre></td></tr></table></figure>
 
-
-
+<ul>
+<li>big-bang 会每tick进行状态更新</li>
+<li>on-key 在每次big-bang时进行键盘事件的接收</li>
+<li>on-mouse big-bang状态，接收mouse的(x,y)</li>
+<li>多事件同时发生，按排序处理</li>
+</ul>
+<blockquote>
+<p>cw: current world<br>e: event</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="left">current state</th>
+<th align="left">cw_0</th>
+<th align="left">cw_1</th>
+<th align="center">…</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">event</td>
+<td align="left">e_0</td>
+<td align="left">e_1</td>
+<td align="center">e_{…}</td>
+</tr>
+<tr>
+<td align="left">on clock tick</td>
+<td align="left">(tock cw_0)</td>
+<td align="left">(tock cw_1)</td>
+<td align="center">…</td>
+</tr>
+<tr>
+<td align="left">on keystroke</td>
+<td align="left">(ke-h cw_0 e_0)</td>
+<td align="left">(ke-h cw_1 e_1)</td>
+<td align="center">…</td>
+</tr>
+<tr>
+<td align="left">on mouse</td>
+<td align="left">(me-h cw_0 e_0)</td>
+<td align="left">(me-h cw_1 e_1)</td>
+<td align="center">…</td>
+</tr>
+<tr>
+<td align="left">event</td>
+<td align="left">…)</td>
+<td align="left">…)</td>
+<td align="center">…)</td>
+</tr>
+<tr>
+<td align="left">its image</td>
+<td align="left">(render cw_0)</td>
+<td align="left">(render cw_1)</td>
+<td align="center">…</td>
+</tr>
+</tbody></table>
+<ul>
+<li>所有的操作都是围绕着 <em>当前状态</em> 进行的，他们接收旧状态并返回新状态， <em><strong>绝不修改旧状态</strong></em></li>
+<li><strong>事件驱动</strong>：世界产生变换(cw_{n} -&gt; cw_{n+1})的 <em><strong>唯一原因</strong></em> 是某个事件处理函数被调用并返回了一个不同值</li>
+<li><strong>快照排序</strong>：</li>
+</ul>
 
     </div>
 
