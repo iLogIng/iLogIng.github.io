@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="关于编写 C&#x2F;Linux 实验（流程设计）：  建立一个自己的项目目录 阅读各个实验子项的 README.md 文档 阅读 man page 分析各个程序的功能实现 设计程序流程 编写程序   CATALOGinitial-ultilitiesinitial-reverseinitial-kvprocess-shell">
+    <meta name="description" content="关于编写 C&#x2F;Linux 实验（流程设计）：  建立一个自己的项目目录 阅读各个实验子项的 README.md 文档 阅读 man page 分析各个程序的功能实现 设计程序流程 编写程序   CATALOGinitial-ultilitiesinitial-reverseinitial-kvprocess-shellconcurrency-webserver">
 <meta property="og:type" content="article">
 <meta property="og:title" content="xv6-catalog">
 <meta property="og:url" content="http://iloging.github.io/2026/05/08/CS-infra/OS/xv6-projects/xv6-catalog/index.html">
 <meta property="og:site_name" content="Volador235&#39;s blog">
-<meta property="og:description" content="关于编写 C&#x2F;Linux 实验（流程设计）：  建立一个自己的项目目录 阅读各个实验子项的 README.md 文档 阅读 man page 分析各个程序的功能实现 设计程序流程 编写程序   CATALOGinitial-ultilitiesinitial-reverseinitial-kvprocess-shell">
+<meta property="og:description" content="关于编写 C&#x2F;Linux 实验（流程设计）：  建立一个自己的项目目录 阅读各个实验子项的 README.md 文档 阅读 man page 分析各个程序的功能实现 设计程序流程 编写程序   CATALOGinitial-ultilitiesinitial-reverseinitial-kvprocess-shellconcurrency-webserver">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-05-08T02:00:00.000Z">
-<meta property="article:modified_time" content="2026-05-13T11:45:13.267Z">
+<meta property="article:modified_time" content="2026-05-28T06:46:09.451Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="Operating System">
 <meta property="article:tag" content="xv6-project">
@@ -124,7 +124,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CATALOG"><span class="nav-number">1.</span> <span class="nav-text">CATALOG</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#initial-ultilities"><span class="nav-number">1.1.</span> <span class="nav-text">initial-ultilities</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#initial-reverse"><span class="nav-number">1.2.</span> <span class="nav-text">initial-reverse</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#initial-kv"><span class="nav-number">1.3.</span> <span class="nav-text">initial-kv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#process-shell"><span class="nav-number">1.4.</span> <span class="nav-text">process-shell</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CATALOG"><span class="nav-number">1.</span> <span class="nav-text">CATALOG</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#initial-ultilities"><span class="nav-number">1.1.</span> <span class="nav-text">initial-ultilities</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#initial-reverse"><span class="nav-number">1.2.</span> <span class="nav-text">initial-reverse</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#initial-kv"><span class="nav-number">1.3.</span> <span class="nav-text">initial-kv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#process-shell"><span class="nav-number">1.4.</span> <span class="nav-text">process-shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#concurrency-webserver"><span class="nav-number">1.5.</span> <span class="nav-text">concurrency-webserver</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -210,7 +210,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-13 19:45:13" itemprop="dateModified" datetime="2026-05-13T19:45:13+08:00">2026-05-13</time>
+      <time title="修改时间：2026-05-28 14:46:09" itemprop="dateModified" datetime="2026-05-28T14:46:09+08:00">2026-05-28</time>
     </span>
 
   
@@ -232,7 +232,7 @@
 <li>编写程序</li>
 </ol>
 </blockquote>
-<h1 id="CATALOG"><a href="#CATALOG" class="headerlink" title="CATALOG"></a>CATALOG</h1><h2 id="initial-ultilities"><a href="#initial-ultilities" class="headerlink" title="initial-ultilities"></a><a href="./initial-ultilities/initial-ultilities.md">initial-ultilities</a></h2><h2 id="initial-reverse"><a href="#initial-reverse" class="headerlink" title="initial-reverse"></a><a href="./initial-reverse/initial-reverse.md">initial-reverse</a></h2><h2 id="initial-kv"><a href="#initial-kv" class="headerlink" title="initial-kv"></a><a href="./initial-kv/initial-kv.md">initial-kv</a></h2><h2 id="process-shell"><a href="#process-shell" class="headerlink" title="process-shell"></a><a href="./process-shell/process-shell.md">process-shell</a></h2><span id="more"></span>
+<h1 id="CATALOG"><a href="#CATALOG" class="headerlink" title="CATALOG"></a>CATALOG</h1><h2 id="initial-ultilities"><a href="#initial-ultilities" class="headerlink" title="initial-ultilities"></a><a href="./initial-ultilities/initial-ultilities.md">initial-ultilities</a></h2><h2 id="initial-reverse"><a href="#initial-reverse" class="headerlink" title="initial-reverse"></a><a href="./initial-reverse/initial-reverse.md">initial-reverse</a></h2><h2 id="initial-kv"><a href="#initial-kv" class="headerlink" title="initial-kv"></a><a href="./initial-kv/initial-kv.md">initial-kv</a></h2><h2 id="process-shell"><a href="#process-shell" class="headerlink" title="process-shell"></a><a href="./process-shell/process-shell.md">process-shell</a></h2><h2 id="concurrency-webserver"><a href="#concurrency-webserver" class="headerlink" title="concurrency-webserver"></a><a href="./concurrency-webserver/concurrency-webserver.md">concurrency-webserver</a></h2><span id="more"></span>
 
 
     </div>
