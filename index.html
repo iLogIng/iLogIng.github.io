@@ -131,7 +131,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -158,6 +158,126 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/27/CS-infra/OS/xv6-projects/concurrency-webserver/concurrency-webserver/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/05/27/CS-infra/OS/xv6-projects/concurrency-webserver/concurrency-webserver/" class="post-title-link" itemprop="url">concurrency-webserver</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-27 21:31:27" itemprop="dateCreated datePublished" datetime="2026-05-27T21:31:27+08:00">2026-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-28 14:38:29" itemprop="dateModified" datetime="2026-05-28T14:38:29+08:00">2026-05-28</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="wserver-程序解析"><a href="#wserver-程序解析" class="headerlink" title="wserver 程序解析"></a>wserver 程序解析</h1><blockquote>
+<p>仓库提供的源代码中，该 wserver 程序是可以直接进行 make 构建的</p>
+</blockquote>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><ol>
+<li>为服务器添加多线程功能<ul>
+<li><code>pthread</code></li>
+<li>处理静态和动态请求</li>
+<li>主线程然后负责通过网络接受新的 HTTP 连接，并将此连接的描述符放入一个固定大小的缓冲区中</li>
+<li>主线程和工作线程处于生产者-消费者关系中，需要同步它们对共享缓冲区的访问。<ul>
+<li>如果缓冲区已满，主线程必须阻塞并等待；如果缓冲区为空，工作线程必须等待。使用条件变量实现。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>实现不同的调度策略 <code>FIFO</code> <code>SFF</code></li>
+<li>修改Web服务器的调用方式，使其能够处理新的输入参数</li>
+</ol>
+<hr>
+<h2 id="原-wserver-程序处理过程"><a href="#原-wserver-程序处理过程" class="headerlink" title="原 wserver 程序处理过程"></a>原 wserver 程序处理过程</h2><ol>
+<li><p>监听并读取客户端套接字 <code>accept_or_die</code></p>
+</li>
+<li><p>处理客户端连接请求 <code>request_handle</code></p>
+<ol>
+<li><p>读取并解析客户端请求，分析请求行</p>
+</li>
+<li><p>根据请求类型 <code>is_static</code> 进行静态&#x2F;动态请求的响应</p>
+<ul>
+<li><p>静态请求<code>request_serve_static</code>：调用mmap建立文件内存映射，读取本地文件，返回响应</p>
+</li>
+<li><p>动态请求<code>request_serve_dynamic</code>：通过调起子进程执行CGI程序处理</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>处理完成，关闭连接 <code>close_or_die</code></p>
+</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/05/27/CS-infra/OS/xv6-projects/concurrency-webserver/concurrency-webserver/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -936,101 +1056,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/08/CS-infra/OS/xv6-projects/xv6-catalog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/05/08/CS-infra/OS/xv6-projects/xv6-catalog/" class="post-title-link" itemprop="url">xv6-catalog</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-05-08 10:00:00" itemprop="dateCreated datePublished" datetime="2026-05-08T10:00:00+08:00">2026-05-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-13 19:45:13" itemprop="dateModified" datetime="2026-05-13T19:45:13+08:00">2026-05-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>关于编写 <strong>C&#x2F;Linux</strong> 实验（流程设计）：</p>
-<ol>
-<li>建立一个自己的项目目录</li>
-<li>阅读各个实验子项的 <em><strong>README.md</strong></em> 文档</li>
-<li>阅读 <strong>man page</strong> 分析各个程序的功能实现</li>
-<li>设计程序流程</li>
-<li>编写程序</li>
-</ol>
-</blockquote>
-<h1 id="CATALOG"><a href="#CATALOG" class="headerlink" title="CATALOG"></a>CATALOG</h1><h2 id="initial-ultilities"><a href="#initial-ultilities" class="headerlink" title="initial-ultilities"></a><a href="./initial-ultilities/initial-ultilities.md">initial-ultilities</a></h2><h2 id="initial-reverse"><a href="#initial-reverse" class="headerlink" title="initial-reverse"></a><a href="./initial-reverse/initial-reverse.md">initial-reverse</a></h2><h2 id="initial-kv"><a href="#initial-kv" class="headerlink" title="initial-kv"></a><a href="./initial-kv/initial-kv.md">initial-kv</a></h2><h2 id="process-shell"><a href="#process-shell" class="headerlink" title="process-shell"></a><a href="./process-shell/process-shell.md">process-shell</a></h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/05/08/CS-infra/OS/xv6-projects/xv6-catalog/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
