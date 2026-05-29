@@ -28,7 +28,7 @@
 <meta property="og:description" content="Raylib 杂记 Raylib 简介Raylib 是一个 简单、易用且跨平台 的游戏开发库，无外部依赖，特别适合用来学习图形学、游戏编程和快速制作原型。它完全使用 C 语言写成（同时也提供了超过 50 种语言的绑定），核心设计理念是“没有复杂依赖，开箱即用”。   2D坐标，原点在屏幕左上角  x: 指向屏幕横向向右 y: 指向屏幕纵向向下  3D坐标，采用右手系  x: 指向屏幕横向向右 y:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-05-29T03:00:00.000Z">
-<meta property="article:modified_time" content="2026-05-29T11:23:49.915Z">
+<meta property="article:modified_time" content="2026-05-29T11:43:34.475Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="graphic">
 <meta property="article:tag" content="raylib">
@@ -212,7 +212,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-05-29 11:00:00 / 修改时间：19:23:49" itemprop="dateCreated datePublished" datetime="2026-05-29T11:00:00+08:00">2026-05-29</time>
+      <time title="创建时间：2026-05-29 11:00:00 / 修改时间：19:43:34" itemprop="dateCreated datePublished" datetime="2026-05-29T11:00:00+08:00">2026-05-29</time>
     </span>
 
   
@@ -240,6 +240,7 @@
 <li>z: 指向屏幕外侧</li>
 </ul>
 </blockquote>
+<hr>
 <h2 id="OpenGL-相关模块"><a href="#OpenGL-相关模块" class="headerlink" title="OpenGL 相关模块"></a>OpenGL 相关模块</h2><h3 id="GLFW"><a href="#GLFW" class="headerlink" title="GLFW"></a>GLFW</h3><blockquote>
 <p>Graphics Library Framework<br>是一个专门为 OpenGL 设计的 <strong>跨平台窗口和输入处理库</strong></p>
 </blockquote>
@@ -451,9 +452,8 @@
 </tbody></table>
 <hr>
 <h3 id="Enumerator-枚举类型"><a href="#Enumerator-枚举类型" class="headerlink" title="Enumerator 枚举类型"></a>Enumerator 枚举类型</h3><blockquote>
-<p>Raylib 定义了 <em><strong>21种枚举类型</strong></em> (v5.1)</p>
-<p>各个枚举类中的枚举值，一般都将该类的 <strong>大写全称</strong> 作为 <strong>前缀</strong></p>
-<p>随着库的更新，可能会添加相应的枚举状态</p>
+<p>Raylib 定义了 <em><strong>21种枚举类型</strong></em> (v5.1)<br>各个枚举类中的枚举值，一般都将该类的 <strong>大写全称</strong> 作为 <strong>前缀</strong><br>随着库的更新，可能会添加相应的枚举状态</p>
+<p>没有函数指向这些枚举类型，所有相关参数都被定义为 <code>int</code> 类型，在程序中仅作为定义值使用</p>
 </blockquote>
 <table>
 <thead>
