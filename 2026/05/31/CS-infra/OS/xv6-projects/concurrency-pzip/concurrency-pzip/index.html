@@ -20,27 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="基于hexo包的网页配置">
+    <meta name="description" content="pzip程序设计实验目标 熟悉 Linux pthreads。 学习如何并行化程序。 学习如何为高性能编程。  程序要求 参考 initial-utilities&#x2F;wzip (wunzip) 游程压缩 原理，编写 pzip 程序 考虑使用 mmap 调用，将文件映射至内存中进行处理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo-note">
-<meta property="og:url" content="http://iloging.github.io/2026/03/28/frm-lib/hexo-note/index.html">
+<meta property="og:title" content="concurrency-pzip">
+<meta property="og:url" content="http://iloging.github.io/2026/05/31/CS-infra/OS/xv6-projects/concurrency-pzip/concurrency-pzip/index.html">
 <meta property="og:site_name" content="Volador235&#39;s blog">
-<meta property="og:description" content="基于hexo包的网页配置">
+<meta property="og:description" content="pzip程序设计实验目标 熟悉 Linux pthreads。 学习如何并行化程序。 学习如何为高性能编程。  程序要求 参考 initial-utilities&#x2F;wzip (wunzip) 游程压缩 原理，编写 pzip 程序 考虑使用 mmap 调用，将文件映射至内存中进行处理">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-03-28T07:50:52.000Z">
-<meta property="article:modified_time" content="2026-03-28T10:29:46.058Z">
+<meta property="article:published_time" content="2026-05-31T09:30:00.000Z">
+<meta property="article:modified_time" content="2026-05-31T09:31:44.084Z">
 <meta property="article:author" content="iLogIng">
-<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="Operating System">
+<meta property="article:tag" content="xv6-project">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://iloging.github.io/2026/03/28/frm-lib/hexo-note/">
+<link rel="canonical" href="http://iloging.github.io/2026/05/31/CS-infra/OS/xv6-projects/concurrency-pzip/concurrency-pzip/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/2026/03/28/frm-lib/hexo-note/","path":"2026/03/28/frm-lib/hexo-note/","title":"hexo-note"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/2026/05/31/CS-infra/OS/xv6-projects/concurrency-pzip/concurrency-pzip/","path":"2026/05/31/CS-infra/OS/xv6-projects/concurrency-pzip/concurrency-pzip/","title":"concurrency-pzip"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>hexo-note | Volador235's blog</title>
+<title>concurrency-pzip | Volador235's blog</title>
   
 
 
@@ -130,7 +131,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo"><span class="nav-number">1.</span> <span class="nav-text">Hexo</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pzip%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.</span> <span class="nav-text">pzip程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E6%A0%87"><span class="nav-number">1.1.</span> <span class="nav-text">实验目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%A6%81%E6%B1%82"><span class="nav-number">1.2.</span> <span class="nav-text">程序要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%88%E9%80%82%E4%BE%8B%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">合适例程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="nav-number">1.4.</span> <span class="nav-text">调用方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E6%B5%81%E7%A8%8B"><span class="nav-number">1.5.</span> <span class="nav-text">程序流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%96%E7%A8%8B%E7%90%86%E8%A7%A3"><span class="nav-number">1.6.</span> <span class="nav-text">高性能编程理解</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -181,7 +182,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/frm-lib/hexo-note/">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/31/CS-infra/OS/xv6-projects/concurrency-pzip/concurrency-pzip/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -194,12 +195,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="hexo-note | Volador235's blog">
-      <meta itemprop="description" content="基于hexo包的网页配置">
+      <meta itemprop="name" content="concurrency-pzip | Volador235's blog">
+      <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          hexo-note
+          concurrency-pzip
         </h1>
 
         <div class="post-meta-container">
@@ -211,87 +212,97 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-03-28 15:50:52 / 修改时间：18:29:46" itemprop="dateCreated datePublished" datetime="2026-03-28T15:50:52+08:00">2026-03-28</time>
+      <time title="创建时间：2026-05-31 17:30:00 / 修改时间：17:31:44" itemprop="dateCreated datePublished" datetime="2026-05-31T17:30:00+08:00">2026-05-31</time>
     </span>
 
   
 </div>
 
-            <div class="post-description">基于hexo包的网页配置</div>
         </div>
       </header>
 
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h1><p><a href="hexo.io/zh-cn/">快速、简洁且高效的博客架构</a></p>
-<blockquote>
-<p>使用 <em><strong>Markdown</strong></em> 解析文章</p>
-</blockquote>
-<blockquote>
-<p>基于 <strong>Node.js</strong> 框架</p>
-</blockquote>
-<p><strong>安装</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo</span><br></pre></td></tr></table></figure>
-
-<p><strong>使用</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npx hexo &lt;<span class="built_in">command</span>&gt;</span><br></pre></td></tr></table></figure>
-
+    <div class="post-body" itemprop="articleBody"><h1 id="pzip程序设计"><a href="#pzip程序设计" class="headerlink" title="pzip程序设计"></a>pzip程序设计</h1><h2 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h2><ul>
+<li>熟悉 Linux pthreads。</li>
+<li>学习如何并行化程序。</li>
+<li>学习如何为高性能编程。</li>
+</ul>
+<h2 id="程序要求"><a href="#程序要求" class="headerlink" title="程序要求"></a>程序要求</h2><ul>
+<li>参考 <em><strong>initial-utilities&#x2F;wzip (wunzip)</strong></em> <em><strong>游程压缩</strong></em> 原理，编写 <code>pzip</code> 程序</li>
+<li>考虑使用 <em><strong>mmap</strong></em> 调用，将文件映射至内存中进行处理</li>
+</ul>
 <span id="more"></span>
 
-<p><strong>网页框架初始化</strong></p>
-<blockquote>
-<p><folder> 是网页框架的主文件夹名</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init &lt;folder&gt;</span><br><span class="line">$ <span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+<h2 id="合适例程"><a href="#合适例程" class="headerlink" title="合适例程"></a>合适例程</h2><ul>
+<li><p><strong>get_nprocs()</strong></p>
+</li>
+<li><p><strong>get_nproces_conf()</strong></p>
+</li>
+<li><p><strong>read()</strong></p>
+</li>
+<li><p><strong>fread()</strong></p>
+</li>
+<li><p><strong>mmap()</strong></p>
+</li>
+</ul>
+<h2 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prompt&gt; ./pzip file &gt; file.z</span><br></pre></td></tr></table></figure>
 
-<p><strong>初始化的文件结构</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── package.json</span><br><span class="line">├── scaffolds</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">└── themes</span><br></pre></td></tr></table></figure>
+<h2 id="程序流程"><a href="#程序流程" class="headerlink" title="程序流程"></a>程序流程</h2><ol>
+<li><p>并行化配置</p>
 <ul>
-<li><em><strong>_config.yml</strong></em><ul>
-<li>网站配置文件</li>
+<li>使用 <code>get_nprocs()</code> 例程，获得逻辑线程总数，表征可用线程</li>
 </ul>
 </li>
-<li><em><strong>package.json</strong></em><ul>
-<li>应用程序信息</li>
+<li><p>并行化处理</p>
+<ol>
+<li><p>文件读取</p>
+<ul>
+<li>使用 <code>struct stat</code> 获得文件列表中各个文件的大小</li>
+<li>调用 <code>mmap</code> 分配文件总大小空间，将文件内容写入该缓存</li>
+<li>将所有文件读入同一个缓冲区</li>
 </ul>
 </li>
-<li><em><strong>scaffolds</strong></em><ul>
-<li><strong>模板</strong> 文件夹，新建文章时，Hexo根据该模板创建文件</li>
+<li><p>文件压缩</p>
+<ul>
+<li>将 <code>mmap</code> 的总体缓冲进行均分分片处理</li>
+<li>针对各片建立mmap并行进行压缩</li>
+<li>子线程<ul>
+<li><code>task</code> 处理压缩内存映射</li>
 </ul>
 </li>
-<li><em><strong>source</strong></em><ul>
-<li>资源文件夹。存放用户资源。除 <code>_posts</code> 文件夹外，其它以 下划线<code>_</code> 开始的文件都将被忽略。</li>
-<li><strong>Markdown</strong> 和 <strong>HTML</strong> 文件会被解析并放到 <code>public</code> 文件夹，其他的文件将被拷贝至该目标。</li>
+<li>主线程<ul>
+<li>将各片的缓冲进行合并，将各片的头、尾进行对比，合并相同字符信息<ul>
+<li>合并各线程缓存 <code>merge_zip_buf()</code></li>
 </ul>
 </li>
-<li><em><strong>theme</strong></em><ul>
-<li>主题文件夹。Hexo根据主题生成静态文件。</li>
 </ul>
 </li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>文件输出</p>
+<ul>
+<li>默认输出至 <code>stdout</code></li>
+</ul>
+</li>
+<li><p>尾后处理</p>
+<ul>
+<li>释放线程资源</li>
+<li><code>munmap</code> 释放虚拟页映射缓冲</li>
+</ul>
+</li>
+</ol>
+<h2 id="高性能编程理解"><a href="#高性能编程理解" class="headerlink" title="高性能编程理解"></a>高性能编程理解</h2><ul>
+<li>通过 <code>mmap</code> 建立内存-文件映射，减少IO操作，转换为内存操作</li>
+<li>通过编写 <code>thread_pool</code> 统一管理任务线程</li>
 </ul>
 <hr>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/configuration">_config.yml 网页配置文件</a></p>
-</blockquote>
-<p><strong>生成</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br></pre></td></tr></table></figure>
-
-<p><strong>本地布署</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
-
-<p><strong>上传</strong></p>
-<ul>
-<li>在 <em><strong>_config.yml</strong></em> 配置文件中的最后的deploy部分</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">    <span class="built_in">type</span>: git</span><br><span class="line">    repository: git@github.com:&lt;user_name&gt;/&lt;repository_name&gt;.git</span><br><span class="line">    branch: main</span><br></pre></td></tr></table></figure>
-<ul>
-<li>上传指令</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
-<p><strong>主题</strong></p>
-<p>首先，可以使用 <code>git</code> 拉取开源主题仓库 或 <code>npm</code> 下载主题</p>
-<p>然后，在 <em><strong>_config.yml</strong></em> 配置文件中包含一个 <strong>theme</strong> 字段（默认为 <em>landscape</em>），将该字段更改为所选主题的名字。</p>
+<p><a href="code/thread_pool.c">thread_pool.c</a></p>
+<p><a href="code/thread_pool.h">thread_pool.h</a></p>
+<p><a href="code/pzip.c">pzip.c</a></p>
 
     </div>
 
@@ -301,21 +312,19 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/hexo/" rel="tag"># hexo</a>
+              <a href="/tags/Operating-System/" rel="tag"># Operating System</a>
+              <a href="/tags/xv6-project/" rel="tag"># xv6-project</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2026/02/12/languages/assembly/" rel="prev" title="汇编语言杂记">
-                  <i class="fa fa-angle-left"></i> 汇编语言杂记
+                <a href="/2026/05/29/frm-lib/Raylib/raylib/" rel="prev" title="Raylib 杂记">
+                  <i class="fa fa-angle-left"></i> Raylib 杂记
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2026/03/28/tools/vim-config/" rel="next" title="nvim配置文件">
-                  nvim配置文件 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
