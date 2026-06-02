@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="SFML cloth simulation 使用 粒子弹簧模型 进行 运动学模拟  理论公式位置 Verlet 积分 选用 Verlet 位置更新公式  Verlet 积分: x(t + dt) &#x3D; 2x(t) - x(t - dt) + a(t)dt^2 [O(dt^4)] 公式推导泰勒展开法 更新质点状态   假设粒子运动状态  粒子的位置为 x(t) 速度为 v &#x3D; x’">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SFML-cloth-simulation">
+<meta property="og:url" content="http://iloging.github.io/2026/06/02/Graphics/sfml-cloth-simulation/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="SFML cloth simulation 使用 粒子弹簧模型 进行 运动学模拟  理论公式位置 Verlet 积分 选用 Verlet 位置更新公式  Verlet 积分: x(t + dt) &#x3D; 2x(t) - x(t - dt) + a(t)dt^2 [O(dt^4)] 公式推导泰勒展开法 更新质点状态   假设粒子运动状态  粒子的位置为 x(t) 速度为 v &#x3D; x’">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-02T12:20:00.000Z">
+<meta property="article:modified_time" content="2026-06-02T13:31:30.579Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="Graphics">
+<meta property="article:tag" content="SFML">
+<meta property="article:tag" content="Simulation">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/2026/06/02/Graphics/sfml-cloth-simulation/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/2026/06/02/Graphics/sfml-cloth-simulation/","path":"2026/06/02/Graphics/sfml-cloth-simulation/","title":"SFML-cloth-simulation"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SFML-cloth-simulation | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SFML-cloth-simulation"><span class="nav-number">1.</span> <span class="nav-text">SFML cloth simulation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E5%85%AC%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">理论公式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8D%E7%BD%AE-Verlet-%E7%A7%AF%E5%88%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">位置 Verlet 积分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">公式推导</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B3%B0%E5%8B%92%E5%B1%95%E5%BC%80%E6%B3%95"><span class="nav-number">1.1.1.1.1.</span> <span class="nav-text">泰勒展开法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E5%88%B0%E7%BA%BF%E6%AE%B5%E8%B7%9D%E7%A6%BB"><span class="nav-number">1.1.2.</span> <span class="nav-text">点到线段距离</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">公式推导</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8A%95%E5%BD%B1%E5%85%AC%E5%BC%8F"><span class="nav-number">1.1.2.1.1.</span> <span class="nav-text">投影公式</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">类模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%A8%E7%82%B9-Particle"><span class="nav-number">1.2.1.</span> <span class="nav-text">质点 Particle</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E6%AE%B5"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">关键方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%B9%E7%B0%A7%E7%BA%A6%E6%9D%9F-Spring-Constraint"><span class="nav-number">1.2.2.</span> <span class="nav-text">弹簧约束 Spring Constraint</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E6%AE%B5-1"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E6%96%B9%E6%B3%95-1"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">关键方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%83%E6%96%99-Cloth"><span class="nav-number">1.2.3.</span> <span class="nav-text">布料 Cloth</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E6%AE%B5-2"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E6%96%B9%E6%B3%95-2"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">关键方法</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/02/Graphics/sfml-cloth-simulation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SFML-cloth-simulation | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SFML-cloth-simulation
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-06-02 20:20:00 / 修改时间：21:31:30" itemprop="dateCreated datePublished" datetime="2026-06-02T20:20:00+08:00">2026-06-02</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="SFML-cloth-simulation"><a href="#SFML-cloth-simulation" class="headerlink" title="SFML cloth simulation"></a>SFML cloth simulation</h1><blockquote>
+<p>使用 <strong>粒子弹簧模型</strong> 进行 运动学模拟</p>
+</blockquote>
+<h2 id="理论公式"><a href="#理论公式" class="headerlink" title="理论公式"></a>理论公式</h2><h3 id="位置-Verlet-积分"><a href="#位置-Verlet-积分" class="headerlink" title="位置 Verlet 积分"></a>位置 Verlet 积分</h3><blockquote>
+<p>选用 <strong>Verlet 位置更新公式</strong></p>
+</blockquote>
+<p><strong>Verlet 积分: <em>x(t + dt) &#x3D; 2x(t) - x(t - dt) + a(t)dt^2 [O(dt^4)]</em></strong></p>
+<h4 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h4><h5 id="泰勒展开法"><a href="#泰勒展开法" class="headerlink" title="泰勒展开法"></a>泰勒展开法</h5><blockquote>
+<p>更新质点状态</p>
+</blockquote>
+<ol>
+<li><p>假设粒子运动状态</p>
+<ul>
+<li>粒子的位置为 <em><strong>x(t)</strong></em></li>
+<li>速度为 <em><strong>v &#x3D; x’(t)</strong></em></li>
+<li>加速度为 <em><strong>a(t) &#x3D; F(x(t)) &#x2F; m &#x3D; x’’(t)</strong></em></li>
+<li>以上三项公式都仅依赖于 <strong>位置</strong></li>
+</ul>
+</li>
+<li><p>取时间步长为 <em><strong>dt</strong></em> ，分别在 <em><strong>t</strong></em> 时刻前后作三阶泰勒展开</p>
+<ul>
+<li><em><strong>x(t + dt) &#x3D; x(t) + x’(t)dt + (1&#x2F;2)x’’(t)dt^2 + (1&#x2F;6)x’’’(t)dt^3 [+ O(dt^4)]</strong></em></li>
+<li><em><strong>x(t - dt) &#x3D; x(t) - x’(t)dt + (1&#x2F;2)x’’(t)dt^2 - (1&#x2F;6)x’’’(t)dt^3 [+ O(dt^4)]</strong></em></li>
+</ul>
+</li>
+<li><p>将上述两式相加</p>
+<ul>
+<li><em><strong>x(t + dt) + x(t - dt) &#x3D; 2x(t) + x’’(t)dt^2 [+ O(dt^4)]</strong></em></li>
+<li>将上式进行整理 <em><strong>x(t + dt) &#x3D; 2x(t) - x(t - dt) + x’’(t)dt^2 [+ O(dt^4)]</strong></em> 得到上述公式</li>
+<li>可见，该式表示，当前的位置仅依赖于上一时刻的位置，以及当前的加速度</li>
+<li>若需要速度，可是使用 <strong>中心差分估计</strong><ul>
+<li><em><strong>v(t) &#x3D; ( x(t + dt) - x(t - dt) ) &#x2F; 2dt [+ O(dt^2)]</strong></em></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<span id="more"></span>
+
+<h3 id="点到线段距离"><a href="#点到线段距离" class="headerlink" title="点到线段距离"></a>点到线段距离</h3><blockquote>
+<p>连线破坏事件</p>
+</blockquote>
+<ul>
+<li>使用 <em><strong>鼠标左键点击事件</strong></em> 确定将要被破坏的连线</li>
+<li>需要计算事件发生时光标位置与连线间的最短距离</li>
+</ul>
+<h4 id="公式推导-1"><a href="#公式推导-1" class="headerlink" title="公式推导"></a>公式推导</h4><ul>
+<li>假设计算 <em><strong>点P</strong></em> 到 <em><strong>线段AB</strong></em> 的距离</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">        P.</span><br><span class="line">         |</span><br><span class="line">         |</span><br><span class="line">A--------+------------B</span><br></pre></td></tr></table></figure>
+
+<h5 id="投影公式"><a href="#投影公式" class="headerlink" title="投影公式"></a>投影公式</h5><ol>
+<li><p>投影长度计算</p>
+<ul>
+<li><em><strong>proj_len &#x3D; |AP| * cos&lt;AP, AB&gt;</strong></em><ul>
+<li>余弦公式 <em><strong>cos&lt;AP, AB&gt; &#x3D; AP*AB &#x2F; |AP|*|AB|</strong></em></li>
+</ul>
+</li>
+<li>将余弦公式带入后可得 <em><strong>proj_len &#x3D; AP * AB &#x2F; |AB|</strong></em></li>
+</ul>
+</li>
+<li><p>投影参数 t (投影相对于AB的长度)</p>
+<ul>
+<li><em><strong>t &#x3D; proj_len &#x2F; |AB|</strong></em></li>
+<li>带入后可得 <em><strong>t &#x3D; AB * AP &#x2F; |AB| * |AB|</strong></em></li>
+</ul>
+</li>
+<li><p>计算A到投影点的向量</p>
+<blockquote>
+<p>选择A是由于在上述公式推导中，是以 AB AP 向量为基础进行推导的<br>同时，在计算后可以知道，参数t是 <em><strong>APproj向量</strong></em> 相对于 <em><strong>AB向量</strong></em> 的方向与大小</p>
+</blockquote>
+<ol>
+<li><em><strong>t &lt; 0.f</strong></em><ul>
+<li><em><strong>Pproj</strong></em> 更靠近A侧</li>
+<li>return <em><strong>|AP|</strong></em></li>
+</ul>
+</li>
+<li><em><strong>t &gt; 1.f</strong></em><ul>
+<li><em><strong>Pproj</strong></em> 更靠近B侧</li>
+<li>return <em><strong>|BP|</strong></em></li>
+</ul>
+</li>
+<li><em><strong>0.f &lt;&#x3D; t &lt;&#x3D; 1.f</strong></em><ul>
+<li><em><strong>Pproj</strong></em> 在线段AB上</li>
+<li>return <em><strong>|PprojP|</strong></em> 这时 <em><strong>PprojP</strong></em> 就是P到AB的垂段</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h2 id="类模型"><a href="#类模型" class="headerlink" title="类模型"></a>类模型</h2><h3 id="质点-Particle"><a href="#质点-Particle" class="headerlink" title="质点 Particle"></a>质点 Particle</h3><h4 id="字段"><a href="#字段" class="headerlink" title="字段"></a>字段</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Particle</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    sf::Vector2f position;          <span class="comment">// 当前位置</span></span><br><span class="line">    sf::Vector2f old_position;      <span class="comment">// 上一位置</span></span><br><span class="line">    sf::Vector2f acceleration;      <span class="comment">// 加速度</span></span><br><span class="line">    <span class="type">bool</span> pinned;                    <span class="comment">// 是否固定</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="关键方法"><a href="#关键方法" class="headerlink" title="关键方法"></a>关键方法</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 将力应用到质点</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Particle::applyForce</span><span class="params">(<span class="type">const</span> sf::Vector2f&amp; force)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 由于此处是点并未设计质量字段 将质量记为 1.f</span></span><br><span class="line">    acceleration += force;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 Verlet 积分 更新质点的位置</span></span><br><span class="line"><span class="comment">// Verlet 积分: x(t + dt) = x(t) + (x(t) - x(t - dt)) + a(t)dt^2</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Particle::update</span><span class="params">(<span class="type">float</span> dt)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 更新未固定质点</span></span><br><span class="line">    <span class="keyword">if</span> (pinned)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    sf::Vector2f diff = position - old_position;</span><br><span class="line">    old_position = position;</span><br><span class="line">    position += diff + acceleration * std::<span class="built_in">pow</span>(dt, <span class="number">2.f</span>);</span><br><span class="line">    acceleration = sf::<span class="built_in">Vector2f</span>(<span class="number">0.f</span>, <span class="number">0.f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 约束质点在边界限定内</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Particle::constraintToBound</span><span class="params">(<span class="type">float</span> width, <span class="type">float</span> height)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (position.x &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        position.x = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (position.x &gt; width) &#123;</span><br><span class="line">        position.x = width;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (position.y &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        position.y = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (position.y &gt; height) &#123;</span><br><span class="line">        position.y = height;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="弹簧约束-Spring-Constraint"><a href="#弹簧约束-Spring-Constraint" class="headerlink" title="弹簧约束 Spring Constraint"></a>弹簧约束 Spring Constraint</h3><h4 id="字段-1"><a href="#字段-1" class="headerlink" title="字段"></a>字段</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">SpringConstraint</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Particle *p1;               <span class="comment">// 质点1</span></span><br><span class="line">    Particle *p2;               <span class="comment">// 质点2</span></span><br><span class="line">    <span class="type">float</span> initial_length;       <span class="comment">// 两质点间的初始距离</span></span><br><span class="line">    <span class="type">bool</span> active;                <span class="comment">// 是否存在连接</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="关键方法-1"><a href="#关键方法-1" class="headerlink" title="关键方法"></a>关键方法</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使模拟满足约束</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SpringConstraint::satisfyConstraint</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!active)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    sf::Vector2f delta = p2-&gt;<span class="built_in">getPosition</span>() - p1-&gt;<span class="built_in">getPosition</span>();</span><br><span class="line">    <span class="comment">// 两质点间的距离</span></span><br><span class="line">    <span class="type">float</span> current_length = std::<span class="built_in">hypot</span>(delta.x, delta.y);</span><br><span class="line">    <span class="comment">// 除零错误</span></span><br><span class="line">    <span class="keyword">if</span> (current_length == <span class="number">0.f</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">// 向质点两方向恢复</span></span><br><span class="line">    <span class="type">float</span> diff = (current_length - initial_length) / current_length;</span><br><span class="line">    sf::Vector2f correction = delta * <span class="number">0.5f</span> * diff;</span><br><span class="line">    <span class="keyword">if</span> (!p1-&gt;<span class="built_in">isPinned</span>())</span><br><span class="line">        p1-&gt;<span class="built_in">setPosition</span>(p1-&gt;<span class="built_in">getPosition</span>() + correction);</span><br><span class="line">    <span class="keyword">if</span> (!p2-&gt;<span class="built_in">isPinned</span>())</span><br><span class="line">        p2-&gt;<span class="built_in">setPosition</span>(p2-&gt;<span class="built_in">getPosition</span>() - correction);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="布料-Cloth"><a href="#布料-Cloth" class="headerlink" title="布料 Cloth"></a>布料 Cloth</h3><h4 id="字段-2"><a href="#字段-2" class="headerlink" title="字段"></a>字段</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Cloth</span></span><br><span class="line">&#123;</span><br><span class="line">    std::vector&lt;Particle*&gt; particles;           <span class="comment">// 质点</span></span><br><span class="line">    std::vector&lt;SpringConstraint*&gt; springs;     <span class="comment">// 弹簧约束</span></span><br><span class="line">    sf::Vector2f position;                      <span class="comment">// 左上角位置</span></span><br><span class="line">    <span class="type">int</span> cols;                                   <span class="comment">// 列数</span></span><br><span class="line">    <span class="type">int</span> rows;                                   <span class="comment">// 行数</span></span><br><span class="line">    <span class="type">float</span> spacing;                              <span class="comment">// 质点间的间距</span></span><br><span class="line">    <span class="comment">// 质点限制</span></span><br><span class="line">    <span class="type">float</span> constraint_width;                     <span class="comment">// 质点位置约束 width</span></span><br><span class="line">    <span class="type">float</span> constraint_height;                    <span class="comment">// 质点位置约束 height</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="关键方法-2"><a href="#关键方法-2" class="headerlink" title="关键方法"></a>关键方法</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">Cloth::<span class="built_in">Cloth</span>(sf::Vector2f pos,</span><br><span class="line">            <span class="type">int</span> cols_, <span class="type">int</span> rows_, <span class="type">float</span> spacing_,</span><br><span class="line">            <span class="type">float</span> c_width, <span class="type">float</span> c_heigth)</span><br><span class="line">    : <span class="built_in">position</span>(pos)</span><br><span class="line">    , <span class="built_in">cols</span>(cols_), <span class="built_in">rows</span>(rows_), <span class="built_in">spacing</span>(spacing_)</span><br><span class="line">    , <span class="built_in">constraint_width</span>(c_width), <span class="built_in">constraint_height</span>(c_heigth)</span><br><span class="line">&#123;</span><br><span class="line">    particles.<span class="built_in">reserve</span>(cols * rows);</span><br><span class="line">    <span class="comment">// 初始化质点</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> y = <span class="number">0</span>; y &lt; rows; ++y) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> x = <span class="number">0</span>; x &lt; cols; ++x) &#123;</span><br><span class="line">            <span class="type">float</span> px = position.x + x * spacing;</span><br><span class="line">            <span class="type">float</span> py = position.y + y * spacing;</span><br><span class="line">            <span class="keyword">auto</span> particle = <span class="built_in">Particle</span>(sf::<span class="built_in">Vector2f</span>(px, py));</span><br><span class="line">            <span class="comment">// 固定布料顶部</span></span><br><span class="line">            <span class="keyword">if</span> (y == <span class="number">0</span>)</span><br><span class="line">                particle.<span class="built_in">setPinned</span>(<span class="literal">true</span>);</span><br><span class="line">            particles.<span class="built_in">push_back</span>(particle);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 创建弹簧约束</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> y = <span class="number">0</span>; y &lt; rows; ++y) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> x = <span class="number">0</span>; x &lt; cols; ++x) &#123;</span><br><span class="line">            <span class="comment">// 横向约束连接</span></span><br><span class="line">            <span class="keyword">if</span> (x &lt; cols - <span class="number">1</span>) &#123;</span><br><span class="line">                springs.<span class="built_in">emplace_back</span>(</span><br><span class="line">                    &amp;particles[y * cols + x], &amp;particles[y * cols + x + <span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 纵向约束连接</span></span><br><span class="line">            <span class="keyword">if</span> (y &lt; rows - <span class="number">1</span>) &#123;</span><br><span class="line">                springs.<span class="built_in">emplace_back</span>(</span><br><span class="line">                    &amp;particles[y * cols + x], &amp;particles[(y + <span class="number">1</span>) * cols + x]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 为所有质点应用附加力</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">applyForceToAll</span><span class="params">(<span class="type">const</span> sf::Vector2f&amp; force,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">float</span> dt, <span class="type">int</span> constraint_iterations)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;p : particles) &#123;</span><br><span class="line">        <span class="comment">// 力</span></span><br><span class="line">        p.<span class="built_in">applyForce</span>(force);</span><br><span class="line">        <span class="comment">// 更新</span></span><br><span class="line">        p.<span class="built_in">update</span>(dt);</span><br><span class="line">        <span class="comment">// 限制质点位置范围</span></span><br><span class="line">        p.<span class="built_in">constraintToBound</span>(constraint_width, constraint_height);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 使质点满足约束</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> itr = <span class="number">0</span>; itr &lt; constraint_iterations; ++itr) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;s : springs) &#123;</span><br><span class="line">            s.<span class="built_in">satisfyConstraint</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Graphics/" rel="tag"># Graphics</a>
+              <a href="/tags/Simulation/" rel="tag"># Simulation</a>
+              <a href="/tags/SFML/" rel="tag"># SFML</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/05/31/CS-infra/OS/xv6-projects/concurrency-pzip/concurrency-pzip/" rel="prev" title="concurrency-pzip">
+                  <i class="fa fa-angle-left"></i> concurrency-pzip
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

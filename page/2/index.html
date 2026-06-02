@@ -138,13 +138,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -166,6 +166,163 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/12/CS-infra/OS/xv6-projects/initial-kv/initial-kv/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/05/12/CS-infra/OS/xv6-projects/initial-kv/initial-kv/" class="post-title-link" itemprop="url">initial-kv</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-12 12:12:00" itemprop="dateCreated datePublished" datetime="2026-05-12T12:12:00+08:00">2026-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-29 14:22:31" itemprop="dateModified" datetime="2026-05-29T14:22:31+08:00">2026-05-29</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="kv程序设计"><a href="#kv程序设计" class="headerlink" title="kv程序设计"></a>kv程序设计</h1><h2 id="程序要求"><a href="#程序要求" class="headerlink" title="程序要求"></a>程序要求</h2><h3 id="命令设计"><a href="#命令设计" class="headerlink" title="命令设计"></a>命令设计</h3><ul>
+<li><p><em><strong>put</strong></em>：</p>
+<blockquote>
+<p>格式: <code>p,key,value</code></p>
+</blockquote>
+<ul>
+<li>其中 <code>key</code> 是 <em>整数</em> ，<code>value</code> 是 <em>任意字符串</em></li>
+</ul>
+</li>
+<li><p><em><strong>get</strong></em>：</p>
+<blockquote>
+<p>格式: <code>g,key</code></p>
+</blockquote>
+<ul>
+<li>其中 <code>key</code> 是整数。<ul>
+<li>键存在：系统应打印出<code>key,value</code> <code>\n</code></li>
+<li>键不存在：单独一行打印错误消息，格式为 <code>K not found</code>，其中 <code>K</code> 是键的实际整数值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><em><strong>delete</strong></em>：</p>
+<blockquote>
+<p>格式：<code>d,key</code></p>
+</blockquote>
+<ul>
+<li>功能：<ul>
+<li>删除相应的键值对（不打印任何内容）</li>
+<li>删除失败（并打印 <code>K not found</code>，其中 <code>K</code> 是键的实际值，即某个整数）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><em><strong>clear</strong></em>：</p>
+<blockquote>
+<p>格式: <code>c</code></p>
+</blockquote>
+<ul>
+<li>功能：从数据库中移除所有键值对。</li>
+</ul>
+</li>
+<li><p><em><strong>all</strong></em>：</p>
+<blockquote>
+<p>格式: <code>a</code></p>
+</blockquote>
+<ul>
+<li>功能：任意顺序打印数据库中的所有键值对，每行一个键值对 <code>key,value</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="合适的例程"><a href="#合适的例程" class="headerlink" title="合适的例程"></a>合适的例程</h2><ul>
+<li><p>文件操作</p>
+<ul>
+<li>fopen</li>
+<li>fwrite</li>
+<li>fread</li>
+<li>getline</li>
+<li>fprintf</li>
+</ul>
+</li>
+<li><p>字符串处理</p>
+<ul>
+<li>strsep(char** line, char** delim)<blockquote>
+<p>char** token &#x3D; strsep(char** line, char** delim)<br>按 delim 分割 *line</p>
+<ul>
+<li>返回 顺序第一个delim前的 token</li>
+<li>*line 指向 顺序第一个delim后的 token</li>
+<li>相当于 原 *line &#x3D; token <em>append</em> 后*line</li>
+</ul>
+</blockquote>
+</li>
+<li>stoi</li>
+</ul>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/05/12/CS-infra/OS/xv6-projects/initial-kv/initial-kv/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -831,83 +988,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/03/28/tools/vim-config/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/frm-lib/hexo-note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/03/28/frm-lib/hexo-note/" class="post-title-link" itemprop="url">hexo-note</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-03-28 15:50:52 / 修改时间：18:29:46" itemprop="dateCreated datePublished" datetime="2026-03-28T15:50:52+08:00">2026-03-28</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>基于hexo包的网页配置</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/03/28/frm-lib/hexo-note/">
                 阅读全文 &raquo;
               </a>
             </div>
