@@ -28,7 +28,7 @@
 <meta property="og:description" content="程序即数据、数据即程序  How to Design Programs一书聚焦于 GUI 与 批处理 程序  II.Arbitrarily Data 任意大数据Lists 列表  cons 本质是一个二元组 形式为 &#39;(1 2) 输出形式为 (1 . 2) 使用 . 进行分隔   list 表示一串二元组嵌套而成的列表 形式为 &#39;(1 2 3 4 5) 本质是 &#39;(cons">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-05-23T09:37:00.000Z">
-<meta property="article:modified_time" content="2026-05-24T15:30:59.827Z">
+<meta property="article:modified_time" content="2026-06-02T15:36:30.773Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="Books">
 <meta property="article:tag" content="HtDP">
@@ -131,7 +131,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%BB%E6%84%8F%E5%A4%A7%E6%95%B0%E6%8D%AE"><span class="nav-number">1.</span> <span class="nav-text">任意大数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lists-%E5%88%97%E8%A1%A8"><span class="nav-number">1.1.</span> <span class="nav-text">Lists 列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#What-Is-%E2%80%98-What-Is-cons-%E4%BB%80%E4%B9%88%E6%98%AF-%E2%80%98-%E4%BB%80%E4%B9%88%E6%98%AF-cons"><span class="nav-number">1.2.</span> <span class="nav-text">What Is ‘() What Is cons 什么是 ‘() 什么是 cons</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Computing-with-Lists-%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E8%AE%A1%E7%AE%97"><span class="nav-number">1.3.</span> <span class="nav-text">Computing with Lists 使用列表计算</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%BB%E6%84%8F%E5%A4%A7%E6%95%B0%E6%8D%AE"><span class="nav-number">1.</span> <span class="nav-text">任意大数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lists-%E5%88%97%E8%A1%A8"><span class="nav-number">1.1.</span> <span class="nav-text">Lists 列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Computing-with-Lists-%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E8%AE%A1%E7%AE%97"><span class="nav-number">1.2.</span> <span class="nav-text">Computing with Lists 使用列表计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E6%8C%87%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89%E7%9A%84%E8%AE%BE%E8%AE%A1-Designing-With-Self-Referential-Data-Definitions"><span class="nav-number">1.3.</span> <span class="nav-text">自指数据定义的设计 Designing With Self-Referential Data Definitions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.1.</span> <span class="nav-text">设计方法</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -218,7 +218,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-24 23:30:59" itemprop="dateModified" datetime="2026-05-24T23:30:59+08:00">2026-05-24</time>
+      <time title="修改时间：2026-06-02 23:36:30" itemprop="dateModified" datetime="2026-06-02T23:36:30+08:00">2026-06-02</time>
     </span>
 
   
@@ -259,7 +259,7 @@
 <span id="more"></span>
 
 <hr>
-<h2 id="What-Is-‘-What-Is-cons-什么是-‘-什么是-cons"><a href="#What-Is-‘-What-Is-cons-什么是-‘-什么是-cons" class="headerlink" title="What Is ‘() What Is cons 什么是 ‘() 什么是 cons"></a>What Is ‘() What Is cons 什么是 ‘() 什么是 cons</h2><p>编写，检索列表中是否存在目标字符串的程序</p>
+<h2 id="Computing-with-Lists-使用列表计算"><a href="#Computing-with-Lists-使用列表计算" class="headerlink" title="Computing with Lists 使用列表计算"></a>Computing with Lists 使用列表计算</h2><p>编写，检索列表中是否存在目标字符串的程序</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">(define (all-string? . args)</span><br><span class="line">    (or (empty? args)</span><br><span class="line">        (and (string? (first args))</span><br><span class="line">            (apply all-string? (rest args)))))</span><br><span class="line">    ; (andmap string? args))</span><br><span class="line"></span><br><span class="line">(define (safe-string=? a b)</span><br><span class="line">    (and</span><br><span class="line">        (all-string? a b)</span><br><span class="line">        (string=? a b)))</span><br><span class="line"></span><br><span class="line">(define (contains-flatt? alon)</span><br><span class="line">    (and (not (empty? alon))</span><br><span class="line">        (or (safe-string=? (first alon) &quot;Flatt&quot;)</span><br><span class="line">            (contains-flatt? (rest alon)))))</span><br></pre></td></tr></table></figure>
 
 <p>以上程序，将解析列表中是否存在 “Flatt” 字符串功能分解为三部分</p>
@@ -271,7 +271,63 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line"></span><br><span class="line">    a[all-string?]</span><br><span class="line">    b[safe-string=?]</span><br><span class="line">    c[contains-flatt?]</span><br><span class="line"></span><br><span class="line">    a --&gt; b --&gt; c</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="Computing-with-Lists-使用列表计算"><a href="#Computing-with-Lists-使用列表计算" class="headerlink" title="Computing with Lists 使用列表计算"></a>Computing with Lists 使用列表计算</h2>
+<h2 id="自指数据定义的设计-Designing-With-Self-Referential-Data-Definitions"><a href="#自指数据定义的设计-Designing-With-Self-Referential-Data-Definitions" class="headerlink" title="自指数据定义的设计 Designing With Self-Referential Data Definitions"></a>自指数据定义的设计 Designing With Self-Referential Data Definitions</h2><h3 id="设计方法"><a href="#设计方法" class="headerlink" title="设计方法"></a>设计方法</h3><ol>
+<li>如果涉及任意大小的信息，需要一个自指数据定义来表示它。</li>
+</ol>
+<p>自指数据定义的有效性必须满足两个条件：</p>
+<ul>
+<li>必须包含至少两种情况</li>
+<li>至少有一种情况不得回溯到所定义的数据类型<ul>
+<li>使用数据定义中指向所定义术语的箭头明确标识自指</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li><p>头部材质：签名、目的陈述和虚拟定义，并没有变化。当制定目的陈述时，重点关注函数 <strong>计算了什么</strong> 而非 <strong>如何实现</strong> 尤其是如何处理给定数据的实例</p>
+</li>
+<li><p>在函数示例中，务必多次处理使用数据定义中自指子句的输入。这是以后制定涵盖整个函数定义测试的最佳方式</p>
+</li>
+<li><p>从本质上讲，自指数据定义类似于混合数据的数据定义。因此，模板的开发可以按照条目和结构中的方案进行。</p>
+<ul>
+<li>注意：模板的目的是将数据定义表达为函数布局。</li>
+</ul>
+</li>
+<li><p>对于函数体，应该从以下几个开始</p>
+<ul>
+<li>没有递归函数调用的 <strong>cond line</strong> 称为 <em><strong>base case 基础情况</strong></em>，相应的答案通常都很简单以表述或作为示例</li>
+<li>处理自指的情况<ul>
+<li>首先，应该明确模板行中每个表达式计算的内容，对于 <em>自然递归</em> ，我们假设函数已经按照目的陈述中指定操作执行。</li>
+</ul>
+</li>
+<li><strong>剩下的就是将各个数值组合起来</strong></li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>对于使用递归进行数值组合的方式，其形式并非那么容易设计，主要是由于进行递归值副本进行传递以及如何传出递归值<br>根本原因在于：Lisp语言的常量特性，以及值拷贝语义，无法直接进行值更新，需要在不同的递归层间进行返回值的规划</p>
+</blockquote>
+<p>参考以下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">; List-of-strings -&gt; Number</span><br><span class="line">; counts how many strings alos contains</span><br><span class="line">(define (List-of-strings alos)</span><br><span class="line">    (cond</span><br><span class="line">        [(empty? alos) 0]</span><br><span class="line">        [(string? (first alos)) (+ (List-of-strings (rest alos)) 1)]</span><br><span class="line">        [else (+ (List-of-strings (rest alos)) 0)]))</span><br><span class="line"></span><br><span class="line">(define test-list &#x27;(&quot;a&quot; &quot;b&quot; 1 2 3 #f #t &quot;c&quot; &quot;d&quot; &quot;e&quot;))</span><br><span class="line"></span><br><span class="line">(List-of-strings test-list)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>由于常量语义，副本传递语义，无法管理与更新一个类似于其他命令型语言中的 <code>int size = 0;</code> 语法，进行迭代计数<br>在该段代码中，使用 <code>cond</code> 对参数(列表)情况进行处理</p>
+<ol>
+<li>(empty? alos) 是否为空，停机情况，从此处将返回值(0:Number)向上传递</li>
+<li>[string? (first alos)]当前列表元素是否是字符串类型</li>
+</ol>
+<ul>
+<li>向下递归传递 (string? (first alos))<ul>
+<li>#t: (+ (List-of-strings (rest alos)) 1) 将递归函数返回值 +1</li>
+<li>#f: [else (+ (List-of-strings (rest alos)) 0)] 将递归函数返回值 +0</li>
+</ul>
+</li>
+</ul>
+<p>所有操作都根源都在与， <strong>如何使用递归替换循环</strong></p>
+</blockquote>
+<ol start="6">
+<li>请确保所有函数示例都可以转化为测试，并且检测实例的边界情况</li>
+</ol>
+
     </div>
 
     
