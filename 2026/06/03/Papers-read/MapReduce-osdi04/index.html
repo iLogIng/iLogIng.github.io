@@ -28,7 +28,7 @@
 <meta property="og:description" content="MapReduce: 大规模集群上的简化数据处理 原始论文  摘要用户侧  map 函数：处理键值对，生成一组中间键值对 reduce 函数：合并与同一中间键关联的所有中间值  特性  自动并行化，适于在大型机器集群上执行。 运行时系统负责处理输入数据的分区、跨机器集合调度程序执行、处理机器故障以及管理所需机器间通信。提供了一种方法，封装了分布式系统的复杂性。 具有高扩展性，可以适配多种分布式程序">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-06-03T02:30:00.000Z">
-<meta property="article:modified_time" content="2026-06-03T15:33:52.858Z">
+<meta property="article:modified_time" content="2026-06-04T11:49:44.557Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="Papers Read">
 <meta property="article:tag" content="xv6-project">
@@ -131,7 +131,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MapReduce-%E5%A4%A7%E8%A7%84%E6%A8%A1%E9%9B%86%E7%BE%A4%E4%B8%8A%E7%9A%84%E7%AE%80%E5%8C%96%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">MapReduce: 大规模集群上的简化数据处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.2.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map-%E4%B8%8E-reduce"><span class="nav-number">1.2.1.</span> <span class="nav-text">map 与 reduce</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Lisp%E8%AF%AD%E7%B3%BB%E7%9A%84%E8%A7%86%E8%A7%92"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Lisp语系的视角</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">编程模型</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MapReduce-%E5%A4%A7%E8%A7%84%E6%A8%A1%E9%9B%86%E7%BE%A4%E4%B8%8A%E7%9A%84%E7%AE%80%E5%8C%96%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">MapReduce: 大规模集群上的简化数据处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E8%83%8C%E6%99%AF"><span class="nav-number">1.2.</span> <span class="nav-text">方案背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map-%E4%B8%8E-reduce"><span class="nav-number">1.2.1.</span> <span class="nav-text">map 与 reduce</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Lisp%E8%AF%AD%E7%B3%BB%E7%9A%84%E8%A7%86%E8%A7%92"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Lisp语系的视角</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E6%96%87%E7%9A%84-map-reduce-%E5%A4%84%E7%90%86%E8%A7%86%E8%A7%92"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">本文的 map reduce 处理视角</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E6%A6%82%E8%BF%B0"><span class="nav-number">1.3.1.</span> <span class="nav-text">执行概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Master-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.2.</span> <span class="nav-text">Master 数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E9%94%99"><span class="nav-number">1.3.3.</span> <span class="nav-text">容错</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#worker-%E6%95%85%E9%9A%9C"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">worker 故障</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#master-%E6%95%85%E9%9A%9C"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">master 故障</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96"><span class="nav-number">1.3.4.</span> <span class="nav-text">优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Combiner-%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">Combiner 函数</span></a></li></ol></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -210,9 +210,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-06-03 10:30:00 / 修改时间：23:33:52" itemprop="dateCreated datePublished" datetime="2026-06-03T10:30:00+08:00">2026-06-03</time>
+      <time title="创建时间：2026-06-03 10:30:00" itemprop="dateCreated datePublished" datetime="2026-06-03T10:30:00+08:00">2026-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-06-04 19:49:44" itemprop="dateModified" datetime="2026-06-04T19:49:44+08:00">2026-06-04</time>
     </span>
 
   
@@ -238,7 +244,7 @@
 <li>运行时系统负责处理输入数据的分区、跨机器集合调度程序执行、处理机器故障以及管理所需机器间通信。提供了一种方法，封装了分布式系统的复杂性。</li>
 <li>具有高扩展性，可以适配多种分布式程序任务</li>
 </ol>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>MapReduce框架的出现，是为了解决，大量数据如何在大型分布式系统上实现并行化计算、分布数据和故障处理等，复杂的并发细节（该问题导致原来设计的简单计算任务代码，为了满足分布式系统的并发需求，而增加了大量的并发复杂性）</p>
+<h2 id="方案背景"><a href="#方案背景" class="headerlink" title="方案背景"></a>方案背景</h2><p>MapReduce框架的出现，是为了解决，大量数据如何在大型分布式系统上实现并行化计算、分布数据和故障处理等，复杂的并发细节（该问题导致原来设计的简单计算任务代码，为了满足分布式系统的并发需求，而增加了大量的并发复杂性）</p>
 <p>MapReduce在计算任务与分布式系统之间设计了一种新的抽象，将简单计算与复杂并发细节相分离。</p>
 <p>MapReduce库的抽象设计受到Lisp及许多函数式语言中的 <code>map</code> 与 <code>reduce</code> 原语的启发。对输入的每个输入逻辑应用 <code>map</code> 操作，计算一组中间键值对，对共享相同键的值应用 <code>reduce</code> 操作，以适当的合并派生数据。将函数式的 <code>map</code> 与 <code>reduce</code> 的实现交由用户制定，库只需要提供并行化方法，使用户轻松实现程序并行化。该库将重新执行作为容错的主要机制。</p>
 <h3 id="map-与-reduce"><a href="#map-与-reduce" class="headerlink" title="map 与 reduce"></a>map 与 reduce</h3><ul>
@@ -269,12 +275,111 @@
 <li><strong>组合能力强</strong> <code>map</code> <code>reduce</code> 函数可以嵌套、串联，形成流水线（MapReduce）</li>
 <li><strong>函数式编程核心</strong> 两个原语分别对应了两大递归模式 <strong>映射(map)</strong> <strong>折叠(fold)</strong> ，可以实现大量遍历操作</li>
 </ul>
-<p>即， <code>map</code> 将列表的形态进行转换，仅更新列表元素（<em><strong>接受一组输入对，产生一组中间键值对</strong></em>）<br><code>reduce</code> 将列表转化为一个值，将列表中的所有值，按一定规则进行规约（<em><strong>将具有相同中间键K对应的一组值合并为更小的集合</strong></em>）</p>
-<p>如，使用以下racket程序，将奇数连接为一个列表（利用了 map 与 reduce 的嵌套）</p>
+<h4 id="本文的-map-reduce-处理视角"><a href="#本文的-map-reduce-处理视角" class="headerlink" title="本文的 map reduce 处理视角"></a>本文的 map reduce 处理视角</h4><p><strong>从Lisp原语含义转向本文视角</strong></p>
+<ul>
+<li><code>map</code> 将列表的形态进行转换，仅更新列表元素<ul>
+<li>（<em><strong>接受一组输入对，产生一组中间键值对</strong></em>）</li>
+</ul>
+</li>
+<li><code>reduce</code> 将列表转化为一个值，将列表中的所有值，按一定规则进行规约<ul>
+<li>（<em><strong>将具有相同中间键K对应的一组值合并为更小的集合</strong></em>）</li>
+</ul>
+</li>
+</ul>
+<p>如，使用以下racket程序，将map处理过的奇数，由foldl处理，连接为一个列表（利用了 map 与 reduce 的嵌套）</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(foldl</span><br><span class="line">    (lambda (x acc) ; proc</span><br><span class="line">        (if (odd? x)</span><br><span class="line">            (append acc (list x))</span><br><span class="line">            acc))</span><br><span class="line">    &#x27;() ; init</span><br><span class="line">    (map add1 &#x27;(1 2 3 4 5)) ; lst</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
+<p>MapReduce系统下的语义与Lisp语系的差别</p>
+<ol>
+<li><code>map</code> 处理一个个键值对 <em><strong>(k0, v0)</strong></em> 输出一组中间键值对 <em><strong>(k1, v1)</strong></em><ul>
+<li>(k0, v0) -&gt; list((k1, v1)…)</li>
+</ul>
+</li>
+<li>将具有相同中间键的值进行排列，该 <strong>分组&#x2F;洗牌</strong>阶段，交由该框架处理<ul>
+<li>默认将同一中间键的值 <em><strong>按字典序进行排序</strong></em></li>
+<li>封装了按键分组中的众多分布式难题，仅暴露值迭代器（<em>Iterator</em> values）</li>
+<li>(key, <em>Iterator</em> values)</li>
+</ul>
+</li>
+<li><code>reduce</code> 函数通过调用 emit(k, v) 产生任意条输出记录，这些记录最终追加到该 reduce 分区的输出文件中<ul>
+<li>reduce (k1, list(v1)) -&gt; list(v1)</li>
+<li>操作形式并非 Lisp语系 中的reduce<ul>
+<li>Lisp折叠 –&gt; MapReduce合并</li>
+</ul>
+</li>
+<li>中间键对应的值列表由迭代器提供给用户的reduce函数<ul>
+<li>处理 key -&gt; <em>Iterator</em> values</li>
+</ul>
+</li>
+<li>将由 <code>map</code> 生成的各个具有相同中间键的中间值合并为一个可能更小的集合<ul>
+<li>可以是类似于Lisp中的累积归约（如论文中的 Word Count 例子）</li>
+<li>也可以是对于该集合元素的去重</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>不同reduce之间无顺序依赖<ul>
+<li>多个reduce并行执行，不同reduce任务间无顺序关系</li>
+</ul>
+</li>
+<li>容错由重执行实现，无全局状态<ul>
+<li>具有函数式的无副作用性质</li>
+<li>无共享状态，重试更加安全</li>
+</ul>
+</li>
+</ol>
 <hr>
-<h2 id="编程模型"><a href="#编程模型" class="headerlink" title="编程模型"></a>编程模型</h2>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="执行概述"><a href="#执行概述" class="headerlink" title="执行概述"></a>执行概述</h3><blockquote>
+<p>将输入数据自动区分为一组 <em><strong>M个分片</strong></em><br>Reduce 调用通过使用分区函数（如 <code>hash(key) mod R</code> ）将中间键空间划分为R个片段来分布<br>分区的数量（R）和分区函数由用户进行指定</p>
+</blockquote>
+<ol>
+<li>用户程序中的 MapReduce 先将输入文件分为 <em><strong>M个片段</strong></em>。然后，在集群机器上启动程序的许多副本。</li>
+<li>由一个程序副本作为 <strong>master(主节点)</strong> 为各个 <strong>worker(工作节点)</strong> 分配工作。<ul>
+<li>master 将 <strong>M个map任务</strong> 和 <strong>R个reduce任务</strong> 分配给空闲的worker</li>
+</ul>
+</li>
+<li>map worker 读取相应输入分片的内容。从数据中解析出键值对，将每个对传递给 <em><strong>用户定义的Map</strong></em> 函数。Map函数产生的中间键值对缓冲在内存中</li>
+<li>缓冲的对定期写入本地磁盘，通过分区函数 <em><strong>划分为R个区域</strong></em>。这些被持久化的缓冲对在本地磁盘上的位置被传回 <strong>master</strong>，由master将这些位置转发至 <em>reduce worker</em>。</li>
+<li><em><strong>reduce worker</strong></em> 被 <strong>master</strong> 通知这些中间键值对的存储位置时，使用远程过程调用从 <em><strong>map worker</strong></em> 的本地磁盘读取缓冲的数据。当 reduce worker 读取了所有中间数据后，按中间键对数据进行排序，将相同键的所有出现分组在一起。<ul>
+<li>排序是必要的，通常许多不同的键被映射到一个reduce任务。</li>
+<li>对于中间数据量过大的情况，使用外部排序</li>
+<li>排序作为框架的强制性措施，是为了让reduce对中间键值对进行流式的连续处理，而不必将所有中间键同时加载到内存中，使key连续到达进行集中处理</li>
+</ul>
+</li>
+<li><em><strong>reduce worker</strong></em> 遍历排序后的中间数据，对于遇到的每个唯一中间键，将键和相应的中间值传递给 <em><strong>用户定义的Reduce</strong></em> 函数。该Reduce函数的输出被追加到该reduce分区的最终输出文件中</li>
+<li>当所有的map与reduce任务都完成后， <strong>master</strong> 唤醒用户程序。此时，用户程序中的MapReduce调用返回用户代码</li>
+</ol>
+<p>程序完成后，mapreduce执行的输出在R个（每个reduce一个）输出文件中可用。通常不需要将这R个文件进行合并，而是 <em><strong>作为另一个MapReduce调用的输入</strong></em> 或 <em><strong>另一个能够处理分区为多个文件输入的分布式应用程序中使用</strong></em></p>
+<hr>
+<h3 id="Master-数据结构"><a href="#Master-数据结构" class="headerlink" title="Master 数据结构"></a>Master 数据结构</h3><ul>
+<li>存储 map 与 reduce 的任务状态<ul>
+<li>空闲</li>
+<li>进行中</li>
+<li>已完成</li>
+</ul>
+</li>
+<li>master作为map任务传播到reduce任务的通道<ul>
+<li>存储map任务产生的R个中间文件的位置与大小</li>
+</ul>
+</li>
+</ul>
+<h3 id="容错"><a href="#容错" class="headerlink" title="容错"></a>容错</h3><h4 id="worker-故障"><a href="#worker-故障" class="headerlink" title="worker 故障"></a>worker 故障</h4><p>master 定期ping每个worker，当worker无法响应，则被标记为失败，任务被重置为空闲的初始状态，以供其他worker进行调度。<br>已完成的map任务在故障时需要重新执行，因为其输出的数据存储在故障机器的本地磁盘上，无法访问。<br>已完成的reduce任务不需要重新执行，它们的输出存储在全局文件系统中。<br>当一个map任务首先由workerA执行，然后由workerB执行（A失败），所有执行reduce任务的worker都会收到重新执行的通知。任何尚未从workerA读取数据的reduce任务将从workerB中读取数据</p>
+<p>中间数据置于本地磁盘而非全局文件系统（GFS）中，是为了避免网络往返，但故障后需要进行冗余的重跑</p>
+<ul>
+<li>map 输出是中间数据，量大且只被 reduce 消费一次，放本地磁盘避免网络带宽浪费。</li>
+<li>reduce 输出是最终结果，需要持久可靠，且可能被下游直接读取，所以放 GFS。</li>
+<li>代价是 map 失败后必须重跑 map，且通知所有相关 reducer 重读新位置。</li>
+</ul>
+<h4 id="master-故障"><a href="#master-故障" class="headerlink" title="master 故障"></a>master 故障</h4><p>进行单点控制，简化一致性处理，但是由于作为map与reduce任务间的桥梁，将成为系统的容量瓶颈与单点故障点，仅由检查点进行恢复<br>让master定期的写入master数据结构的检查点。若master任务终止，可以从最后一个检查点状态启动一个新副本，手动恢复。</p>
+<hr>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><h4 id="Combiner-函数"><a href="#Combiner-函数" class="headerlink" title="Combiner 函数"></a>Combiner 函数</h4><p>用户可以定义一个可选的 Combiner 函数，在数据通过网络发送前对其进行部分合并，将在reduce中需要进行的合并操作提前至map中，优化reduce函数执行过程<br>Combiner函数在每个执行map任务的机器上执行</p>
+<ul>
+<li>Combiner函数仅对结合率与交换律成立的计算才安全</li>
+<li>reduce函数的输出写入最终的输出文件</li>
+<li>Combiner函数的输出发送至reduce任务的中间文件，在语义上可以与reduce进行互换</li>
+</ul>
+
     </div>
 
     

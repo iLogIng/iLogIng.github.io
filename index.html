@@ -295,9 +295,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-06-03 10:30:00 / 修改时间：23:33:52" itemprop="dateCreated datePublished" datetime="2026-06-03T10:30:00+08:00">2026-06-03</time>
+      <time title="创建时间：2026-06-03 10:30:00" itemprop="dateCreated datePublished" datetime="2026-06-03T10:30:00+08:00">2026-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-06-04 19:49:44" itemprop="dateModified" datetime="2026-06-04T19:49:44+08:00">2026-06-04</time>
     </span>
 
   
@@ -324,7 +330,7 @@
 <li>运行时系统负责处理输入数据的分区、跨机器集合调度程序执行、处理机器故障以及管理所需机器间通信。提供了一种方法，封装了分布式系统的复杂性。</li>
 <li>具有高扩展性，可以适配多种分布式程序任务</li>
 </ol>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>MapReduce框架的出现，是为了解决，大量数据如何在大型分布式系统上实现并行化计算、分布数据和故障处理等，复杂的并发细节（该问题导致原来设计的简单计算任务代码，为了满足分布式系统的并发需求，而增加了大量的并发复杂性）</p>
+<h2 id="方案背景"><a href="#方案背景" class="headerlink" title="方案背景"></a>方案背景</h2><p>MapReduce框架的出现，是为了解决，大量数据如何在大型分布式系统上实现并行化计算、分布数据和故障处理等，复杂的并发细节（该问题导致原来设计的简单计算任务代码，为了满足分布式系统的并发需求，而增加了大量的并发复杂性）</p>
 <p>MapReduce在计算任务与分布式系统之间设计了一种新的抽象，将简单计算与复杂并发细节相分离。</p>
 <p>MapReduce库的抽象设计受到Lisp及许多函数式语言中的 <code>map</code> 与 <code>reduce</code> 原语的启发。对输入的每个输入逻辑应用 <code>map</code> 操作，计算一组中间键值对，对共享相同键的值应用 <code>reduce</code> 操作，以适当的合并派生数据。将函数式的 <code>map</code> 与 <code>reduce</code> 的实现交由用户制定，库只需要提供并行化方法，使用户轻松实现程序并行化。该库将重新执行作为容错的主要机制。</p>
 <h3 id="map-与-reduce"><a href="#map-与-reduce" class="headerlink" title="map 与 reduce"></a>map 与 reduce</h3><ul>
