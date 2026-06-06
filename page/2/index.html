@@ -138,7 +138,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -166,6 +166,233 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/27/CS-infra/OS/xv6-projects/concurrency-webserver/concurrency-webserver/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/05/27/CS-infra/OS/xv6-projects/concurrency-webserver/concurrency-webserver/" class="post-title-link" itemprop="url">concurrency-webserver</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-27 21:31:27" itemprop="dateCreated datePublished" datetime="2026-05-27T21:31:27+08:00">2026-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-29 14:37:06" itemprop="dateModified" datetime="2026-05-29T14:37:06+08:00">2026-05-29</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="wserver-程序解析"><a href="#wserver-程序解析" class="headerlink" title="wserver 程序解析"></a>wserver 程序解析</h1><blockquote>
+<p>仓库提供的源代码中，该 wserver 程序是可以直接进行 make 构建的</p>
+</blockquote>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><ol>
+<li>为服务器添加多线程功能<ul>
+<li><code>pthread</code></li>
+<li>处理静态和动态请求</li>
+<li>主线程然后负责通过网络接受新的 HTTP 连接，并将此连接的描述符放入一个固定大小的缓冲区中</li>
+<li>主线程和工作线程处于生产者-消费者关系中，需要同步它们对共享缓冲区的访问。<ul>
+<li>如果缓冲区已满，主线程必须阻塞并等待；如果缓冲区为空，工作线程必须等待。使用条件变量实现。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>实现不同的调度策略 <code>FIFO</code> <code>SFF</code></li>
+<li>修改Web服务器的调用方式，使其能够处理新的输入参数</li>
+</ol>
+<hr>
+<h2 id="原-wserver-程序处理过程"><a href="#原-wserver-程序处理过程" class="headerlink" title="原 wserver 程序处理过程"></a>原 wserver 程序处理过程</h2><ol>
+<li><p>监听并读取客户端套接字 <code>accept_or_die</code></p>
+</li>
+<li><p>处理客户端连接请求 <code>request_handle</code></p>
+<ol>
+<li><p>读取并解析客户端请求，分析请求行</p>
+</li>
+<li><p>根据请求类型 <code>is_static</code> 进行静态&#x2F;动态请求的响应</p>
+<ul>
+<li><p>静态请求<code>request_serve_static</code>：调用mmap建立文件内存映射，读取本地文件，返回响应</p>
+</li>
+<li><p>动态请求<code>request_serve_dynamic</code>：通过调起子进程执行CGI程序处理</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>处理完成，关闭连接 <code>close_or_die</code></p>
+</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/05/27/CS-infra/OS/xv6-projects/concurrency-webserver/concurrency-webserver/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/23/languages/HtDP/htdp-II/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/05/23/languages/HtDP/htdp-II/" class="post-title-link" itemprop="url">How to Design Programs -- II.Arbitrarily Data</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-23 17:37:00" itemprop="dateCreated datePublished" datetime="2026-05-23T17:37:00+08:00">2026-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-06-02 23:36:30" itemprop="dateModified" datetime="2026-06-02T23:36:30+08:00">2026-06-02</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><em><strong>程序即数据、数据即程序</strong></em></p>
+<blockquote>
+<p><em>How to Design Programs</em><br>一书聚焦于 <strong>GUI</strong> 与 <strong>批处理</strong> 程序</p>
+</blockquote>
+<p><em><strong><a target="_blank" rel="noopener" href="https://htdp.org/2026-2-25//Book/part_two.html">II.Arbitrarily Data</a></strong></em></p>
+<h1 id="任意大数据"><a href="#任意大数据" class="headerlink" title="任意大数据"></a>任意大数据</h1><h2 id="Lists-列表"><a href="#Lists-列表" class="headerlink" title="Lists 列表"></a>Lists 列表</h2><blockquote>
+<ul>
+<li><em>cons</em> 本质是一个二元组<ul>
+<li>形式为 <code>&#39;(1 2)</code></li>
+<li>输出形式为 <code>(1 . 2)</code> 使用 <code>.</code> 进行分隔</li>
+</ul>
+</li>
+<li><em>list</em> 表示一串二元组嵌套而成的列表<ul>
+<li>形式为 <code>&#39;(1 2 3 4 5)</code></li>
+<li>本质是 <code>&#39;(cons 1 (cons 2 (cons 3 (cons 4 &#39;()))))</code> 最内层的后一个元素（list最后一个元素之后）为 空 <code>&#39;()</code></li>
+<li>输出形式为 <code>(1 2 3 4 5)</code> 将空元素省略</li>
+<li>真列表(<em>proper list</em>)的结尾为一个隐式的 <code>&#39;()</code> 元素</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>这也就可以解释，为什么一下用例中 <code>(list? cons-cons)</code> 产生 <code>#f</code> 返回，因为， <code>cons-cons</code> 就不是真列表，而是一个 <code>(cons (list ...) elem)</code> 的二元组</p>
+<p>而 <code>(cons? ...)</code> 只需要检测输入是否为二元组，并且检查时直接将 <code>list</code> 展开为 <code>cons</code> 在下列用例中无论如何都返回为 <code>#t</code></p>
+<p>相当于 <code>(cons 1 (list 2 3 4 5))</code> 相当于 <code>(list 1 2 3 4 5)</code> 将cons内部的list展开</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">(define test-list</span><br><span class="line">    (list</span><br><span class="line">        1 (cons 2 3) (list 5 6 7 8) 9))</span><br><span class="line"></span><br><span class="line">(define test-cons</span><br><span class="line">    (cons</span><br><span class="line">        (cons 1 2)</span><br><span class="line">        (list 3 4 (cons 5 6) 7 (cons 8 9))))</span><br><span class="line"></span><br><span class="line">(define cons-cons</span><br><span class="line">    (cons 1</span><br><span class="line">        (cons 2</span><br><span class="line">            (cons 3</span><br><span class="line">                (cons 4 5)))))</span><br><span class="line"></span><br><span class="line">(define cons-null</span><br><span class="line">    (cons 1</span><br><span class="line">    (cons 2</span><br><span class="line">        (cons 3 &#x27;()))))</span><br><span class="line"></span><br><span class="line">(printf &quot;~a\n&quot; test-list)</span><br><span class="line">(printf &quot;~a\n&quot; test-cons)</span><br><span class="line">(printf &quot;~a\n&quot; cons-cons)</span><br><span class="line">(printf &quot;~a\n&quot; cons-null)</span><br><span class="line"></span><br><span class="line">(list? cons-cons) ; #f</span><br><span class="line">(cons? cons-cons) ; #t</span><br><span class="line">(list? cons-null) ; #t</span><br><span class="line">(cons? cons-null) ; #t</span><br><span class="line">(list? &#x27;(1 2 3 4 5)) ; #t</span><br><span class="line">(cons? &#x27;(1 2 3 4 5)) ; #t</span><br><span class="line"></span><br><span class="line">(define full-name</span><br><span class="line">    (cons &quot;first-name&quot;</span><br><span class="line">        (cons &quot;middle-name&quot;</span><br><span class="line">            (cons &quot;last-name&quot; &#x27;()))))</span><br><span class="line">(display full-name)</span><br><span class="line"></span><br><span class="line">(define cons-list</span><br><span class="line">    (cons 1 &#x27;(2 3 4 5)))</span><br><span class="line">(display cons-list)</span><br><span class="line">(printf &quot;\n&quot;)</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/05/23/languages/HtDP/htdp-II/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -843,196 +1070,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/08/CS-infra/OS/xv6-projects/xv6-catalog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/05/08/CS-infra/OS/xv6-projects/xv6-catalog/" class="post-title-link" itemprop="url">xv6-catalog</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-05-08 10:00:00" itemprop="dateCreated datePublished" datetime="2026-05-08T10:00:00+08:00">2026-05-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-29 14:03:43" itemprop="dateModified" datetime="2026-05-29T14:03:43+08:00">2026-05-29</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>关于编写 <strong>C&#x2F;Linux</strong> 实验（流程设计）：</p>
-<ol>
-<li>建立一个自己的项目目录</li>
-<li>阅读各个实验子项的 <em><strong>README.md</strong></em> 文档</li>
-<li>阅读 <strong>man page</strong> 分析各个程序的功能实现</li>
-<li>设计程序流程</li>
-<li>编写程序</li>
-</ol>
-</blockquote>
-<h1 id="CATALOG"><a href="#CATALOG" class="headerlink" title="CATALOG"></a>CATALOG</h1><h2 id=""><a href="#" class="headerlink" title=""></a><img src="/./initial-ultilities/initial-ultilities.md" alt="initial-ultilities"></h2><h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="/./initial-reverse/initial-reverse.md" alt="initial-reverse"></h2><h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="/./initial-kv/initial-kv.md" alt="initial-kv"></h2><h2 id="-3"><a href="#-3" class="headerlink" title=""></a><img src="/./process-shell/process-shell.md" alt="process-shell"></h2><h2 id="-4"><a href="#-4" class="headerlink" title=""></a><img src="/./concurrency-webserver/concurrency-webserver.md" alt="concurrency-webserver"></h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/05/08/CS-infra/OS/xv6-projects/xv6-catalog/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/04/23/tools/claude-code/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/04/23/tools/claude-code/" class="post-title-link" itemprop="url">claude code 命令行</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-04-23 21:12:44" itemprop="dateCreated datePublished" datetime="2026-04-23T21:12:44+08:00">2026-04-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-09 21:46:46" itemprop="dateModified" datetime="2026-05-09T21:46:46+08:00">2026-05-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><strong>npm 命令行安装</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g @anthropic-ai/claude-code</span><br></pre></td></tr></table></figure>
-<h2 id="模型配置"><a href="#模型配置" class="headerlink" title="模型配置"></a>模型配置</h2><p><strong>配置默认模型为Opus 4</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ claude config <span class="built_in">set</span> model claude-4-opus</span><br></pre></td></tr></table></figure>
-
-<p><strong>配置为Sonnet 4</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ claude config <span class="built_in">set</span> model claude-4-sonnet</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看配置"><a href="#查看配置" class="headerlink" title="查看配置"></a>查看配置</h2><p><strong>查看所有配置</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ claude config list</span><br></pre></td></tr></table></figure>
-
-<p><strong>查看特定配置</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ claude config get &lt;component&gt;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/04/23/tools/claude-code/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
