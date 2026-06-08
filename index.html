@@ -205,7 +205,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-06-08 21:39:00 / 修改时间：21:41:53" itemprop="dateCreated datePublished" datetime="2026-06-08T21:39:00+08:00">2026-06-08</time>
+      <time title="创建时间：2026-06-08 21:39:00 / 修改时间：21:51:15" itemprop="dateCreated datePublished" datetime="2026-06-08T21:39:00+08:00">2026-06-08</time>
     </span>
 
   
@@ -237,7 +237,13 @@
 </ul>
 </li>
 </ul>
-<h3 id="项目编译"><a href="#项目编译" class="headerlink" title="项目编译"></a>项目编译</h3><p>在项目根目录下运行 <code>make qemu</code> 即可，<br>在等待一段时间的构建与编译后，终端会显示 <code>$</code> 提示符预示着已经进入 <strong>xv6</strong>* 系统的 <code>qemu</code> 界面，可以使用 <code>ls</code> 显示当前所有内建命令，使用 <code>ctrl+a x</code> (先 <code>ctrl+a</code> 在 <code>x</code>) 退出 <code>qemu</code></p>
+<h3 id="项目编译"><a href="#项目编译" class="headerlink" title="项目编译"></a>项目编译</h3><p>构建前</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;your-clone-dir&gt;$ <span class="built_in">ls</span></span><br><span class="line">kernel  LICENSE  Makefile  mkfs  README  test-xv6.py  user</span><br><span class="line">&lt;your-clone-dir&gt;$ make qemu</span><br></pre></td></tr></table></figure>
+
+<p>构建后，新增了一个 <code>fs.img</code> 文件系统镜像文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;your-clone-dir&gt;$ <span class="built_in">ls</span></span><br><span class="line">fs.img  kernel  LICENSE  Makefile  mkfs  README  test-xv6.py  user</span><br><span class="line">&lt;your-clone-dir&gt;$ make qemu</span><br></pre></td></tr></table></figure>
+
+<p>在项目根目录下运行 <code>make qemu</code> 即可，<br>在等待一段时间的构建与编译后，终端会显示 <code>$</code> 提示符预示着已经进入 <strong>xv6</strong>* 系统的 <code>qemu</code> 界面，可以使用 <code>ls</code> 显示当前所有内建命令，使用 <code>ctrl+a x</code> (先 <code>ctrl+a</code> 在 <code>x</code>) 退出 <code>qemu</code></p>
 
       
     </div>
