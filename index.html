@@ -138,7 +138,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -166,6 +166,95 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/08/CS-infra/OS/xv6-projects/xv6-rsicv/initial-xv6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/06/08/CS-infra/OS/xv6-projects/xv6-rsicv/initial-xv6/" class="post-title-link" itemprop="url">Initial xv6</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-06-08 21:39:00 / 修改时间：21:41:53" itemprop="dateCreated datePublished" datetime="2026-06-08T21:39:00+08:00">2026-06-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Initial-xv6"><a href="#Initial-xv6" class="headerlink" title="Initial xv6"></a>Initial xv6</h1><blockquote>
+<p>在课程仓库的 <code>INSTALL-xv6.md</code> 中，仅仅编写了 <code>MacOS</code> 下的实验初始化方法，接下来是简单的 <code>Linux</code> 系统初始化方法</p>
+</blockquote>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><h3 id="项目仓库克隆"><a href="#项目仓库克隆" class="headerlink" title="项目仓库克隆"></a>项目仓库克隆</h3><p>使用 <code>git clone https://github.com/mit-pdos/xv6-rsicv</code> 进行项目克隆（我们使用 rsicv 架构版本，而非课程仓库中MacOS环境下的x86架构版本，接下来的所有实验操作都在此版本上进行）</p>
+<h3 id="基础实验工具"><a href="#基础实验工具" class="headerlink" title="基础实验工具"></a>基础实验工具</h3><blockquote>
+<p>使用包管理器进行安装</p>
+</blockquote>
+<ul>
+<li><p><strong>虚拟机</strong></p>
+<ul>
+<li><code>qemu</code></li>
+</ul>
+</li>
+<li><p><strong>交叉编译工具</strong></p>
+<ul>
+<li><code>riscv64-linux-gnu-gcc</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="项目编译"><a href="#项目编译" class="headerlink" title="项目编译"></a>项目编译</h3><p>在项目根目录下运行 <code>make qemu</code> 即可，<br>在等待一段时间的构建与编译后，终端会显示 <code>$</code> 提示符预示着已经进入 <strong>xv6</strong>* 系统的 <code>qemu</code> 界面，可以使用 <code>ls</code> 显示当前所有内建命令，使用 <code>ctrl+a x</code> (先 <code>ctrl+a</code> 在 <code>x</code>) 退出 <code>qemu</code></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -752,91 +841,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/06/02/Graphics/sfml-cloth-simulation/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/31/CS-infra/OS/xv6-projects/concurrency-pzip/concurrency-pzip/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/05/31/CS-infra/OS/xv6-projects/concurrency-pzip/concurrency-pzip/" class="post-title-link" itemprop="url">concurrency-pzip</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-05-31 17:30:00 / 修改时间：18:56:25" itemprop="dateCreated datePublished" datetime="2026-05-31T17:30:00+08:00">2026-05-31</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="pzip程序设计"><a href="#pzip程序设计" class="headerlink" title="pzip程序设计"></a>pzip程序设计</h1><h2 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h2><ul>
-<li>熟悉 Linux pthreads。</li>
-<li>学习如何并行化程序。</li>
-<li>学习如何为高性能编程。</li>
-</ul>
-<h2 id="程序要求"><a href="#程序要求" class="headerlink" title="程序要求"></a>程序要求</h2><ul>
-<li>参考 <em><strong>initial-utilities&#x2F;wzip (wunzip)</strong></em> <em><strong>游程压缩</strong></em> 原理，编写 <code>pzip</code> 程序</li>
-<li>考虑使用 <em><strong>mmap</strong></em> 调用，将文件映射至内存中进行处理</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/05/31/CS-infra/OS/xv6-projects/concurrency-pzip/concurrency-pzip/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
