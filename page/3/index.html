@@ -138,7 +138,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -166,6 +166,166 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/09/CS-infra/OS/xv6-projects/initial-ultilities/initial-ultilities/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/05/09/CS-infra/OS/xv6-projects/initial-ultilities/initial-ultilities/" class="post-title-link" itemprop="url">initial-ultilities</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-09 21:44:00" itemprop="dateCreated datePublished" datetime="2026-05-09T21:44:00+08:00">2026-05-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-29 14:22:17" itemprop="dateModified" datetime="2026-05-29T14:22:17+08:00">2026-05-29</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="wcat"><a href="#wcat" class="headerlink" title="wcat"></a>wcat</h1><blockquote>
+<p>wcat 程序的功能是读取用户指定的文件并打印文件内容</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">prompt&gt; ./wcat main.c</span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="依赖例程"><a href="#依赖例程" class="headerlink" title="依赖例程"></a>依赖例程</h2><ul>
+<li><p><strong>fopen()</strong></p>
+</li>
+<li><p><strong>fgets()</strong></p>
+</li>
+<li><p><strong>fclose()</strong></p>
+</li>
+<li><p><strong>printf()</strong></p>
+</li>
+<li><p><strong>perror()</strong></p>
+</li>
+<li><p><strong>strerror()</strong></p>
+</li>
+</ul>
+<h2 id="实验需求"><a href="#实验需求" class="headerlink" title="实验需求"></a>实验需求</h2><ul>
+<li>你的程序 <strong>wcat</strong> 可以在命令行上使用一个或多个文件调用；<ul>
+<li>它应该依次打印出每个文件。</li>
+</ul>
+</li>
+<li>在所有非错误情况下，<strong>wcat</strong> 应以状态码 0 退出<ul>
+<li>通常通过从 <strong>main()</strong> 返回 0（或调用 <strong>exit(0)</strong>）。</li>
+</ul>
+</li>
+<li>如果命令行上<em>没有指定任何文件</em>，<strong>wcat</strong> 应直接退出并返回 0。<ul>
+<li>注意，这与普通 UNIX <strong>cat</strong> 的行为略有不同（如果你愿意，可以找出不同之处）。</li>
+</ul>
+</li>
+<li>如果程序尝试 <strong>fopen()</strong> 一个文件并失败，应打印精确的消息 “wcat: cannot open file”（后跟换行符）并以状态码 1 退出。如果命令行上指定了多个文件，应依次打印文件直到文件列表结束或遇到打开文件错误（此时打印错误消息并退出 <strong>wcat</strong>）。</li>
+</ul>
+<h2 id="流程分析"><a href="#流程分析" class="headerlink" title="流程分析"></a>流程分析</h2><ol>
+<li>打开文件<blockquote>
+<p>使用 fopen()</p>
+</blockquote>
+<ul>
+<li><em>未指定文件</em><ul>
+<li>直接退出，返回0</li>
+</ul>
+</li>
+<li><em>指定文件</em><ul>
+<li>指定多个文件<ul>
+<li>依次打印文件列表，直到 <em>打开失败</em></li>
+</ul>
+</li>
+<li>打开失败<ul>
+<li>打印精确消息 “wcat: cannot open file\n”</li>
+<li>以状态码 1 退出</li>
+</ul>
+</li>
+<li>打开成功：向下进行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>读取文件内容<blockquote>
+<p>使用 fgets()</p>
+</blockquote>
+<ul>
+<li>可以打开多个文件，按照 <em><strong>**argv</strong></em> 的传参顺序进行提取<ul>
+<li>需要 (buffer_ptr, buffer_size, FILE*)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>输出文件内容<blockquote>
+<p>使用 printf()</p>
+</blockquote>
+</li>
+<li>关闭文件<blockquote>
+<p>使用 fclose()</p>
+</blockquote>
+</li>
+</ol>
+<p><strong><a href="./code/wcat.c">wcat.c</a></strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/05/09/CS-infra/OS/xv6-projects/initial-ultilities/initial-ultilities/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -760,103 +920,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/02/12/languages/assembly/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/02/02/tools/make-note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/02/02/tools/make-note/" class="post-title-link" itemprop="url">make-note</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-02-02 10:29:23" itemprop="dateCreated datePublished" datetime="2026-02-02T10:29:23+08:00">2026-02-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-03 10:57:27" itemprop="dateModified" datetime="2026-06-03T10:57:27+08:00">2026-06-03</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Makefile"><a href="#Makefile" class="headerlink" title="Makefile"></a>Makefile</h1><blockquote>
-<p>在Linux环境下，常常使用<code>make</code>程序自动化变异大型源码。<br>项目提供一个<code>Makefile</code>文件，<code>make</code>以此为基础进行程序的编译和链接。<br><code>make</code>并不限定为构建C&#x2F;C++项目服务，还可以用于任何文件的组织与处理，但主要用于Unix&#x2F;Linux环境的自动化开发。</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/make/manual/html_node/index.html#SEC_Contents">GNU make</a></p>
-<hr>
-<h2 id="Makefile简单模板"><a href="#Makefile简单模板" class="headerlink" title="Makefile简单模板"></a>Makefile简单模板</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">CC = gcc</span><br><span class="line">INC_DIR = ./<span class="keyword">include</span></span><br><span class="line">SRC_DIR = ./src</span><br><span class="line"></span><br><span class="line">CFLAGS = -g -Wall -Werror -I<span class="variable">$(INC_DIR)</span></span><br><span class="line">LINK = -lraylib -lm</span><br><span class="line"></span><br><span class="line">INCS = <span class="variable">$(INC_DIR)</span>/rlphysics.h <span class="variable">$(<span class="built_in">wildcard</span> <span class="variable">$(INC_DIR)</span>/rlphysics/*.h)</span></span><br><span class="line">SRCS = <span class="variable">$(SRC_DIR)</span>/*c</span><br><span class="line"></span><br><span class="line">TARGET = example</span><br><span class="line"></span><br><span class="line"><span class="variable">$(TARGET)</span>: <span class="variable">$(INCS)</span> <span class="variable">$(SRCS)</span> example.c</span><br><span class="line">	<span class="variable">$(CC)</span> <span class="variable">$^</span> <span class="variable">$(CFLAGS)</span> <span class="variable">$(LINK)</span> -o <span class="variable">$@</span></span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="keyword">.PHONY</span>: clean</span></span><br><span class="line"></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm <span class="variable">$(TARGET)</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="Makefile基础"><a href="#Makefile基础" class="headerlink" title="Makefile基础"></a>Makefile基础</h2><p>在Linux环境下，输入<code>make</code>命令，程序在当前目录下查找一个名为<code>Makefile</code>的文件，然后，根据该文件定的规则，自动化的执行任意命令。</p>
-<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p><code>Makefile</code>文件由若干条<strong>规则(Rule)<strong>构成，每一条规则指出一个</strong>目标文件(Target)</strong>，若干<strong>依赖文件(prerequisites)</strong>，以及生成目标文件的命令。<br><strong>规则</strong>如下：</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 目标文件: 依赖文件1 依赖文件2 ... </span></span><br><span class="line">    <span class="comment"># 命令</span></span><br><span class="line"><span class="section">m.txt: a.txt b.txt</span></span><br><span class="line">    cat a.txt b.txt &gt; m.txt</span><br></pre></td></tr></table></figure>
-<p>以上规则使用cat命令将文件a.txt b.txt合并写入m.txt</p>
-<blockquote>
-<p><em><strong>!注意：在Makefile的规则中，命令必须以Tab开头，不能是空格</strong></em></p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/02/02/tools/make-note/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

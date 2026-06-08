@@ -138,7 +138,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -166,6 +166,117 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/08/CS-infra/OS/xv6-projects/concurrency-sort/psort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/06/08/CS-infra/OS/xv6-projects/concurrency-sort/psort/" class="post-title-link" itemprop="url">concurrency-sort</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-06-08 17:06:00 / 修改时间：17:08:41" itemprop="dateCreated datePublished" datetime="2026-06-08T17:06:00+08:00">2026-06-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="psort-程序设计"><a href="#psort-程序设计" class="headerlink" title="psort 程序设计"></a>psort 程序设计</h1><h2 id="项目文件结构"><a href="#项目文件结构" class="headerlink" title="项目文件结构"></a>项目文件结构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">concurrency-sort/</span><br><span class="line">├── Makefile              # 构建文件</span><br><span class="line">├── psort.md              # 程序设计文档</span><br><span class="line">├── README-zh.md          # 项目说明</span><br><span class="line">│</span><br><span class="line">├── Record.h              # 记录类型定义</span><br><span class="line">├── psort_utils.h/.c      # 内存文件映射 mfilemap</span><br><span class="line">├── test_utils.h          # 测试工具（随机文件生成、排序校验）</span><br><span class="line">├── thread_pool.h/.c      # 通用线程池</span><br><span class="line">│</span><br><span class="line">├── psort.h               # 排序组 &amp; 快速排序 &amp; 线性归并</span><br><span class="line">└── psort.c               # 主程序 &amp; 最小堆 k 路归并</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="可用例程"><a href="#可用例程" class="headerlink" title="可用例程"></a>可用例程</h2><ul>
+<li><em><strong>get_nprocs()</strong></em></li>
+<li><em><strong>get_nprocs_conf()</strong></em></li>
+<li><em><strong>mmap()</strong></em></li>
+<li><em><strong>fsync()</strong></em></li>
+<li><em><strong>read()</strong></em></li>
+<li><em><strong>fread()</strong></em></li>
+</ul>
+<hr>
+<h2 id="程序要求"><a href="#程序要求" class="headerlink" title="程序要求"></a>程序要求</h2><ul>
+<li>并行排序接收两个命令行参数<ul>
+<li><code>input</code></li>
+<li><code>output</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prompt&gt; ./psort input output</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>输入文件格式</p>
+<ul>
+<li><em><strong>record:</strong></em> <strong><em>key</em> 4byte</strong> | <strong><em>value</em> 96byte</strong></li>
+</ul>
+</li>
+<li><p>程序操作</p>
+<ul>
+<li>将所有记录读入内存，对记录进行排序，随后将其写入输出文件</li>
+<li>在完成之前，通过调用 <code>fsync()</code> 对输出文件进行强制写入</li>
+<li>可以假设为一次性排序</li>
+</ul>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/06/08/CS-infra/OS/xv6-projects/concurrency-sort/psort/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -726,123 +837,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/05/31/CS-infra/OS/xv6-projects/concurrency-pzip/concurrency-pzip/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/29/frm-lib/Raylib/raylib/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/05/29/frm-lib/Raylib/raylib/" class="post-title-link" itemprop="url">Raylib 杂记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-05-29 11:00:00 / 修改时间：22:52:06" itemprop="dateCreated datePublished" datetime="2026-05-29T11:00:00+08:00">2026-05-29</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Raylib-杂记"><a href="#Raylib-杂记" class="headerlink" title="Raylib 杂记"></a>Raylib 杂记</h1><blockquote>
-<p><strong>Raylib 简介</strong><br>Raylib 是一个 <strong>简单、易用且跨平台</strong> 的游戏开发库，无外部依赖，<br>特别适合用来学习图形学、游戏编程和快速制作原型。<br>它完全使用 C 语言写成（同时也提供了超过 50 种语言的绑定），<br>核心设计理念是“没有复杂依赖，开箱即用”。</p>
-</blockquote>
-<blockquote>
-<p>2D坐标，原点在屏幕左上角</p>
-<ul>
-<li>x: 指向屏幕横向向右</li>
-<li>y: 指向屏幕纵向向下</li>
-</ul>
-<p>3D坐标，采用右手系</p>
-<ul>
-<li>x: 指向屏幕横向向右</li>
-<li>y: 指向屏幕纵向向上</li>
-<li>z: 指向屏幕外侧</li>
-</ul>
-</blockquote>
-<hr>
-<h2 id="OpenGL-相关模块"><a href="#OpenGL-相关模块" class="headerlink" title="OpenGL 相关模块"></a>OpenGL 相关模块</h2><h3 id="GLFW"><a href="#GLFW" class="headerlink" title="GLFW"></a>GLFW</h3><blockquote>
-<p>Graphics Library Framework<br>是一个专门为 OpenGL 设计的 <strong>跨平台窗口和输入处理库</strong></p>
-</blockquote>
-<ul>
-<li>功能：创建窗口、创建 OpenGL 上下文、处理键盘鼠标手柄输入、管理时间等，彻底屏蔽操作系统层面的差异</li>
-<li>目前版本的 Raylib 不再依赖 GLFW，目前Raylib已拥有窗口和输入管理功能</li>
-</ul>
-<h3 id="GLSL"><a href="#GLSL" class="headerlink" title="GLSL"></a>GLSL</h3><blockquote>
-<p>OpenGL Shading Language<br>是运行在 <strong>GPU</strong> 上的， <em><strong>着色器编程语言</strong></em>，语法类似于 C</p>
-</blockquote>
-<ul>
-<li>作用：现代图形渲染管线是“可编程”的，GLSL 就是用来编写这些运行在显卡上的程序。最常见的是顶点着色器（处理每个顶点的位置变换）和片元着色器（计算每个像素的颜色）。</li>
-<li>使用前提：将 <em><strong>顶点着色器</strong></em> 放在 <code>.vs</code> 命名的目录下，将 <em><strong>面着色器</strong></em> 放在 <code>.fs</code> 命名的目录下</li>
-</ul>
-<p>在 Raylib 中可以使用 <code>LoadShader()</code> 加载 <code>&lt;name&gt;.glsl</code> 文件，并使用 <code>BeginShaderMode()</code> 应用该着色器程序</p>
-<h3 id=""><a href="#" class="headerlink" title="&lt;rlgl.h&gt;"></a>&lt;rlgl.h&gt;</h3><blockquote>
-<p>Raylib OpenGL</p>
-</blockquote>
-<p>对 <strong>OpenGL 渲染管线</strong> 进行了轻量封装，提供了一个操作 OpenGL层 的方法，是 Raylib 与 OpenGL 的一个中间层</p>
-<hr>
-<h2 id="API与数据类型设计"><a href="#API与数据类型设计" class="headerlink" title="API与数据类型设计"></a>API与数据类型设计</h2><h3 id="Function-函数"><a href="#Function-函数" class="headerlink" title="Function 函数"></a>Function 函数</h3><blockquote>
-<p>每个 Raylib 函数命名都遵循以下语法结构：<br><em><strong>&lt;动词&gt;&lt;主语&gt;&lt;补语&gt;</strong></em><br>或者说<br><em><strong>&lt;动作行为&gt;&lt;对象&gt;&lt;属性&#x2F;状态&gt;</strong></em><br>即：<br><strong>在 <em>&lt;某物&gt;</em> 的 <em>&lt;某 属性&#x2F;状态&gt;</em> 上，做 <em>&lt;动作行为&gt;</em></strong></p>
-</blockquote>
-<p>Raylib 函数大多被设计为值传递函数，小部分需要传递引用</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/05/29/frm-lib/Raylib/raylib/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
