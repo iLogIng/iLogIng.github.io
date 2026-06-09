@@ -138,13 +138,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -166,6 +166,222 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/03/Papers-read/MapReduce-osdi04/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/06/03/Papers-read/MapReduce-osdi04/" class="post-title-link" itemprop="url">MapReduce-osdi04 Paper Read</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-06-03 10:30:00" itemprop="dateCreated datePublished" datetime="2026-06-03T10:30:00+08:00">2026-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-06-04 19:49:44" itemprop="dateModified" datetime="2026-06-04T19:49:44+08:00">2026-06-04</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="MapReduce-大规模集群上的简化数据处理"><a href="#MapReduce-大规模集群上的简化数据处理" class="headerlink" title="MapReduce: 大规模集群上的简化数据处理"></a>MapReduce: 大规模集群上的简化数据处理</h1><ul>
+<li><strong><a target="_blank" rel="noopener" href="https://static.googleusercontent.com/media/research.google.com/en//archive/mapreduce-osdi04.pdf">原始论文</a></strong></li>
+</ul>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p><strong>用户侧</strong></p>
+<ul>
+<li><code>map</code> 函数：处理键值对，生成一组中间键值对</li>
+<li><code>reduce</code> 函数：合并与同一中间键关联的所有中间值</li>
+</ul>
+<p><strong>特性</strong></p>
+<ol>
+<li>自动并行化，适于在大型机器集群上执行。</li>
+<li>运行时系统负责处理输入数据的分区、跨机器集合调度程序执行、处理机器故障以及管理所需机器间通信。提供了一种方法，封装了分布式系统的复杂性。</li>
+<li>具有高扩展性，可以适配多种分布式程序任务</li>
+</ol>
+<h2 id="方案背景"><a href="#方案背景" class="headerlink" title="方案背景"></a>方案背景</h2><p>MapReduce框架的出现，是为了解决，大量数据如何在大型分布式系统上实现并行化计算、分布数据和故障处理等，复杂的并发细节（该问题导致原来设计的简单计算任务代码，为了满足分布式系统的并发需求，而增加了大量的并发复杂性）</p>
+<p>MapReduce在计算任务与分布式系统之间设计了一种新的抽象，将简单计算与复杂并发细节相分离。</p>
+<p>MapReduce库的抽象设计受到Lisp及许多函数式语言中的 <code>map</code> 与 <code>reduce</code> 原语的启发。对输入的每个输入逻辑应用 <code>map</code> 操作，计算一组中间键值对，对共享相同键的值应用 <code>reduce</code> 操作，以适当的合并派生数据。将函数式的 <code>map</code> 与 <code>reduce</code> 的实现交由用户制定，库只需要提供并行化方法，使用户轻松实现程序并行化。该库将重新执行作为容错的主要机制。</p>
+<h3 id="map-与-reduce"><a href="#map-与-reduce" class="headerlink" title="map 与 reduce"></a>map 与 reduce</h3><ul>
+<li><strong>map 映射</strong></li>
+<li><strong>reduce 归约</strong></li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/06/03/Papers-read/MapReduce-osdi04/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/02/Graphics/sfml-cloth-simulation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/06/02/Graphics/sfml-cloth-simulation/" class="post-title-link" itemprop="url">SFML-cloth-simulation</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-06-02 20:20:00 / 修改时间：21:31:30" itemprop="dateCreated datePublished" datetime="2026-06-02T20:20:00+08:00">2026-06-02</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="SFML-cloth-simulation"><a href="#SFML-cloth-simulation" class="headerlink" title="SFML cloth simulation"></a>SFML cloth simulation</h1><blockquote>
+<p>使用 <strong>粒子弹簧模型</strong> 进行 运动学模拟</p>
+</blockquote>
+<h2 id="理论公式"><a href="#理论公式" class="headerlink" title="理论公式"></a>理论公式</h2><h3 id="位置-Verlet-积分"><a href="#位置-Verlet-积分" class="headerlink" title="位置 Verlet 积分"></a>位置 Verlet 积分</h3><blockquote>
+<p>选用 <strong>Verlet 位置更新公式</strong></p>
+</blockquote>
+<p><strong>Verlet 积分: <em>x(t + dt) &#x3D; 2x(t) - x(t - dt) + a(t)dt^2 [O(dt^4)]</em></strong></p>
+<h4 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h4><h5 id="泰勒展开法"><a href="#泰勒展开法" class="headerlink" title="泰勒展开法"></a>泰勒展开法</h5><blockquote>
+<p>更新质点状态</p>
+</blockquote>
+<ol>
+<li><p>假设粒子运动状态</p>
+<ul>
+<li>粒子的位置为 <em><strong>x(t)</strong></em></li>
+<li>速度为 <em><strong>v &#x3D; x’(t)</strong></em></li>
+<li>加速度为 <em><strong>a(t) &#x3D; F(x(t)) &#x2F; m &#x3D; x’’(t)</strong></em></li>
+<li>以上三项公式都仅依赖于 <strong>位置</strong></li>
+</ul>
+</li>
+<li><p>取时间步长为 <em><strong>dt</strong></em> ，分别在 <em><strong>t</strong></em> 时刻前后作三阶泰勒展开</p>
+<ul>
+<li><em><strong>x(t + dt) &#x3D; x(t) + x’(t)dt + (1&#x2F;2)x’’(t)dt^2 + (1&#x2F;6)x’’’(t)dt^3 [+ O(dt^4)]</strong></em></li>
+<li><em><strong>x(t - dt) &#x3D; x(t) - x’(t)dt + (1&#x2F;2)x’’(t)dt^2 - (1&#x2F;6)x’’’(t)dt^3 [+ O(dt^4)]</strong></em></li>
+</ul>
+</li>
+<li><p>将上述两式相加</p>
+<ul>
+<li><em><strong>x(t + dt) + x(t - dt) &#x3D; 2x(t) + x’’(t)dt^2 [+ O(dt^4)]</strong></em></li>
+<li>将上式进行整理 <em><strong>x(t + dt) &#x3D; 2x(t) - x(t - dt) + x’’(t)dt^2 [+ O(dt^4)]</strong></em> 得到上述公式</li>
+<li>可见，该式表示，当前的位置仅依赖于上一时刻的位置，以及当前的加速度</li>
+<li>若需要速度，可是使用 <strong>中心差分估计</strong><ul>
+<li><em><strong>v(t) &#x3D; ( x(t + dt) - x(t - dt) ) &#x2F; 2dt [+ O(dt^2)]</strong></em></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/06/02/Graphics/sfml-cloth-simulation/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -666,303 +882,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/05/21/languages/HtDP/htdp-I/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/15/CS-infra/OS/xv6-projects/process-shell/process-shell/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/05/15/CS-infra/OS/xv6-projects/process-shell/process-shell/" class="post-title-link" itemprop="url">process-shell</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-05-15 22:34:00 / 修改时间：22:37:15" itemprop="dateCreated datePublished" datetime="2026-05-15T22:34:00+08:00">2026-05-15</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="wish-程序设计"><a href="#wish-程序设计" class="headerlink" title="wish 程序设计"></a>wish 程序设计</h1><h2 id="设计目标"><a href="#设计目标" class="headerlink" title="设计目标"></a>设计目标</h2><ul>
-<li>进一步熟悉 Linux 编程环境</li>
-<li>学习进程的 <strong>创建、销毁、管理</strong></li>
-<li>接触 shell 中的必要功能</li>
-</ul>
-<hr>
-<h2 id="设计需求"><a href="#设计需求" class="headerlink" title="设计需求"></a>设计需求</h2><h3 id="两种模式"><a href="#两种模式" class="headerlink" title="两种模式"></a>两种模式</h3><blockquote>
-<p>为每一个新命令创建一个进程</p>
-</blockquote>
-<h4 id="交互模式"><a href="#交互模式" class="headerlink" title="交互模式"></a>交互模式</h4><blockquote>
-<p>提示符回显，循环，直接输入命令</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">prompt&gt; ./wish</span><br><span class="line">wish&gt;</span><br></pre></td></tr></table></figure>
-
-<p>允许用户直接输入命令。</p>
-<hr>
-<h4 id="批处理模式"><a href="#批处理模式" class="headerlink" title="批处理模式"></a>批处理模式</h4><blockquote>
-<p>无提示符回显，单次调用<br>从文件读取需要执行的命令</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prompt&gt; ./wish batch.txt</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="功能结构"><a href="#功能结构" class="headerlink" title="功能结构"></a>功能结构</h3><h4 id="参考例程"><a href="#参考例程" class="headerlink" title="参考例程"></a>参考例程</h4><ul>
-<li><p><strong>fopen()</strong></p>
-</li>
-<li><p><strong>fclose()</strong></p>
-</li>
-<li><p><strong>fprintf()</strong></p>
-</li>
-<li><p><strong>getline()</strong></p>
-</li>
-<li><p><strong>strsep()</strong></p>
-</li>
-<li><p><strong>strdup()</strong></p>
-</li>
-<li><p><strong>fork()</strong></p>
-</li>
-<li><p><strong>execv()</strong></p>
-</li>
-<li><p><strong>wait()</strong></p>
-</li>
-<li><p><strong>waitpid()</strong></p>
-</li>
-<li><p><strong>chdir()</strong></p>
-</li>
-<li><p><strong>getcwd()</strong></p>
-</li>
-<li><p><strong>access()</strong></p>
-</li>
-</ul>
-<hr>
-<h4 id="基本Shell"><a href="#基本Shell" class="headerlink" title="基本Shell"></a>基本Shell</h4><ul>
-<li>运行在一个 while 循环中，反复请求输入，接收执行命令</li>
-<li>使用 <code>exit</code> 退出</li>
-<li>对于两种模式<ul>
-<li>交互模式：在一个循环中</li>
-<li>批处理模式：通过读文件，执行命令</li>
-</ul>
-</li>
-<li>退出方式<ul>
-<li>遇到 <code>EOF</code> 后，调用 <code>exit(0)</code> 退出</li>
-</ul>
-</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/05/15/CS-infra/OS/xv6-projects/process-shell/process-shell/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/12/CS-infra/OS/xv6-projects/initial-kv/initial-kv/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/05/12/CS-infra/OS/xv6-projects/initial-kv/initial-kv/" class="post-title-link" itemprop="url">initial-kv</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-05-12 12:12:00" itemprop="dateCreated datePublished" datetime="2026-05-12T12:12:00+08:00">2026-05-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-29 14:22:31" itemprop="dateModified" datetime="2026-05-29T14:22:31+08:00">2026-05-29</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="kv程序设计"><a href="#kv程序设计" class="headerlink" title="kv程序设计"></a>kv程序设计</h1><h2 id="程序要求"><a href="#程序要求" class="headerlink" title="程序要求"></a>程序要求</h2><h3 id="命令设计"><a href="#命令设计" class="headerlink" title="命令设计"></a>命令设计</h3><ul>
-<li><p><em><strong>put</strong></em>：</p>
-<blockquote>
-<p>格式: <code>p,key,value</code></p>
-</blockquote>
-<ul>
-<li>其中 <code>key</code> 是 <em>整数</em> ，<code>value</code> 是 <em>任意字符串</em></li>
-</ul>
-</li>
-<li><p><em><strong>get</strong></em>：</p>
-<blockquote>
-<p>格式: <code>g,key</code></p>
-</blockquote>
-<ul>
-<li>其中 <code>key</code> 是整数。<ul>
-<li>键存在：系统应打印出<code>key,value</code> <code>\n</code></li>
-<li>键不存在：单独一行打印错误消息，格式为 <code>K not found</code>，其中 <code>K</code> 是键的实际整数值</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><em><strong>delete</strong></em>：</p>
-<blockquote>
-<p>格式：<code>d,key</code></p>
-</blockquote>
-<ul>
-<li>功能：<ul>
-<li>删除相应的键值对（不打印任何内容）</li>
-<li>删除失败（并打印 <code>K not found</code>，其中 <code>K</code> 是键的实际值，即某个整数）。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><em><strong>clear</strong></em>：</p>
-<blockquote>
-<p>格式: <code>c</code></p>
-</blockquote>
-<ul>
-<li>功能：从数据库中移除所有键值对。</li>
-</ul>
-</li>
-<li><p><em><strong>all</strong></em>：</p>
-<blockquote>
-<p>格式: <code>a</code></p>
-</blockquote>
-<ul>
-<li>功能：任意顺序打印数据库中的所有键值对，每行一个键值对 <code>key,value</code></li>
-</ul>
-</li>
-</ul>
-<h2 id="合适的例程"><a href="#合适的例程" class="headerlink" title="合适的例程"></a>合适的例程</h2><ul>
-<li><p>文件操作</p>
-<ul>
-<li>fopen</li>
-<li>fwrite</li>
-<li>fread</li>
-<li>getline</li>
-<li>fprintf</li>
-</ul>
-</li>
-<li><p>字符串处理</p>
-<ul>
-<li>strsep(char** line, char** delim)<blockquote>
-<p>char** token &#x3D; strsep(char** line, char** delim)<br>按 delim 分割 *line</p>
-<ul>
-<li>返回 顺序第一个delim前的 token</li>
-<li>*line 指向 顺序第一个delim后的 token</li>
-<li>相当于 原 *line &#x3D; token <em>append</em> 后*line</li>
-</ul>
-</blockquote>
-</li>
-<li>stoi</li>
-</ul>
-</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/05/12/CS-infra/OS/xv6-projects/initial-kv/initial-kv/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

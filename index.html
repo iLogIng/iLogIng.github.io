@@ -138,13 +138,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -175,7 +175,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/08/CS-infra/OS/xv6-projects/xv6-rsicv/install-xv6/">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/09/CS-infra/OS/xv6-projects/xv6-riscv/xv6-rsic-ksrc-code/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -193,7 +193,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/06/08/CS-infra/OS/xv6-projects/xv6-rsicv/install-xv6/" class="post-title-link" itemprop="url">xv6 项目安装</a>
+          <a href="/2026/06/09/CS-infra/OS/xv6-projects/xv6-riscv/xv6-rsic-ksrc-code/" class="post-title-link" itemprop="url">xv6-riscv 内核文件结构以及源码解析</a>
         </h2>
 
         <div class="post-meta-container">
@@ -205,7 +205,164 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-06-08 21:39:00 / 修改时间：22:14:14" itemprop="dateCreated datePublished" datetime="2026-06-08T21:39:00+08:00">2026-06-08</time>
+      <time title="创建时间：2026-06-09 23:13:00 / 修改时间：23:14:14" itemprop="dateCreated datePublished" datetime="2026-06-09T23:13:00+08:00">2026-06-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="xv6-riscv-内核文件结构以及源码解析"><a href="#xv6-riscv-内核文件结构以及源码解析" class="headerlink" title="xv6-riscv 内核文件结构以及源码解析"></a>xv6-riscv 内核文件结构以及源码解析</h1><blockquote>
+<p>以上代码在 <code>xv6-riscv/kernel</code> 目录下</p>
+</blockquote>
+<blockquote>
+<p><code>xv6-riscv/kernel</code> 目录下共有 <strong>45</strong> 个文件<br><code>.h</code> 文件 <strong>17</strong> 个<br><code>.c</code> 文件 <strong>23</strong> 个<br><code>.S</code> 文件 <strong>4</strong> 个<br><code>.ld</code> 文件 <strong>1</strong> 个</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/06/09/CS-infra/OS/xv6-projects/xv6-riscv/xv6-rsic-ksrc-code/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/09/CS-infra/OS/xv6-projects/xv6-riscv/initial-xv6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/06/09/CS-infra/OS/xv6-projects/xv6-riscv/initial-xv6/" class="post-title-link" itemprop="url">initial xv6</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-06-09 19:19:00 / 修改时间：20:30:32" itemprop="dateCreated datePublished" datetime="2026-06-09T19:19:00+08:00">2026-06-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="initial-xv6"><a href="#initial-xv6" class="headerlink" title="initial xv6"></a>initial xv6</h1>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/08/CS-infra/OS/xv6-projects/xv6-riscv/install-xv6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/06/08/CS-infra/OS/xv6-projects/xv6-riscv/install-xv6/" class="post-title-link" itemprop="url">xv6 项目安装</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-06-08 21:39:00" itemprop="dateCreated datePublished" datetime="2026-06-08T21:39:00+08:00">2026-06-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-06-09 16:27:50" itemprop="dateModified" datetime="2026-06-09T16:27:50+08:00">2026-06-09</time>
     </span>
 
   
@@ -224,7 +381,7 @@
 <h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><h3 id="项目仓库克隆"><a href="#项目仓库克隆" class="headerlink" title="项目仓库克隆"></a>项目仓库克隆</h3><p>使用 <code>git clone https://github.com/mit-pdos/xv6-rsicv</code> 进行项目克隆（我们使用 rsicv 架构版本，而非课程仓库中MacOS环境下的x86架构版本，接下来的所有实验操作都在此版本上进行）</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2026/06/08/CS-infra/OS/xv6-projects/xv6-rsicv/install-xv6/#more" rel="contents">
+              <a class="btn" href="/2026/06/08/CS-infra/OS/xv6-projects/xv6-riscv/install-xv6/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -616,222 +773,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/06/03/CS-infra/OS/xv6-projects/concurrency-mapreduce/lab-guid/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/03/Papers-read/MapReduce-osdi04/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/06/03/Papers-read/MapReduce-osdi04/" class="post-title-link" itemprop="url">MapReduce-osdi04 Paper Read</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-06-03 10:30:00" itemprop="dateCreated datePublished" datetime="2026-06-03T10:30:00+08:00">2026-06-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-04 19:49:44" itemprop="dateModified" datetime="2026-06-04T19:49:44+08:00">2026-06-04</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="MapReduce-大规模集群上的简化数据处理"><a href="#MapReduce-大规模集群上的简化数据处理" class="headerlink" title="MapReduce: 大规模集群上的简化数据处理"></a>MapReduce: 大规模集群上的简化数据处理</h1><ul>
-<li><strong><a target="_blank" rel="noopener" href="https://static.googleusercontent.com/media/research.google.com/en//archive/mapreduce-osdi04.pdf">原始论文</a></strong></li>
-</ul>
-<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p><strong>用户侧</strong></p>
-<ul>
-<li><code>map</code> 函数：处理键值对，生成一组中间键值对</li>
-<li><code>reduce</code> 函数：合并与同一中间键关联的所有中间值</li>
-</ul>
-<p><strong>特性</strong></p>
-<ol>
-<li>自动并行化，适于在大型机器集群上执行。</li>
-<li>运行时系统负责处理输入数据的分区、跨机器集合调度程序执行、处理机器故障以及管理所需机器间通信。提供了一种方法，封装了分布式系统的复杂性。</li>
-<li>具有高扩展性，可以适配多种分布式程序任务</li>
-</ol>
-<h2 id="方案背景"><a href="#方案背景" class="headerlink" title="方案背景"></a>方案背景</h2><p>MapReduce框架的出现，是为了解决，大量数据如何在大型分布式系统上实现并行化计算、分布数据和故障处理等，复杂的并发细节（该问题导致原来设计的简单计算任务代码，为了满足分布式系统的并发需求，而增加了大量的并发复杂性）</p>
-<p>MapReduce在计算任务与分布式系统之间设计了一种新的抽象，将简单计算与复杂并发细节相分离。</p>
-<p>MapReduce库的抽象设计受到Lisp及许多函数式语言中的 <code>map</code> 与 <code>reduce</code> 原语的启发。对输入的每个输入逻辑应用 <code>map</code> 操作，计算一组中间键值对，对共享相同键的值应用 <code>reduce</code> 操作，以适当的合并派生数据。将函数式的 <code>map</code> 与 <code>reduce</code> 的实现交由用户制定，库只需要提供并行化方法，使用户轻松实现程序并行化。该库将重新执行作为容错的主要机制。</p>
-<h3 id="map-与-reduce"><a href="#map-与-reduce" class="headerlink" title="map 与 reduce"></a>map 与 reduce</h3><ul>
-<li><strong>map 映射</strong></li>
-<li><strong>reduce 归约</strong></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/06/03/Papers-read/MapReduce-osdi04/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/02/Graphics/sfml-cloth-simulation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/06/02/Graphics/sfml-cloth-simulation/" class="post-title-link" itemprop="url">SFML-cloth-simulation</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-06-02 20:20:00 / 修改时间：21:31:30" itemprop="dateCreated datePublished" datetime="2026-06-02T20:20:00+08:00">2026-06-02</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="SFML-cloth-simulation"><a href="#SFML-cloth-simulation" class="headerlink" title="SFML cloth simulation"></a>SFML cloth simulation</h1><blockquote>
-<p>使用 <strong>粒子弹簧模型</strong> 进行 运动学模拟</p>
-</blockquote>
-<h2 id="理论公式"><a href="#理论公式" class="headerlink" title="理论公式"></a>理论公式</h2><h3 id="位置-Verlet-积分"><a href="#位置-Verlet-积分" class="headerlink" title="位置 Verlet 积分"></a>位置 Verlet 积分</h3><blockquote>
-<p>选用 <strong>Verlet 位置更新公式</strong></p>
-</blockquote>
-<p><strong>Verlet 积分: <em>x(t + dt) &#x3D; 2x(t) - x(t - dt) + a(t)dt^2 [O(dt^4)]</em></strong></p>
-<h4 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h4><h5 id="泰勒展开法"><a href="#泰勒展开法" class="headerlink" title="泰勒展开法"></a>泰勒展开法</h5><blockquote>
-<p>更新质点状态</p>
-</blockquote>
-<ol>
-<li><p>假设粒子运动状态</p>
-<ul>
-<li>粒子的位置为 <em><strong>x(t)</strong></em></li>
-<li>速度为 <em><strong>v &#x3D; x’(t)</strong></em></li>
-<li>加速度为 <em><strong>a(t) &#x3D; F(x(t)) &#x2F; m &#x3D; x’’(t)</strong></em></li>
-<li>以上三项公式都仅依赖于 <strong>位置</strong></li>
-</ul>
-</li>
-<li><p>取时间步长为 <em><strong>dt</strong></em> ，分别在 <em><strong>t</strong></em> 时刻前后作三阶泰勒展开</p>
-<ul>
-<li><em><strong>x(t + dt) &#x3D; x(t) + x’(t)dt + (1&#x2F;2)x’’(t)dt^2 + (1&#x2F;6)x’’’(t)dt^3 [+ O(dt^4)]</strong></em></li>
-<li><em><strong>x(t - dt) &#x3D; x(t) - x’(t)dt + (1&#x2F;2)x’’(t)dt^2 - (1&#x2F;6)x’’’(t)dt^3 [+ O(dt^4)]</strong></em></li>
-</ul>
-</li>
-<li><p>将上述两式相加</p>
-<ul>
-<li><em><strong>x(t + dt) + x(t - dt) &#x3D; 2x(t) + x’’(t)dt^2 [+ O(dt^4)]</strong></em></li>
-<li>将上式进行整理 <em><strong>x(t + dt) &#x3D; 2x(t) - x(t - dt) + x’’(t)dt^2 [+ O(dt^4)]</strong></em> 得到上述公式</li>
-<li>可见，该式表示，当前的位置仅依赖于上一时刻的位置，以及当前的加速度</li>
-<li>若需要速度，可是使用 <strong>中心差分估计</strong><ul>
-<li><em><strong>v(t) &#x3D; ( x(t + dt) - x(t - dt) ) &#x2F; 2dt [+ O(dt^2)]</strong></em></li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/06/02/Graphics/sfml-cloth-simulation/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
