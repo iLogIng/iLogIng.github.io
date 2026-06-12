@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="xv6-riscv 内核文件结构以及源码解析xv6 系统启动流程 阅读内核代码最好从启动入口开始，针对启动时的主要调用进行跟踪式的阅读  在kernel&#x2F;目录下  kernel.ld 控制程序的内存模型 控制 entry.S 的链接位置 控制 _trampoline 在程序中的内存位置     entry.S  为每个hart(硬件线程)分配栈空间 call start -&gt; st">
+    <meta name="description" content="xv6-riscv 内核文件结构以及源码解析 RISC-V 架构的三种模式（保留了一种）     Level Encode Name Abbreviation    0 00 User&#x2F;Application 用户模式 U   1 01 Supervisor 监管者模式 S   2 10 Reserved 保留 -   3 11 Machine 机器模式 M    xv6 系统启动流程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="xv6-riscv 内核文件结构以及源码解析">
 <meta property="og:url" content="http://iloging.github.io/2026/06/09/CS-infra/OS/xv6-projects/xv6-riscv/xv6-rsic-ksrc-code/index.html">
 <meta property="og:site_name" content="Volador235&#39;s blog">
-<meta property="og:description" content="xv6-riscv 内核文件结构以及源码解析xv6 系统启动流程 阅读内核代码最好从启动入口开始，针对启动时的主要调用进行跟踪式的阅读  在kernel&#x2F;目录下  kernel.ld 控制程序的内存模型 控制 entry.S 的链接位置 控制 _trampoline 在程序中的内存位置     entry.S  为每个hart(硬件线程)分配栈空间 call start -&gt; st">
+<meta property="og:description" content="xv6-riscv 内核文件结构以及源码解析 RISC-V 架构的三种模式（保留了一种）     Level Encode Name Abbreviation    0 00 User&#x2F;Application 用户模式 U   1 01 Supervisor 监管者模式 S   2 10 Reserved 保留 -   3 11 Machine 机器模式 M    xv6 系统启动流程">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-06-09T15:13:00.000Z">
-<meta property="article:modified_time" content="2026-06-10T11:28:42.861Z">
+<meta property="article:modified_time" content="2026-06-12T03:31:07.640Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="Operating System">
 <meta property="article:tag" content="xv6-kernel">
@@ -132,7 +132,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#xv6-riscv-%E5%86%85%E6%A0%B8%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E4%BB%A5%E5%8F%8A%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">xv6-riscv 内核文件结构以及源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#xv6-%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">xv6 系统启动流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kernel"><span class="nav-number">1.2.</span> <span class="nav-text">kernel&#x2F;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#kernel-ld-%E9%93%BE%E6%8E%A5%E5%99%A8%E8%84%9A%E6%9C%AC"><span class="nav-number">1.2.1.</span> <span class="nav-text">kernel.ld 链接器脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defs-h"><span class="nav-number">1.2.2.</span> <span class="nav-text">defs.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#types-h"><span class="nav-number">1.2.3.</span> <span class="nav-text">types.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#param-h"><span class="nav-number">1.2.4.</span> <span class="nav-text">param.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#memlayout-h"><span class="nav-number">1.2.5.</span> <span class="nav-text">memlayout.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#riscv-h"><span class="nav-number">1.2.6.</span> <span class="nav-text">riscv.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proc-h"><span class="nav-number">1.2.7.</span> <span class="nav-text">proc.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stat-h"><span class="nav-number">1.2.8.</span> <span class="nav-text">stat.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E7%A8%8B%E5%BA%8F-main-c"><span class="nav-number">1.2.9.</span> <span class="nav-text">主程序 main.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#start-c"><span class="nav-number">1.2.10.</span> <span class="nav-text">start.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#trap-c"><span class="nav-number">1.2.11.</span> <span class="nav-text">trap.c</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#usertrap"><span class="nav-number">1.2.11.1.</span> <span class="nav-text">usertrap()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#uservec"><span class="nav-number">1.2.11.2.</span> <span class="nav-text">uservec()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kernelvec"><span class="nav-number">1.2.11.3.</span> <span class="nav-text">kernelvec()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E4%BB%BD%E5%BA%95%E5%B1%82%E6%B1%87%E7%BC%96%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.12.</span> <span class="nav-text">4份底层汇编文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#entry-S"><span class="nav-number">1.2.12.1.</span> <span class="nav-text">entry.S</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#swtch-S"><span class="nav-number">1.2.12.2.</span> <span class="nav-text">swtch.S</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#trampoline-S"><span class="nav-number">1.2.12.3.</span> <span class="nav-text">trampoline.S</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kernelvec-S"><span class="nav-number">1.2.12.4.</span> <span class="nav-text">kernelvec.S</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#user"><span class="nav-number">1.3.</span> <span class="nav-text">user&#x2F;</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#xv6-riscv-%E5%86%85%E6%A0%B8%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E4%BB%A5%E5%8F%8A%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">xv6-riscv 内核文件结构以及源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#xv6-%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">xv6 系统启动流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xv6-%E7%B3%BB%E7%BB%9F%E9%99%B7%E9%98%B1%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">xv6 系统陷阱调用流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E6%80%81%E9%99%B7%E5%85%A5%E5%86%85%E6%A0%B8%E6%80%81"><span class="nav-number">1.2.1.</span> <span class="nav-text">用户态陷入内核态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E6%80%81%E8%BF%94%E5%9B%9E%E7%94%A8%E6%88%B7%E6%80%81"><span class="nav-number">1.2.2.</span> <span class="nav-text">内核态返回用户态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E6%80%81%E8%87%AA%E8%BA%AB%E7%9A%84%E7%8B%AC%E7%AB%8B%E9%99%B7%E9%98%B1"><span class="nav-number">1.2.3.</span> <span class="nav-text">内核态自身的独立陷阱</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kernel"><span class="nav-number">1.3.</span> <span class="nav-text">kernel&#x2F;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#kernel-ld-%E9%93%BE%E6%8E%A5%E5%99%A8%E8%84%9A%E6%9C%AC"><span class="nav-number">1.3.1.</span> <span class="nav-text">kernel.ld 链接器脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defs-h"><span class="nav-number">1.3.2.</span> <span class="nav-text">defs.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#types-h"><span class="nav-number">1.3.3.</span> <span class="nav-text">types.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#param-h"><span class="nav-number">1.3.4.</span> <span class="nav-text">param.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#memlayout-h"><span class="nav-number">1.3.5.</span> <span class="nav-text">memlayout.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#riscv-h"><span class="nav-number">1.3.6.</span> <span class="nav-text">riscv.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proc-h"><span class="nav-number">1.3.7.</span> <span class="nav-text">proc.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stat-h"><span class="nav-number">1.3.8.</span> <span class="nav-text">stat.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E7%A8%8B%E5%BA%8F-main-c"><span class="nav-number">1.3.9.</span> <span class="nav-text">主程序 main.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#start-c"><span class="nav-number">1.3.10.</span> <span class="nav-text">start.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#trap-c"><span class="nav-number">1.3.11.</span> <span class="nav-text">trap.c</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#usertrap"><span class="nav-number">1.3.11.1.</span> <span class="nav-text">usertrap()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kerneltrap"><span class="nav-number">1.3.11.2.</span> <span class="nav-text">kerneltrap()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#prepare-return-void"><span class="nav-number">1.3.11.3.</span> <span class="nav-text">prepare_return(void)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proc-c"><span class="nav-number">1.3.12.</span> <span class="nav-text">proc.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E4%BB%BD%E5%BA%95%E5%B1%82%E6%B1%87%E7%BC%96%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.13.</span> <span class="nav-text">4份底层汇编文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#entry-S"><span class="nav-number">1.3.13.1.</span> <span class="nav-text">entry.S</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#swtch-S"><span class="nav-number">1.3.13.2.</span> <span class="nav-text">swtch.S</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#trampoline-S"><span class="nav-number">1.3.13.3.</span> <span class="nav-text">trampoline.S</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kernelvec-S"><span class="nav-number">1.3.13.4.</span> <span class="nav-text">kernelvec.S</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#user"><span class="nav-number">1.4.</span> <span class="nav-text">user&#x2F;</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -219,7 +219,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-10 19:28:42" itemprop="dateModified" datetime="2026-06-10T19:28:42+08:00">2026-06-10</time>
+      <time title="修改时间：2026-06-12 11:31:07" itemprop="dateModified" datetime="2026-06-12T11:31:07+08:00">2026-06-12</time>
     </span>
 
   
@@ -231,35 +231,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="xv6-riscv-内核文件结构以及源码解析"><a href="#xv6-riscv-内核文件结构以及源码解析" class="headerlink" title="xv6-riscv 内核文件结构以及源码解析"></a>xv6-riscv 内核文件结构以及源码解析</h1><h2 id="xv6-系统启动流程"><a href="#xv6-系统启动流程" class="headerlink" title="xv6 系统启动流程"></a>xv6 系统启动流程</h2><blockquote>
-<p>阅读内核代码最好从启动入口开始，针对启动时的主要调用进行跟踪式的阅读</p>
-</blockquote>
-<p><strong>在kernel&#x2F;目录下</strong></p>
-<ul>
-<li><em>kernel.ld</em><ul>
-<li>控制程序的内存模型</li>
-<li>控制 <code>entry.S</code> 的链接位置</li>
-<li>控制 <code>_trampoline</code> 在程序中的内存位置</li>
-</ul>
-</li>
-</ul>
-<ol>
-<li><p><em>entry.S</em></p>
-<ul>
-<li>为每个hart(硬件线程)分配栈空间</li>
-<li><code>call start</code> -&gt; <code>start.c/start()</code></li>
-</ul>
-</li>
-<li><p><em>start.c&#x2F;start()</em> 启动时钟中断、 <em>main.c&#x2F;main()</em></p>
-<ul>
-<li><code>w_mepc((uint64)main)</code></li>
-<li><code>asm volatile (mret)</code> -&gt; <code>main.c/main()</code></li>
-</ul>
-</li>
-<li><p><em>main.c&#x2F;main()</em></p>
-</li>
-</ol>
-<blockquote>
+    <div class="post-body" itemprop="articleBody"><h1 id="xv6-riscv-内核文件结构以及源码解析"><a href="#xv6-riscv-内核文件结构以及源码解析" class="headerlink" title="xv6-riscv 内核文件结构以及源码解析"></a>xv6-riscv 内核文件结构以及源码解析</h1><blockquote>
 <p>RISC-V 架构的三种模式（保留了一种）</p>
 </blockquote>
 <table>
@@ -296,14 +268,69 @@
 <td align="center">M</td>
 </tr>
 </tbody></table>
+<hr>
+<h2 id="xv6-系统启动流程"><a href="#xv6-系统启动流程" class="headerlink" title="xv6 系统启动流程"></a>xv6 系统启动流程</h2><blockquote>
+<p>阅读内核代码最好从启动入口开始，针对启动时的主要调用进行跟踪式的阅读</p>
+</blockquote>
+<p><strong>在kernel&#x2F;目录下</strong></p>
+<ul>
+<li><em>kernel.ld</em><ul>
+<li>控制程序的内存模型</li>
+<li>控制 <code>entry.S</code> 的链接位置</li>
+<li>控制 <code>_trampoline</code> 在程序中的内存位置</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><p><em>entry.S</em></p>
+<ul>
+<li>为每个hart(硬件线程)分配栈空间</li>
+<li><code>call start</code> -&gt; <code>start.c/start()</code></li>
+</ul>
+</li>
+<li><p><em>start.c&#x2F;start()</em> 启动时钟中断、 <em>main.c&#x2F;main()</em></p>
+<ul>
+<li><code>w_mepc((uint64)main)</code></li>
+<li><code>asm volatile (mret)</code> -&gt; <code>main.c/main()</code></li>
+</ul>
+</li>
+<li><p><em>main.c&#x2F;main()</em></p>
+</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h2 id="xv6-系统陷阱调用流程"><a href="#xv6-系统陷阱调用流程" class="headerlink" title="xv6 系统陷阱调用流程"></a>xv6 系统陷阱调用流程</h2><h3 id="用户态陷入内核态"><a href="#用户态陷入内核态" class="headerlink" title="用户态陷入内核态"></a>用户态陷入内核态</h3><ol>
+<li><p>用户触发陷阱</p>
+</li>
+<li><p><code>trampoline.S/uservec</code></p>
+</li>
+<li><p><code>trap.c/usertrap()</code></p>
+</li>
+<li><p><code>trap.c/prepare_return()</code></p>
+</li>
+</ol>
+<h3 id="内核态返回用户态"><a href="#内核态返回用户态" class="headerlink" title="内核态返回用户态"></a>内核态返回用户态</h3><ol>
+<li><p>内核触发陷阱</p>
+</li>
+<li><p><code>trampoline.S/userret</code></p>
+</li>
+</ol>
+<h3 id="内核态自身的独立陷阱"><a href="#内核态自身的独立陷阱" class="headerlink" title="内核态自身的独立陷阱"></a>内核态自身的独立陷阱</h3><ol>
+<li><p><code>trampoline.S/kernelvec</code></p>
+</li>
+<li><p><code>trampoline.S/kerneltrap</code></p>
+</li>
+<li><p><code>trampoline.S/kerneltrap/sret</code></p>
+</li>
+</ol>
+<hr>
 <h2 id="kernel"><a href="#kernel" class="headerlink" title="kernel&#x2F;"></a>kernel&#x2F;</h2><blockquote>
 <p>以下代码文件在 <code>xv6-riscv/kernel</code> 目录下</p>
 </blockquote>
 <blockquote>
 <p><code>xv6-riscv/kernel</code> 目录下共有 <strong>45</strong> 个文件<br><code>.h</code> 文件 <strong>17</strong> 个<br><code>.c</code> 文件 <strong>23</strong> 个<br><code>.S</code> 文件 <strong>4</strong> 个<br><code>.ld</code> 文件 <strong>1</strong> 个</p>
 </blockquote>
-<span id="more"></span>
-
 <hr>
 <h3 id="kernel-ld-链接器脚本"><a href="#kernel-ld-链接器脚本" class="headerlink" title="kernel.ld 链接器脚本"></a>kernel.ld 链接器脚本</h3><blockquote>
 <p>是一个 <strong>链接器脚本</strong><br>描述链接器如何将编译产生的 <em><strong>多个目标文件(.o)</strong></em> 组合成一个可执行文件<br>各段依次排列<br>决定内核镜像的内存布局，约束生成的程序</p>
@@ -413,9 +440,173 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通知每个硬件线程产生定时器中断</span></span><br><span class="line"><span class="type">void</span></span><br><span class="line"><span class="title function_">timerinit</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 启用 Sstc 扩展(Supervisor Timmer Compate)，即stimecmp寄存器</span></span><br><span class="line">    w_menvcfg(r_menvcfg() | (<span class="number">1L</span> &lt;&lt; <span class="number">63</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 允许监管者使用 stimecmp 和 time 寄存器</span></span><br><span class="line">    w_mcounteren(r_mcounteren() | <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 请求(触发)第一个定时器中断</span></span><br><span class="line">    w_stimecmp(r_time() + <span class="number">1000000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h3 id="trap-c"><a href="#trap-c" class="headerlink" title="trap.c"></a>trap.c</h3><h4 id="usertrap"><a href="#usertrap" class="headerlink" title="usertrap()"></a>usertrap()</h4><hr>
-<h4 id="uservec"><a href="#uservec" class="headerlink" title="uservec()"></a>uservec()</h4><hr>
-<h4 id="kernelvec"><a href="#kernelvec" class="headerlink" title="kernelvec()"></a>kernelvec()</h4><hr>
+<h3 id="trap-c"><a href="#trap-c" class="headerlink" title="trap.c"></a>trap.c</h3><blockquote>
+<p>陷阱相关操作定义</p>
+</blockquote>
+<ul>
+<li><p><code>proc.c</code></p>
+<ul>
+<li><code>myproc()</code></li>
+</ul>
+</li>
+<li><p><code>printf.c</code></p>
+<ul>
+<li><code>panic()</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// defs.h</span></span><br><span class="line"><span class="keyword">extern</span> uint     ticks;</span><br><span class="line"><span class="type">void</span>            <span class="title function_">trapinit</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="type">void</span>            <span class="title function_">trapinithart</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="keyword">extern</span> <span class="class"><span class="keyword">struct</span> <span class="title">spinlock</span> <span class="title">tickslock</span>;</span></span><br><span class="line"><span class="type">void</span>            <span class="title function_">prepare_return</span><span class="params">(<span class="type">void</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">spinlock</span> <span class="title">tickslock</span>;</span></span><br><span class="line">uint ticks;</span><br><span class="line"><span class="keyword">extern</span> <span class="type">char</span> trampoline[], uservec[]; <span class="comment">// 从 trampoline.S 导入 trampoline、uservec 地址</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">kernelvec</span><span class="params">()</span>; <span class="comment">// 从 kernelvec.S 导入 kerneltrap() 函数定义</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">int</span> <span class="title function_">devintr</span><span class="params">()</span>; <span class="comment">// 导入设备中断处理程序 devintr()</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="usertrap"><a href="#usertrap" class="headerlink" title="usertrap()"></a>usertrap()</h4><blockquote>
+<p>用户陷阱</p>
+</blockquote>
+<blockquote>
+<p>在 <code>trampoline.S/uservec</code> 切换页表后调用，负责 <strong>分类处理所有来自用户态的陷阱</strong> ，并最终返回用户态<br><strong>只能被用户态触发</strong></p>
+</blockquote>
+<ul>
+<li><code>trampoline.S</code><ul>
+<li><code>uservec</code> 陷阱向量调用<ul>
+<li><code>ld t0, 16(a0)</code> … <code>jalr t0</code> 调用 <code>p-&gt;trapframe-&gt;kernel_trap</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>处理来自于用户态的中断、异常或系统调用<br>从 <code>trampoline.S</code> 调用，并返回到 <code>trampoline.S</code><br>返回值是用户寄存器(保存指向用户页表物理地址的指针) <code>satp</code> 供 <code>trampoline.S</code> 切换使用</p>
+<p><code>satp</code> 即 Supervisor Address Translation and Projection (监管者地址翻译与投影) 寄存器</p>
+</blockquote>
+<ol>
+<li><p><em><strong>[核心]</strong></em> 使用 <code>w_stvec((uint64)kernelvec)</code> 更新 <code>stvec</code> 寄存器中的中断处理入口</p>
+<ul>
+<li>在我们身处内核态时，用于向 <code>kerneltrap()</code> 发送中断与异常，由 <code>kernelvec</code> 调起</li>
+</ul>
+</li>
+<li><p>在陷阱帧中保存用户的程序计数器</p>
+<ul>
+<li><code>p-&gt;trapframe-&gt;epc = r_sepc();</code> 交由后续操作决定是否让出cpu</li>
+</ul>
+</li>
+<li><p><em><strong>[核心]</strong></em> 检查 <code>scause</code> (陷阱原因寄存器) 寄存器的值，根据 <code>scause</code> 分发处理</p>
+<ul>
+<li>系统调用<ul>
+<li><code>scause == 0</code></li>
+</ul>
+</li>
+<li>设备中断<ul>
+<li>记录 <code>witch_dev</code></li>
+</ul>
+</li>
+<li>缺页异常<ul>
+<li><code>scause == 15</code> 加载页错误</li>
+<li><code>scause == 13</code> 存储页错误</li>
+<li>惰性分配<ul>
+<li><code>vmfault()</code> 尝试处理惰性分配的页</li>
+<li>按需分配内存，避免提前分配，浪费内存</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>预期外的陷阱</li>
+</ul>
+</li>
+<li><p>进程退出检查</p>
+<ul>
+<li><code>if(killed(p)) kexit(-1);</code></li>
+</ul>
+</li>
+<li><p>设备定时器中断时让出cpu</p>
+<ul>
+<li><code>if (witch_dev == 2) yield();</code></li>
+<li>触发定时中断，实现进程调度</li>
+</ul>
+</li>
+<li><p>准备返回用户态</p>
+<ul>
+<li><code>prepare_return()</code></li>
+</ul>
+</li>
+<li><p>返回用户页表地址给 <code>trampoline.S</code></p>
+<ul>
+<li>用户页可交换</li>
+<li><code>uint64 satp = MAKE_SATP(p-&gt;pagetable); return satp;</code></li>
+</ul>
+</li>
+<li><p>注意，此时已经返回到 <code>trampoline</code> 中，直接按序向下执行 <code>trampoline.S/userret</code> 程序</p>
+</li>
+</ol>
+<blockquote>
+<p>使用汇编进行底层的上下文切换，C做高层的逻辑判断</p>
+</blockquote>
+<hr>
+<h4 id="kerneltrap"><a href="#kerneltrap" class="headerlink" title="kerneltrap()"></a>kerneltrap()</h4><blockquote>
+<p>内核陷阱</p>
+</blockquote>
+<blockquote>
+<p>在 <code>trampoline.S/kernelvec</code> 切换页表后调用，负责 <strong>分类处理所有来自内核态的陷阱</strong> ，并最终返回内核态<br><strong>只能被内核态触发</strong></p>
+</blockquote>
+<ul>
+<li><code>kernelvec.S</code><ul>
+<li><code>kernelvec</code> 陷阱向量程序调用</li>
+</ul>
+</li>
+<li><code>riscv.h</code><ul>
+<li><code>intr_get()</code> 确定设备中断是否启用</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>在保存调用者保存的寄存器后，调起 <code>kerneltrap()</code><br><code>kerneltrap()</code> 返回内核中被中断的位置</p>
+</blockquote>
+<ol>
+<li><p>获取对应寄存器的值</p>
+</li>
+<li><p>根据陷阱原因寄存器 <code>scause</code> 的值分发陷阱处理过程</p>
+<ul>
+<li>模式检测<ul>
+<li><code>(sstatus &amp; SSTATUS_SPP) == 0</code></li>
+<li>检查是否通过监管者模式调起</li>
+</ul>
+</li>
+<li><em><strong>[核心]</strong></em> 检测重复中断<ul>
+<li><code>intr_get() != 0</code></li>
+<li>防止内核陷阱处理过程本身被嵌套中断打断，内核陷阱必须在元自行的上下文中处理，避免竟态条件</li>
+</ul>
+</li>
+<li>设备中断<ul>
+<li>记录 <code>witch_dev</code></li>
+</ul>
+</li>
+<li>时钟中断<ul>
+<li><code>which_dev == 2 &amp;&amp; myproc() != 0</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>直接返回 <code>kernelvec</code></p>
+</li>
+</ol>
+<hr>
+<h4 id="prepare-return-void"><a href="#prepare-return-void" class="headerlink" title="prepare_return(void)"></a>prepare_return(void)</h4><blockquote>
+<p>set up trapframe and control registers for a return to user space<br>设置陷阱帧并控制寄存器返回到用户态</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span></span><br><span class="line"><span class="title function_">prepare_return</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">proc</span> *<span class="title">p</span> =</span> myproc();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 我们将要交换陷阱处理入口 stvec 由 kerneltrap() 变为 usertrap()</span></span><br><span class="line">  <span class="comment">// 因为内核代码中的陷阱作为用户陷阱将是一场灾难，（用户陷阱入口被错误路由）</span></span><br><span class="line">  <span class="comment">// 关闭中断</span></span><br><span class="line">  intr_off(); <span class="comment">// 实际上是一种临界区保护</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 将未来的系统调用、中断以及异常导向 trampoline.S/uservec</span></span><br><span class="line">  uint64 trampoline_uservec = TRAMPOLINE + (uservec - trampoline);</span><br><span class="line">  w_stvec(trampoline_uservec);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 设置进程跳入下一个内核陷阱时 trampoline.S/uservec 所需要的陷阱帧值，</span></span><br><span class="line">  p-&gt;trapframe-&gt;kernel_satp = r_satp();         <span class="comment">// 内核页表</span></span><br><span class="line">  p-&gt;trapframe-&gt;kernel_sp = p-&gt;kstack + PGSIZE; <span class="comment">// 进程的内核栈</span></span><br><span class="line">  p-&gt;trapframe-&gt;kernel_trap = (uint64)usertrap;</span><br><span class="line">  p-&gt;trapframe-&gt;kernel_hartid = r_tp(); <span class="comment">// cpuid() 作为 hartid</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 设置寄存器，使 trampoline.S 中的 sret 指令返回用户态</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// set S Previous Privilege mode to User.</span></span><br><span class="line">  <span class="comment">// 将 S 模式的前一个特权级设置为用户模式</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> x = r_sstatus();</span><br><span class="line">  x &amp;= ~SSTATUS_SPP; <span class="comment">// 将SPP清理为0 设置为用户态</span></span><br><span class="line">  x |= SSTATUS_SPIE; <span class="comment">// 设置 spie位 在用户模式下重启中断（保证用户态的中断是打开的）</span></span><br><span class="line">  w_sstatus(x);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 设置 sepc (监管者异常程序计数器) 寄存器为被保存的用户程序计数器</span></span><br><span class="line">  w_sepc(p-&gt;trapframe-&gt;epc); <span class="comment">// 由 sret 指令使用，返回到用户态</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="proc-c"><a href="#proc-c" class="headerlink" title="proc.c"></a>proc.c</h3><blockquote>
+<p>定义了与进程相关的操作</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cpu</span> <span class="title">cpus</span>[<span class="title">NCPU</span>];</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">proc</span> <span class="title">proc</span>[<span class="title">NPROC</span>];</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">proc</span> *<span class="title">initproc</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> nextpid = <span class="number">1</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">spinlock</span> <span class="title">pid_lock</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="type">void</span> <span class="title function_">forkret</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">freeproc</span><span class="params">(<span class="keyword">struct</span> proc *p)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="type">char</span> trampoline[]; <span class="comment">// trampoline.S</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// helps ensure that wakeups of wait()ing</span></span><br><span class="line"><span class="comment">// parents are not lost. helps obey the</span></span><br><span class="line"><span class="comment">// memory model when using p-&gt;parent.</span></span><br><span class="line"><span class="comment">// must be acquired before any p-&gt;lock.</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">spinlock</span> <span class="title">wait_lock</span>;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化进程表</span></span><br><span class="line"><span class="comment">// 由 main.c/main() 函数调起</span></span><br><span class="line"><span class="type">void</span></span><br><span class="line"><span class="title function_">procinit</span><span class="params">(<span class="type">void</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>可以使用 <code>myproc()</code> 获取指向当前执行的进程结构的指针</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回当前执行指令的cpu结构</span></span><br><span class="line"><span class="comment">// 执行该函数时，中断一定是不可用的（无中断产生，保证上下文语义的准确性）</span></span><br><span class="line"><span class="keyword">struct</span> cpu *</span><br><span class="line"><span class="title function_">mycpu</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> id = cpuid();</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">cpu</span> *<span class="title">c</span> =</span> &amp;cpus[id];    <span class="comment">// 根据cpuid从cpus数组中获取当前cpu所在的偏移位置</span></span><br><span class="line">  <span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 返回指向当前的进程结构的指针 struct proc * ， 或返回零表示什么也没有</span></span><br><span class="line"><span class="keyword">struct</span> proc *</span><br><span class="line"><span class="title function_">myproc</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  push_off();</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">cpu</span> *<span class="title">c</span> =</span> mycpu();</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">proc</span> *<span class="title">p</span> =</span> c-&gt;proc;</span><br><span class="line">  pop_off();</span><br><span class="line">  <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h3 id="4份底层汇编文件"><a href="#4份底层汇编文件" class="headerlink" title="4份底层汇编文件"></a>4份底层汇编文件</h3><h4 id="entry-S"><a href="#entry-S" class="headerlink" title="entry.S"></a>entry.S</h4><blockquote>
 <p>xv6 系统真正的汇编入口，在每个CPU上都需要一个栈（在 <code>start.c</code> 中使用 <code>__attribute__((aligned(16))) char stack0[4096 * NCPU];</code> 进行设置，定义了 <code>stack0</code> ）<br><code>_entry</code> 为每个hart独立运行</p>
 </blockquote>
