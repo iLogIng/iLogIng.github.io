@@ -138,13 +138,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -166,6 +166,98 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/21/languages/HtDP/htdp-I/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/05/21/languages/HtDP/htdp-I/" class="post-title-link" itemprop="url">How to Design Programs -- I.Fixed-Size Data</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-21 19:13:00" itemprop="dateCreated datePublished" datetime="2026-05-21T19:13:00+08:00">2026-05-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-23 17:39:37" itemprop="dateModified" datetime="2026-05-23T17:39:37+08:00">2026-05-23</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><em><strong>程序即数据、数据即程序</strong></em></p>
+<blockquote>
+<p><em>How to Design Programs</em><br>一书聚焦于 <strong>GUI</strong> 与 <strong>批处理</strong> 程序</p>
+</blockquote>
+<p><em><strong><a target="_blank" rel="noopener" href="https://htdp.org/2026-2-25//Book/part_one.html">I.Fixed-Size Data</a></strong></em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">lang racket</span><br><span class="line"></span><br><span class="line">; factorial function</span><br><span class="line">(define (factorial n)</span><br><span class="line">    (if (= n 0)</span><br><span class="line">        1</span><br><span class="line">        (* n (factorial (- n 1)))</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">; output 5!</span><br><span class="line">(displayln (factorial 5))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>原始表达式（ <em><strong>Lisp</strong></em> 中使用 <strong>前缀表达式</strong> 定义运算规则 ）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(+ 1 1)</span><br></pre></td></tr></table></figure>
+<p>即，自然语言中的 <code>1 + 1</code> 计算</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/05/21/languages/HtDP/htdp-I/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -922,134 +1014,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/04/03/frm-lib/c++boost/Boost-Log/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/04/03/frm-lib/c++boost/Boost-Log/" class="post-title-link" itemprop="url">C++ Boost::Log</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-04-03 19:03:06" itemprop="dateCreated datePublished" datetime="2026-04-03T19:03:06+08:00">2026-04-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-04-10 23:24:34" itemprop="dateModified" datetime="2026-04-10T23:24:34+08:00">2026-04-10</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Log"><a href="#Log" class="headerlink" title="Log"></a>Log</h1><blockquote>
-<p>一个高度模块化和可扩展的C++日志库，旨在为应用程序提供灵活的日志记录功能。</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://boost.ac.cn/doc/libs/latest/libs/log/doc/html/index.html#log.intro">Boost::Log Refference</a></p>
-<h3 id="设计理念"><a href="#设计理念" class="headerlink" title="设计理念"></a>设计理念</h3><p>提供 <strong>高度模块化</strong> 和 <strong>可扩展</strong> 的日志处理。各个模块可以独立使用和替换，并且能够添加自定义功能。支持宽&#x2F;窄字符记录。</p>
-<h3 id="三层架构"><a href="#三层架构" class="headerlink" title="三层架构"></a>三层架构</h3><ol>
-<li><strong>日志数据收集层</strong><ul>
-<li>负责从程序中处理收集的日志事件</li>
-</ul>
-</li>
-<li><strong>收集数据处理层</strong><ul>
-<li>负责处理收集到的日志事件</li>
-</ul>
-</li>
-<li><strong>连接前两层的中央枢纽</strong><ul>
-<li>协调管理日志在上两层之间的流转</li>
-</ul>
-</li>
-</ol>
-<blockquote>
-<p><strong>设计要点：</strong> 这个架构的核心优势是正交性，即日志的收集、处理方式和日志内容本身是相互独立的。这种设计让库不仅能用于传统日志记录，还能用于向用户发出通知、累积统计信息等场景。</p>
-</blockquote>
-<!-- main -->
-
-<h3 id="关键组件"><a href="#关键组件" class="headerlink" title="关键组件"></a>关键组件</h3><p>构成以上三层的具体组件：</p>
-<ul>
-<li><p><strong>日志源 (Logging Sources)：</strong> <em><strong>日志事件的发起者</strong></em> 。最常见的是日志记录器 (Logger)，它提供了类似 std::ostream 的流式接口来 <strong>格式化</strong> 日志消息。库也支持其他类型的源，如捕获子进程的控制台输出等。</p>
-</li>
-<li><p><strong>属性与属性值 (Attributes and Attribute Values)：</strong> <strong>日志记录的<em>元数据</em></strong> 。一个属性本质上是获取某个值的函数（例如获取当前时间），其返回的值就是 <em>属性值</em> ，会在日志处理的后续阶段使用。属性分为 <em>三种</em> 类型：</p>
-<ul>
-<li><p><em><strong>全局属性</strong></em> ：附加到 <em>所有</em> 日志记录，优先级最低。</p>
-</li>
-<li><p><em><strong>线程特定属性</strong></em> ：仅附加到 <em>特定线程</em> 生成的记录。</p>
-</li>
-<li><p><em><strong>源特定属性</strong></em> ：<strong>由日志源维护</strong> ，仅附加到通过 <em>该源生成的记录</em> ，优先级最高。</p>
-</li>
-<li><p>当同名属性出现在多个集合中时，优先级高的属性会覆盖优先级低的。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>日志核心 (Logging Core)：</strong> 中央枢纽的具体实现。它负责接收日志事件，并应用全局过滤器来决定哪些日志记录可以继续传递。核心被实现为 <em><strong>单例 (Singleton)</strong></em> ，可通过 boost::log::core::get() 访问。</p>
-</li>
-<li><p><strong>过滤器 (Filters)：</strong> 核心的一部分功能。过滤器用于在核心层面 <em><strong>筛选</strong></em> 日志记录，决定其是否被处理。</p>
-</li>
-<li><p><strong>接收器 (Sinks)：</strong> 日志处理的最终目的地。它是处理层的核心，负责将日志记录 <em><strong>格式化并输出到文件</strong></em> 、控制台、网络等不同目标。接收器采用前后端分离的设计：</p>
-<ul>
-<li><p><strong>前端 (Frontend)：</strong> 负责接收日志记录，并决定同步、异步等传递策略。</p>
-</li>
-<li><p><strong>后端 (Backend)：</strong> 负责执行实际的格式化操作并将日志写入最终目标。</p>
-</li>
-</ul>
-</li>
-</ul>
-
       
     </div>
 

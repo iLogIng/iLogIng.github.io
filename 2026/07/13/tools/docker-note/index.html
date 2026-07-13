@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Docker NoteDocker 容器化： 是一种 轻量级 的操作系统虚拟化方法。将应用、依赖、配置等集成为一个专有环境具有：  可移植性 在一次构建与配置后，可以在任何装有Docker引擎的环境中一致运行   更轻量化 通过直接共享主机的操作系统内核，达到了相对于完整的虚拟机模拟程序， 更快的启动速度 、 更低的资源占用 的效果 一台物理机可同时运行上千个容器   资源隔离 每个容器都拥有其自">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker note">
+<meta property="og:url" content="http://iloging.github.io/2026/07/13/tools/docker-note/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="Docker NoteDocker 容器化： 是一种 轻量级 的操作系统虚拟化方法。将应用、依赖、配置等集成为一个专有环境具有：  可移植性 在一次构建与配置后，可以在任何装有Docker引擎的环境中一致运行   更轻量化 通过直接共享主机的操作系统内核，达到了相对于完整的虚拟机模拟程序， 更快的启动速度 、 更低的资源占用 的效果 一台物理机可同时运行上千个容器   资源隔离 每个容器都拥有其自">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-07-13T12:26:00.000Z">
+<meta property="article:modified_time" content="2026-07-13T15:36:50.543Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/2026/07/13/tools/docker-note/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/2026/07/13/tools/docker-note/","path":"2026/07/13/tools/docker-note/","title":"docker note"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>docker note | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-Note"><span class="nav-number">1.</span> <span class="nav-text">Docker Note</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E7%9A%84%E4%B8%89%E4%B8%AA%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">Docker 的三个核心概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%AE%B9%E5%99%A8%E9%95%9C%E5%83%8F"><span class="nav-number">1.2.</span> <span class="nav-text">构建自己的容器镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E5%AE%B9%E5%99%A8%E9%95%9C%E5%83%8F"><span class="nav-number">1.3.</span> <span class="nav-text">运行容器镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA"><span class="nav-number">1.3.1.</span> <span class="nav-text">构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E8%BF%90%E8%A1%8C"><span class="nav-number">1.3.2.</span> <span class="nav-text">部署运行</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/07/13/tools/docker-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="docker note | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          docker note
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-07-13 20:26:00 / 修改时间：23:36:50" itemprop="dateCreated datePublished" datetime="2026-07-13T20:26:00+08:00">2026-07-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Docker-Note"><a href="#Docker-Note" class="headerlink" title="Docker Note"></a>Docker Note</h1><p><em><strong><a target="_blank" rel="noopener" href="https://www.docker.com/">Docker</a></strong></em></p>
+<p><strong>容器化： 是一种 <em>轻量级</em> 的操作系统虚拟化方法。将应用、依赖、配置等集成为一个专有环境</strong><br><strong>具有：</strong></p>
+<ul>
+<li><em><strong>可移植性</strong></em><ul>
+<li>在一次构建与配置后，可以在任何装有Docker引擎的环境中一致运行</li>
+</ul>
+</li>
+<li><em><strong>更轻量化</strong></em><ul>
+<li>通过直接共享主机的操作系统内核，达到了相对于完整的虚拟机模拟程序， <em><strong>更快的启动速度</strong></em> 、 <strong>更低的资源占用</strong> 的效果</li>
+<li>一台物理机可同时运行上千个容器</li>
+</ul>
+</li>
+<li><em><strong>资源隔离</strong></em><ul>
+<li>每个容器都拥有其自己独立的文件系统、网络和进程空间，互不干扰，安全性更高</li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="Docker-的三个核心概念"><a href="#Docker-的三个核心概念" class="headerlink" title="Docker 的三个核心概念"></a>Docker 的三个核心概念</h2><ul>
+<li><strong>镜像 (Image)</strong><ul>
+<li>一个只读的模板，用于创建容器</li>
+</ul>
+</li>
+<li><strong>容器 (Container)</strong><ul>
+<li>镜像的运行实例，是运行实际应用的环境</li>
+</ul>
+</li>
+<li><strong>仓库 (Repository)</strong><ul>
+<li>集中存放和分享镜像的存储区域 如 <em><strong><a target="_blank" rel="noopener" href="https://hub.docker.com/">Docker Hub</a></strong></em></li>
+</ul>
+</li>
+</ul>
+<h2 id="构建自己的容器镜像"><a href="#构建自己的容器镜像" class="headerlink" title="构建自己的容器镜像"></a>构建自己的容器镜像</h2><blockquote>
+<p>为构建自己项目的一份镜像，需要编写 <code>Dockerfile</code> 与 <code>.dockerignore</code> 文件 控制镜像容器的构建<br>详细内容，请参考 <a target="_blank" rel="noopener" href="https://docs.docker.com/get-started/workshop/">官方教程</a></p>
+</blockquote>
+<p>如 <a href="github.com/iLogIng/http_server">github.com&#x2F;iLogIng&#x2F;http_server</a> 中的 <code>Dockerfile</code> 文件</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构建</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">24.04</span> AS builder</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt-get update \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get install -y --no-install-recommends \</span></span><br><span class="line"><span class="language-bash">        g++ cmake make \</span></span><br><span class="line"><span class="language-bash">        libboost-system-dev libboost-thread-dev \</span></span><br><span class="line"><span class="language-bash">        libboost-filesystem-dev libboost-log-dev \</span></span><br><span class="line"><span class="language-bash">        libboost-program-options-dev libboost-json-dev \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">rm</span> -rf /var/lib/apt/lists/*</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> . /src</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /src/build</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; cmake --build . --parallel $(<span class="built_in">nproc</span>) \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">ls</span> -la /src/build/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">24.04</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 仅安装运行时库</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt-get update \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get install -y --no-install-recommends \</span></span><br><span class="line"><span class="language-bash">        libboost-system1.83.0 \</span></span><br><span class="line"><span class="language-bash">        libboost-thread1.83.0 \</span></span><br><span class="line"><span class="language-bash">        libboost-filesystem1.83.0 \</span></span><br><span class="line"><span class="language-bash">        libboost-log1.83.0 \</span></span><br><span class="line"><span class="language-bash">        libboost-program-options1.83.0 \</span></span><br><span class="line"><span class="language-bash">        libboost-json1.83.0 \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">rm</span> -rf /var/lib/apt/lists/*</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从构建阶段拷贝编译好的二进制 根据CMakeLists.txt构建规则</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> --from=builder /src/build/src/http_server /usr/local/bin/http_server</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /srv</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 仅拷贝静态资源目录</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> ./app ./app</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建非 root 用户 授权工作目录用于写日志</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> useradd -m -s /bin/bash http_server_user \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">chown</span> -R http_server_user:http_server_user /srv</span></span><br><span class="line"><span class="keyword">USER</span> http_server_user</span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;http_server&quot;</span>]</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;--address&quot;</span>, <span class="string">&quot;0.0.0.0&quot;</span>, <span class="string">&quot;--port&quot;</span>, <span class="string">&quot;8080&quot;</span>, <span class="string">&quot;--doc_root&quot;</span>, <span class="string">&quot;./app&quot;</span>, <span class="string">&quot;--threads&quot;</span>, <span class="string">&quot;2&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>FROM</strong><ul>
+<li>指定基础镜像，用于后续的指令构建</li>
+</ul>
+</li>
+<li><strong>RUN</strong><ul>
+<li><code>RUN &lt;shell&gt;</code></li>
+<li><code>RUN [&quot;exec&quot;, &quot;arg1&quot;, &quot;arg2&quot;, ...]</code></li>
+<li><em><strong>docker build 时运行</strong></em></li>
+<li>在构建过程中在 <em><strong>镜像中</strong></em> 执行命令</li>
+<li><em>注意：Dockerfile的指令每执行一次都会在docker上新建一层，会导致镜像膨胀，可使用 <strong>&amp;&amp;</strong> 符号连接命令</em></li>
+</ul>
+</li>
+<li><strong>CMD</strong><ul>
+<li><code>CMD &lt;shell&gt;</code></li>
+<li><code>CMD [&quot;exec&quot;, &quot;arg1&quot;, &quot;arg2&quot;, ...]</code></li>
+<li><code>ENTRYPOINT [&quot;exec&quot;, &quot;arg1&quot;, &quot;arg2&quot;, ...] \   CMD [&quot;arg1&quot;, &quot;arg2&quot;, ...]</code></li>
+<li><em><strong>docker run 时运行</strong></em></li>
+<li>指定容器创建时的主要命令（可被覆盖）</li>
+</ul>
+</li>
+<li><strong>ENTRYPOINT</strong><ul>
+<li><code>ENTRYPOINT [&quot;exec&quot;, &quot;arg1&quot;, &quot;arg2&quot;, ...]</code></li>
+<li>设置为固定参数</li>
+<li>设置容器创建时的主要命令（不可被覆盖）</li>
+</ul>
+</li>
+<li><strong>EXPOSE</strong><ul>
+<li><code>EXPOSE &lt;port1&gt; [port2, ...]</code></li>
+<li>指定容器运行时监听的特定网络端口</li>
+</ul>
+</li>
+<li><strong>ENV</strong><ul>
+<li>在容器内部设置环境变量</li>
+</ul>
+</li>
+<li><strong>ADD</strong><ul>
+<li>将文件、目录或远程URL复制到镜像中</li>
+</ul>
+</li>
+<li><strong>COPY</strong><ul>
+<li><code>COPY &lt;host&gt; &lt;image&gt;</code></li>
+<li>将文件或目录复制到镜像中</li>
+</ul>
+</li>
+<li><strong>USER</strong><ul>
+<li><code>USER &lt;username&gt;[:usergrade]</code></li>
+<li>指定后续指令的用户上下文</li>
+</ul>
+</li>
+</ul>
+<h2 id="运行容器镜像"><a href="#运行容器镜像" class="headerlink" title="运行容器镜像"></a>运行容器镜像</h2><h3 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h3><blockquote>
+<p><code>docker build</code></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker build -t my-http-server:v2 .</span><br><span class="line"></span><br><span class="line"><span class="comment"># docker 在当前目录下 构建(build) 名为 my-http-server 的镜像 版本标签为 v2 默认为 latest</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="部署运行"><a href="#部署运行" class="headerlink" title="部署运行"></a>部署运行</h3><blockquote>
+<p><code>docker run</code></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run --<span class="built_in">rm</span> -p 8080:8080 my-http-server:v2</span><br><span class="line"></span><br><span class="line"><span class="comment"># docker 镜像创建并启动名为 my-http-server:v2 的容器 映射端口为&lt;host-port 8080&gt;:&lt;container-port 8080&gt; 当容器停止/退出时，自动删除该容器实例</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/docker/" rel="tag"># docker</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/06/09/CS-infra/OS/xv6-projects/xv6-riscv/xv6-rsic-ksrc-code/" rel="prev" title="xv6-riscv 内核文件结构以及源码解析">
+                  <i class="fa fa-angle-left"></i> xv6-riscv 内核文件结构以及源码解析
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
