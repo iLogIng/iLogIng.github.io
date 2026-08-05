@@ -138,7 +138,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -205,7 +205,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-08-05 20:37:31 / 修改时间：20:37:57" itemprop="dateCreated datePublished" datetime="2026-08-05T20:37:31+08:00">2026-08-05</time>
+      <time title="创建时间：2026-08-05 20:37:31 / 修改时间：20:45:37" itemprop="dateCreated datePublished" datetime="2026-08-05T20:37:31+08:00">2026-08-05</time>
     </span>
 
   
@@ -218,7 +218,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          
+          <span id="more"></span>
+
+
       
     </div>
 
@@ -244,7 +246,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/08/05/AI-ML-DL/Agent/learn-claude-code-research/">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/08/05/AI-ML-DL/Agent/learn-claude-code/s01_agent_loop/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -262,7 +264,96 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/08/05/AI-ML-DL/Agent/learn-claude-code-research/" class="post-title-link" itemprop="url">learn-claude-code Note</a>
+          <a href="/2026/08/05/AI-ML-DL/Agent/learn-claude-code/s01_agent_loop/" class="post-title-link" itemprop="url">learn-claude-code s00</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-08-05 18:30:13" itemprop="dateCreated datePublished" datetime="2026-08-05T18:30:13+08:00">2026-08-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-06 00:35:35" itemprop="dateModified" datetime="2026-08-06T00:35:35+08:00">2026-08-06</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="s01-agent-loop"><a href="#s01-agent-loop" class="headerlink" title="s01_agent_loop"></a><a target="_blank" rel="noopener" href="https://github.com/shareAI-lab/learn-claude-code/blob/main/s01_agent_loop/README.md#s01-agent-loop--%E4%B8%80%E4%B8%AA%E5%BE%AA%E7%8E%AF%E5%B0%B1%E5%A4%9F%E4%BA%86">s01_agent_loop</a></h1><blockquote>
+<p>“One loop &amp; Bash is all you need” — 一个工具 + 一个循环 &#x3D; 一个 Agent。<br>Harness 层: 循环 — 模型与真实世界的第一道连接。</p>
+</blockquote>
+<ol>
+<li><p><strong>用户输入 &#x3D;&gt; <code>message[]</code></strong>(累计式消息列表)</p>
+</li>
+<li><p><strong>message[] &#x3D;&gt; 大语言模型 LLM &#x3D;&#x3D;判断&lt;<em>是否需要工具</em>&gt;&#x3D;&#x3D;&gt; <em>stop_reason signal</em></strong></p>
+</li>
+<li><p><strong>stop_reason &#x3D;&#x3D; “toll_use” ? run_bash(command){message.append(tool_result); <em>continue loop</em>} : return result</strong></p>
+</li>
+</ol>
+<p><strong>一个 <em>while True</em> 循环：模型调用工具 -&gt; 执行 -&gt; feedback 反馈 -&gt; loop</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">agent_loop</span>(<span class="params">messages</span>):</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment"># 大模型响应</span></span><br><span class="line">        response = client.messages.create(</span><br><span class="line">            model=MODEL, system=SYSTEM, messages=messages,</span><br><span class="line">            tools=TOOLS, max_tokens=<span class="number">8000</span>,</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># 在模型响应后添加信息</span></span><br><span class="line">        messages.append(&#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;assistant&quot;</span>, <span class="string">&quot;content&quot;</span>: response.content&#125;)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> response.stop_reason != <span class="string">&quot;tool_use&quot;</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        results = [] <span class="comment"># 循环结果</span></span><br><span class="line">        <span class="keyword">for</span> block <span class="keyword">in</span> response.content:</span><br><span class="line">            <span class="comment"># 若受到停止命令</span></span><br><span class="line">            <span class="keyword">if</span> block.<span class="built_in">type</span> == <span class="string">&quot;tool_use&quot;</span>:</span><br><span class="line">                output = run_bash(block.<span class="built_in">input</span>[<span class="string">&quot;command&quot;</span>])</span><br><span class="line">                <span class="comment"># 停止</span></span><br><span class="line">                results.append(&#123;</span><br><span class="line">                    <span class="string">&quot;type&quot;</span>: <span class="string">&quot;tool_result&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;tool_use_id&quot;</span>: block.<span class="built_in">id</span>,</span><br><span class="line">                    <span class="string">&quot;content&quot;</span>: output,</span><br><span class="line">                &#125;)</span><br><span class="line">        <span class="comment"># 将工具调用结果写入消息列表message[]中</span></span><br><span class="line">        messages.append(&#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: results&#125;)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/08/05/AI-ML-DL/Agent/learn-claude-code/s00_start/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/08/05/AI-ML-DL/Agent/learn-claude-code/s00_start/" class="post-title-link" itemprop="url">learn-claude-code s00</a>
         </h2>
 
         <div class="post-meta-container">
@@ -274,7 +365,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-08-05 18:30:13 / 修改时间：20:44:25" itemprop="dateCreated datePublished" datetime="2026-08-05T18:30:13+08:00">2026-08-05</time>
+      <time title="创建时间：2026-08-05 18:30:13 / 修改时间：22:35:17" itemprop="dateCreated datePublished" datetime="2026-08-05T18:30:13+08:00">2026-08-05</time>
     </span>
 
   
@@ -309,7 +400,7 @@
 <p><strong>模型决策，harness执行</strong><br><strong>模型推理，harness提供上下文</strong><br><strong>此即: <em>Harness</em> &#x3D;&gt; <em>驾驭工程</em> | 模型驾驶harness执行任务</strong></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2026/08/05/AI-ML-DL/Agent/learn-claude-code-research/#more" rel="contents">
+              <a class="btn" href="/2026/08/05/AI-ML-DL/Agent/learn-claude-code/s00_start/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -722,75 +813,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/09/CS-infra/OS/xv6-projects/xv6-riscv/initial-xv6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/06/09/CS-infra/OS/xv6-projects/xv6-riscv/initial-xv6/" class="post-title-link" itemprop="url">initial xv6</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-06-09 19:19:00 / 修改时间：20:30:32" itemprop="dateCreated datePublished" datetime="2026-06-09T19:19:00+08:00">2026-06-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="initial-xv6"><a href="#initial-xv6" class="headerlink" title="initial xv6"></a>initial xv6</h1>
       
     </div>
 

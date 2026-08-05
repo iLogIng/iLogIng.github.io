@@ -138,7 +138,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -166,6 +166,75 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/09/CS-infra/OS/xv6-projects/xv6-riscv/initial-xv6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/06/09/CS-infra/OS/xv6-projects/xv6-riscv/initial-xv6/" class="post-title-link" itemprop="url">initial xv6</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-06-09 19:19:00 / 修改时间：20:30:32" itemprop="dateCreated datePublished" datetime="2026-06-09T19:19:00+08:00">2026-06-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="initial-xv6"><a href="#initial-xv6" class="headerlink" title="initial xv6"></a>initial xv6</h1>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -725,119 +794,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/06/03/Papers-read/MapReduce-osdi04/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/02/Graphics/sfml-cloth-simulation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/06/02/Graphics/sfml-cloth-simulation/" class="post-title-link" itemprop="url">SFML-cloth-simulation</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-06-02 20:20:00 / 修改时间：21:31:30" itemprop="dateCreated datePublished" datetime="2026-06-02T20:20:00+08:00">2026-06-02</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="SFML-cloth-simulation"><a href="#SFML-cloth-simulation" class="headerlink" title="SFML cloth simulation"></a>SFML cloth simulation</h1><blockquote>
-<p>使用 <strong>粒子弹簧模型</strong> 进行 运动学模拟</p>
-</blockquote>
-<h2 id="理论公式"><a href="#理论公式" class="headerlink" title="理论公式"></a>理论公式</h2><h3 id="位置-Verlet-积分"><a href="#位置-Verlet-积分" class="headerlink" title="位置 Verlet 积分"></a>位置 Verlet 积分</h3><blockquote>
-<p>选用 <strong>Verlet 位置更新公式</strong></p>
-</blockquote>
-<p><strong>Verlet 积分: <em>x(t + dt) &#x3D; 2x(t) - x(t - dt) + a(t)dt^2 [O(dt^4)]</em></strong></p>
-<h4 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h4><h5 id="泰勒展开法"><a href="#泰勒展开法" class="headerlink" title="泰勒展开法"></a>泰勒展开法</h5><blockquote>
-<p>更新质点状态</p>
-</blockquote>
-<ol>
-<li><p>假设粒子运动状态</p>
-<ul>
-<li>粒子的位置为 <em><strong>x(t)</strong></em></li>
-<li>速度为 <em><strong>v &#x3D; x’(t)</strong></em></li>
-<li>加速度为 <em><strong>a(t) &#x3D; F(x(t)) &#x2F; m &#x3D; x’’(t)</strong></em></li>
-<li>以上三项公式都仅依赖于 <strong>位置</strong></li>
-</ul>
-</li>
-<li><p>取时间步长为 <em><strong>dt</strong></em> ，分别在 <em><strong>t</strong></em> 时刻前后作三阶泰勒展开</p>
-<ul>
-<li><em><strong>x(t + dt) &#x3D; x(t) + x’(t)dt + (1&#x2F;2)x’’(t)dt^2 + (1&#x2F;6)x’’’(t)dt^3 [+ O(dt^4)]</strong></em></li>
-<li><em><strong>x(t - dt) &#x3D; x(t) - x’(t)dt + (1&#x2F;2)x’’(t)dt^2 - (1&#x2F;6)x’’’(t)dt^3 [+ O(dt^4)]</strong></em></li>
-</ul>
-</li>
-<li><p>将上述两式相加</p>
-<ul>
-<li><em><strong>x(t + dt) + x(t - dt) &#x3D; 2x(t) + x’’(t)dt^2 [+ O(dt^4)]</strong></em></li>
-<li>将上式进行整理 <em><strong>x(t + dt) &#x3D; 2x(t) - x(t - dt) + x’’(t)dt^2 [+ O(dt^4)]</strong></em> 得到上述公式</li>
-<li>可见，该式表示，当前的位置仅依赖于上一时刻的位置，以及当前的加速度</li>
-<li>若需要速度，可是使用 <strong>中心差分估计</strong><ul>
-<li><em><strong>v(t) &#x3D; ( x(t + dt) - x(t - dt) ) &#x2F; 2dt [+ O(dt^2)]</strong></em></li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/06/02/Graphics/sfml-cloth-simulation/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
