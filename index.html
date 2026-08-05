@@ -138,7 +138,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -166,6 +166,75 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/08/05/AI-ML-DL/Agent/ai-agent-book-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/08/05/AI-ML-DL/Agent/ai-agent-book-note/" class="post-title-link" itemprop="url">ai-agent-book Note</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-08-05 20:37:31 / 修改时间：20:37:57" itemprop="dateCreated datePublished" datetime="2026-08-05T20:37:31+08:00">2026-08-05</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -205,7 +274,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-08-05 18:30:13 / 修改时间：18:40:09" itemprop="dateCreated datePublished" datetime="2026-08-05T18:30:13+08:00">2026-08-05</time>
+      <time title="创建时间：2026-08-05 18:30:13 / 修改时间：20:44:25" itemprop="dateCreated datePublished" datetime="2026-08-05T18:30:13+08:00">2026-08-05</time>
     </span>
 
   
@@ -218,9 +287,34 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <span id="more"></span>
-
-
+          <h1 id="learn-claude-code-笔记"><a href="#learn-claude-code-笔记" class="headerlink" title="learn-claude-code 笔记"></a>learn-claude-code 笔记</h1><p>项目路径：<a target="_blank" rel="noopener" href="https://github.com/shareAI-lab/learn-claude-code">github.com&#x2F;learn-claude-code</a></p>
+<hr>
+<h2 id="README-md"><a href="#README-md" class="headerlink" title="README.md"></a><a target="_blank" rel="noopener" href="https://github.com/shareAI-lab/learn-claude-code/blob/main/README-zh.md">README.md</a></h2><p><em><strong>Agent &#x3D; LLM + Context + Tools</strong></em></p>
+<p><em><strong>Agent 产品 &#x3D; 模型 + Harness</strong></em></p>
+<blockquote>
+<p><strong>LLM: 已训练的神经网络参数模型函数</strong><br><strong>Agent: 一个通过训练学会了行动的模型，加上让它能在特定环境中工作的基础设施</strong><br><strong>Agency: 感知、推理、行动</strong></p>
+</blockquote>
+<p><strong>Agent不是过程式的流水线工程，Agency能力是通过模型训练产生的</strong></p>
+<p><strong>Harness 是 agent 在特定领域工作所需要的一切：</strong></p>
+<blockquote>
+<p><strong>Harness &#x3D; Tools + Knowledge + Observation + Action Interfaces + Permissions</strong></p>
+</blockquote>
+<ul>
+<li>工具 Tools:          文件读写、Shell、网络、数据库、浏览器</li>
+<li>知识 Knowledge:      产品文档、领域资料、API 规范、风格指南</li>
+<li>检测 Observation:    git diff、错误日志、浏览器状态、传感器数据</li>
+<li>行为 Action:         CLI 命令、API 调用、UI 交互</li>
+<li>许可 Permissions:    沙箱隔离、审批流程、信任边界</li>
+</ul>
+<p><strong>模型决策，harness执行</strong><br><strong>模型推理，harness提供上下文</strong><br><strong>此即: <em>Harness</em> &#x3D;&gt; <em>驾驭工程</em> | 模型驾驶harness执行任务</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/08/05/AI-ML-DL/Agent/learn-claude-code-research/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -697,92 +791,6 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="initial-xv6"><a href="#initial-xv6" class="headerlink" title="initial xv6"></a>initial xv6</h1>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/06/08/CS-infra/OS/xv6-projects/xv6-riscv/install-xv6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/06/08/CS-infra/OS/xv6-projects/xv6-riscv/install-xv6/" class="post-title-link" itemprop="url">xv6 项目安装</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-06-08 21:39:00" itemprop="dateCreated datePublished" datetime="2026-06-08T21:39:00+08:00">2026-06-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-09 16:27:50" itemprop="dateModified" datetime="2026-06-09T16:27:50+08:00">2026-06-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="xv6-项目安装"><a href="#xv6-项目安装" class="headerlink" title="xv6 项目安装"></a>xv6 项目安装</h1><blockquote>
-<p>在课程仓库的 <code>INSTALL-xv6.md</code> 中，仅仅编写了 <code>MacOS</code> 下的实验初始化方法，接下来是简单的 <code>Linux</code> 系统初始化方法</p>
-</blockquote>
-<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><h3 id="项目仓库克隆"><a href="#项目仓库克隆" class="headerlink" title="项目仓库克隆"></a>项目仓库克隆</h3><p>使用 <code>git clone https://github.com/mit-pdos/xv6-rsicv</code> 进行项目克隆（我们使用 rsicv 架构版本，而非课程仓库中MacOS环境下的x86架构版本，接下来的所有实验操作都在此版本上进行）</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/06/08/CS-infra/OS/xv6-projects/xv6-riscv/install-xv6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
