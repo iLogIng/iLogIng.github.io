@@ -173,7 +173,7 @@
   </url>
   
   <url>
-    <loc>https://iloging.github.io/CS-infra/OS/xv6-projects/initial-kv/initial-kv/</loc>
+    <loc>https://iloging.github.io/CS-infra/OS/xv6-projects/process-shell/process-shell/</loc>
     
     <lastmod>2026-07-07</lastmod>
     
@@ -182,7 +182,7 @@
   </url>
   
   <url>
-    <loc>https://iloging.github.io/CS-infra/OS/xv6-projects/process-shell/process-shell/</loc>
+    <loc>https://iloging.github.io/CS-infra/OS/xv6-projects/initial-kv/initial-kv/</loc>
     
     <lastmod>2026-07-07</lastmod>
     
@@ -371,6 +371,20 @@
 
   
   <url>
+    <loc>https://iloging.github.io/tags/Papers-Read/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://iloging.github.io/tags/xv6-project/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://iloging.github.io/tags/Graphics/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -392,14 +406,7 @@
   </url>
   
   <url>
-    <loc>https://iloging.github.io/tags/Papers-Read/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://iloging.github.io/tags/xv6-project/</loc>
+    <loc>https://iloging.github.io/tags/hexo/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -414,20 +421,6 @@
   
   <url>
     <loc>https://iloging.github.io/tags/docker/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://iloging.github.io/tags/hexo/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://iloging.github.io/tags/my-projects/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -449,6 +442,13 @@
   
   <url>
     <loc>https://iloging.github.io/tags/astrbot/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://iloging.github.io/tags/asm/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -483,20 +483,6 @@
   </url>
   
   <url>
-    <loc>https://iloging.github.io/tags/asm/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://iloging.github.io/tags/makefile/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://iloging.github.io/tags/CI-CD/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -518,7 +504,14 @@
   </url>
   
   <url>
-    <loc>https://iloging.github.io/tags/AI-Agent/</loc>
+    <loc>https://iloging.github.io/tags/makefile/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://iloging.github.io/tags/my-projects/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -568,6 +561,13 @@
   
   <url>
     <loc>https://iloging.github.io/tags/Operating-System/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://iloging.github.io/tags/AI-Agent/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
