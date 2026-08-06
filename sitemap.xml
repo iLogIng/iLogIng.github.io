@@ -128,7 +128,7 @@
   </url>
   
   <url>
-    <loc>https://iloging.github.io/CS-infra/OS/xv6-projects/concurrency-mapreduce/mapreduce/</loc>
+    <loc>https://iloging.github.io/CS-infra/OS/xv6-projects/concurrency-mapreduce/lab-guid/</loc>
     
     <lastmod>2026-07-07</lastmod>
     
@@ -137,7 +137,7 @@
   </url>
   
   <url>
-    <loc>https://iloging.github.io/CS-infra/OS/xv6-projects/concurrency-mapreduce/lab-guid/</loc>
+    <loc>https://iloging.github.io/CS-infra/OS/xv6-projects/concurrency-mapreduce/mapreduce/</loc>
     
     <lastmod>2026-07-07</lastmod>
     
@@ -371,6 +371,27 @@
 
   
   <url>
+    <loc>https://iloging.github.io/tags/Graphics/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://iloging.github.io/tags/Simulation/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://iloging.github.io/tags/SFML/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://iloging.github.io/tags/Papers-Read/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -448,7 +469,28 @@
   </url>
   
   <url>
+    <loc>https://iloging.github.io/tags/git/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://iloging.github.io/tags/javascript/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://iloging.github.io/tags/asm/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://iloging.github.io/tags/makefile/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -469,41 +511,6 @@
   </url>
   
   <url>
-    <loc>https://iloging.github.io/tags/Graphics/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://iloging.github.io/tags/Simulation/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://iloging.github.io/tags/SFML/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://iloging.github.io/tags/makefile/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://iloging.github.io/tags/AI-Agent/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://iloging.github.io/tags/vim/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -511,14 +518,7 @@
   </url>
   
   <url>
-    <loc>https://iloging.github.io/tags/javascript/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://iloging.github.io/tags/git/</loc>
+    <loc>https://iloging.github.io/tags/AI-Agent/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
