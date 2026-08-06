@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="learn-claude-code 笔记项目路径：github.com&#x2F;learn-claude-code  README.mdAgent &#x3D; LLM + Context + Tools Agent 产品 &#x3D; 模型 + Harness  LLM: 已训练的神经网络参数模型函数Agent: 一个通过训练学会了行动的模型，加上让它能在特定环境中工作的基础设施Agency:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="learn-claude-code s00">
+<meta property="og:url" content="http://iloging.github.io/2026/08/05/AI-ML-DL/Agent/learn-claude-code/s00_start/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="learn-claude-code 笔记项目路径：github.com&#x2F;learn-claude-code  README.mdAgent &#x3D; LLM + Context + Tools Agent 产品 &#x3D; 模型 + Harness  LLM: 已训练的神经网络参数模型函数Agent: 一个通过训练学会了行动的模型，加上让它能在特定环境中工作的基础设施Agency:">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-05T10:30:13.000Z">
+<meta property="article:modified_time" content="2026-08-05T14:35:17.015Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="AI Agent">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/2026/08/05/AI-ML-DL/Agent/learn-claude-code/s00_start/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/2026/08/05/AI-ML-DL/Agent/learn-claude-code/s00_start/","path":"2026/08/05/AI-ML-DL/Agent/learn-claude-code/s00_start/","title":"learn-claude-code s00"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>learn-claude-code s00 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#learn-claude-code-%E7%AC%94%E8%AE%B0"><span class="nav-number">1.</span> <span class="nav-text">learn-claude-code 笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#README-md"><span class="nav-number">1.1.</span> <span class="nav-text">README.md</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Harness-%E5%B7%A5%E7%A8%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text">Harness 工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%99%E7%A8%8B%E8%8C%83%E5%9B%B4"><span class="nav-number">1.1.2.</span> <span class="nav-text">教程范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84"><span class="nav-number">1.1.3.</span> <span class="nav-text">学习路径</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/08/05/AI-ML-DL/Agent/learn-claude-code/s00_start/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="learn-claude-code s00 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          learn-claude-code s00
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-08-05 18:30:13 / 修改时间：22:35:17" itemprop="dateCreated datePublished" datetime="2026-08-05T18:30:13+08:00">2026-08-05</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="learn-claude-code-笔记"><a href="#learn-claude-code-笔记" class="headerlink" title="learn-claude-code 笔记"></a>learn-claude-code 笔记</h1><p>项目路径：<a target="_blank" rel="noopener" href="https://github.com/shareAI-lab/learn-claude-code">github.com&#x2F;learn-claude-code</a></p>
+<hr>
+<h2 id="README-md"><a href="#README-md" class="headerlink" title="README.md"></a><a target="_blank" rel="noopener" href="https://github.com/shareAI-lab/learn-claude-code/blob/main/README-zh.md">README.md</a></h2><p><em><strong>Agent &#x3D; LLM + Context + Tools</strong></em></p>
+<p><em><strong>Agent 产品 &#x3D; 模型 + Harness</strong></em></p>
+<blockquote>
+<p><strong>LLM: 已训练的神经网络参数模型函数</strong><br><strong>Agent: 一个通过训练学会了行动的模型，加上让它能在特定环境中工作的基础设施</strong><br><strong>Agency: 感知、推理、行动</strong></p>
+</blockquote>
+<p><strong>Agent不是过程式的流水线工程，Agency能力是通过模型训练产生的</strong></p>
+<p><strong>Harness 是 agent 在特定领域工作所需要的一切：</strong></p>
+<blockquote>
+<p><strong>Harness &#x3D; Tools + Knowledge + Observation + Action Interfaces + Permissions</strong></p>
+</blockquote>
+<ul>
+<li>工具 Tools:          文件读写、Shell、网络、数据库、浏览器</li>
+<li>知识 Knowledge:      产品文档、领域资料、API 规范、风格指南</li>
+<li>检测 Observation:    git diff、错误日志、浏览器状态、传感器数据</li>
+<li>行为 Action:         CLI 命令、API 调用、UI 交互</li>
+<li>许可 Permissions:    沙箱隔离、审批流程、信任边界</li>
+</ul>
+<p><strong>模型决策，harness执行</strong><br><strong>模型推理，harness提供上下文</strong><br><strong>此即: <em>Harness</em> &#x3D;&gt; <em>驾驭工程</em> | 模型驾驶harness执行任务</strong></p>
+<span id="more"></span>
+
+<h3 id="Harness-工程"><a href="#Harness-工程" class="headerlink" title="Harness 工程"></a>Harness 工程</h3><blockquote>
+<p>构建Agent的生存环境</p>
+</blockquote>
+<ul>
+<li><strong>实现工具</strong>              Agent的双手<ul>
+<li>文件读写、Shell、API调用、浏览器控制、数据库查询、…</li>
+<li>每个都是Agent在环境中可采取的一个行动</li>
+<li>原子化、可组合、描述清晰</li>
+</ul>
+</li>
+<li><strong>策划知识</strong>              Agent的领域专长<ul>
+<li>产品文档、架构决策记录、风格指南、合规要求、…</li>
+<li>按需加载(s07)，Agent应知道有什么可用，自己拉取所需</li>
+</ul>
+</li>
+<li><strong>管理上下文</strong>            Agent的干净记忆<ul>
+<li>子Agent隔离(s06)，防止噪声泄漏</li>
+<li>上下文压缩(s08)，防止历史淹没</li>
+<li>任务系统(s12)，目标持久化到单词对话之外</li>
+</ul>
+</li>
+<li><strong>控制权限</strong>              Agent的行为边界<ul>
+<li>沙箱化文件访问，对破坏性操作要求审批</li>
+<li>在Agent和外部系统之间实施信任边界</li>
+<li>这是安全工程和harness工程的交汇点</li>
+</ul>
+</li>
+<li><strong>收集任务过程数据</strong>      Agent的微调材料<ul>
+<li>Agent在harness中执行的每一条行动序列都是训练信号</li>
+<li>harness不仅服务于Agent，还可以帮助Agent进化</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>对于不同领域的Agent，只是它所存在的Harness构建的环境不同，而 <em>循环</em> 不变，仍然是: Agent &#x3D; LLM + Harness</strong></p>
+<p><em><strong>从小工具的实现，到领域Agent的构建</strong></em></p>
+</blockquote>
+<h3 id="教程范围"><a href="#教程范围" class="headerlink" title="教程范围"></a>教程范围</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">本仓库是一个 0-&gt;1 的 harness 工程学习项目 -- 构建围绕 agent 模型的工作环境。 为保证学习路径清晰，仓库有意简化或省略了部分生产机制：</span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> 完整事件 / Hook 总线 (例如 PreToolUse、SessionStart/End、ConfigChange)。 s12 仅提供教学用途的最小 append-only 生命周期事件流。</span><br><span class="line"><span class="bullet">-</span> 基于规则的权限治理与信任流程</span><br><span class="line"><span class="bullet">-</span> 会话生命周期控制 (resume/fork) 与更完整的 worktree 生命周期控制</span><br><span class="line"><span class="bullet">-</span> 完整 MCP 运行时细节 (transport/OAuth/资源订阅/轮询)</span><br></pre></td></tr></table></figure>
+
+<h3 id="学习路径"><a href="#学习路径" class="headerlink" title="学习路径"></a>学习路径</h3><ol>
+<li><p><strong>第一阶段</strong></p>
+<ul>
+<li>s01 Agent Loop</li>
+<li>s02 Tool Use</li>
+<li>s03 Permisssion</li>
+<li>s04 Hooks</li>
+</ul>
+</li>
+<li><p><strong>第二阶段</strong></p>
+<ul>
+<li>s05 TodoWrite</li>
+<li>s06 Subagent</li>
+<li>s08 Context Compact</li>
+</ul>
+</li>
+<li><p><strong>第三阶段</strong></p>
+<ul>
+<li>s09 Memory</li>
+<li>s10 System Prompt</li>
+<li>s11 Error Recovery</li>
+</ul>
+</li>
+<li><p><strong>第四阶段</strong></p>
+<ul>
+<li>s12 Task System</li>
+<li>s13 Background Tasks</li>
+<li>s14 Cron Scheduler</li>
+</ul>
+</li>
+<li><p><strong>第五阶段</strong></p>
+<ul>
+<li>s15 Agent Teams</li>
+<li>s16 Team Protocols</li>
+<li>s17 Autonomous Agents</li>
+<li>s18 Worktree Isolation</li>
+</ul>
+</li>
+<li><p><strong>第六阶段</strong></p>
+<ul>
+<li>s07 Skill Loading</li>
+<li>s19 MCP Plugin</li>
+<li>s20 Comprehensive Agent</li>
+</ul>
+</li>
+</ol>
+<hr>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI-Agent/" rel="tag"># AI Agent</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/07/27/tools/gitaction-note/" rel="prev" title="github action-note">
+                  <i class="fa fa-angle-left"></i> github action-note
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/08/05/AI-ML-DL/Agent/learn-claude-code/s01_agent_loop/" rel="next" title="learn-claude-code s00">
+                  learn-claude-code s00 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

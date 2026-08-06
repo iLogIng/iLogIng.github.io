@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="程序即数据、数据即程序  How to Design Programs一书聚焦于 GUI 与 批处理 程序  I.Fixed-Size Data 12345678910111213lang racket; factorial function(define (factorial n)    (if (&#x3D; n 0)        1        (* n (factorial (- n 1)))">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Design Programs -- I.Fixed-Size Data">
+<meta property="og:url" content="http://iloging.github.io/2026/05/21/languages/HtDP/htdp-I/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="程序即数据、数据即程序  How to Design Programs一书聚焦于 GUI 与 批处理 程序  I.Fixed-Size Data 12345678910111213lang racket; factorial function(define (factorial n)    (if (&#x3D; n 0)        1        (* n (factorial (- n 1)))">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-21T11:13:00.000Z">
+<meta property="article:modified_time" content="2026-05-23T09:39:37.122Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="Books">
+<meta property="article:tag" content="HtDP">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/2026/05/21/languages/HtDP/htdp-I/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/2026/05/21/languages/HtDP/htdp-I/","path":"2026/05/21/languages/HtDP/htdp-I/","title":"How to Design Programs -- I.Fixed-Size Data"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>How to Design Programs -- I.Fixed-Size Data | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Arithmetic-%E7%AE%97%E6%9C%AF"><span class="nav-number">1.</span> <span class="nav-text">Arithmetic 算术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#numbers-%E6%95%B0%E5%AD%97"><span class="nav-number">1.1.</span> <span class="nav-text">numbers 数字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#string-%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.2.</span> <span class="nav-text">string 字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#images-%E5%9B%BE%E5%83%8F"><span class="nav-number">1.3.</span> <span class="nav-text">images 图像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boolean-%E5%B8%83%E5%B0%94%E5%80%BC"><span class="nav-number">1.4.</span> <span class="nav-text">Boolean 布尔值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E6%A8%A1%E6%8B%9F"><span class="nav-number">1.4.1.</span> <span class="nav-text">数字电路模拟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E6%BC%94%E7%AE%97"><span class="nav-number">1.4.2.</span> <span class="nav-text">逻辑演算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mixing-It-Up-with-Boolean-%E6%B7%B7%E5%90%88%E5%B8%83%E5%B0%94%E5%80%BC"><span class="nav-number">1.5.</span> <span class="nav-text">Mixing It Up with Boolean 混合布尔值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.5.1.</span> <span class="nav-text">条件表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#if%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">if语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#when"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">when</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unless"><span class="nav-number">1.5.1.3.</span> <span class="nav-text">unless</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E5%88%86%E6%94%AF%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.5.2.</span> <span class="nav-text">条件分支语句</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#case"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">case</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cond"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">cond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#match"><span class="nav-number">1.5.2.3.</span> <span class="nav-text">match</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Predicates-%E8%B0%93%E8%AF%8D"><span class="nav-number">1.6.</span> <span class="nav-text">Predicates 谓词</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Functions-and-Programs-%E5%87%BD%E6%95%B0%E4%B8%8E%E7%A8%8B%E5%BA%8F"><span class="nav-number">2.</span> <span class="nav-text">Functions and Programs 函数与程序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions-%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">Functions 函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%AE%9A%E4%B9%89%E4%B8%8E%E8%B0%83%E7%94%A8"><span class="nav-number">2.1.1.</span> <span class="nav-text">函数定义与调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.2.</span> <span class="nav-text">可变参数函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lambda%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.3.</span> <span class="nav-text">lambda函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#case-lambda-%E6%8C%89%E5%8F%82%E6%95%B0%E4%B8%AA%E6%95%B0%E5%88%86%E6%B4%BE"><span class="nav-number">2.1.4.</span> <span class="nav-text">case-lambda 按参数个数分派</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97%E5%8F%82%E6%95%B0"><span class="nav-number">2.1.5.</span> <span class="nav-text">关键字参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Composing-Functions-%E5%90%88%E6%88%90%E5%87%BD%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">Composing Functions 合成函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Global-Constants-%E5%85%A8%E5%B1%80%E5%B8%B8%E9%87%8F"><span class="nav-number">2.3.</span> <span class="nav-text">Global Constants 全局常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Programs-%E7%A8%8B%E5%BA%8F"><span class="nav-number">2.4.</span> <span class="nav-text">Programs 程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Batch-Programs-%E6%89%B9%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F"><span class="nav-number">2.4.1.</span> <span class="nav-text">Batch Programs 批处理程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Interactive-Programs-%E4%BA%A4%E4%BA%92%E5%BC%8F%E7%A8%8B%E5%BA%8F"><span class="nav-number">2.4.2.</span> <span class="nav-text">Interactive Programs 交互式程序</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How-To-Design-Programs-%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E7%A8%8B%E5%BA%8F"><span class="nav-number">3.</span> <span class="nav-text">How To Design Programs 如何设计程序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Designing-Functions-%E8%AE%BE%E8%AE%A1%E5%87%BD%E6%95%B0"><span class="nav-number">3.1.</span> <span class="nav-text">Designing Functions 设计函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Domain-Knowledge-%E9%A2%86%E5%9F%9F%E7%9F%A5%E8%AF%86"><span class="nav-number">3.2.</span> <span class="nav-text">Domain Knowledge 领域知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#From-Function-To-Program-%E4%BB%8E%E5%87%BD%E6%95%B0%E5%88%B0%E7%A8%8B%E5%BA%8F"><span class="nav-number">3.3.</span> <span class="nav-text">From Function To Program 从函数到程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#On-Testing-%E5%85%B3%E4%BA%8E%E6%B5%8B%E8%AF%95"><span class="nav-number">3.4.</span> <span class="nav-text">On Testing 关于测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Intervals-Enumerations-and-Itemization-%E5%8C%BA%E9%97%B4%E3%80%81%E6%9E%9A%E4%B8%BE%E4%B8%8E%E5%88%97%E4%B8%BE"><span class="nav-number">4.</span> <span class="nav-text">Intervals, Enumerations, and Itemization 区间、枚举与列举</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Finite-State-Worlds-%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E4%B8%96%E7%95%8C"><span class="nav-number">4.1.</span> <span class="nav-text">Finite State Worlds 有限状态世界</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Adding-Structure-%E6%B7%BB%E5%8A%A0%E7%BB%93%E6%9E%84"><span class="nav-number">5.</span> <span class="nav-text">Adding Structure 添加结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Defining-Structure-Types-%E7%BB%93%E6%9E%84%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">5.1.</span> <span class="nav-text">Defining Structure Types 结构类型的定义</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/05/21/languages/HtDP/htdp-I/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="How to Design Programs -- I.Fixed-Size Data | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          How to Design Programs -- I.Fixed-Size Data
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-21 19:13:00" itemprop="dateCreated datePublished" datetime="2026-05-21T19:13:00+08:00">2026-05-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-23 17:39:37" itemprop="dateModified" datetime="2026-05-23T17:39:37+08:00">2026-05-23</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><em><strong>程序即数据、数据即程序</strong></em></p>
+<blockquote>
+<p><em>How to Design Programs</em><br>一书聚焦于 <strong>GUI</strong> 与 <strong>批处理</strong> 程序</p>
+</blockquote>
+<p><em><strong><a target="_blank" rel="noopener" href="https://htdp.org/2026-2-25//Book/part_one.html">I.Fixed-Size Data</a></strong></em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">lang racket</span><br><span class="line"></span><br><span class="line">; factorial function</span><br><span class="line">(define (factorial n)</span><br><span class="line">    (if (= n 0)</span><br><span class="line">        1</span><br><span class="line">        (* n (factorial (- n 1)))</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">; output 5!</span><br><span class="line">(displayln (factorial 5))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>原始表达式（ <em><strong>Lisp</strong></em> 中使用 <strong>前缀表达式</strong> 定义运算规则 ）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(+ 1 1)</span><br></pre></td></tr></table></figure>
+<p>即，自然语言中的 <code>1 + 1</code> 计算</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="Arithmetic-算术"><a href="#Arithmetic-算术" class="headerlink" title="Arithmetic 算术"></a>Arithmetic 算术</h1><h2 id="numbers-数字"><a href="#numbers-数字" class="headerlink" title="numbers 数字"></a>numbers 数字</h2><p>以下列出常用的运算</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">(add1 9) ; 9 + 1</span><br><span class="line">(expt 2 10) ; 2^10</span><br><span class="line">(ceiling 1.2) ; [1.2] = 2.0</span><br><span class="line">(exact-&gt;inexact 1.999) ; 转换为精确数</span><br><span class="line">(floor 1.9) ; floor(1.9) = 1.0</span><br><span class="line">(gcd 2 4 8) ; 最大公约数</span><br><span class="line">(log x a) ; log_a(x)</span><br><span class="line">(numerator 3/13) ; 提取分子</span><br><span class="line">(quotient 7 3) ; 7 / 2 得出商</span><br><span class="line">(random-seed 69) ; 设置随机种子</span><br><span class="line">(random 10) ; 范围随机 [0, 10)</span><br><span class="line">(remainder 7 2) ; 取余</span><br><span class="line">(sqr 3) ; 平方 x^2</span><br><span class="line">(sqrt 9) ; 平方根 x^(1/2)</span><br><span class="line"></span><br><span class="line">pi ; 即圆周率pi</span><br><span class="line">(exp x) ; 自然对数 x * e</span><br></pre></td></tr></table></figure>
+
+<p>使用以下方法进行 <strong>数据定义</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(define x 1)</span><br></pre></td></tr></table></figure>
+
+<p>使用以下方法进行 <strong>函数定义</strong></p>
+<ul>
+<li>以 <strong>距离公式</strong> 为例<br>$$\sqrt(x^2 + y^2)$$</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(define (length x y)</span><br><span class="line">    (sqrt</span><br><span class="line">        (+ (sqr x) (sqr y)))</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="string-字符串"><a href="#string-字符串" class="headerlink" title="string 字符串"></a>string 字符串</h2><p>racket中提供了标准函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(+ (string-length &quot;Hello World!&quot;) 10)</span><br><span class="line">==</span><br><span class="line">(+ 12 10)</span><br><span class="line">==</span><br><span class="line"></span><br><span class="line">(+ (string-length (number-&gt;string 42)) 10)</span><br><span class="line">==</span><br><span class="line">(+ (string-length &quot;42&quot;) 10)</span><br><span class="line">==</span><br><span class="line">(+ 2 10)</span><br><span class="line">==</span><br></pre></td></tr></table></figure>
+
+<p>用字符串原语创建一个表达式，在位置 i 加 “_”。这里期望的结果是 “hello_world”。</p>
+<blockquote>
+<p>我们设计了一个函数，传入原字符串，插入索引，插入字符</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(define str &quot;helloworld&quot;)</span><br><span class="line">(define i 5)</span><br><span class="line"></span><br><span class="line">; 定义</span><br><span class="line">(define (insert_c_into_str_at_idx str idx c)</span><br><span class="line">    (string-append</span><br><span class="line">        (substring str 0 idx)</span><br><span class="line">        c</span><br><span class="line">        (substring str idx (string-length str))</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">; 调用</span><br><span class="line">(insert_c_into_str_at_idx str i &quot;_&quot;)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="images-图像"><a href="#images-图像" class="headerlink" title="images 图像"></a>images 图像</h2><p>使用以下方法导入包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(require 2htdp/image)</span><br></pre></td></tr></table></figure>
+
+<p><em><strong>图像操作有三种原语：</strong></em></p>
+<ol>
+<li><p><strong>创建基本图像</strong></p>
+<ul>
+<li><em>ellipse</em> 椭圆</li>
+<li><em>line</em> 直线</li>
+<li><em>reactangle</em> 矩形</li>
+<li><em>text</em> 文本</li>
+<li><em>triangle</em> 三角形</li>
+</ul>
+</li>
+<li><p><strong>图像的属性</strong></p>
+<blockquote>
+<p>image-</p>
+</blockquote>
+<ul>
+<li><em>image-width</em> 提取图像宽度</li>
+<li><em>image-height</em> 提取图像高度</li>
+</ul>
+</li>
+<li><p><strong>锚点 anchor point</strong></p>
+<blockquote>
+<p>图像的其中一个像素作为隐式锚点，在使用图像原语合成两张图片时，合成是针对锚点进行的<br>overlay&#x2F;</p>
+</blockquote>
+<ul>
+<li><em>overlay</em> 叠加 将所有被应用的图像进行叠加，中心作为锚点</li>
+<li><em>overlay&#x2F;xy</em> 叠加&#x2F;xy 将第二个传入的图形移动(+x, +y)</li>
+<li><em>overlay&#x2F;align</em> 叠加&#x2F;对齐 通过传入对齐位置(两个字符串标识)，控制一长串图形的对齐生成</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="Boolean-布尔值"><a href="#Boolean-布尔值" class="headerlink" title="Boolean 布尔值"></a>Boolean 布尔值</h2><p>racket提供的布尔值，以及布尔运算规则</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">; 布尔值</span><br><span class="line">true</span><br><span class="line">false</span><br><span class="line"></span><br><span class="line">; 布尔运算规则</span><br><span class="line">not</span><br><span class="line">or nor</span><br><span class="line">and nand</span><br><span class="line">xor</span><br><span class="line"></span><br><span class="line">(define (xnor b1 b2)</span><br><span class="line">    ((not (xor b1 b2))))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>非</li>
+<li>或 或非</li>
+<li>与 与非</li>
+<li>异或</li>
+<li>同或（xnor 需要用户实现）</li>
+</ul>
+<h3 id="数字电路模拟"><a href="#数字电路模拟" class="headerlink" title="数字电路模拟"></a>数字电路模拟</h3><p>由此可以实现 半加器、全加器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">; 半加器</span><br><span class="line">(define (bit-half-adder a b)</span><br><span class="line">    (values (and a b) (xor a b))</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">; 全加器</span><br><span class="line">(define (bit-full-adder c0 a b)</span><br><span class="line">    (values</span><br><span class="line">        (or (and a b) (and (xor a b) c0))</span><br><span class="line">        (xor (xor a b) c0)))</span><br><span class="line">|</span><br><span class="line">(let-values ([</span><br><span class="line">    (c s)</span><br><span class="line">    (bit-half-adder true #true)])</span><br><span class="line">    (list c s))</span><br><span class="line"></span><br><span class="line">(let-values</span><br><span class="line">    ([(c1 s) (bit-full-adder t #t #t)])</span><br><span class="line">    (list c1 s))</span><br><span class="line">|</span><br></pre></td></tr></table></figure>
+
+<h3 id="逻辑演算"><a href="#逻辑演算" class="headerlink" title="逻辑演算"></a>逻辑演算</h3><blockquote>
+<p>如果今天小明去了学校，那么我也在学校</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(define P f) ; 小明没去学校</span><br><span class="line">(define Q t) ; 假设 我去了学校</span><br><span class="line"></span><br><span class="line">; 计算蕴涵式</span><br><span class="line">(define implication (or (not P) Q))</span><br><span class="line"></span><br><span class="line">(printf &quot;P: ~a, Q: ~a, P-&gt;Q: ~a~n&quot; P Q implication)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Mixing-It-Up-with-Boolean-混合布尔值"><a href="#Mixing-It-Up-with-Boolean-混合布尔值" class="headerlink" title="Mixing It Up with Boolean 混合布尔值"></a>Mixing It Up with Boolean 混合布尔值</h2><p>racket提供了包含以下比较原语</p>
+<ul>
+<li>&#x3D;</li>
+<li>&gt;</li>
+<li>&lt;</li>
+<li>&#x3D;&gt;</li>
+<li>&lt;&#x3D;</li>
+<li>string&#x3D;?</li>
+<li>string&gt;?</li>
+<li>string&lt;?</li>
+<li>string&gt;&#x3D;?</li>
+<li>string&lt;&#x3D;?</li>
+</ul>
+<h3 id="条件表达式"><a href="#条件表达式" class="headerlink" title="条件表达式"></a>条件表达式</h3><h4 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">; 数值</span><br><span class="line">(if (&gt; 1 2)</span><br><span class="line">    (printf &quot;Hello World~n&quot;)</span><br><span class="line">    (printf &quot;Good Bye World~n&quot;)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">(define catch</span><br><span class="line">    (if (&lt; 1 2)</span><br><span class="line">        t</span><br><span class="line">        f</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line">(printf &quot;~a~n&quot; catch)</span><br><span class="line"></span><br><span class="line">; 字符串</span><br><span class="line">(define cur-color &quot;green&quot;)</span><br><span class="line">(define truth</span><br><span class="line">    (if (string=? cur-color &quot;red&quot;)</span><br><span class="line">        t</span><br><span class="line">        f</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line">(printf &quot;~a~n&quot; truth)</span><br></pre></td></tr></table></figure>
+
+<h4 id="when"><a href="#when" class="headerlink" title="when"></a>when</h4><blockquote>
+<p>当 <em>表达式</em> 时<br>执行所有内部语句(隐含 begin)</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(when (&gt; 1 0)</span><br><span class="line">    (display &quot;Hello World!\n&quot;)</span><br><span class="line">    (display &quot;Line 1\n&quot;)</span><br><span class="line">    (display &quot;line 2\n&quot;))</span><br></pre></td></tr></table></figure>
+
+<h4 id="unless"><a href="#unless" class="headerlink" title="unless"></a>unless</h4><blockquote>
+<p>除 <em>表达式</em> 之外<br>执行所有内部语句(隐含 begin)</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(unless (&lt; 1 0)</span><br><span class="line">    (display &quot;unless line\n&quot;)</span><br><span class="line">    (display &quot;line 3\n&quot;)</span><br><span class="line">    (display &quot;line 4\n&quot;))</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="条件分支语句"><a href="#条件分支语句" class="headerlink" title="条件分支语句"></a>条件分支语句</h3><h4 id="case"><a href="#case" class="headerlink" title="case"></a>case</h4><blockquote>
+<p>使用 <code>eqv?</code> 进行匹配<br>基于 <em>符号</em> <em>常量</em> 进行匹配<br>无穿透，不支持范围判断，但允许多个标签并列（多点）</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(case 2</span><br><span class="line">    [(0) (printf &quot;zero\n&quot;)]</span><br><span class="line">    [(1 2) (printf &quot;one two\n&quot;)]</span><br><span class="line">    [(3) (printf &quot;three\n&quot;)])</span><br></pre></td></tr></table></figure>
+
+<h4 id="cond"><a href="#cond" class="headerlink" title="cond"></a>cond</h4><blockquote>
+<p>自上而下进行判断，无穿透<br>支持表达式，更像是 if 链<br>使用 else 作为可选的默认表达</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(define (grade score)</span><br><span class="line">    (cond</span><br><span class="line">        [(&gt;= score 90) (printf &quot;case A\n&quot;)]</span><br><span class="line">        [(&gt;= score 80) (printf &quot;case B\n&quot;)]</span><br><span class="line">        [(&gt;= score 70) (printf &quot;case C\n&quot;)]</span><br><span class="line">        [else (printf &quot;case else\n&quot;)]))</span><br><span class="line"></span><br><span class="line">(grade 60)</span><br></pre></td></tr></table></figure>
+
+<h4 id="match"><a href="#match" class="headerlink" title="match"></a>match</h4><blockquote>
+<p>更强大的匹配工具<br>可以解构数据、匹配字符串、复合结构等</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(define (describe x)</span><br><span class="line">  (match x</span><br><span class="line">    [0              (printf &quot;zero\n&quot;)]</span><br><span class="line">    [(? string? s)  (string-append &quot;string: &quot; s)]</span><br><span class="line">    [(list a b)     (printf &quot;list, [0]: ~a, [1]: ~a\n&quot; a b)]</span><br><span class="line">    [_              (printf &quot;other&quot;)]))</span><br><span class="line">(describe 0)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Predicates-谓词"><a href="#Predicates-谓词" class="headerlink" title="Predicates 谓词"></a>Predicates 谓词</h2><p>谓词是一个函数，用于消耗一个值并判断该值是否属于某类数据<br>通过返回的Boolean值，控制程序流向，对控制流进行抽象</p>
+<blockquote>
+<p>在 Lisp 家族中，一个谓词就是任何返回 t 或 #f 的函数。<br>按惯例，谓词名通常以 ? 结尾（如 null?、even?），或者就是逻辑运算符本身（&#x3D;, &gt;, and, or）。</p>
+</blockquote>
+<p>如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(number? 1)</span><br><span class="line">(number? t)</span><br><span class="line">(boolean? f)</span><br><span class="line">(number? &quot;Hello&quot;)</span><br><span class="line">(string? &quot;World&quot;)</span><br></pre></td></tr></table></figure>
+<p>以上调用的返回值是 <code>Boolean</code> 类型</p>
+<p>可以使用于以下情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(define input 42)</span><br><span class="line">(if (string? input)</span><br><span class="line">    (* (+ (string-length input) 1) pi)</span><br><span class="line">    (printf &quot;ERROR: INVALID INPUT TYPE~n&quot;))</span><br></pre></td></tr></table></figure>
+
+<p>在通过 <code>struct</code> 自定义一个结构体时，自动产生 <code>(&lt;struct-name&gt;?)</code> 谓词</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">(struct Person</span><br><span class="line">    (</span><br><span class="line">        name</span><br><span class="line">        age</span><br><span class="line">        print-info</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line">(define (Person::print-info p)</span><br><span class="line">    (printf</span><br><span class="line">    &quot;Person:</span><br><span class="line">        name:~a</span><br><span class="line">        age:~a~n&quot;</span><br><span class="line">        (Person-name p) (Person-age p)))</span><br><span class="line"></span><br><span class="line">(define (make-Person name age)</span><br><span class="line">    (Person</span><br><span class="line">        name age</span><br><span class="line">        Person::print-info))</span><br><span class="line"></span><br><span class="line">(define p (make-Person &quot;Volador&quot; 99))</span><br><span class="line"></span><br><span class="line">(if (Person? p)</span><br><span class="line">    ((Person-print-info p) p)</span><br><span class="line">    (printf &quot;ERROR: INPUT IS NOT PERSON~n&quot;))</span><br></pre></td></tr></table></figure>
+
+<p>注意 <code>(rational? pi)</code> 的结果是 <code>t</code></p>
+<hr>
+<h1 id="Functions-and-Programs-函数与程序"><a href="#Functions-and-Programs-函数与程序" class="headerlink" title="Functions and Programs 函数与程序"></a>Functions and Programs 函数与程序</h1><h2 id="Functions-函数"><a href="#Functions-函数" class="headerlink" title="Functions 函数"></a>Functions 函数</h2><h3 id="函数定义与调用"><a href="#函数定义与调用" class="headerlink" title="函数定义与调用"></a>函数定义与调用</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">; 定义函数</span><br><span class="line">(define (func &lt;args&gt;)</span><br><span class="line">    (printf &quot;call a func~n&quot;))</span><br><span class="line"></span><br><span class="line">; 调用函数</span><br><span class="line">(func &lt;args&gt;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="可变参数函数"><a href="#可变参数函数" class="headerlink" title="可变参数函数"></a>可变参数函数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">; 定义可变参数函数</span><br><span class="line"></span><br><span class="line">; 有固定参数时</span><br><span class="line">(define (func a b c . args)</span><br><span class="line">    (apply + a b c args))</span><br><span class="line"></span><br><span class="line">; 无固定参数时</span><br><span class="line">(define (func . args)</span><br><span class="line">    (&lt;func-body&gt;))</span><br><span class="line"></span><br><span class="line">(func &lt;args&gt;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意， <code>apply</code> 函数是处理可变参数的函数，其最后一个参数一定是 <em><strong>可变参数</strong></em><br>或者是列表类型 <strong>(list <em>args</em>)</strong><br><code>apply</code> 针对可变参数进行原位展开<br>(apply + &#96;(1 2 3 4)) &#x3D;&gt; (+ 1 2 3 4)</p>
+</blockquote>
+<h3 id="lambda函数"><a href="#lambda函数" class="headerlink" title="lambda函数"></a>lambda函数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">; 定义lambda函数</span><br><span class="line">(define func</span><br><span class="line">    (lambda (&lt;args&gt;)</span><br><span class="line">    (func-body)))</span><br><span class="line"></span><br><span class="line">(func &lt;args&gt;)</span><br><span class="line"></span><br><span class="line">; 匿名定义与调用</span><br><span class="line">(define func</span><br><span class="line">    (lambda (&lt;args&gt;)</span><br><span class="line">    (func-body))</span><br><span class="line">    &lt;args&gt;)</span><br><span class="line"></span><br><span class="line">; 匿名函数的可变参数</span><br><span class="line">; 有固定参数</span><br><span class="line">(define func</span><br><span class="line">    (lambda (a . args)</span><br><span class="line">    (func-body))</span><br><span class="line">    &lt;args&gt;)</span><br><span class="line"></span><br><span class="line">; 无固定参数</span><br><span class="line">(define func</span><br><span class="line">    (lambda parameter</span><br><span class="line">    (apply + parameter))</span><br><span class="line">    &lt;args&gt;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="case-lambda-按参数个数分派"><a href="#case-lambda-按参数个数分派" class="headerlink" title="case-lambda 按参数个数分派"></a>case-lambda 按参数个数分派</h3><blockquote>
+<p>在racket中 [] 与 () 同级，可以进行视觉上的区分，增加程序的可读性</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">(define flexible</span><br><span class="line">    (case-lambda</span><br><span class="line">        ([x] (&lt;single-arg-func-body&gt;))</span><br><span class="line">        ([x y] (&lt;double-arg-func-body&gt;))</span><br><span class="line">        ([x y . z] (&lt;parameter-func-body&gt;))</span><br><span class="line">    ))</span><br><span class="line"></span><br><span class="line">(flexible 1)</span><br><span class="line">(flexible 1 2)</span><br><span class="line">(flexible 1 2 3 4 5)</span><br><span class="line"></span><br><span class="line">((case-lambda</span><br><span class="line">    [(x) (printf &quot;~a\n&quot; x)]</span><br><span class="line">    [(x y) (printf &quot;~a ~a\n&quot; x y)]</span><br><span class="line">    [(x y . z) (printf &quot;~a ~a ~a\n&quot; x y z)])</span><br><span class="line">    1 2 3 4 5)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>每个 <em><strong>(参数) (函数体)</strong></em> 对，使用 <em><strong>[]</strong></em> 包裹</li>
+<li>本质上仍是使用 lambda函数</li>
+</ul>
+<h3 id="关键字参数"><a href="#关键字参数" class="headerlink" title="关键字参数"></a>关键字参数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(define (person-greet-act #:name [n &quot;default&quot;] #:greeting [g &quot;Hello&quot;] #:endl [e &quot;\n&quot;])</span><br><span class="line">    (printf&quot;~a: ~a~a&quot; n g e))</span><br><span class="line"></span><br><span class="line">(person-greet-act #:name &quot;volador&quot;)</span><br><span class="line">(person-greet-act #:greeting &quot;Hello World!&quot; #:name &quot;programmer&quot;)</span><br><span class="line"></span><br><span class="line">; 可变参数模板混合</span><br><span class="line">(define (para-sp x #:y [yy &quot;y&quot;] . sp)</span><br><span class="line">    (list x yy sp))</span><br><span class="line"></span><br><span class="line">(para-sp 1 #:y 2 3 4)</span><br></pre></td></tr></table></figure>
+<p>使用 <code>#:&lt;key-arg&gt;</code> 定义关键字</p>
+<p>关键字参数可以在调用时乱序指定</p>
+<p>也可以与可变参数结合使用</p>
+<hr>
+<h2 id="Composing-Functions-合成函数"><a href="#Composing-Functions-合成函数" class="headerlink" title="Composing Functions 合成函数"></a>Composing Functions 合成函数</h2><p>一个完整的程序，一般都是由许多函数组合而成的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">(define (letter first-name last-name signature-name)</span><br><span class="line">    (string-append</span><br><span class="line">        (opening first-name)</span><br><span class="line">        &quot;\n\n&quot;</span><br><span class="line">        (body first-name last-name)</span><br><span class="line">        &quot;\n\n&quot;</span><br><span class="line">        (closing signature-name)))</span><br><span class="line"></span><br><span class="line">(define (opening first-name)</span><br><span class="line">    (string-append &quot;Dear &quot; first-name &quot;,&quot;))</span><br><span class="line"></span><br><span class="line">(define (body first-name last-name)</span><br><span class="line">    (string-append</span><br><span class="line">        &quot;We have discovered that all people with the&quot; &quot;\n&quot;</span><br><span class="line">        &quot;last name &quot; last-name &quot; have won our lottery. So&quot; &quot;\n&quot;</span><br><span class="line">        first-name &quot;, &quot; &quot;hurry and pick up your prize.&quot;))</span><br><span class="line"></span><br><span class="line">(define (closing signature-name)</span><br><span class="line">    (string-append</span><br><span class="line">        &quot;Sincerely,&quot;</span><br><span class="line">        &quot;\n\n&quot;</span><br><span class="line">        signature-name</span><br><span class="line">        &quot;\n&quot;))</span><br><span class="line"></span><br><span class="line">(letter &quot;A&quot; &quot;B&quot; &quot;C&quot;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>为每一个任务定义一个函数<br>使每个函数都相对较小，易于理解</p>
+</blockquote>
+<hr>
+<h2 id="Global-Constants-全局常量"><a href="#Global-Constants-全局常量" class="headerlink" title="Global Constants 全局常量"></a>Global Constants 全局常量</h2><p>常使用大写字母标识常量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(define CONST-INT 5)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对于问题陈述中提到的每个常数，引入一个常数定义</p>
+</blockquote>
+<hr>
+<h2 id="Programs-程序"><a href="#Programs-程序" class="headerlink" title="Programs 程序"></a>Programs 程序</h2><ul>
+<li><p><strong>批处理程序</strong></p>
+<ul>
+<li>批处理程序 <em>一次性消耗所有输入</em> 并计算结果。</li>
+<li>其主要功能是辅助功能的合成，辅助功能可能指代额外的辅助功能，依此类推。</li>
+<li>当我们启动批处理程序时，操作系统会调用其输入的主函数，并等待程序的输出。</li>
+</ul>
+</li>
+<li><p><strong>交互式程序</strong></p>
+<ul>
+<li>交互程序 <em>消耗部分输入</em> ，计算，产生部分输出，消耗更多输入，依此类推。</li>
+<li>当输入出现时，我们会谈论 <em>事件</em> ，并创建交互式程序作为事件驱动程序。</li>
+<li>此类事件驱动程序的主要功能使用表达式来描述应调用哪些函数以应对哪些类型的事件。<ul>
+<li>这些应对特定事件的函数称为事件处理程序。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Batch-Programs-批处理程序"><a href="#Batch-Programs-批处理程序" class="headerlink" title="Batch Programs 批处理程序"></a>Batch Programs 批处理程序</h3><ul>
+<li><em>read-file</em> 函数 将整个文件读取为字符串</li>
+<li><em>write-file</em> 函数 从给定字符串创建文件</li>
+</ul>
+<p>与 C 语言中的 <em>stdout</em> <em>stdin</em> 相联系的是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">read-file(&#x27;stdin) ; 从标准输入中读取内容 在读取时，使用 ctrl+D 传入完成信号</span><br><span class="line">write-file(&#x27;stdout &lt;string&gt;) ; 将字符串写入标准输出</span><br></pre></td></tr></table></figure>
+
+<h3 id="Interactive-Programs-交互式程序"><a href="#Interactive-Programs-交互式程序" class="headerlink" title="Interactive Programs 交互式程序"></a>Interactive Programs 交互式程序</h3><blockquote>
+<p>2htdp&#x2F;universe<br>设计遵循了 事件驱动编程 与 函数式编程</p>
+</blockquote>
+<p>设计交互式程序需要指定某个函数处理键盘事件，另一个处理时钟函数，第三个函数以图像形式呈现数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(define (number-&gt;square s)</span><br><span class="line">    (square s &quot;solid&quot; &quot;red&quot;))</span><br><span class="line">(big-bang 100</span><br><span class="line">    [to-draw number-&gt;square]</span><br><span class="line">    [on-tick sub1]</span><br><span class="line">    [stop-when zero?])</span><br></pre></td></tr></table></figure>
+<p>以上程序建立一个 100*100 窗口，内部的正方形虽时间刻度 -1 ，当减为0后停止</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(big-bang &lt;初始世界&gt;</span><br><span class="line">  [to-draw    &lt;渲染函数&gt;]      ; 世界 -&gt; Image</span><br><span class="line">  [on-tick    &lt;时钟处理函数&gt;]  ; 世界 -&gt; 新世界</span><br><span class="line">  [on-key     &lt;键盘处理函数&gt;]  ; 世界 按键 -&gt; 新世界</span><br><span class="line">  [on-mouse   &lt;鼠标处理函数&gt;]  ; 世界 坐标 事件 -&gt; 新世界</span><br><span class="line">  [stop-when  &lt;停止条件&gt;])     ; 世界 -&gt; Boolean</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>世界最初是什么样子（初始状态，可以是一个数、字符串、结构体等）</li>
+<li>世界如何随时间变化（on-tick，每秒调用若干次）</li>
+<li>世界如何响应用户输入（on-key, on-mouse）</li>
+<li>世界如何显示在屏幕上（to-draw，把状态变成图像）</li>
+<li>何时停止（stop-when，返回 #t 时结束）</li>
+</ul>
+<p><strong>参考以下例子</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">(define (number-&gt;square size)</span><br><span class="line">    (square size &quot;solid&quot; &quot;red&quot;))</span><br><span class="line"></span><br><span class="line">(define SQUARE-SIZE 720)</span><br><span class="line"></span><br><span class="line">(define (reset s key)</span><br><span class="line">    (match key</span><br><span class="line">        [&quot;escape&quot;           0]</span><br><span class="line">        [&quot;/&quot;                (/ s 2)]</span><br><span class="line">        [&quot;*&quot;                (* s 2)]</span><br><span class="line">        [&quot;shift&quot;            s]</span><br><span class="line">        [_                  SQUARE-SIZE]))</span><br><span class="line"></span><br><span class="line">(big-bang SQUARE-SIZE</span><br><span class="line">    [to-draw number-&gt;square]</span><br><span class="line">    [on-tick sub1]</span><br><span class="line">    [on-key reset]</span><br><span class="line">    [stop-when zero?])</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>big-bang 会每tick进行状态更新</li>
+<li>on-key 在每次big-bang时进行键盘事件的接收</li>
+<li>on-mouse big-bang状态，接收mouse的(x,y)</li>
+<li>多事件同时发生，按排序处理</li>
+</ul>
+<blockquote>
+<p>cw: current world<br>e: event</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="left">current state</th>
+<th align="left">cw_0</th>
+<th align="left">cw_1</th>
+<th align="center">…</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">event</td>
+<td align="left">e_0</td>
+<td align="left">e_1</td>
+<td align="center">e_{…}</td>
+</tr>
+<tr>
+<td align="left">on clock tick</td>
+<td align="left">(tock cw_0)</td>
+<td align="left">(tock cw_1)</td>
+<td align="center">…</td>
+</tr>
+<tr>
+<td align="left">on keystroke</td>
+<td align="left">(ke-h cw_0 e_0)</td>
+<td align="left">(ke-h cw_1 e_1)</td>
+<td align="center">…</td>
+</tr>
+<tr>
+<td align="left">on mouse</td>
+<td align="left">(me-h cw_0 e_0)</td>
+<td align="left">(me-h cw_1 e_1)</td>
+<td align="center">…</td>
+</tr>
+<tr>
+<td align="left">event</td>
+<td align="left">…)</td>
+<td align="left">…)</td>
+<td align="center">…)</td>
+</tr>
+<tr>
+<td align="left">its image</td>
+<td align="left">(render cw_0)</td>
+<td align="left">(render cw_1)</td>
+<td align="center">…</td>
+</tr>
+</tbody></table>
+<ul>
+<li>所有的操作都是围绕着 <em>当前状态</em> 进行的，他们接收旧状态并返回新状态， <em><strong>绝不修改旧状态</strong></em></li>
+<li><strong>事件驱动</strong>：世界产生变换(cw_{n} -&gt; cw_{n+1})的 <em><strong>唯一原因</strong></em> 是某个事件处理函数被调用并返回了一个不同值</li>
+<li><strong>快照排序</strong>：若将以上表格横向展开，可以得到在时间尺度上，由于事件的产生，而激发的各个世界状态，并且，每个状态都是由前一个状态在事件发生后变化而来的<ul>
+<li>各个注册事件自上而下激发，程序运行时间自左到右更新为新世界</li>
+<li>最后渲染当前状态为图像</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="How-To-Design-Programs-如何设计程序"><a href="#How-To-Design-Programs-如何设计程序" class="headerlink" title="How To Design Programs 如何设计程序"></a>How To Design Programs 如何设计程序</h1><h2 id="Designing-Functions-设计函数"><a href="#Designing-Functions-设计函数" class="headerlink" title="Designing Functions 设计函数"></a>Designing Functions 设计函数</h2><blockquote>
+<p><strong>信息与数据</strong> 程序的目的是描述一个计算过程，消耗部分信息并产生新信息。<br>为处理现实问题，程序需要将其转化为某种形式的编程语言中的数据；处理数据；将数据转化为信息。<br><em><strong>模型-视图-控制器 (MVC)</strong></em> 描述 (设计信息-数据转换-) 数据处理-解析信息-数据转化为信息 的逻辑过程</p>
+</blockquote>
+<p><strong>设计流程</strong></p>
+<ol>
+<li>如何将信息表示数据</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">; 使用 *类型 描述 *信息</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>写下相关函数的头部、签名与目的陈述<ul>
+<li>让调用者只需要理解该函数如何运算，而非阅读实现细节</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">; Number -&gt; String</span><br><span class="line">(define (temp-to-string num) string)</span><br><span class="line">; Number String Image -&gt; Image</span><br><span class="line">(define (make-image num str img) img)</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>用实用例子说明签名和目的陈述。给出 <em>输入-&gt;期望的输出</em> 对。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; 通过正方形变长计算正方形面积</span><br><span class="line">; Number -&gt; Number</span><br><span class="line">; given: 2 -&gt; expect: 4</span><br><span class="line">; given: 3 -&gt; expect: 9</span><br><span class="line">(define (area-of-square alen) number)</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>盘点，了解这些问题的既有条件，包括需要计算的内容</li>
+<li>编程实现</li>
+<li>测试程序</li>
+</ol>
+<hr>
+<h2 id="Domain-Knowledge-领域知识"><a href="#Domain-Knowledge-领域知识" class="headerlink" title="Domain Knowledge 领域知识"></a>Domain Knowledge 领域知识</h2><blockquote>
+<p>在编写程序时（功能函数）需要对待解决问题的相关领域有一定认识<br>领域知识来自以下两方面</p>
+</blockquote>
+<ol>
+<li><strong>外部领域</strong>: 数学、音乐、生物学、艺术，等。需要理解多个领域的知识，并与相关领域的专家讨论，常常需要学习相应领域的语言。</li>
+<li><strong>所选的编程语言</strong>: 理解该编程语言本身，如何使用该语言的生态对各个外部领域的信息进行翻译，模拟。</li>
+</ol>
+<hr>
+<h2 id="From-Function-To-Program-从函数到程序"><a href="#From-Function-To-Program-从函数到程序" class="headerlink" title="From Function To Program 从函数到程序"></a>From Function To Program 从函数到程序</h2><blockquote>
+<p>在编写较大规模的程序时，尽量明确一份功能清单，以规划开发任务<br>包括 设计函数、函数间的关系，等描述性、定义性设计信息。<br>并在开发中不断完善。</p>
+</blockquote>
+<hr>
+<h2 id="On-Testing-关于测试"><a href="#On-Testing-关于测试" class="headerlink" title="On Testing 关于测试"></a>On Testing 关于测试</h2><blockquote>
+<p>弄清所用语言的单元测试框架</p>
+</blockquote>
+<ul>
+<li>编写自动化的测试任务</li>
+<li>检查测试中的预期值，并根据错误信息修正函数实现</li>
+</ul>
+<hr>
+<h1 id="Intervals-Enumerations-and-Itemization-区间、枚举与列举"><a href="#Intervals-Enumerations-and-Itemization-区间、枚举与列举" class="headerlink" title="Intervals, Enumerations, and Itemization 区间、枚举与列举"></a>Intervals, Enumerations, and Itemization 区间、枚举与列举</h1><h2 id="Finite-State-Worlds-有限状态世界"><a href="#Finite-State-Worlds-有限状态世界" class="headerlink" title="Finite State Worlds 有限状态世界"></a>Finite State Worlds 有限状态世界</h2><blockquote>
+<p>有限状态机(FSM)&#x2F;有限状态自动机(FSA)<br>为可能的世界状态设计状态转移过程</p>
+</blockquote>
+<hr>
+<h1 id="Adding-Structure-添加结构"><a href="#Adding-Structure-添加结构" class="headerlink" title="Adding Structure 添加结构"></a>Adding Structure 添加结构</h1><h2 id="Defining-Structure-Types-结构类型的定义"><a href="#Defining-Structure-Types-结构类型的定义" class="headerlink" title="Defining Structure Types 结构类型的定义"></a>Defining Structure Types 结构类型的定义</h2><blockquote>
+<p>使用 &#96;(define-struct <struct-name> [<field-name> …])</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(define-struct 3d-pos [x y z])</span><br></pre></td></tr></table></figure>
+<p>在结构定义的同时，定义了以下三种类型的函数(可将以下函数视作为内置原语使用)：</p>
+<ul>
+<li><strong>构造函数</strong><ul>
+<li><code>make-&lt;struct-name&gt;</code></li>
+</ul>
+</li>
+<li><strong>字段选择器</strong><ul>
+<li><code>&lt;struct-name&gt;-&lt;field-name&gt;</code></li>
+<li>…</li>
+</ul>
+</li>
+<li><strong>结构谓词</strong><ul>
+<li><code>&lt;struct-name&gt;?</code></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HtDP/" rel="tag"># HtDP</a>
+              <a href="/tags/Books/" rel="tag"># Books</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/05/15/CS-infra/OS/xv6-projects/process-shell/process-shell/" rel="prev" title="process-shell">
+                  <i class="fa fa-angle-left"></i> process-shell
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/05/23/languages/HtDP/htdp-II/" rel="next" title="How to Design Programs -- II.Arbitrarily Data">
+                  How to Design Programs -- II.Arbitrarily Data <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
