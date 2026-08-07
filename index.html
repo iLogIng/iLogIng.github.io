@@ -138,7 +138,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -166,6 +166,127 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/08/07/AI-ML-DL/Agent/opencode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/08/07/AI-ML-DL/Agent/opencode/" class="post-title-link" itemprop="url">opencode 使用指南</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-08-07 12:00:00 / 修改时间：16:48:41" itemprop="dateCreated datePublished" datetime="2026-08-07T12:00:00+08:00">2026-08-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="OpenCode-全面使用指南"><a href="#OpenCode-全面使用指南" class="headerlink" title="OpenCode 全面使用指南"></a>OpenCode 全面使用指南</h1><p>OpenCode 是一个开源的 AI 编程代理（AI Coding Agent），提供终端 TUI、桌面应用和 IDE 扩展三种形态，支持 75+ 家 LLM 提供商和本地模型。以下指南基于官方文档（opencode.ai&#x2F;docs）整理。</p>
+<hr>
+<h2 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h2><p><strong>推荐方式（一行脚本）：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://opencode.ai/install | bash</span><br></pre></td></tr></table></figure>
+
+<p><strong>其他方式：</strong></p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>npm</td>
+<td><code>npm install -g opencode-ai</code></td>
+</tr>
+<tr>
+<td>bun</td>
+<td><code>bun install -g opencode-ai</code></td>
+</tr>
+<tr>
+<td>Homebrew</td>
+<td><code>brew install anomalyco/tap/opencode</code></td>
+</tr>
+<tr>
+<td>Arch</td>
+<td><code>sudo pacman -S opencode</code> 或 <code>paru -S opencode-bin</code></td>
+</tr>
+<tr>
+<td>Windows (Scoop)</td>
+<td><code>scoop install opencode</code></td>
+</tr>
+<tr>
+<td>Windows (Chocolatey)</td>
+<td><code>choco install opencode</code></td>
+</tr>
+<tr>
+<td>Docker</td>
+<td><code>docker run -it --rm ghcr.io/anomalyco/opencode</code></td>
+</tr>
+</tbody></table>
+<p><strong>注意：</strong> Windows 强烈建议使用 WSL；使用脚本安装时，要使用现代终端模拟器（WezTerm、Alacritty、Ghostty、Kitty 等）。</p>
+<p><strong>升级 &#x2F; 卸载：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">opencode upgrade            <span class="comment"># 升级到最新版</span></span><br><span class="line">opencode upgrade v0.1.48    <span class="comment"># 升级到指定版本</span></span><br><span class="line">opencode uninstall          <span class="comment"># 卸载（-c 保留配置，-d 保留数据）</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/08/07/AI-ML-DL/Agent/opencode/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -655,105 +776,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/07/27/container/podman-astrbot/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/07/13/container/docker-note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/07/13/container/docker-note/" class="post-title-link" itemprop="url">docker note</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-07-13 20:26:00" itemprop="dateCreated datePublished" datetime="2026-07-13T20:26:00+08:00">2026-07-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-07-27 11:43:19" itemprop="dateModified" datetime="2026-07-27T11:43:19+08:00">2026-07-27</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Docker-Note"><a href="#Docker-Note" class="headerlink" title="Docker Note"></a>Docker Note</h1><p><em><strong><a target="_blank" rel="noopener" href="https://www.docker.com/">Docker</a></strong></em></p>
-<p><strong>容器化： 是一种 <em>轻量级</em> 的操作系统虚拟化方法。将应用、依赖、配置等集成为一个专有环境</strong><br><strong>具有：</strong></p>
-<ul>
-<li><em><strong>可移植性</strong></em><ul>
-<li>在一次构建与配置后，可以在任何装有Docker引擎的环境中一致运行</li>
-</ul>
-</li>
-<li><em><strong>更轻量化</strong></em><ul>
-<li>通过直接共享主机的操作系统内核，达到了相对于完整的虚拟机模拟程序， <em><strong>更快的启动速度</strong></em> 、 <strong>更低的资源占用</strong> 的效果</li>
-<li>一台物理机可同时运行上千个容器</li>
-</ul>
-</li>
-<li><em><strong>资源隔离</strong></em><ul>
-<li>每个容器都拥有其自己独立的文件系统、网络和进程空间，互不干扰，安全性更高</li>
-</ul>
-</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/07/13/container/docker-note/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
