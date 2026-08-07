@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Lecture 01 Overview of Computer Graphics 计算机图形学概述  Games101 Fundamentuals of Computer Graphics">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Games101 计算机图形学概述">
+<meta property="og:url" content="http://iloging.github.io/Graphics/Games101/Lecture-01/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="Lecture 01 Overview of Computer Graphics 计算机图形学概述  Games101 Fundamentuals of Computer Graphics">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-01-28T02:47:08.000Z">
+<meta property="article:modified_time" content="2026-08-07T14:16:08.429Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="Games101">
+<meta property="article:tag" content="Graphics">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/Graphics/Games101/Lecture-01/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/Graphics/Games101/Lecture-01/","path":"Graphics/Games101/Lecture-01/","title":"Games101 计算机图形学概述"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Games101 计算机图形学概述 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-01-Overview-of-Computer-Graphics"><span class="nav-number">1.</span> <span class="nav-text">Lecture 01 Overview of Computer Graphics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#What-is-Computer-Graphics"><span class="nav-number">1.1.</span> <span class="nav-text">What is Computer Graphics?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-study-Computer-Graphics"><span class="nav-number">1.2.</span> <span class="nav-text">Why study Computer Graphics?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Applications"><span class="nav-number">1.2.1.</span> <span class="nav-text">Applications</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fundamental-Intellectual-Challenges"><span class="nav-number">1.2.2.</span> <span class="nav-text">Fundamental Intellectual Challenges</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Technical-Challenges"><span class="nav-number">1.2.3.</span> <span class="nav-text">Technical Challenges</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Course-Topics"><span class="nav-number">1.3.</span> <span class="nav-text">Course Topics</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%89%E6%A0%85%E5%8C%96"><span class="nav-number">1.3.1.</span> <span class="nav-text">光栅化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B2%E7%BA%BF%E5%92%8C%E6%9B%B2%E9%9D%A2"><span class="nav-number">1.3.2.</span> <span class="nav-text">曲线和曲面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA"><span class="nav-number">1.3.3.</span> <span class="nav-text">光线追踪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E7%94%BB-%E4%BB%BF%E7%9C%9F"><span class="nav-number">1.3.4.</span> <span class="nav-text">动画&#x2F;仿真</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Course-Logistics"><span class="nav-number">1.4.</span> <span class="nav-text">Course Logistics</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/Graphics/Games101/Lecture-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Games101 计算机图形学概述 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Games101 计算机图形学概述
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-01-28 10:47:08" itemprop="dateCreated datePublished" datetime="2025-01-28T10:47:08+08:00">2025-01-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-07 22:16:08" itemprop="dateModified" datetime="2026-08-07T22:16:08+08:00">2026-08-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Lecture-01-Overview-of-Computer-Graphics"><a href="#Lecture-01-Overview-of-Computer-Graphics" class="headerlink" title="Lecture 01 Overview of Computer Graphics"></a>Lecture 01 Overview of Computer Graphics</h1><blockquote>
+<p><strong>计算机图形学概述</strong></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.cs.ucsb.edu/~lingqi/teaching/games101.html">Games101</a></p>
+<p><em><strong>Fundamentuals of Computer Graphics</strong></em></p>
+<span id="more"></span>
+
+<h2 id="What-is-Computer-Graphics"><a href="#What-is-Computer-Graphics" class="headerlink" title="What is Computer Graphics?"></a>What is Computer Graphics?</h2><p>合成和操作视觉信息</p>
+<hr>
+<h2 id="Why-study-Computer-Graphics"><a href="#Why-study-Computer-Graphics" class="headerlink" title="Why study Computer Graphics?"></a>Why study Computer Graphics?</h2><h3 id="Applications"><a href="#Applications" class="headerlink" title="Applications"></a>Applications</h3><ul>
+<li><p><strong>电子游戏(Video Games)</strong></p>
+<ul>
+<li>光影</li>
+<li>模型</li>
+<li>物理模拟</li>
+<li>画面渲染</li>
+</ul>
+</li>
+<li><p><strong>电影(Movies)</strong></p>
+<ul>
+<li>特效</li>
+<li>渲染</li>
+<li>动作捕捉</li>
+</ul>
+</li>
+<li><p><strong>动画(Animations)</strong></p>
+<ul>
+<li>模型(毛发、建筑…)</li>
+<li>动作捕捉</li>
+<li>光线追踪</li>
+<li>物理模拟</li>
+</ul>
+</li>
+<li><p><strong>设计(Design)</strong></p>
+<ul>
+<li>CAD AutoDesk 等软件技术</li>
+<li>CG技术</li>
+<li>物理仿真</li>
+</ul>
+</li>
+<li><p><strong>可视化(Visualization)</strong></p>
+<ul>
+<li>建模</li>
+<li>3D扫描技术</li>
+<li>医学影像、科学影像、物理模拟</li>
+</ul>
+</li>
+<li><p><strong>虚拟现实(Virtual Reality)</strong></p>
+<ul>
+<li>交互</li>
+</ul>
+</li>
+<li><p><strong>Digital Illustration</strong></p>
+<ul>
+<li>Adobe Photoshop</li>
+</ul>
+</li>
+<li><p><strong>动画仿真模拟(Simulation)</strong></p>
+<ul>
+<li>物理模拟</li>
+</ul>
+</li>
+<li><p><strong>GUI(Graphical User Interfaces)</strong></p>
+<ul>
+<li>用户图形界面</li>
+</ul>
+</li>
+<li><p><strong>字体(Topography)</strong></p>
+<ul>
+<li><em>The Quick Brown Fox Jumps Over The Lazy Dog.</em></li>
+</ul>
+</li>
+</ul>
+<h3 id="Fundamental-Intellectual-Challenges"><a href="#Fundamental-Intellectual-Challenges" class="headerlink" title="Fundamental Intellectual Challenges"></a>Fundamental Intellectual Challenges</h3><ul>
+<li>创造真实的虚拟世界并进行交互</li>
+<li>了解物理世界的各个方面</li>
+<li>新的计算方法、显示技术、科学技术</li>
+</ul>
+<h3 id="Technical-Challenges"><a href="#Technical-Challenges" class="headerlink" title="Technical Challenges"></a>Technical Challenges</h3><ul>
+<li>（透视）投影、曲线、曲面的数学</li>
+<li>照明和阴影的物理学</li>
+<li>显示或操作三维形状</li>
+<li>动画以及仿真</li>
+</ul>
+<hr>
+<h2 id="Course-Topics"><a href="#Course-Topics" class="headerlink" title="Course Topics"></a>Course Topics</h2><blockquote>
+<p>该课程分为4个主要部分</p>
+</blockquote>
+<ul>
+<li><strong>光栅化(Rasterization)</strong></li>
+<li><strong>曲线和曲面(Curves and Meshes)</strong></li>
+<li><strong>光线追踪(Ray Tracing)</strong></li>
+<li><strong>动画&#x2F;仿真(Animation&#x2F;Simulation)</strong></li>
+</ul>
+<h3 id="光栅化"><a href="#光栅化" class="headerlink" title="光栅化"></a>光栅化</h3><blockquote>
+<p>将三维空间的物体显示在屏幕上即为光栅化</p>
+</blockquote>
+<h3 id="曲线和曲面"><a href="#曲线和曲面" class="headerlink" title="曲线和曲面"></a>曲线和曲面</h3><blockquote>
+<p>如何在计算机图形学中表示几何图形</p>
+</blockquote>
+<h3 id="光线追踪"><a href="#光线追踪" class="headerlink" title="光线追踪"></a>光线追踪</h3><blockquote>
+<p>从摄像机向每个像素射出一条光束，计算且渲染受光面</p>
+</blockquote>
+<h3 id="动画-仿真"><a href="#动画-仿真" class="headerlink" title="动画&#x2F;仿真"></a>动画&#x2F;仿真</h3><blockquote>
+<p>关键帧 物理系统(质点-弹簧系统)</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>该课程内容有以下特点：</p>
+<ul>
+<li>不使用<strong>OpenGL</strong> <strong>Vulkan</strong> <strong>DirectX</strong>图形API</li>
+<li>不学习渲染语法</li>
+<li>学习图形学，而非图形API</li>
+<li>在课程之后，可以让个人有能力继续自学计算机图形学</li>
+<li>不学习3D建模软件、不学习物理引擎</li>
+<li>不学习计算机视觉以及深度学习的内容(一切需要计算机猜测的内容)</li>
+<li></li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="Course-Logistics"><a href="#Course-Logistics" class="headerlink" title="Course Logistics"></a>Course Logistics</h2>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Graphics/" rel="tag"># Graphics</a>
+              <a href="/tags/Games101/" rel="tag"># Games101</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Graphics/Games101/Lecture-06/" rel="prev" title="Games101 反走样与深度缓冲">
+                  <i class="fa fa-angle-left"></i> Games101 反走样与深度缓冲
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Graphics/Games101/Lecture-05/" rel="next" title="Games101 光栅化">
+                  Games101 光栅化 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

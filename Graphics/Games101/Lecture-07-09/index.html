@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Shading 着色   (Illumination, Shading and Graphics Pipline)    到目前为止所学的内容Lecture 01-06  在空间中定位物体和相机（坐标） 计算物体与相机间的位置关系 将物体投影至平面 采样三角形覆盖区域    shading 着色: 对不同物体应用不同材质  最基础的着色模型：Blinn-Phong Reflectance Mode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Games101 着色">
+<meta property="og:url" content="http://iloging.github.io/Graphics/Games101/Lecture-07-09/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="Shading 着色   (Illumination, Shading and Graphics Pipline)    到目前为止所学的内容Lecture 01-06  在空间中定位物体和相机（坐标） 计算物体与相机间的位置关系 将物体投影至平面 采样三角形覆盖区域    shading 着色: 对不同物体应用不同材质  最基础的着色模型：Blinn-Phong Reflectance Mode">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-01-16T01:39:54.000Z">
+<meta property="article:modified_time" content="2026-08-07T14:14:58.730Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="Games101">
+<meta property="article:tag" content="Graphics">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/Graphics/Games101/Lecture-07-09/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/Graphics/Games101/Lecture-07-09/","path":"Graphics/Games101/Lecture-07-09/","title":"Games101 着色"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Games101 着色 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Shading"><span class="nav-number">1.</span> <span class="nav-text">Shading</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%AB%E5%8F%8D%E5%B0%84"><span class="nav-number">1.1.</span> <span class="nav-text">漫反射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E5%85%89"><span class="nav-number">1.2.</span> <span class="nav-text">高光</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%85%89%E7%85%A7"><span class="nav-number">1.3.</span> <span class="nav-text">环境光照</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9D%80%E8%89%B2%E9%A2%91%E7%8E%87-Shading-Frepuencies"><span class="nav-number">1.4.</span> <span class="nav-text">着色频率 Shading Frepuencies</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Graphics-Real-time-Rendering-Pipline-%E5%9B%BE%E5%BD%A2%E7%AE%A1%E7%BA%BF"><span class="nav-number">1.5.</span> <span class="nav-text">Graphics (Real-time Rendering) Pipline 图形管线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Textrue-mapping"><span class="nav-number">1.6.</span> <span class="nav-text">Textrue mapping</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Applying-Textures"><span class="nav-number">1.6.1.</span> <span class="nav-text">Applying Textures</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Texture-Magnification"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">Texture Magnification</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%B9%E7%90%86%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">1.6.2.</span> <span class="nav-text">纹理的应用</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/Graphics/Games101/Lecture-07-09/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Games101 着色 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Games101 着色
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-01-16 09:39:54" itemprop="dateCreated datePublished" datetime="2025-01-16T09:39:54+08:00">2025-01-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-07 22:14:58" itemprop="dateModified" datetime="2026-08-07T22:14:58+08:00">2026-08-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Shading"><a href="#Shading" class="headerlink" title="Shading"></a>Shading</h1><blockquote>
+<p><em><strong>着色</strong></em></p>
+</blockquote>
+<blockquote>
+<p><strong>(Illumination, Shading and Graphics Pipline)</strong></p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>到目前为止所学的内容</strong><br><em><strong>Lecture 01-06</strong></em></p>
+<ol>
+<li>在空间中<strong>定位</strong>物体和相机（<em><strong>坐标</strong></em>）</li>
+<li>计算物体与相机间的<strong>位置关系</strong></li>
+<li>将物体<strong>投影</strong>至平面</li>
+<li><strong>采样</strong>三角形覆盖区域</li>
+</ol>
+</blockquote>
+<hr>
+<p><strong>shading 着色:</strong> 对不同物体应用不同材质</p>
+<blockquote>
+<p>最基础的着色模型：<strong>Blinn-Phong Reflectance Model</strong>(Blinn-Phong 反射模型)</p>
+</blockquote>
+<p><em><strong>高光，环境光，漫反射</strong></em></p>
+<h2 id="漫反射"><a href="#漫反射" class="headerlink" title="漫反射"></a>漫反射</h2><p>计算在一个<em><strong>shading point着色点</strong></em>射向相机的反射光线</p>
+<blockquote>
+<p><strong>输入：</strong></p>
+<ul>
+<li>Viewer direction, <em><strong>v</strong></em> 观测方向</li>
+<li>Surface normal, <em><strong>n</strong></em> 平面法线方向</li>
+<li>Light direction, <em><strong>l</strong></em> (for each of many lights) 光照方向</li>
+<li>Surface parameters (color, shininess…) 表面属性<br>对于以上<em><strong>方向</strong></em>都定义为<em><strong>单位向量</strong></em></li>
+</ul>
+</blockquote>
+<p>着色是<strong>局部的</strong>，仅看被着色物体，仅展现在该物体的表面属性下产生的着色结果，不会产生<strong>阴影</strong></p>
+<ol>
+<li><p><strong>光反射能量定律</strong></p>
+<blockquote>
+<p>光照在平面的能量由<em><strong>Lambert’s cosine Law</strong></em>指出<br><em><strong>cosO &#x3D; l dot n</strong></em><br>平面接收到的能量与<strong>该平面法线方向</strong>和<strong>光照方向</strong>的夹角的<strong>余弦</strong>成正比</p>
+</blockquote>
+</li>
+<li><p><strong>光传播能量定律</strong><br><strong>点光源</strong><br>对于光源产生的能量都集中在一个<em><strong>球壳</strong></em>上，由于在一定时刻发出的光能是一定的，由于能量守恒，离点光源的距离越远，该球壳上单位面积的光强越小（<em><strong>I &#x3D; k&#x2F;(r^2)</strong></em>）</p>
+<blockquote>
+<p>即，光线在传播中的能量与传播距离的平方成反比</p>
+</blockquote>
+</li>
+</ol>
+<p>得出以下方程：<br><em><strong>Ld &#x3D; Kd(I&#x2F;(r^2))max(0,n dot l)</strong></em></p>
+<blockquote>
+<p><strong>漫反射光线 &#x3D; 漫反射系数 * (到达该着色平面的光线能量) * 物体表面该点反射的能量(该值大于等于0)</strong></p>
+</blockquote>
+<blockquote>
+<p>漫反射的效果与<strong>观察方向</strong>毫无关系，因为漫反射向四周散射的光线的信息都是一样的</p>
+<p>光源位置不变，物体位置不变，则l与n的方向不变，那么从不同方向看向同一点，其亮度相同</p>
+</blockquote>
+<h2 id="高光"><a href="#高光" class="headerlink" title="高光"></a>高光</h2><blockquote>
+<p>高光处类似镜面反射<br>高光与观察方向有关</p>
+</blockquote>
+<blockquote>
+<p>在<strong>Blinn-Phong</strong>模型中当观察方向<strong>v</strong>接近镜面方向时，法线方向<strong>n</strong>与<strong>半程向量h</strong>很接近<br>(<strong>半程向量h: <em>bisector(v, l) &#x3D; (v + l)&#x2F;(|v + l|)</em></strong>)<br>这是由于，镜面反射其反射角与入射角相等，<strong>h</strong>在<strong>l</strong>与<strong>v</strong>的角平分线上</p>
+</blockquote>
+<p>有以下方程关系：<em><strong>Ls &#x3D; Ks(I&#x2F;(r^2))max(0, cosO)^p &#x3D; Ks(I&#x2F;(r^2))max(0, n dot h)^p</strong></em></p>
+<blockquote>
+<p><strong>镜面反射光线 &#x3D; 镜面反射系数 * （到达该着色平面的光线能量） * 物体表面该点镜面反射的能量(该值大于0)</strong><br>其中的指数<strong>p</strong>可以控制高光区的大小，高光区的可视角度，</p>
+<p>在该模型上未考虑镜面所吸收的能量，Blinn-Phong模型是一个经验模型，对该情况有所简化</p>
+</blockquote>
+<p><em><strong>L &#x3D; Ld + Ls</strong></em></p>
+<h2 id="环境光照"><a href="#环境光照" class="headerlink" title="环境光照"></a>环境光照</h2><blockquote>
+<p>认为所有着色点接收到的环境光的大小都是相同的<br>有以下方程描述： <em><strong>La &#x3D; Ka Ia</strong></em><br><strong>环境光照 &#x3D; 环境光系数 * 环境光光照强度</strong></p>
+<p>环境光是一个<strong>常数</strong>，与观测角度，光源位置无关，保证了所有地方都不为黑色<br>是<em><strong>全局光照</strong></em>的简化</p>
+</blockquote>
+<p><em><strong>Blinn-Phong反射模型 &#x3D; 环境光照(Ambient)La + 漫反射光(Diffue)Ld + 镜面反射光(Specular)Ls</strong></em></p>
+<blockquote>
+<p><em><strong>L &#x3D; Ka Ia + Kd(I&#x2F;(r^2))max(0,n dot l) + Ks(I&#x2F;(r^2))max(0,n dot h)^p</strong></em> , (h &#x3D; (v + l) &#x2F; |v + l|)</p>
+</blockquote>
+<hr>
+<h2 id="着色频率-Shading-Frepuencies"><a href="#着色频率-Shading-Frepuencies" class="headerlink" title="着色频率 Shading Frepuencies"></a>着色频率 Shading Frepuencies</h2><blockquote>
+<p>着色频率，即是应用于每个面的着色量</p>
+</blockquote>
+<p>有以下三种方式：</p>
+<blockquote>
+<ol>
+<li><strong>Flat shading</strong> 三角平面着色</li>
+</ol>
+<ul>
+<li>三角形面是平坦的，仅一个法向</li>
+<li>对于平滑表面不友好</li>
+</ul>
+<ol start="2">
+<li><strong>Gouraud shading</strong> 顶点插值着色</li>
+</ol>
+<ul>
+<li>所有的顶点具有其法向</li>
+<li>使用三角形的三个顶点，对该三角形平面进行插值计算</li>
+</ul>
+<ol start="3">
+<li><strong>Phong shading</strong> 逐个像素的插值着色</li>
+</ol>
+<ul>
+<li>对三角形内的每个<em><strong>像素</strong></em>进行一次插值着色</li>
+<li>Blinn-Phong着色模型与Phong shading不是相同的内容，但是是同一个人</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>由于插值的存在，对于面数越多的对象，可以用越简单的着色频率展现不差于其他复杂着色频率的效果</p>
+</blockquote>
+<p><strong>逐个顶点的法线</strong></p>
+<blockquote>
+<p>对于一个球体，其顶点的法线，是从球心到顶点的方向</p>
+<p>对于某个顶点的法线，可以视作是对其相关联的<em><strong>三角形面法线和的平均</strong></em> (根据三角形的面积进行<em><strong>加权平均</strong></em>)</p>
+</blockquote>
+<hr>
+<h2 id="Graphics-Real-time-Rendering-Pipline-图形管线"><a href="#Graphics-Real-time-Rendering-Pipline-图形管线" class="headerlink" title="Graphics (Real-time Rendering) Pipline 图形管线"></a>Graphics (Real-time Rendering) Pipline 图形管线</h2><blockquote>
+<p>将前面课程所述的内容进行整合，就可以称为图形管线<br>或<strong>实时渲染管线</strong></p>
+</blockquote>
+<ul>
+<li><strong>Inputs: 三维空间中的点</strong></li>
+</ul>
+<ol>
+<li><em><strong>Vertex Processing</strong></em><ul>
+<li>Vertex Stream</li>
+<li><strong>顶点在屏幕上的位置</strong></li>
+</ul>
+</li>
+<li><em><strong>Triangle Processing</strong></em><ul>
+<li>Triangle Stream</li>
+<li><strong>三角形在屏幕上的位置</strong></li>
+</ul>
+</li>
+<li><em><strong>Rasterization</strong></em><ul>
+<li>Fragment Stream</li>
+<li>将三角形离散化，光栅化(像素化)</li>
+</ul>
+</li>
+<li><em><strong>Fragment Processing</strong></em><ul>
+<li>Shaded Fragments</li>
+<li>将各个离散像素进行着色</li>
+</ul>
+</li>
+<li><em><strong>Framebuffer Operation</strong></em></li>
+</ol>
+<ul>
+<li><strong>Display</strong><ul>
+<li>输出图像</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><em><strong>shader</strong></em>即是操作顶点与像素进行着色的工具，如<em><strong>GLSL</strong></em><br><em><strong>shader</strong></em>的代码是交由可编程硬件的，对于各个像素点通用的代码，对于每个像素执行一遍</p>
+</blockquote>
+<hr>
+<h2 id="Textrue-mapping"><a href="#Textrue-mapping" class="headerlink" title="Textrue mapping"></a>Textrue mapping</h2><blockquote>
+<p><em><strong>纹理映射</strong></em></p>
+</blockquote>
+<blockquote>
+<p><strong>定义任何一个点的基本属性</strong></p>
+</blockquote>
+<blockquote>
+<p>任何一个三维图形的表面都是二维图形</p>
+</blockquote>
+<blockquote>
+<p><strong>纹理</strong>是一张三维物体表面相对应的二维图<br>是着色时应用于该顶点的属性</p>
+</blockquote>
+<p>对于三角形的每个顶点都有一个在纹理贴图上的坐标对应，通常会使用**uv, (u,v)**坐标来指示纹理贴图的坐标，（<strong>u[0,1], v[0,1]</strong>）</p>
+<p>在三角形内部的各个像素也需要使用<strong>插值</strong>进行纹理的附加</p>
+<blockquote>
+<p><em><strong>Barycentric coordinate</strong></em> 重心坐标<br>可用于在三角形内根据顶点属性进行<strong>插值</strong></p>
+</blockquote>
+<p><strong>重心坐标</strong>是定义在三角形上的：在三角形ABC所形成的平面内任何一点 <strong>(x,y)</strong> 都可以表示成三个顶点A B C的<strong>线性组合</strong></p>
+<blockquote>
+<p><em><strong>(x,y) &#x3D; aA + bB + cC , a + b + c &#x3D; 1</strong></em><br>该式得出三角形所在平面上的任意一个点，当<em><strong>a b c 都大于0时</strong></em>，表示在<strong>三角形内的点</strong></p>
+<p>该点的坐标可以由其产生的三个三角形的面积比得到，与各个顶点<strong>对底的</strong>三角形占主三角形的面积比例，就是线性组合中，该点所需的<strong>系数</strong></p>
+</blockquote>
+<p>如此，就可以将三角形的<strong>三个顶点</strong>的<strong>属性</strong>作为输入，对三角形内部的各个像素进行<strong>插值处理</strong></p>
+<blockquote>
+<p><em><strong>V &#x3D; aVA + bVB + cVC , a + b + c &#x3D; 1</strong></em><br>其中，VA VB VC可以是附加在三角形顶点上的<em><strong>任意属性</strong></em><br>但是，重心坐标在<strong>投影</strong>下应用<strong>不能保证</strong>效果<strong>不变</strong><br>即，若想对三维空间下的属性进行插值，就需要取用三维空间中的坐标，而不能在投影后的三角形中进行插值，<strong>三维空间中的属性在三维空间中做插值，不能在投影到屏幕后再插值（需要逆变换）</strong></p>
+</blockquote>
+<h3 id="Applying-Textures"><a href="#Applying-Textures" class="headerlink" title="Applying Textures"></a>Applying Textures</h3><blockquote>
+<p><em><strong>应用贴图</strong></em></p>
+</blockquote>
+<p>屏幕上的任意一个采样点，都与一个贴图坐标相对应，可以得知该位置插值后得到的对应的<em><strong>uv</strong></em>坐标<br>可以在纹理贴图中查询该**(u,v)**的值（<em><strong>texcolor &#x3D; texture.sample(u,v)</strong></em>），随时使用该纹理属性</p>
+<p><em><strong>会产生以下问题：</strong></em></p>
+<h4 id="Texture-Magnification"><a href="#Texture-Magnification" class="headerlink" title="Texture Magnification"></a>Texture Magnification</h4><blockquote>
+<ul>
+<li><em><strong>纹理放大</strong></em></li>
+</ul>
+</blockquote>
+<p>在处理贴图时，若目标区域超过<strong>uv</strong>纹理的清晰度（像素大小），会产生明显的像素点</p>
+<blockquote>
+<p>纹理上的像素称为： <em><strong>texel</strong></em> <strong>纹理元素</strong></p>
+</blockquote>
+<p>以上的问题是由于多个<em><strong>pixel</strong></em>被映射到同一个*<strong>texel</strong>上</p>
+<p><em><strong>Bilinear interpolation</strong></em> <strong>双线性插值</strong></p>
+<p>类似于重心坐标的思想，将<em><strong>pixel</strong></em>映射到<strong>uv</strong>贴图的坐标位置处的点，与周围四个<em><strong>texel</strong></em>的中心围成的矩形，计算该点在此平面上的<em><strong>浮点偏移坐标</strong></em> <strong>(s,t)</strong> (即，两个相邻texel之间的距离为1.00)</p>
+<p>定义一个称为<strong>线性插值</strong>的操作：</p>
+<ul>
+<li><strong><em>lerp(x,V0,V1) &#x3D; V0 + x</em>(V1 - V0)</strong>*</li>
+</ul>
+<p>可以对两对组成平行线的<em><strong>texel</strong></em>中心进行以上插值，待求的<em><strong>pixel</strong></em>映射点在这两条平行线上相对应的插值点的连线上，再对这两点应用以上插值公式，将<em><strong>pixel</strong></em>映射点插入该公式</p>
+<p>如下：</p>
+<ul>
+<li><em><strong>U0 &#x3D; lerp(s, U00, U10) , U1 &#x3D; lerp &#x3D; lerp(s, U01, U11)</strong></em></li>
+<li><em><strong>f(x, y) &#x3D; lerp(t, U0, U1)</strong></em><blockquote>
+<p>该映射点的属性考虑到周围四点的属性，以达到平滑过渡到效果，相较于<em><strong>Nearest</strong></em>更优</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li><em><strong>纹理过大</strong></em><br>会产生锯齿与摩尔纹</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>在近处，一个<em><strong>pixel</strong></em>与<em><strong>texel</strong></em>呈现一&#x2F;多对一的情况;在远处，一个<em><strong>pixel</strong></em>覆盖多个<em><strong>texel</strong></em><br>由此，若纹理过大&#x2F;过于精细，最极端情况会导致所有的<em><strong>pixel</strong></em>都覆盖多个<em><strong>texel</strong></em><br>可以对纹理采取与<em><strong>反走样</strong></em>技术类似的方式，将一个<em><strong>pixel</strong></em>作为多个<em><strong>texel</strong></em>的采样点进行卷积处理(类似于MSAA超采样抗锯齿)</p>
+</blockquote>
+<blockquote>
+<p>实际上仍然是<em><strong>texel</strong></em>变化过快，进行采样的<em><strong>pixel</strong></em>无法真正的考虑到材质的变化</p>
+</blockquote>
+<p>在此处，我们考虑是否可以避免<em><strong>pixel</strong></em>向<em><strong>texel</strong></em>进行类似采样的处理的出现，直接得知该处的平均值</p>
+<p>这是一个<em><strong>范围查询问题(Range Query)</strong></em></p>
+<blockquote>
+<p>对应的有<em><strong>点查询问题(Point Query)</strong></em></p>
+</blockquote>
+<p>此处，引入<em><strong>Mipmap</strong></em>进行范围查询</p>
+<blockquote>
+<p>允许 <em><strong>快速的、不准确的（近似的）、方形的</strong></em> 范围查询</p>
+</blockquote>
+<p>可以先将高品质纹理处理为<em><strong>多级的低分辨率的纹理</strong></em>，在需要时使用</p>
+<blockquote>
+<p><strong>Level 0 为原始图像</strong><br>此时需要的存储为原来图像的<strong>4&#x2F;3倍</strong>，仅需要额外的<strong>1&#x2F;3</strong>的存储空间</p>
+</blockquote>
+<p>处理时，可以考虑周边的<em><strong>pixel</strong></em>所对应的<em><strong>texel</strong></em>的位置，以估计该<em><strong>pixel</strong></em>概括了多少<em><strong>texel</strong></em>从而选择不同品质的<em><strong>uv贴图</strong></em></p>
+<p>若我们在处理<em><strong>Mipmap</strong></em>进行分层时根据，各层为上层的一半（1&#x2F;4面积），可以看出 <em><strong>log2(D)</strong></em> 为选择贴图品质的依据</p>
+<p>经过以上处理，仍会产生选用的各个不同品质的纹理在同一个表面<em><strong>过度不均匀</strong></em>的问题，可以分别在选用的两层中进行<em><strong>Bilinear interpolation</strong></em>，最后在<em><strong>层与层之间</strong></em>进行插值，即<em><strong>三线性插值(Trilinear filtering)</strong></em></p>
+<p>但是，在远处会出现<em><strong>Overblur</strong></em>的问题，导致远处贴图过于模糊</p>
+<p><em><strong>Anisotropic Filtering</strong></em> <strong>各向异性过滤</strong>可以部分缓解该问题，保留远处的部分细节（即，在不同方向表现不同，具有对不同的方向性的支持）</p>
+<blockquote>
+<p><em><strong>Ripmap</strong></em> 收敛到原图存储的4倍，增加了额外的3倍空间（但是仅仅占用更高的显存，几乎不对计算性能造成大影响）<br>可以处理<strong>轴向压缩</strong>的区域(长条形区域)<br>但是，其仅解决了对于<em><strong>矩形区域</strong></em>的查询，但是对于长形的不规则区域的支持极为有限</p>
+</blockquote>
+<p><em><strong>其他方法：</strong></em></p>
+<ul>
+<li><em><strong>EWA Filtering</strong></em></li>
+</ul>
+<hr>
+<h3 id="纹理的应用"><a href="#纹理的应用" class="headerlink" title="纹理的应用"></a>纹理的应用</h3><p>在现代<strong>GPU</strong>中，可以理解为<em><strong>texture &#x3D; memory + range query(filtering)</strong></em> 即，内存中的一块数据</p>
+<ul>
+<li><strong>Environment Map</strong> 环境光映射</li>
+<li><strong>Cube Map</strong> 立方体映射  (描述来自不同方向的环境光)</li>
+<li><strong>Bump&#x2F;Normal Map 凹凸&#x2F;法线贴图</strong> 可以在保证简单的几何形体的情况下，可以在贴图上定义几何形体表面的凹凸关系，可以给出表面细节的各种复杂的法线或相对高度设定，表现精细化的形体</li>
+<li><strong>Displacement Map 位移贴图</strong>  与凹凸贴图类似，定义了贴图表面的起伏信息，位移贴图实际上会将原实体的各个顶点进行<em><strong>真正的移动</strong></em>(凹凸贴图并不会更改原实体的形体)，但是需要使实体中定义的顶点比贴图的顶点定义更加细节</li>
+</ul>
+<p>可以混合环境光遮蔽的功能</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Graphics/" rel="tag"># Graphics</a>
+              <a href="/tags/Games101/" rel="tag"># Games101</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/Graphics/Games101/Lecture-shadow/" rel="next" title="Games101 阴影">
+                  Games101 阴影 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

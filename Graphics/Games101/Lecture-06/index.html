@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Rasterization 着色    图像保真与深度缓冲Antialiasing and Z-Buffering  反走样 Antialiasing采样理论 Sampling theory 采样在图形学中无处不在   Sampling Artifacts(Errors&#x2F;Mistakes&#x2F;inaccuracies) in Computer Graphics   图形产生走样的原">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Games101 反走样与深度缓冲">
+<meta property="og:url" content="http://iloging.github.io/Graphics/Games101/Lecture-06/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="Rasterization 着色    图像保真与深度缓冲Antialiasing and Z-Buffering  反走样 Antialiasing采样理论 Sampling theory 采样在图形学中无处不在   Sampling Artifacts(Errors&#x2F;Mistakes&#x2F;inaccuracies) in Computer Graphics   图形产生走样的原">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-01-28T01:55:50.000Z">
+<meta property="article:modified_time" content="2026-08-07T14:14:58.487Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="Games101">
+<meta property="article:tag" content="Graphics">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/Graphics/Games101/Lecture-06/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/Graphics/Games101/Lecture-06/","path":"Graphics/Games101/Lecture-06/","title":"Games101 反走样与深度缓冲"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Games101 反走样与深度缓冲 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Rasterization"><span class="nav-number">1.</span> <span class="nav-text">Rasterization</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E8%B5%B0%E6%A0%B7-Antialiasing"><span class="nav-number">1.1.</span> <span class="nav-text">反走样 Antialiasing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%87%E6%A0%B7%E7%90%86%E8%AE%BA-Sampling-theory"><span class="nav-number">1.1.1.</span> <span class="nav-text">采样理论 Sampling theory</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%91%E5%9F%9F-Frequency-Domain"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">频域 Frequency Domain</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BB%A4%E6%B3%A2-filter"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">滤波 filter</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7-%E9%81%AE%E6%8C%A1-Visibility-occulusion"><span class="nav-number">1.2.</span> <span class="nav-text">可见性&#x2F;遮挡 Visibility&#x2F;occulusion</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/Graphics/Games101/Lecture-06/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Games101 反走样与深度缓冲 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Games101 反走样与深度缓冲
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-01-28 09:55:50" itemprop="dateCreated datePublished" datetime="2025-01-28T09:55:50+08:00">2025-01-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-07 22:14:58" itemprop="dateModified" datetime="2026-08-07T22:14:58+08:00">2026-08-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Rasterization"><a href="#Rasterization" class="headerlink" title="Rasterization"></a>Rasterization</h1><blockquote>
+<p><em><strong>着色</strong></em></p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>图像保真与深度缓冲</strong><br><strong>Antialiasing and Z-Buffering</strong></p>
+</blockquote>
+<h2 id="反走样-Antialiasing"><a href="#反走样-Antialiasing" class="headerlink" title="反走样 Antialiasing"></a>反走样 Antialiasing</h2><h3 id="采样理论-Sampling-theory"><a href="#采样理论-Sampling-theory" class="headerlink" title="采样理论 Sampling theory"></a>采样理论 Sampling theory</h3><blockquote>
+<p>采样在图形学中无处不在</p>
+</blockquote>
+<blockquote>
+<p><em><strong>Sampling Artifacts(Errors&#x2F;Mistakes&#x2F;inaccuracies) in Computer Graphics</strong></em></p>
+</blockquote>
+<blockquote>
+<p>图形产生走样的原因在于<em><strong>信号(函数)的变化太快(频率很高)，而采样的变化太慢了</strong></em></p>
+</blockquote>
+<blockquote>
+<p>进行反走样处理的一种思想：<strong>在采样前进行<em>模糊</em>（过滤&#x2F;滤波）</strong><br>类似于，先将原图片模糊化，再进行采样<br><strong>一定是<em>先滤波</em>再<em>采样</em></strong></p>
+</blockquote>
+<h4 id="频域-Frequency-Domain"><a href="#频域-Frequency-Domain" class="headerlink" title="频域 Frequency Domain"></a>频域 Frequency Domain</h4><blockquote>
+<p>通过调整<em><strong>cosX sinX</strong></em>两函数中<em><strong>X</strong></em>的系数，可以调整相应的周期函数的频率</p>
+</blockquote>
+<blockquote>
+<p>详见<em><strong>傅里叶级数展开</strong></em>，<em><strong>傅里叶变换</strong></em></p>
+</blockquote>
+<blockquote>
+<p>在采样时，<em><strong>采样频率</strong></em>与<em><strong>信号频率</strong></em>的频率差越大，信息失真越严重<br><em><strong>走样</strong></em>，即两个<em><strong>不同频率的信号</strong></em>在采样后，产生的结果无法区分，产生走样</p>
+</blockquote>
+<h4 id="滤波-filter"><a href="#滤波-filter" class="headerlink" title="滤波 filter"></a>滤波 filter</h4><blockquote>
+<p>滤波，即是在采样后<em><strong>除去</strong></em>某些频率成分</p>
+</blockquote>
+<blockquote>
+<p><em><strong>傅里叶变换</strong></em>可以将一个函数从实域变换到频域</p>
+</blockquote>
+<blockquote>
+<p><em><strong>高通滤波</strong></em>：滤波后只让高频信号通过<br>可以提取图像内的物体边界，即物体的边界突变</p>
+</blockquote>
+<blockquote>
+<p><em><strong>低通滤波</strong></em>：滤波后只让低频信号通过<br>可以将图像模糊化，即去除了物体边界突变</p>
+</blockquote>
+<blockquote>
+<p><em><strong>Filtering &#x3D; Convolution &#x3D; Averaging</strong></em><br><em><strong>滤波 &#x3D; 卷积 &#x3D; 品均</strong></em></p>
+</blockquote>
+<blockquote>
+<p>实域上对两个信号进行卷积，是两个信号频域的乘积</p>
+</blockquote>
+<p><em><strong>采样</strong></em>，实际上是重复频域上的内容</p>
+<p><strong>降低走样</strong></p>
+<ol>
+<li><strong>提高采样率</strong></li>
+<li><strong>反走样</strong><ul>
+<li>先模糊，后采样（先低通滤波，再采样）</li>
+<li>使用一个过滤器对图像进行卷积操作模糊化图像信息(知识近似了图像的覆盖区域)</li>
+</ul>
+</li>
+</ol>
+<p><em><strong>MSAA(Multi Sample Antialiasing)</strong></em></p>
+<ol>
+<li><strong>模糊</strong></li>
+<li><strong>采样</strong></li>
+</ol>
+<blockquote>
+<p>还有另外两种抗锯齿方案：</p>
+<p>***FXAA(Fast Approximate AA)<br>***TAA(Temporal AA)</p>
+</blockquote>
+<hr>
+<h2 id="可见性-遮挡-Visibility-occulusion"><a href="#可见性-遮挡-Visibility-occulusion" class="headerlink" title="可见性&#x2F;遮挡 Visibility&#x2F;occulusion"></a>可见性&#x2F;遮挡 Visibility&#x2F;occulusion</h2><blockquote>
+<p><em><strong>画家算法</strong></em><br>由远及近进行图形的覆盖</p>
+</blockquote>
+<p><em><strong>深度缓冲 Z-Buffer</strong></em></p>
+<ul>
+<li>记录当前每个<em>样本</em>最小的<strong>深度值</strong></li>
+<li>对于深度信息，需要一个额外的缓存空间<ul>
+<li>帧缓冲存储颜色值</li>
+<li>深度缓冲(Z-Buffer)存储深度</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>深度缓冲</strong>中各元素初始化值为<strong>最远值</strong><br>维护<em><strong>逐个像素</strong></em>当前能看到的最浅深度<br><em><strong>Z-Buffer</strong></em>无法处理<strong>透明物体</strong>的深度</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">for</span>(each triangle T)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(each <span class="built_in">sample</span> (x,y,z) in T)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 找出画面中该点深度最浅的像素信息</span></span><br><span class="line">        <span class="keyword">if</span> (z &lt; zbuffer[x,y])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 更新 帧缓存 深度缓存</span></span><br><span class="line">            framebuffer[x,y] = rgb</span><br><span class="line">            zbuffer[x,y] = z</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Graphics/" rel="tag"># Graphics</a>
+              <a href="/tags/Games101/" rel="tag"># Games101</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Graphics/Games101/Lecture-10-12/" rel="prev" title="Games101 几何">
+                  <i class="fa fa-angle-left"></i> Games101 几何
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Graphics/Games101/Lecture-01/" rel="next" title="Games101 计算机图形学概述">
+                  Games101 计算机图形学概述 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

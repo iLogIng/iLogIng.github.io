@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Geometry 几何   Introduction to Geometry 曲线&#x2F;面 复杂单体 液体 布料 复杂组合 毛发 微观物体  在图形学中有两种几何：  implicit geometry 隐式几何 explicit geometry 显式几何  implicit geometry 隐式几何 利用方程进行定义  并不直接指明各个点在什么面上，而是记录各个点相互间满足的几何关系，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Games101 几何">
+<meta property="og:url" content="http://iloging.github.io/Graphics/Games101/Lecture-10-12/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="Geometry 几何   Introduction to Geometry 曲线&#x2F;面 复杂单体 液体 布料 复杂组合 毛发 微观物体  在图形学中有两种几何：  implicit geometry 隐式几何 explicit geometry 显式几何  implicit geometry 隐式几何 利用方程进行定义  并不直接指明各个点在什么面上，而是记录各个点相互间满足的几何关系，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-01-26T01:41:23.000Z">
+<meta property="article:modified_time" content="2026-08-07T14:14:59.107Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="Games101">
+<meta property="article:tag" content="Graphics">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/Graphics/Games101/Lecture-10-12/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/Graphics/Games101/Lecture-10-12/","path":"Graphics/Games101/Lecture-10-12/","title":"Games101 几何"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Games101 几何 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Geometry"><span class="nav-number">1.</span> <span class="nav-text">Geometry</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction-to-Geometry"><span class="nav-number">1.1.</span> <span class="nav-text">Introduction to Geometry</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#implicit-geometry-%E9%9A%90%E5%BC%8F%E5%87%A0%E4%BD%95"><span class="nav-number">1.1.1.</span> <span class="nav-text">implicit geometry 隐式几何</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#explicit-geometry-%E6%98%BE%E5%BC%8F%E5%87%A0%E4%BD%95"><span class="nav-number">1.1.2.</span> <span class="nav-text">explicit geometry 显式几何</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Point-Cloud-%E7%82%B9%E4%BA%91"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">Point Cloud 点云</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Polygon-Mesh"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">Polygon Mesh</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Curves-%E6%9B%B2%E7%BA%BF"><span class="nav-number">1.1.3.</span> <span class="nav-text">Curves 曲线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bezier-Curves-%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">Bezier Curves 贝塞尔曲线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Piecewise-Bezier-Curves"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">Piecewise Bezier Curves</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Surface-%E6%9B%B2%E9%9D%A2"><span class="nav-number">1.1.4.</span> <span class="nav-text">Surface 曲面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bezier-Surface-%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E9%9D%A2"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">Bezier Surface 贝塞尔曲面</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Subdivision-%E7%BB%86%E5%88%86"><span class="nav-number">1.1.5.</span> <span class="nav-text">Subdivision 细分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Loop-Subdivision-Loop%E7%BB%86%E5%88%86"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">Loop Subdivision Loop细分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Catmull-Clark-Subdivision"><span class="nav-number">1.1.5.2.</span> <span class="nav-text">Catmull-Clark Subdivision</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Simplification-%E7%AE%80%E5%8C%96"><span class="nav-number">1.1.6.</span> <span class="nav-text">Simplification 简化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Edge-Collapsing-%E8%BE%B9%E5%9D%8D%E7%BC%A9"><span class="nav-number">1.1.6.1.</span> <span class="nav-text">Edge Collapsing 边坍缩</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/Graphics/Games101/Lecture-10-12/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Games101 几何 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Games101 几何
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-01-26 09:41:23" itemprop="dateCreated datePublished" datetime="2025-01-26T09:41:23+08:00">2025-01-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-07 22:14:59" itemprop="dateModified" datetime="2026-08-07T22:14:59+08:00">2026-08-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Geometry"><a href="#Geometry" class="headerlink" title="Geometry"></a>Geometry</h1><blockquote>
+<p><em><strong>几何</strong></em></p>
+</blockquote>
+<hr>
+<h2 id="Introduction-to-Geometry"><a href="#Introduction-to-Geometry" class="headerlink" title="Introduction to Geometry"></a>Introduction to Geometry</h2><ul>
+<li>曲线&#x2F;面</li>
+<li>复杂单体</li>
+<li>液体</li>
+<li>布料</li>
+<li>复杂组合</li>
+<li>毛发</li>
+<li>微观物体</li>
+</ul>
+<p><strong>在图形学中有两种几何：</strong></p>
+<ul>
+<li><strong>implicit geometry 隐式几何</strong></li>
+<li><strong>explicit geometry 显式几何</strong></li>
+</ul>
+<h3 id="implicit-geometry-隐式几何"><a href="#implicit-geometry-隐式几何" class="headerlink" title="implicit geometry 隐式几何"></a>implicit geometry 隐式几何</h3><blockquote>
+<p><em><strong>利用方程进行定义</strong></em></p>
+</blockquote>
+<p>并不直接指明各个点在什么面上，而是记录各个点相互间满足的几何关系，以此进行面的分类，并不给出实际的点<br>如：</p>
+<ul>
+<li><em><strong>f(x,y,z) &#x3D; x^2 + y^2 + z^2 &#x3D; 1</strong></em> 可以用于表示一个球上的各个顶点<blockquote>
+<p>即，定义一个<em><strong>f(x,y,z) &#x3D; 0</strong></em>表示一个表面的各个点</p>
+</blockquote>
+</li>
+</ul>
+<p>隐式表示各个点，利于<strong>判断点与该区域之间的关系（内&#x2F;外）</strong>，但是并不直观</p>
+<h3 id="explicit-geometry-显式几何"><a href="#explicit-geometry-显式几何" class="headerlink" title="explicit geometry 显式几何"></a>explicit geometry 显式几何</h3><blockquote>
+<p><em><strong>利用集合或参数映射(二维映射为三维)到方式进行定义</strong></em></p>
+</blockquote>
+<blockquote>
+<p><em><strong>f(u,v) &#x3D; (x,y,z)</strong></em></p>
+</blockquote>
+<p>如：</p>
+<blockquote>
+<p><em><strong>f(u,v) &#x3D; ((2 + cosu)cosv, (2 + cosv)sinv, sinu0)</strong></em></p>
+</blockquote>
+<p>对于显式的表面，难以判断点与平面的关系</p>
+<blockquote>
+<p><strong>需要根据需求选择表示方法</strong></p>
+<p>在计算机图形学中较多的应用了隐式的表示方法</p>
+</blockquote>
+<p><em><strong>Constructive Solid Geometry (CSG)</strong></em> (implicit)<br>通过基本几何的<strong>布尔运算</strong>定义一个模型</p>
+<blockquote>
+<p><em><strong>交 并 差</strong></em></p>
+</blockquote>
+<p><em><strong>Distance Functions (implicit)</strong></em><br>通过描述物体间的距离函数（最小距离）</p>
+<p><em><strong>Fractals (implicit)</strong></em></p>
+<blockquote>
+<p><strong>分形</strong></p>
+<p>应用不多</p>
+</blockquote>
+<h4 id="Point-Cloud-点云"><a href="#Point-Cloud-点云" class="headerlink" title="Point Cloud 点云"></a>Point Cloud 点云</h4><blockquote>
+<p><strong>点的列表</strong></p>
+</blockquote>
+<p>理论上可以表示任意种类的几何图形，有利于表示大数据集，通常会变成多边形的面，难以在未经采样区绘制（扫描结果一般为点云）</p>
+<h4 id="Polygon-Mesh"><a href="#Polygon-Mesh" class="headerlink" title="Polygon Mesh"></a>Polygon Mesh</h4><blockquote>
+<p><strong>存储顶点和面（通常是三角形或四边形）</strong></p>
+</blockquote>
+<p>易于处理&#x2F;采样，适配，使用更加复杂的数据结构</p>
+<blockquote>
+<p><strong>The Wavefront Object File (.obj) Format</strong></p>
+<p>是一种文本文件，详细的列出了<em><strong>顶点，法线方向，纹理坐标，以及他们的连接方式</strong></em></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/342244212">.obj格式文件介绍</a></p>
+</blockquote>
+<h3 id="Curves-曲线"><a href="#Curves-曲线" class="headerlink" title="Curves 曲线"></a>Curves 曲线</h3><h4 id="Bezier-Curves-贝塞尔曲线"><a href="#Bezier-Curves-贝塞尔曲线" class="headerlink" title="Bezier Curves 贝塞尔曲线"></a>Bezier Curves 贝塞尔曲线</h4><p>使用一系列控制点定义曲线，曲线不一定经过路径上的定义点</p>
+<p><strong>de Casteljau Algorithm</strong></p>
+<blockquote>
+<p>考虑三个点下的贝塞尔曲线计算（二次贝塞尔曲线）<br>三个顶点依次分别为 <strong>b0 b1 b2</strong> 起点为<strong>b0</strong>终点为<strong>b2</strong></p>
+</blockquote>
+<blockquote>
+<p>将绘制曲线转化为找一个点的问题<br>以上的三个顶点产生了两个线段：<strong>b0-&gt;b1</strong> <strong>b1-&gt;b2</strong><br>线段<strong>b0-&gt;b1</strong>上取一点<strong>p1</strong>使<strong>b0-&gt;p1&#x3D;t p1-&gt;b1&#x3D;(1-t)</strong>；线段<strong>b1-&gt;b2</strong>上取一点<strong>p2</strong>使<strong>b1-&gt;p2&#x3D;t p2-&gt;b2&#x3D;(1-t)</strong>；再在<strong>p1-&gt;p2</strong>上取一点<strong>p3</strong>使<strong>p1-&gt;p3&#x3D;t p3-&gt;p2&#x3D;(1-t)</strong></p>
+</blockquote>
+<p>以上过程产生的<strong>p3运动中的路径</strong>即为这三个顶点产生的<em><strong>贝塞尔曲线</strong></em></p>
+<blockquote>
+<p>使用的的方法类似于线性插值，将多个线性插值进行组合<br><em>*<em>p1(t) &#x3D; (1-t)<em>b0 + t</em>b1</em>*</em><br><em>*<em>p3(t) &#x3D; (1-t)<em>p1 + t</em>p2</em>*</em><br>以上式子进行逐层展开</p>
+</blockquote>
+<p><strong>给出n个控制点，可以得到n阶的贝塞尔曲线：</strong><br><em>*<em>b^n(t) &#x3D; b0^n(t) &#x3D; b0</em>B0^n(t) + … b1*B1^n(t)</em>**<br>贝塞尔曲线由多个控制点线性组合而成<br><em><strong>Bi^n(t) &#x3D; C(n,i)<em>t^i</em>(1-t)^(n-i)</strong></em> 二次多项式</p>
+<p><strong>b(0) &#x3D; b0 , b(n) &#x3D; bn</strong></p>
+<p>贝塞尔曲线在<strong>仿射变换</strong>下有一个良好的性质：可以<strong>直接</strong>对不同的顶点进行仿射变换，可以对变换后的顶点做<strong>贝塞尔曲线</strong>，得到的曲线与进行仿射变换前的顶点先做<strong>贝塞尔曲线</strong>再进行<strong>仿射变换</strong>的结果一致，不需要记录曲线上的每个点，但是对于<strong>投影</strong>则无该性质</p>
+<p>贝塞尔曲线具有<strong>凸包</strong>性质，即，贝塞尔曲线在定义点形成的凸包内（最小凸多边形内）</p>
+<h4 id="Piecewise-Bezier-Curves"><a href="#Piecewise-Bezier-Curves" class="headerlink" title="Piecewise Bezier Curves"></a>Piecewise Bezier Curves</h4><blockquote>
+<p><em><strong>逐段的贝塞尔曲线</strong></em></p>
+</blockquote>
+<p>习惯于使用<strong>四个控制点</strong>定义一个贝塞尔曲线（三次贝塞尔曲线）</p>
+<blockquote>
+<p>此时，上一段的<strong>第三个控制点、终点</strong>与下一段的<strong>第二个控制点</strong>，这三个控制点<em><strong>共线且产生的两个线段等长时</strong></em>产生一个<strong>光滑的连接</strong>，即，两端曲线的组合具有<em><strong>连续性</strong></em></p>
+</blockquote>
+<blockquote>
+<p><em><strong>C0连续：上一段终点为下一段起点</strong></em><br><em><strong>C1连续：C0连续的基础上，两端线段在连接点处的导数相同</strong></em></p>
+</blockquote>
+<hr>
+<h3 id="Surface-曲面"><a href="#Surface-曲面" class="headerlink" title="Surface 曲面"></a>Surface 曲面</h3><h4 id="Bezier-Surface-贝塞尔曲面"><a href="#Bezier-Surface-贝塞尔曲面" class="headerlink" title="Bezier Surface 贝塞尔曲面"></a>Bezier Surface 贝塞尔曲面</h4><blockquote>
+<p>类似于在纹理中应用的<strong>双线性插值</strong></p>
+</blockquote>
+<blockquote>
+<p>一般由<strong>4 * 4</strong>即<strong>16</strong>个控制点进行表示，控制扫描线与扫描线的路径</p>
+</blockquote>
+<p><em><strong>几何处理&#x2F;操作</strong></em></p>
+<ul>
+<li><strong>Mesh subdivision</strong> 网格细分</li>
+<li><strong>Mesh simplification</strong> 网格采样</li>
+<li><strong>Mesh regularization</strong> 网格正规化&#x2F;标准化</li>
+</ul>
+<hr>
+<h3 id="Subdivision-细分"><a href="#Subdivision-细分" class="headerlink" title="Subdivision 细分"></a>Subdivision 细分</h3><ul>
+<li>首先，引入更多的三角形</li>
+<li>再调整三角形的位置（使模型更加光滑）</li>
+</ul>
+<h4 id="Loop-Subdivision-Loop细分"><a href="#Loop-Subdivision-Loop细分" class="headerlink" title="Loop Subdivision Loop细分"></a>Loop Subdivision Loop细分</h4><blockquote>
+<p>并不是循环细分，并且仅用于三角形面</p>
+</blockquote>
+<blockquote>
+<p>将各个三角形根据其各边中点，将其分为四个较小的三角形<br>此时顶点分为两类，<strong>顶点</strong>、<strong>边上插入点</strong></p>
+</blockquote>
+<p>先产生新顶点，更新新顶点的坐标，再根据周围旧顶点的坐标更新坐标</p>
+<h4 id="Catmull-Clark-Subdivision"><a href="#Catmull-Clark-Subdivision" class="headerlink" title="Catmull-Clark Subdivision"></a>Catmull-Clark Subdivision</h4><blockquote>
+<p>适用于一般情况</p>
+</blockquote>
+<blockquote>
+<p>将边分为两种：<strong>quad face</strong>与<strong>non-quad face</strong>；将<em><strong>度不等于4</strong></em>的点称为<strong>奇异点</strong></p>
+</blockquote>
+<p>在处理时，取每一个<strong>边</strong>与<strong>面</strong>的中点，且连接边上中点与面上中点<br>会引入更多的奇异点（原有的奇异点不改变，新奇异点为非四边形面中点），这也仅限于<em><strong>第一次Catmull-Clark</strong></em>，在这之后，原有模型中将不存在非四边形面，不再新增奇异点</p>
+<blockquote>
+<p>根据一系列加权规则进行平均将模型平滑化</p>
+</blockquote>
+<h3 id="Simplification-简化"><a href="#Simplification-简化" class="headerlink" title="Simplification 简化"></a>Simplification 简化</h3><blockquote>
+<p>可联系<em><strong>MipMap</strong></em>进行理解</p>
+</blockquote>
+<h4 id="Edge-Collapsing-边坍缩"><a href="#Edge-Collapsing-边坍缩" class="headerlink" title="Edge Collapsing 边坍缩"></a>Edge Collapsing 边坍缩</h4><blockquote>
+<p><strong>Quadric Error Metrics</strong> 二次误差度量</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Graphics/" rel="tag"># Graphics</a>
+              <a href="/tags/Games101/" rel="tag"># Games101</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Graphics/Games101/Lecture-02/" rel="prev" title="Games101 向量与线性代数">
+                  <i class="fa fa-angle-left"></i> Games101 向量与线性代数
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Graphics/Games101/Lecture-06/" rel="next" title="Games101 反走样与深度缓冲">
+                  Games101 反走样与深度缓冲 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
