@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="Shading 着色   (Illumination, Shading and Graphics Pipline)    到目前为止所学的内容Lecture 01-06  在空间中定位物体和相机（坐标） 计算物体与相机间的位置关系 将物体投影至平面 采样三角形覆盖区域    shading 着色: 对不同物体应用不同材质  最基础的着色模型：Blinn-Phong Reflectance Mode">
+    <meta name="description" content="Shading 着色   (Illumination, Shading and Graphics Pipline)    到目前为止所学的内容Lecture 01-06  在空间中定位物体和相机（坐标） 计算物体与相机间的位置关系 将物体投影至平面 采样三角形覆盖区域">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Games101 着色">
 <meta property="og:url" content="http://iloging.github.io/Graphics/Games101/Lecture-07-09/index.html">
 <meta property="og:site_name" content="Volador235&#39;s blog">
-<meta property="og:description" content="Shading 着色   (Illumination, Shading and Graphics Pipline)    到目前为止所学的内容Lecture 01-06  在空间中定位物体和相机（坐标） 计算物体与相机间的位置关系 将物体投影至平面 采样三角形覆盖区域    shading 着色: 对不同物体应用不同材质  最基础的着色模型：Blinn-Phong Reflectance Mode">
+<meta property="og:description" content="Shading 着色   (Illumination, Shading and Graphics Pipline)    到目前为止所学的内容Lecture 01-06  在空间中定位物体和相机（坐标） 计算物体与相机间的位置关系 将物体投影至平面 采样三角形覆盖区域">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-01-16T01:39:54.000Z">
-<meta property="article:modified_time" content="2026-08-07T14:14:58.730Z">
+<meta property="article:modified_time" content="2026-08-07T14:34:43.468Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="Games101">
 <meta property="article:tag" content="Graphics">
@@ -218,7 +218,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-07 22:14:58" itemprop="dateModified" datetime="2026-08-07T22:14:58+08:00">2026-08-07</time>
+      <time title="修改时间：2026-08-07 22:34:43" itemprop="dateModified" datetime="2026-08-07T22:34:43+08:00">2026-08-07</time>
     </span>
 
   
@@ -246,6 +246,8 @@
 <li><strong>采样</strong>三角形覆盖区域</li>
 </ol>
 </blockquote>
+<span id="more"></span>
+
 <hr>
 <p><strong>shading 着色:</strong> 对不同物体应用不同材质</p>
 <blockquote>

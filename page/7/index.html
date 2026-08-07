@@ -211,7 +211,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-07 22:14:56" itemprop="dateModified" datetime="2026-08-07T22:14:56+08:00">2026-08-07</time>
+      <time title="修改时间：2026-08-07 22:34:03" itemprop="dateModified" datetime="2026-08-07T22:34:03+08:00">2026-08-07</time>
     </span>
 
   
@@ -230,6 +230,7 @@
 <blockquote>
 <p><strong>光栅化 Raster Images</strong></p>
 </blockquote>
+<p>&lt;–! more –&gt;</p>
 <hr>
 <blockquote>
 <p><em>三角形的光栅化</em></p>
@@ -522,7 +523,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-07 22:14:58" itemprop="dateModified" datetime="2026-08-07T22:14:58+08:00">2026-08-07</time>
+      <time title="修改时间：2026-08-07 22:34:26" itemprop="dateModified" datetime="2026-08-07T22:34:26+08:00">2026-08-07</time>
     </span>
 
   
@@ -542,6 +543,7 @@
 <blockquote>
 <p><strong>图像保真与深度缓冲</strong><br><strong>Antialiasing and Z-Buffering</strong></p>
 </blockquote>
+<p>&lt;–! more –&gt;</p>
 <h2 id="反走样-Antialiasing"><a href="#反走样-Antialiasing" class="headerlink" title="反走样 Antialiasing"></a>反走样 Antialiasing</h2><h3 id="采样理论-Sampling-theory"><a href="#采样理论-Sampling-theory" class="headerlink" title="采样理论 Sampling theory"></a>采样理论 Sampling theory</h3><blockquote>
 <p>采样在图形学中无处不在</p>
 </blockquote>
@@ -684,7 +686,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-07 22:14:59" itemprop="dateModified" datetime="2026-08-07T22:14:59+08:00">2026-08-07</time>
+      <time title="修改时间：2026-08-07 22:35:03" itemprop="dateModified" datetime="2026-08-07T22:35:03+08:00">2026-08-07</time>
     </span>
 
   
@@ -715,123 +717,14 @@
 <li><strong>implicit geometry 隐式几何</strong></li>
 <li><strong>explicit geometry 显式几何</strong></li>
 </ul>
-<h3 id="implicit-geometry-隐式几何"><a href="#implicit-geometry-隐式几何" class="headerlink" title="implicit geometry 隐式几何"></a>implicit geometry 隐式几何</h3><blockquote>
-<p><em><strong>利用方程进行定义</strong></em></p>
-</blockquote>
-<p>并不直接指明各个点在什么面上，而是记录各个点相互间满足的几何关系，以此进行面的分类，并不给出实际的点<br>如：</p>
-<ul>
-<li><em><strong>f(x,y,z) &#x3D; x^2 + y^2 + z^2 &#x3D; 1</strong></em> 可以用于表示一个球上的各个顶点<blockquote>
-<p>即，定义一个<em><strong>f(x,y,z) &#x3D; 0</strong></em>表示一个表面的各个点</p>
-</blockquote>
-</li>
-</ul>
-<p>隐式表示各个点，利于<strong>判断点与该区域之间的关系（内&#x2F;外）</strong>，但是并不直观</p>
-<h3 id="explicit-geometry-显式几何"><a href="#explicit-geometry-显式几何" class="headerlink" title="explicit geometry 显式几何"></a>explicit geometry 显式几何</h3><blockquote>
-<p><em><strong>利用集合或参数映射(二维映射为三维)到方式进行定义</strong></em></p>
-</blockquote>
-<blockquote>
-<p><em><strong>f(u,v) &#x3D; (x,y,z)</strong></em></p>
-</blockquote>
-<p>如：</p>
-<blockquote>
-<p><em><strong>f(u,v) &#x3D; ((2 + cosu)cosv, (2 + cosv)sinv, sinu0)</strong></em></p>
-</blockquote>
-<p>对于显式的表面，难以判断点与平面的关系</p>
-<blockquote>
-<p><strong>需要根据需求选择表示方法</strong></p>
-<p>在计算机图形学中较多的应用了隐式的表示方法</p>
-</blockquote>
-<p><em><strong>Constructive Solid Geometry (CSG)</strong></em> (implicit)<br>通过基本几何的<strong>布尔运算</strong>定义一个模型</p>
-<blockquote>
-<p><em><strong>交 并 差</strong></em></p>
-</blockquote>
-<p><em><strong>Distance Functions (implicit)</strong></em><br>通过描述物体间的距离函数（最小距离）</p>
-<p><em><strong>Fractals (implicit)</strong></em></p>
-<blockquote>
-<p><strong>分形</strong></p>
-<p>应用不多</p>
-</blockquote>
-<h4 id="Point-Cloud-点云"><a href="#Point-Cloud-点云" class="headerlink" title="Point Cloud 点云"></a>Point Cloud 点云</h4><blockquote>
-<p><strong>点的列表</strong></p>
-</blockquote>
-<p>理论上可以表示任意种类的几何图形，有利于表示大数据集，通常会变成多边形的面，难以在未经采样区绘制（扫描结果一般为点云）</p>
-<h4 id="Polygon-Mesh"><a href="#Polygon-Mesh" class="headerlink" title="Polygon Mesh"></a>Polygon Mesh</h4><blockquote>
-<p><strong>存储顶点和面（通常是三角形或四边形）</strong></p>
-</blockquote>
-<p>易于处理&#x2F;采样，适配，使用更加复杂的数据结构</p>
-<blockquote>
-<p><strong>The Wavefront Object File (.obj) Format</strong></p>
-<p>是一种文本文件，详细的列出了<em><strong>顶点，法线方向，纹理坐标，以及他们的连接方式</strong></em></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/342244212">.obj格式文件介绍</a></p>
-</blockquote>
-<h3 id="Curves-曲线"><a href="#Curves-曲线" class="headerlink" title="Curves 曲线"></a>Curves 曲线</h3><h4 id="Bezier-Curves-贝塞尔曲线"><a href="#Bezier-Curves-贝塞尔曲线" class="headerlink" title="Bezier Curves 贝塞尔曲线"></a>Bezier Curves 贝塞尔曲线</h4><p>使用一系列控制点定义曲线，曲线不一定经过路径上的定义点</p>
-<p><strong>de Casteljau Algorithm</strong></p>
-<blockquote>
-<p>考虑三个点下的贝塞尔曲线计算（二次贝塞尔曲线）<br>三个顶点依次分别为 <strong>b0 b1 b2</strong> 起点为<strong>b0</strong>终点为<strong>b2</strong></p>
-</blockquote>
-<blockquote>
-<p>将绘制曲线转化为找一个点的问题<br>以上的三个顶点产生了两个线段：<strong>b0-&gt;b1</strong> <strong>b1-&gt;b2</strong><br>线段<strong>b0-&gt;b1</strong>上取一点<strong>p1</strong>使<strong>b0-&gt;p1&#x3D;t p1-&gt;b1&#x3D;(1-t)</strong>；线段<strong>b1-&gt;b2</strong>上取一点<strong>p2</strong>使<strong>b1-&gt;p2&#x3D;t p2-&gt;b2&#x3D;(1-t)</strong>；再在<strong>p1-&gt;p2</strong>上取一点<strong>p3</strong>使<strong>p1-&gt;p3&#x3D;t p3-&gt;p2&#x3D;(1-t)</strong></p>
-</blockquote>
-<p>以上过程产生的<strong>p3运动中的路径</strong>即为这三个顶点产生的<em><strong>贝塞尔曲线</strong></em></p>
-<blockquote>
-<p>使用的的方法类似于线性插值，将多个线性插值进行组合<br><em>*<em>p1(t) &#x3D; (1-t)<em>b0 + t</em>b1</em>*</em><br><em>*<em>p3(t) &#x3D; (1-t)<em>p1 + t</em>p2</em>*</em><br>以上式子进行逐层展开</p>
-</blockquote>
-<p><strong>给出n个控制点，可以得到n阶的贝塞尔曲线：</strong><br><em>*<em>b^n(t) &#x3D; b0^n(t) &#x3D; b0</em>B0^n(t) + … b1*B1^n(t)</em>**<br>贝塞尔曲线由多个控制点线性组合而成<br><em><strong>Bi^n(t) &#x3D; C(n,i)<em>t^i</em>(1-t)^(n-i)</strong></em> 二次多项式</p>
-<p><strong>b(0) &#x3D; b0 , b(n) &#x3D; bn</strong></p>
-<p>贝塞尔曲线在<strong>仿射变换</strong>下有一个良好的性质：可以<strong>直接</strong>对不同的顶点进行仿射变换，可以对变换后的顶点做<strong>贝塞尔曲线</strong>，得到的曲线与进行仿射变换前的顶点先做<strong>贝塞尔曲线</strong>再进行<strong>仿射变换</strong>的结果一致，不需要记录曲线上的每个点，但是对于<strong>投影</strong>则无该性质</p>
-<p>贝塞尔曲线具有<strong>凸包</strong>性质，即，贝塞尔曲线在定义点形成的凸包内（最小凸多边形内）</p>
-<h4 id="Piecewise-Bezier-Curves"><a href="#Piecewise-Bezier-Curves" class="headerlink" title="Piecewise Bezier Curves"></a>Piecewise Bezier Curves</h4><blockquote>
-<p><em><strong>逐段的贝塞尔曲线</strong></em></p>
-</blockquote>
-<p>习惯于使用<strong>四个控制点</strong>定义一个贝塞尔曲线（三次贝塞尔曲线）</p>
-<blockquote>
-<p>此时，上一段的<strong>第三个控制点、终点</strong>与下一段的<strong>第二个控制点</strong>，这三个控制点<em><strong>共线且产生的两个线段等长时</strong></em>产生一个<strong>光滑的连接</strong>，即，两端曲线的组合具有<em><strong>连续性</strong></em></p>
-</blockquote>
-<blockquote>
-<p><em><strong>C0连续：上一段终点为下一段起点</strong></em><br><em><strong>C1连续：C0连续的基础上，两端线段在连接点处的导数相同</strong></em></p>
-</blockquote>
-<hr>
-<h3 id="Surface-曲面"><a href="#Surface-曲面" class="headerlink" title="Surface 曲面"></a>Surface 曲面</h3><h4 id="Bezier-Surface-贝塞尔曲面"><a href="#Bezier-Surface-贝塞尔曲面" class="headerlink" title="Bezier Surface 贝塞尔曲面"></a>Bezier Surface 贝塞尔曲面</h4><blockquote>
-<p>类似于在纹理中应用的<strong>双线性插值</strong></p>
-</blockquote>
-<blockquote>
-<p>一般由<strong>4 * 4</strong>即<strong>16</strong>个控制点进行表示，控制扫描线与扫描线的路径</p>
-</blockquote>
-<p><em><strong>几何处理&#x2F;操作</strong></em></p>
-<ul>
-<li><strong>Mesh subdivision</strong> 网格细分</li>
-<li><strong>Mesh simplification</strong> 网格采样</li>
-<li><strong>Mesh regularization</strong> 网格正规化&#x2F;标准化</li>
-</ul>
-<hr>
-<h3 id="Subdivision-细分"><a href="#Subdivision-细分" class="headerlink" title="Subdivision 细分"></a>Subdivision 细分</h3><ul>
-<li>首先，引入更多的三角形</li>
-<li>再调整三角形的位置（使模型更加光滑）</li>
-</ul>
-<h4 id="Loop-Subdivision-Loop细分"><a href="#Loop-Subdivision-Loop细分" class="headerlink" title="Loop Subdivision Loop细分"></a>Loop Subdivision Loop细分</h4><blockquote>
-<p>并不是循环细分，并且仅用于三角形面</p>
-</blockquote>
-<blockquote>
-<p>将各个三角形根据其各边中点，将其分为四个较小的三角形<br>此时顶点分为两类，<strong>顶点</strong>、<strong>边上插入点</strong></p>
-</blockquote>
-<p>先产生新顶点，更新新顶点的坐标，再根据周围旧顶点的坐标更新坐标</p>
-<h4 id="Catmull-Clark-Subdivision"><a href="#Catmull-Clark-Subdivision" class="headerlink" title="Catmull-Clark Subdivision"></a>Catmull-Clark Subdivision</h4><blockquote>
-<p>适用于一般情况</p>
-</blockquote>
-<blockquote>
-<p>将边分为两种：<strong>quad face</strong>与<strong>non-quad face</strong>；将<em><strong>度不等于4</strong></em>的点称为<strong>奇异点</strong></p>
-</blockquote>
-<p>在处理时，取每一个<strong>边</strong>与<strong>面</strong>的中点，且连接边上中点与面上中点<br>会引入更多的奇异点（原有的奇异点不改变，新奇异点为非四边形面中点），这也仅限于<em><strong>第一次Catmull-Clark</strong></em>，在这之后，原有模型中将不存在非四边形面，不再新增奇异点</p>
-<blockquote>
-<p>根据一系列加权规则进行平均将模型平滑化</p>
-</blockquote>
-<h3 id="Simplification-简化"><a href="#Simplification-简化" class="headerlink" title="Simplification 简化"></a>Simplification 简化</h3><blockquote>
-<p>可联系<em><strong>MipMap</strong></em>进行理解</p>
-</blockquote>
-<h4 id="Edge-Collapsing-边坍缩"><a href="#Edge-Collapsing-边坍缩" class="headerlink" title="Edge Collapsing 边坍缩"></a>Edge Collapsing 边坍缩</h4><blockquote>
-<p><strong>Quadric Error Metrics</strong> 二次误差度量</p>
-</blockquote>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Graphics/Games101/Lecture-10-12/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -893,7 +786,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-07 22:14:49" itemprop="dateModified" datetime="2026-08-07T22:14:49+08:00">2026-08-07</time>
+      <time title="修改时间：2026-08-07 22:33:26" itemprop="dateModified" datetime="2026-08-07T22:33:26+08:00">2026-08-07</time>
     </span>
 
   
@@ -916,44 +809,14 @@
 <li>基础物理光学、力学</li>
 <li>信号处理、数值分析</li>
 </ul>
-<h2 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h2><h3 id="向量-Vector"><a href="#向量-Vector" class="headerlink" title="向量(Vector)"></a>向量(Vector)</h3><blockquote>
-<p>具有<em><strong>方向</strong></em>和<em><strong>长度</strong></em>的量<br>不关心具体的起始点</p>
-</blockquote>
-<p>向量的基本操作：</p>
-<ul>
-<li>向量加减法</li>
-<li>向量乘法（点积、叉积）<ul>
-<li><em><strong>点积(Dot Product)</strong></em><ul>
-<li>向量夹角</li>
-<li>向量投影（向量分解）</li>
-<li>计算向量两点间的间距（镜面反射）</li>
-<li>确定向量的方向</li>
-<li>判定前后（正负）</li>
-</ul>
-</li>
-<li><em><strong>叉积(Cross Product)</strong></em><ul>
-<li>判定左右（右手&#x2F;左手螺旋定则的内外）</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>定义坐标系<ul>
-<li>点乘分解向量</li>
-</ul>
-</li>
-</ul>
-<h3 id="矩阵-Matrix"><a href="#矩阵-Matrix" class="headerlink" title="矩阵(Matrix)"></a>矩阵(Matrix)</h3><blockquote>
-<p>对对象进行变换</p>
-</blockquote>
-<p>矩阵的基本操作：</p>
-<ul>
-<li>矩阵乘法（无交换律、结合律简化计算）</li>
-<li>矩阵与向量的乘法 </li>
-<li>矩阵的转置</li>
-<li>将Dot&#x2F;Cross Product转换为矩阵计算</li>
-<li>矩阵的变换(Transformation)</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Graphics/Games101/Lecture-02/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1015,7 +878,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-07 22:14:59" itemprop="dateModified" datetime="2026-08-07T22:14:59+08:00">2026-08-07</time>
+      <time title="修改时间：2026-08-07 22:35:24" itemprop="dateModified" datetime="2026-08-07T22:35:24+08:00">2026-08-07</time>
     </span>
 
   
@@ -1029,6 +892,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="Ray-Tracing"><a href="#Ray-Tracing" class="headerlink" title="Ray Tracing"></a>Ray Tracing</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Graphics/Games101/Lecture-13/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1090,7 +961,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-07 22:15:03" itemprop="dateModified" datetime="2026-08-07T22:15:03+08:00">2026-08-07</time>
+      <time title="修改时间：2026-08-07 22:35:52" itemprop="dateModified" datetime="2026-08-07T22:35:52+08:00">2026-08-07</time>
     </span>
 
   
@@ -1118,10 +989,14 @@
 <li>先从<strong>光源</strong>看向场景，得到<em><strong>深度图</strong></em></li>
 <li>再从<strong>摄像机</strong>看向场景，将看到的顶点投影回<strong>光源深度图</strong>，若深度更深，则此处的光线被遮挡</li>
 </ol>
-<blockquote>
-<p>软阴影（光源有一定大小）：本影与伴影共同影响</p>
-</blockquote>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Graphics/Games101/Lecture-shadow/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
