@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="podman quadlet 使用笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="podman-quadlet">
+<meta property="og:url" content="http://iloging.github.io/Tech-Stack/container/podman-astrbot/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="podman quadlet 使用笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-07-27T03:42:31.000Z">
+<meta property="article:modified_time" content="2026-08-07T13:33:54.378Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="astrbot">
+<meta property="article:tag" content="container">
+<meta property="article:tag" content="podman">
+<meta property="article:tag" content="quadlet">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/Tech-Stack/container/podman-astrbot/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/Tech-Stack/container/podman-astrbot/","path":"Tech-Stack/container/podman-astrbot/","title":"podman-quadlet"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>podman-quadlet | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Podman-Quadlet"><span class="nav-number">1.</span> <span class="nav-text">Podman-Quadlet</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Podman"><span class="nav-number">1.1.</span> <span class="nav-text">Podman</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E7%AE%A1%E7%90%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">镜像管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.1.2.</span> <span class="nav-text">容器生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E4%B8%8E%E6%9F%A5%E7%9C%8B"><span class="nav-number">1.1.3.</span> <span class="nav-text">调试与查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%B7%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">1.1.4.</span> <span class="nav-text">卷与数据持久化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C"><span class="nav-number">1.1.5.</span> <span class="nav-text">网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E7%90%86"><span class="nav-number">1.1.6.</span> <span class="nav-text">清理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E-Docker-%E7%9A%84%E5%85%B3%E9%94%AE%E5%B7%AE%E5%BC%82"><span class="nav-number">1.1.7.</span> <span class="nav-text">与 Docker 的关键差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%91%BD%E4%BB%A4%E9%80%9F%E8%AE%B0"><span class="nav-number">1.1.8.</span> <span class="nav-text">核心命令速记</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Quadlet"><span class="nav-number">1.2.</span> <span class="nav-text">Quadlet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Quadlet-%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">Quadlet 配置与使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%91%BD%E5%90%8D"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">文件类型与命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#container-%E6%96%87%E4%BB%B6%E6%A0%87%E5%87%86%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">.container 文件标准结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Quadlet-%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">Quadlet 内置变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Quadlet-CLI-%E5%B7%A5%E5%85%B7"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">Quadlet CLI 工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.1.5.</span> <span class="nav-text">调试流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Quadlet-vs-Podman-Compose"><span class="nav-number">1.2.2.</span> <span class="nav-text">Quadlet vs Podman Compose</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E8%A6%81%E6%B1%82%E4%B8%8E%E5%87%86%E5%A4%87"><span class="nav-number">1.2.3.</span> <span class="nav-text">环境要求与准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#container-%E6%96%87%E4%BB%B6%E5%8F%82%E8%80%83%EF%BC%88AstrBot-%E4%B8%BA%E4%BE%8B%EF%BC%89"><span class="nav-number">1.2.4.</span> <span class="nav-text">.container 文件参考（AstrBot 为例）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.5.</span> <span class="nav-text">部署流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%B8%B8%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4%EF%BC%88AstrBot-%E5%9C%BA%E6%99%AF%EF%BC%89"><span class="nav-number">1.2.6.</span> <span class="nav-text">日常管理命令（AstrBot 场景）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SELinux-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.2.7.</span> <span class="nav-text">SELinux 注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AA%E8%AF%BB%E6%8C%82%E8%BD%BD%E5%AE%BF%E4%B8%BB%E7%9B%AE%E5%BD%95%EF%BC%88%E5%B7%A5%E4%BD%9C%E6%96%B9%E6%B3%95%EF%BC%89"><span class="nav-number">1.2.8.</span> <span class="nav-text">只读挂载宿主目录（工作方法）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.8.1.</span> <span class="nav-text">方法流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%9D%91%EF%BC%9A-ro-%E5%8F%AA%E6%8C%A1%E5%86%99%EF%BC%8CSELinux-%E8%BF%9E%E8%AF%BB%E4%B8%80%E8%B5%B7%E6%8B%A6"><span class="nav-number">1.2.8.2.</span> <span class="nav-text">关键坑：:ro 只挡写，SELinux 连读一起拦</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E4%B8%AA%E5%8A%A1%E5%BF%85"><span class="nav-number">1.2.8.3.</span> <span class="nav-text">三个务必</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/Tech-Stack/container/podman-astrbot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="podman-quadlet | Volador235's blog">
+      <meta itemprop="description" content="podman quadlet 使用笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          podman-quadlet
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-07-27 11:42:31" itemprop="dateCreated datePublished" datetime="2026-07-27T11:42:31+08:00">2026-07-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-07 21:33:54" itemprop="dateModified" datetime="2026-08-07T21:33:54+08:00">2026-08-07</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">podman quadlet 使用笔记</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Podman-Quadlet"><a href="#Podman-Quadlet" class="headerlink" title="Podman-Quadlet"></a>Podman-Quadlet</h1><h2 id="Podman"><a href="#Podman" class="headerlink" title="Podman"></a>Podman</h2><blockquote>
+<p><em><strong>核心概念：无守护进程</strong></em><br>Podman <em><strong>没有后台守护进程</strong></em>，每个容器都是 <em>fork</em> 出的子进程</p>
+<ul>
+<li>不需要超级用户权限(<code>sudo systemctl start docker</code>)开箱即用</li>
+<li><em><strong>Rootless</strong></em> 运行，容器在用户UID下运行，无需root权限</li>
+<li>语法与docker基本兼容</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="镜像管理"><a href="#镜像管理" class="headerlink" title="镜像管理"></a>镜像管理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 搜索镜像</span></span><br><span class="line">podman search nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拉取镜像</span></span><br><span class="line">podman pull docker.io/library/nginx:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出本地镜像</span></span><br><span class="line">podman images</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看镜像层信息</span></span><br><span class="line">podman image inspect nginx:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除镜像</span></span><br><span class="line">podman rmi nginx:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理无标签的悬挂镜像</span></span><br><span class="line">podman image prune</span><br></pre></td></tr></table></figure>
+
+<h3 id="容器生命周期"><a href="#容器生命周期" class="headerlink" title="容器生命周期"></a>容器生命周期</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建并启动（前台）</span></span><br><span class="line">podman run --<span class="built_in">rm</span> -it alpine:latest sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建并启动（后台）</span></span><br><span class="line">podman run -d --name myapp -p 8080:80 nginx:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出运行中的容器</span></span><br><span class="line">podman ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出全部（含停止的）</span></span><br><span class="line">podman ps -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止</span></span><br><span class="line">podman stop myapp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动已停止的容器</span></span><br><span class="line">podman start myapp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">podman restart myapp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除（需先停止）</span></span><br><span class="line">podman <span class="built_in">rm</span> myapp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 强制删除（运行中的也能删）</span></span><br><span class="line">podman <span class="built_in">rm</span> -f myapp</span><br></pre></td></tr></table></figure>
+
+<h3 id="调试与查看"><a href="#调试与查看" class="headerlink" title="调试与查看"></a>调试与查看</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看日志</span></span><br><span class="line">podman logs myapp           <span class="comment"># 一次性输出</span></span><br><span class="line">podman logs -f myapp        <span class="comment"># 持续跟踪（Ctrl+C 退出）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入正在运行的容器</span></span><br><span class="line">podman <span class="built_in">exec</span> -it myapp bash      <span class="comment"># bash 可用时</span></span><br><span class="line">podman <span class="built_in">exec</span> -it myapp sh        <span class="comment"># Alpine 等精简镜像</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器详情（IP、挂载、环境变量等）</span></span><br><span class="line">podman inspect myapp | less</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看资源占用（CPU、内存、网络、磁盘）</span></span><br><span class="line">podman stats                 <span class="comment"># 所有运行中的容器</span></span><br><span class="line">podman stats myapp           <span class="comment"># 指定容器</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器内进程</span></span><br><span class="line">podman top myapp</span><br></pre></td></tr></table></figure>
+
+<h3 id="卷与数据持久化"><a href="#卷与数据持久化" class="headerlink" title="卷与数据持久化"></a>卷与数据持久化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建命名卷</span></span><br><span class="line">podman volume create mydata</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出卷</span></span><br><span class="line">podman volume <span class="built_in">ls</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 挂载卷运行</span></span><br><span class="line">podman run -d -v mydata:/data --name app myimage:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绑定挂载宿主机目录</span></span><br><span class="line">podman run -d -v /home/fedora/app:/data:Z --name app myimage:latest</span><br><span class="line"><span class="comment">#                            Fedora/SELinux 必须加 :Z ─┘</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除卷</span></span><br><span class="line">podman volume <span class="built_in">rm</span> mydata</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理未使用的卷</span></span><br><span class="line">podman volume prune</span><br></pre></td></tr></table></figure>
+
+<h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出网络</span></span><br><span class="line">podman network <span class="built_in">ls</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看网络详情（哪些容器连在上面）</span></span><br><span class="line">podman network inspect podman</span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口映射</span></span><br><span class="line">podman run -d -p 8080:80 nginx:latest        <span class="comment"># 宿主机 8080 → 容器 80</span></span><br><span class="line">podman run -d -p 127.0.0.1:8080:80 nginx     <span class="comment"># 仅本地访问</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="清理"><a href="#清理" class="headerlink" title="清理"></a>清理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 清理所有停止的容器 + 未使用的网络</span></span><br><span class="line">podman container prune</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一键清理（停止的容器、未使用的镜像、卷、网络）</span></span><br><span class="line">podman system prune -a --volumes</span><br></pre></td></tr></table></figure>
+
+<h3 id="与-Docker-的关键差异"><a href="#与-Docker-的关键差异" class="headerlink" title="与 Docker 的关键差异"></a>与 Docker 的关键差异</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>Docker</th>
+<th>Podman</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>守护进程</td>
+<td>dockerd 常驻后台</td>
+<td>无守护进程</td>
+</tr>
+<tr>
+<td>Rootless</td>
+<td>需要额外配置</td>
+<td>原生支持</td>
+</tr>
+<tr>
+<td>镜像存储</td>
+<td><code>/var/lib/docker</code></td>
+<td><code>~/.local/share/containers</code></td>
+</tr>
+<tr>
+<td>Compose</td>
+<td><code>docker compose</code></td>
+<td><code>podman compose</code>（需装 podman-compose）</td>
+</tr>
+<tr>
+<td>SELinux 卷标</td>
+<td>通常不需要</td>
+<td>绑定挂载必须加 <code>:Z</code></td>
+</tr>
+<tr>
+<td>开机自启</td>
+<td>restart policy</td>
+<td>Quadlet &#x2F; systemd</td>
+</tr>
+</tbody></table>
+<h3 id="核心命令速记"><a href="#核心命令速记" class="headerlink" title="核心命令速记"></a>核心命令速记</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">podman ps                  # 正在运行的镜像</span><br><span class="line">podman logs -f &lt;name&gt;      # &lt;name&gt;容器的运行日志</span><br><span class="line">podman exec -it &lt;name&gt; sh  # &lt;name&gt;容器内环境</span><br><span class="line">podman inspect &lt;name&gt;      # &lt;name&gt;容器的配置</span><br><span class="line">podman system prune -a     # 大清洗（慎用）</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Quadlet"><a href="#Quadlet" class="headerlink" title="Quadlet"></a>Quadlet</h2><blockquote>
+<p><em><strong>核心定位：Podman 原生的 systemd 集成方案</strong></em></p>
+<ul>
+<li>Podman 项目第一方组件（<code>podman</code> RPM 包内置），零额外依赖</li>
+<li><code>.container</code> 文件 → systemd 单元，自动生成 service</li>
+<li>容器的生命周期交给 systemd 管理：开机自启、崩溃重启、日志走 journald</li>
+<li>对比 podman-compose：无守护进程，不需要额外安装，适合长期运行的生产服务</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="Quadlet-配置与使用方式"><a href="#Quadlet-配置与使用方式" class="headerlink" title="Quadlet 配置与使用方式"></a>Quadlet 配置与使用方式</h3><blockquote>
+<p><em><strong>核心机制：systemd 生成器</strong></em><br>Quadlet 本身不运行任何守护进程，它是挂载在 systemd 上的 <em><strong>generator</strong></em>。每次执行 <code>systemctl --user daemon-reload</code> 时，Podman 的 systemd 生成器扫描 <code>~/.config/containers/systemd/</code> 目录，将 <code>.container</code> &#x2F; <code>.volume</code> &#x2F; <code>.network</code> &#x2F; <code>.pod</code> &#x2F; <code>.build</code> 文件实时转换成对应的 service 单元。这意味着：</p>
+<ul>
+<li>文件→服务的转换是幂等的，改配置后只需 <code>daemon-reload</code> + <code>restart</code></li>
+<li>生成的 service 文件在 <code>/run/user/1000/systemd/generator/</code> 或 <code>~/.config/systemd/user/</code> 下，可以直接 <code>cat</code> 查看</li>
+<li>容器的整个生命周期由 systemd 接管，Quadlet 不参与运行时</li>
+</ul>
+</blockquote>
+<hr>
+<h4 id="文件类型与命名"><a href="#文件类型与命名" class="headerlink" title="文件类型与命名"></a>文件类型与命名</h4><p>Quadlet 根据文件后缀决定生成什么：</p>
+<table>
+<thead>
+<tr>
+<th>后缀</th>
+<th>生成单元</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>.container</code></td>
+<td><code>.service</code></td>
+<td>最常用，定义单个容器</td>
+</tr>
+<tr>
+<td><code>.volume</code></td>
+<td><code>.volume</code></td>
+<td>命名卷（可跨容器共享）</td>
+</tr>
+<tr>
+<td><code>.network</code></td>
+<td><code>.network</code></td>
+<td>自定义网络</td>
+</tr>
+<tr>
+<td><code>.pod</code></td>
+<td><code>.pod</code></td>
+<td>Pod（一组共享网络的容器）</td>
+</tr>
+<tr>
+<td><code>.build</code></td>
+<td><code>.image</code></td>
+<td>从 Containerfile 构建镜像</td>
+</tr>
+</tbody></table>
+<p>文件名中的 <code>-</code> 会被映射为 systemd 单元名中的 <code>-</code>，例如 <code>astrbot-bot.container</code> → <code>astrbot-bot.service</code>。</p>
+<h4 id="container-文件标准结构"><a href="#container-文件标准结构" class="headerlink" title=".container 文件标准结构"></a>.container 文件标准结构</h4><p><code>[Container]</code> 段 —— 容器运行时参数，指令名与 <code>podman run</code> 参数一一对应：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>等价 CLI</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Image=</code></td>
+<td><code>podman run &lt;image&gt;</code></td>
+<td>镜像地址，必填</td>
+</tr>
+<tr>
+<td><code>ContainerName=</code></td>
+<td><code>--name</code></td>
+<td>容器名，省略则用单元名</td>
+</tr>
+<tr>
+<td><code>PublishPort=</code></td>
+<td><code>-p</code></td>
+<td>端口映射，可多次出现</td>
+</tr>
+<tr>
+<td><code>Volume=</code></td>
+<td><code>-v</code></td>
+<td>卷或绑定挂载，可多次出现</td>
+</tr>
+<tr>
+<td><code>Environment=</code></td>
+<td><code>-e</code></td>
+<td>环境变量，可多次出现</td>
+</tr>
+<tr>
+<td><code>Network=</code></td>
+<td><code>--network</code></td>
+<td>指定网络</td>
+</tr>
+<tr>
+<td><code>Enforce=always</code></td>
+<td><code>podman rm -f</code> + <code>podman run</code></td>
+<td>每次启动强制重建容器（等价 <code>--replace</code>）</td>
+</tr>
+<tr>
+<td><code>AutoUpdate=registry</code></td>
+<td>—</td>
+<td>允许 <code>podman auto-update</code> 更新此容器</td>
+</tr>
+<tr>
+<td><code>Pull=always</code></td>
+<td><code>--pull=always</code></td>
+<td>每次启动前拉取最新镜像</td>
+</tr>
+</tbody></table>
+<p><code>[Service]</code> 段 —— 映射到 systemd service 单元，控制服务行为：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Restart=on-failure</code></td>
+<td>异常退出时自动重启</td>
+</tr>
+<tr>
+<td><code>RestartSec=10</code></td>
+<td>重启前的等待秒数</td>
+</tr>
+<tr>
+<td><code>TimeoutStartSec=120</code></td>
+<td>启动超时（秒），镜像较大的建议设长一些</td>
+</tr>
+<tr>
+<td><code>Environment=</code></td>
+<td>也可放这里，效果相同</td>
+</tr>
+</tbody></table>
+<p><code>[Install]</code> 段 —— systemd 启用&#x2F;启动策略：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=default.target     <span class="comment"># 用户登录时启动</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target  <span class="comment"># 系统级服务（不推荐 rootless 场景）</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Quadlet-内置变量"><a href="#Quadlet-内置变量" class="headerlink" title="Quadlet 内置变量"></a>Quadlet 内置变量</h4><p><code>[Container]</code> 段中以下占位符自动展开：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>展开值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>%h</code></td>
+<td>当前用户 home 目录</td>
+</tr>
+<tr>
+<td><code>%U</code></td>
+<td>当前用户名</td>
+</tr>
+<tr>
+<td><code>%u</code></td>
+<td>当前 UID</td>
+</tr>
+<tr>
+<td><code>%t</code></td>
+<td>用户 systemd 运行时目录（<code>/run/user/UID</code>）</td>
+</tr>
+<tr>
+<td><code>%T</code></td>
+<td>系统临时目录（<code>/tmp</code>）</td>
+</tr>
+</tbody></table>
+<h4 id="Quadlet-CLI-工具"><a href="#Quadlet-CLI-工具" class="headerlink" title="Quadlet CLI 工具"></a>Quadlet CLI 工具</h4><p>Podman 内置了辅助管理 Quadlets 的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出所有已发现的 Quadlet 文件及其状态</span></span><br><span class="line">podman quadlet list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预览某个 .container 将生成的 systemd 单元内容（不实际加载）</span></span><br><span class="line">podman quadlet <span class="built_in">print</span> ~/.config/containers/systemd/astrbot.container</span><br><span class="line"></span><br><span class="line"><span class="comment"># 手动安装（将生成的单元写入 ~/.config/systemd/user/，通常不需要）</span></span><br><span class="line">podman quadlet install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除手动安装的单元</span></span><br><span class="line">podman quadlet <span class="built_in">rm</span> astrbot.container</span><br></pre></td></tr></table></figure>
+
+<p><code>podman quadlet print</code> 是调试利器——改完配置后先用它预览生成的 service，确认参数转换正确，再 <code>daemon-reload</code>。</p>
+<h4 id="调试流程"><a href="#调试流程" class="headerlink" title="调试流程"></a>调试流程</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 写完 .container 后预览生成的 service</span></span><br><span class="line">podman quadlet <span class="built_in">print</span> ~/.config/containers/systemd/astrbot.container</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 确认无误后重新加载</span></span><br><span class="line">systemctl --user daemon-reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 查看 Quadlet 自动生成的 service 文件</span></span><br><span class="line"><span class="built_in">cat</span> ~/.config/systemd/user/astrbot.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 启动并跟踪日志</span></span><br><span class="line">systemctl --user start astrbot.service</span><br><span class="line">journalctl --user -u astrbot.service -f</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 若启动失败，检查容器自身日志</span></span><br><span class="line">podman logs astrbot</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Quadlet-vs-Podman-Compose"><a href="#Quadlet-vs-Podman-Compose" class="headerlink" title="Quadlet vs Podman Compose"></a>Quadlet vs Podman Compose</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>Quadlet</th>
+<th>Podman Compose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>定位</td>
+<td>Podman 原生方案</td>
+<td>Docker Compose 兼容层</td>
+</tr>
+<tr>
+<td>工作方式</td>
+<td><code>.container</code> 文件 → systemd 单元</td>
+<td>翻译 <code>compose.yml</code> → podman 命令</td>
+</tr>
+<tr>
+<td>生命周期管理</td>
+<td>systemd（开机自启、崩溃重启）</td>
+<td>手动 <code>up/down</code></td>
+</tr>
+<tr>
+<td>语法</td>
+<td>systemd unit 风格，ini 格式</td>
+<td>YAML，完全兼容 docker-compose</td>
+</tr>
+<tr>
+<td>依赖</td>
+<td>零额外依赖（Podman 内置）</td>
+<td>需要安装 <code>podman-compose</code></td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>生产环境、长期运行的服务</td>
+<td>开发调试、快速原型、Docker 迁移</td>
+</tr>
+</tbody></table>
+<h3 id="环境要求与准备"><a href="#环境要求与准备" class="headerlink" title="环境要求与准备"></a>环境要求与准备</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 开启 linger（用户登出后服务不终止）</span></span><br><span class="line"><span class="built_in">sudo</span> loginctl enable-linger <span class="string">&quot;<span class="variable">$USER</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 创建 Quadlet 目录</span></span><br><span class="line"><span class="built_in">mkdir</span> -p ~/.config/containers/systemd   <span class="comment"># .container 文件</span></span><br><span class="line"><span class="built_in">mkdir</span> -p ~/.config/systemd/user         <span class="comment"># 生成的 service 文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 验证</span></span><br><span class="line">loginctl show-user <span class="string">&quot;<span class="variable">$USER</span>&quot;</span> -p Linger   <span class="comment"># Linger=yes</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="container-文件参考（AstrBot-为例）"><a href="#container-文件参考（AstrBot-为例）" class="headerlink" title=".container 文件参考（AstrBot 为例）"></a>.container 文件参考（AstrBot 为例）</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Container]</span></span><br><span class="line"><span class="attr">Image</span>=docker.io/soulter/astrbot:latest</span><br><span class="line"><span class="attr">ContainerName</span>=astrbot</span><br><span class="line"><span class="attr">PublishPort</span>=<span class="number">6185</span>:<span class="number">6185</span></span><br><span class="line"><span class="attr">Volume</span>=%h/astrbot/data:/AstrBot/data:Z</span><br><span class="line"><span class="attr">Environment</span>=TZ=Asia/Shanghai</span><br><span class="line"><span class="attr">AutoUpdate</span>=registry</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Restart</span>=<span class="literal">on</span>-failure</span><br><span class="line"><span class="attr">RestartSec</span>=<span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=default.target</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>字段说明：</strong></p>
+<ul>
+<li><code>%h</code> — 自动展开为当前用户 home 目录</li>
+<li><code>:Z</code> — SELinux 标签重映射，Fedora 绑定挂载必须加</li>
+<li><code>AutoUpdate=registry</code> — 允许 <code>podman auto-update</code> 自动更新镜像</li>
+<li><code>Restart=on-failure</code> — 容器异常退出时自动重启，间隔 10 秒</li>
+</ul>
+</blockquote>
+<h3 id="部署流程"><a href="#部署流程" class="headerlink" title="部署流程"></a>部署流程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 创建数据目录</span></span><br><span class="line"><span class="built_in">mkdir</span> -p ~/astrbot/data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 写入 .container 文件</span></span><br><span class="line">vim ~/.config/containers/systemd/astrbot.container</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 重新加载 systemd（Quadlet 自动生成 service 单元）</span></span><br><span class="line">systemctl --user daemon-reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 拉取镜像并启动</span></span><br><span class="line">systemctl --user start astrbot.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 查看状态</span></span><br><span class="line">systemctl --user status astrbot.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 跟踪日志（确认启动成功）</span></span><br><span class="line">journalctl --user -u astrbot.service -f</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7. 开机自启</span></span><br><span class="line">systemctl --user <span class="built_in">enable</span> astrbot.service</span><br></pre></td></tr></table></figure>
+
+<h3 id="日常管理命令（AstrBot-场景）"><a href="#日常管理命令（AstrBot-场景）" class="headerlink" title="日常管理命令（AstrBot 场景）"></a>日常管理命令（AstrBot 场景）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启停 → systemd</span></span><br><span class="line">systemctl --user start astrbot        <span class="comment"># 启动</span></span><br><span class="line">systemctl --user stop astrbot         <span class="comment"># 停止</span></span><br><span class="line">systemctl --user restart astrbot      <span class="comment"># 重启</span></span><br><span class="line">systemctl --user status astrbot       <span class="comment"># 查看状态</span></span><br><span class="line">journalctl --user -u astrbot -f       <span class="comment"># 持续日志</span></span><br><span class="line">systemctl --user <span class="built_in">enable</span> astrbot       <span class="comment"># 开机自启</span></span><br><span class="line">systemctl --user <span class="built_in">disable</span> astrbot      <span class="comment"># 取消自启</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 调试排查 → podman</span></span><br><span class="line">podman ps -a                          <span class="comment"># 确认容器状态</span></span><br><span class="line">podman logs astrbot                   <span class="comment"># 直接看容器日志</span></span><br><span class="line">podman <span class="built_in">exec</span> -it astrbot bash          <span class="comment"># 进入容器</span></span><br><span class="line">podman inspect astrbot | less         <span class="comment"># 详细检查配置</span></span><br><span class="line">podman stats astrbot                  <span class="comment"># 资源占用监控</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新镜像</span></span><br><span class="line">podman pull docker.io/soulter/astrbot:latest</span><br><span class="line">systemctl --user restart astrbot</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动更新（需 [Container] 中配置 AutoUpdate=registry）</span></span><br><span class="line">podman auto-update</span><br></pre></td></tr></table></figure>
+
+<h3 id="SELinux-注意事项"><a href="#SELinux-注意事项" class="headerlink" title="SELinux 注意事项"></a>SELinux 注意事项</h3><p>Fedora&#x2F;RHEL 下 SELinux 默认 <code>Enforcing</code>，绑定挂载卷必须添加 <code>:Z</code> 后缀：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Volume</span>=%h/data:/app/data:Z    ← 正确：自动重标 SELinux 上下文</span><br><span class="line"><span class="attr">Volume</span>=%h/data:/app/data       ← 错误：容器无法写入</span><br></pre></td></tr></table></figure>
+
+<p><code>podman logs</code> 若报 <code>Permission denied</code> 相关错误，排查 SELinux：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -Z ~/astrbot/data          <span class="comment"># 查看 SELinux 上下文</span></span><br><span class="line"><span class="built_in">sudo</span> ausearch -m avc -ts recent <span class="comment"># 查看最近的 SELinux 拒绝事件</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="只读挂载宿主目录（工作方法）"><a href="#只读挂载宿主目录（工作方法）" class="headerlink" title="只读挂载宿主目录（工作方法）"></a>只读挂载宿主目录（工作方法）</h3><blockquote>
+<p><em><strong>适用场景：迁移 &#x2F; 备份，容器只读访问宿主数据</strong></em><br>目标：容器能读宿主机指定目录，但<strong>永远写不进去</strong>，宿主数据不被容器改动</p>
+</blockquote>
+<h4 id="方法流程"><a href="#方法流程" class="headerlink" title="方法流程"></a>方法流程</h4><blockquote>
+<p><em><strong>三步走：加挂载 -&gt; 重载重启 -&gt; 验证读写</strong></em></p>
+</blockquote>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [Container] 段追加一行，`:ro` = 只读</span></span><br><span class="line"><span class="attr">Volume</span>=/home/fedora/WorkSpace/Projects:/WorkSpace/Projects:ro</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生效（restart 会中断容器几秒）</span></span><br><span class="line">systemctl --user daemon-reload</span><br><span class="line">systemctl --user restart astrbot</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证：读放行、写被拒</span></span><br><span class="line">podman <span class="built_in">exec</span> astrbot <span class="built_in">ls</span> /WorkSpace/Projects            <span class="comment"># 应能列出</span></span><br><span class="line">podman <span class="built_in">exec</span> astrbot <span class="built_in">touch</span> /WorkSpace/Projects/__ro__  <span class="comment"># 应报 Read-only file system</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="关键坑：-ro-只挡写，SELinux-连读一起拦"><a href="#关键坑：-ro-只挡写，SELinux-连读一起拦" class="headerlink" title="关键坑：:ro 只挡写，SELinux 连读一起拦"></a>关键坑：<code>:ro</code> 只挡写，SELinux 连读一起拦</h4><p>只加 <code>:ro</code> 时，写被拒（符合预期），但<strong>读也报 <code>Permission denied</code></strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">podman <span class="built_in">exec</span> astrbot <span class="built_in">ls</span> /WorkSpace/</span><br><span class="line"><span class="comment"># ls: cannot open directory &#x27;/WorkSpace/&#x27;: Permission denied</span></span><br></pre></td></tr></table></figure>
+
+<p>原因：宿主目录默认 <code>user_home_t</code>，容器域 <code>container_t</code> 无权读。对比两个挂载源的上下文：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -Zd /home/fedora/WorkSpace /home/fedora/astrbot/data</span><br><span class="line"><span class="comment"># unconfined_u:object_r:user_home_t:s0            ← 容器读不了</span></span><br><span class="line"><span class="comment"># system_u:object_r:container_file_t:s0:c82,c271  ← 可读写挂载（:Z 重标过）</span></span><br></pre></td></tr></table></figure>
+
+<p>放行读：<code>:ro</code> 改为 <code>:ro,z</code>（<code>z</code> &#x3D; 共享重标为 <code>container_file_t:s0</code>）：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Volume</span>=/home/fedora/WorkSpace/Projects:/WorkSpace/Projects:ro,z</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong><code>z</code> or <code>Z</code>：</strong></p>
+<ul>
+<li><code>z</code> — 共享标签 <code>container_file_t:s0</code>，可被多个容器读，只读共享场景用它</li>
+<li><code>Z</code> — 私有标签 <code>container_file_t:s0:cXX,cYY</code>（MCS 隔离），互不共享的数据卷用它（现有数据挂载即 <code>Z</code>）</li>
+</ul>
+</blockquote>
+<h4 id="三个务必"><a href="#三个务必" class="headerlink" title="三个务必"></a>三个务必</h4><ol>
+<li><strong><code>z</code> 会递归重标宿主源目录</strong>——只改元数据不改内容，但含 <code>.ssh</code>&#x2F;<code>.gitconfig</code> 等点文件的目录<strong>不要整目录挂</strong>，逐项挂子目录更安全</li>
+<li><strong>敏感目录直接不挂</strong>——<code>Configs</code>（含点文件软链）这类目录跳过，其余按文件树逐项挂载</li>
+<li><strong>迁移完整性</strong>——SQLite 库 <code>data_v4.db</code> 伴随 <code>-wal</code>&#x2F;<code>-shm</code> 日志，运行中复制会不一致；先 <code>systemctl --user stop astrbot</code> 再整目录拷贝，拷完 <code>start</code></li>
+</ol>
+<span id="more"></span>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/container/" rel="tag"># container</a>
+              <a href="/tags/podman/" rel="tag"># podman</a>
+              <a href="/tags/quadlet/" rel="tag"># quadlet</a>
+              <a href="/tags/astrbot/" rel="tag"># astrbot</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Tech-Stack/container/docker-note/" rel="prev" title="docker note">
+                  <i class="fa fa-angle-left"></i> docker note
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Tech-Stack/tools/gitaction-note/" rel="next" title="github action-note">
+                  github action-note <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="C内联汇编在 C 语言中，内联汇编通常使用编译器扩展来实现。最常用的是 GCC 的扩展内联汇编（用于 Linux 内核、xv6、OSTEP 实验等），这里重点汇总它的语法。MSVC 的内联汇编语法不同（__asm {} 块），简单提及但不展开。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C内联汇编">
+<meta property="og:url" content="http://iloging.github.io/Tech-Stack/languages/C-asm/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="C内联汇编在 C 语言中，内联汇编通常使用编译器扩展来实现。最常用的是 GCC 的扩展内联汇编（用于 Linux 内核、xv6、OSTEP 实验等），这里重点汇总它的语法。MSVC 的内联汇编语法不同（__asm {} 块），简单提及但不展开。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-02-14T04:13:47.000Z">
+<meta property="article:modified_time" content="2026-08-07T13:33:54.378Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="asm">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/Tech-Stack/languages/C-asm/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/Tech-Stack/languages/C-asm/","path":"Tech-Stack/languages/C-asm/","title":"C内联汇编"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>C内联汇编 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96"><span class="nav-number">1.</span> <span class="nav-text">C内联汇编</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81GCC-%E5%9F%BA%E6%9C%AC%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96"><span class="nav-number">1.1.</span> <span class="nav-text">一、GCC 基本内联汇编</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81GCC-%E6%89%A9%E5%B1%95%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96"><span class="nav-number">1.2.</span> <span class="nav-text">二、GCC 扩展内联汇编</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%B1%87%E7%BC%96%E6%A8%A1%E6%9D%BF"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 汇编模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%BE%93%E5%87%BA%E6%93%8D%E4%BD%9C%E6%95%B0"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 输出操作数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%BE%93%E5%85%A5%E6%93%8D%E4%BD%9C%E6%95%B0"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 输入操作数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%A0%B4%E5%9D%8F%E5%88%97%E8%A1%A8-clobbers"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 破坏列表 (clobbers)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%B8%B8%E7%94%A8%E7%BA%A6%E6%9D%9F%E7%AC%A6"><span class="nav-number">1.3.</span> <span class="nav-text">三、常用约束符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%B8%B8%E8%A7%81%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="nav-number">1.4.</span> <span class="nav-text">四、常见修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%85%B7%E4%BD%93%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.5.</span> <span class="nav-text">五、具体示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%8A%A0%E6%B3%95%EF%BC%88%E4%BD%BF%E7%94%A8%E5%AF%84%E5%AD%98%E5%99%A8%EF%BC%89"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. 加法（使用寄存器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%AF%BB%E5%8F%96-x86-TSC%EF%BC%88%E6%97%B6%E9%97%B4%E6%88%B3%E8%AE%A1%E6%95%B0%E5%99%A8%EF%BC%89"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. 读取 x86 TSC（时间戳计数器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%86%99%E5%85%A5-I-O-%E7%AB%AF%E5%8F%A3-x86"><span class="nav-number">1.5.3.</span> <span class="nav-text">3. 写入 I&#x2F;O 端口 (x86)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%B1%8F%E9%9A%9C%EF%BC%88%E9%98%B2%E6%AD%A2%E9%87%8D%E6%8E%92%E5%BA%8F%EF%BC%89"><span class="nav-number">1.5.4.</span> <span class="nav-text">4. 屏障（防止重排序）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E7%94%A8%E4%BA%8E-xv6-%E4%B8%AD%E5%88%87%E6%8D%A2%E8%BF%9B%E7%A8%8B%E4%B8%8A%E4%B8%8B%E6%96%87%EF%BC%88%E7%A4%BA%E4%BE%8B%E6%A1%86%E6%9E%B6%EF%BC%89"><span class="nav-number">1.5.5.</span> <span class="nav-text">5. 用于 xv6 中切换进程上下文（示例框架）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81RISC-V-%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96"><span class="nav-number">1.6.</span> <span class="nav-text">六、RISC-V 内联汇编</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81MSVC-%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96"><span class="nav-number">1.7.</span> <span class="nav-text">七、MSVC 内联汇编</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%85%B3%E9%94%AE%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.8.</span> <span class="nav-text">八、关键注意事项</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/Tech-Stack/languages/C-asm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="C内联汇编 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C内联汇编
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-02-14 12:13:47" itemprop="dateCreated datePublished" datetime="2026-02-14T12:13:47+08:00">2026-02-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-07 21:33:54" itemprop="dateModified" datetime="2026-08-07T21:33:54+08:00">2026-08-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="C内联汇编"><a href="#C内联汇编" class="headerlink" title="C内联汇编"></a>C内联汇编</h1><p>在 C 语言中，内联汇编通常使用编译器扩展来实现。<br>最常用的是 <strong>GCC 的扩展内联汇编</strong>（用于 Linux 内核、xv6、OSTEP 实验等），这里重点汇总它的语法。<br>MSVC 的内联汇编语法不同（<code>__asm {}</code> 块），简单提及但不展开。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="一、GCC-基本内联汇编"><a href="#一、GCC-基本内联汇编" class="headerlink" title="一、GCC 基本内联汇编"></a>一、GCC 基本内联汇编</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">asm</span>(<span class="string">&quot;assembly code&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>编译器直接将字符串中的汇编指令插入生成的汇编文件。</li>
+<li>无法与 C 变量交互，通常只用于简单的指令（如 <code>nop</code>、<code>cli</code>、<code>sti</code>）。</li>
+<li>通常配合 <code>volatile</code> 防止被优化删除：<code>asm volatile (&quot;nop&quot;);</code></li>
+</ul>
+<hr>
+<h2 id="二、GCC-扩展内联汇编"><a href="#二、GCC-扩展内联汇编" class="headerlink" title="二、GCC 扩展内联汇编"></a>二、GCC 扩展内联汇编</h2><p><strong>完整语法结构：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">asm</span> [<span class="keyword">volatile</span>] (</span><br><span class="line">    assembler template</span><br><span class="line">    : output operands          <span class="comment">/* 可选 */</span></span><br><span class="line">    : input operands           <span class="comment">/* 可选 */</span></span><br><span class="line">    : clobbers                 <span class="comment">/* 可选 */</span></span><br><span class="line">    : <span class="keyword">goto</span> labels              <span class="comment">/* 极少使用，用于跳转 */</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>各部分通过冒号 <code>:</code> 分隔。如果某一部分为空但后面的部分有内容，前面的冒号不能省略（除非它之后的部分全部省略）。</p>
+<h3 id="1-汇编模板"><a href="#1-汇编模板" class="headerlink" title="1. 汇编模板"></a>1. 汇编模板</h3><ul>
+<li>多行指令用 <code>;</code> 或 <code>\n\t</code> 分隔，字符串自动拼接。</li>
+<li>引用操作数：<code>%0</code>、<code>%1</code>、<code>%2</code>…按出现的顺序编号。</li>
+<li>引用寄存器名称时需要两个 <code>%%</code>（如 <code>%%eax</code>），以免与操作数占位符混淆。</li>
+<li>示例：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">asm</span>(<span class="string">&quot;movl %0, %%eax&quot;</span> :: <span class="string">&quot;r&quot;</span>(x));</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-输出操作数"><a href="#2-输出操作数" class="headerlink" title="2. 输出操作数"></a>2. 输出操作数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">: <span class="string">&quot;约束&quot;</span> (C变量)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>约束前缀 <code>=</code> 表示只写，<code>+</code> 表示可读写。</li>
+<li>C 变量前面通常不带 <code>&amp;</code>（地址），除非使用 <code>&quot;m&quot;</code> 内存操作数。</li>
+<li>示例：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> out;</span><br><span class="line"><span class="keyword">asm</span>(<span class="string">&quot;movl %%eax, %0&quot;</span> : <span class="string">&quot;=r&quot;</span>(out));</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-输入操作数"><a href="#3-输入操作数" class="headerlink" title="3. 输入操作数"></a>3. 输入操作数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">: <span class="string">&quot;约束&quot;</span> (C变量)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>没有前缀 <code>=</code> 或 <code>+</code>，只读。</li>
+<li>示例：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">5</span>, b = <span class="number">3</span>, sum;</span><br><span class="line"><span class="keyword">asm</span>(<span class="string">&quot;addl %1, %0&quot;</span> : <span class="string">&quot;=r&quot;</span>(sum) : <span class="string">&quot;r&quot;</span>(a), <span class="string">&quot;0&quot;</span>(b));  <span class="comment">// &quot;0&quot; 表示与第0个操作数用同一个寄存器</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="4-破坏列表-clobbers"><a href="#4-破坏列表-clobbers" class="headerlink" title="4. 破坏列表 (clobbers)"></a>4. 破坏列表 (clobbers)</h3><p>声明汇编代码会修改的寄存器或内存，通知编译器重新加载相关值。</p>
+<ul>
+<li>寄存器破坏：直接写寄存器名，如 <code>&quot;eax&quot;</code>、<code>&quot;rsi&quot;</code>。</li>
+<li>内存破坏：用 <code>&quot;memory&quot;</code>，告诉编译器内存可能被更改，会阻断优化。</li>
+<li>条件码破坏：在 x86 上 <code>&quot;cc&quot;</code> 表示条件码寄存器被修改。</li>
+<li>示例：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">asm</span> <span class="title function_">volatile</span><span class="params">(<span class="string">&quot;cli&quot;</span> ::: <span class="string">&quot;memory&quot;</span>)</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="三、常用约束符"><a href="#三、常用约束符" class="headerlink" title="三、常用约束符"></a>三、常用约束符</h2><table>
+<thead>
+<tr>
+<th>约束</th>
+<th>含义（x86）</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>r</code></td>
+<td>通用寄存器</td>
+<td><code>&quot;r&quot;(x)</code></td>
+</tr>
+<tr>
+<td><code>m</code></td>
+<td>内存操作数</td>
+<td><code>&quot;m&quot;(var)</code></td>
+</tr>
+<tr>
+<td><code>i</code></td>
+<td>立即整数</td>
+<td><code>&quot;i&quot;(42)</code></td>
+</tr>
+<tr>
+<td><code>g</code></td>
+<td>寄存器、内存或立即数均可</td>
+<td><code>&quot;g&quot;(x)</code></td>
+</tr>
+<tr>
+<td><code>a</code></td>
+<td>eax&#x2F;ax&#x2F;al 寄存器</td>
+<td><code>&quot;a&quot;(val)</code></td>
+</tr>
+<tr>
+<td><code>b</code></td>
+<td>ebx&#x2F;bx&#x2F;bl</td>
+<td><code>&quot;b&quot;(val)</code></td>
+</tr>
+<tr>
+<td><code>c</code></td>
+<td>ecx&#x2F;cx&#x2F;cl</td>
+<td><code>&quot;c&quot;(count)</code></td>
+</tr>
+<tr>
+<td><code>d</code></td>
+<td>edx&#x2F;dx&#x2F;dl</td>
+<td><code>&quot;d&quot;(data)</code></td>
+</tr>
+<tr>
+<td><code>D</code></td>
+<td>edi&#x2F;di</td>
+<td><code>&quot;D&quot;(ptr)</code></td>
+</tr>
+<tr>
+<td><code>S</code></td>
+<td>esi&#x2F;si</td>
+<td><code>&quot;S&quot;(ptr)</code></td>
+</tr>
+<tr>
+<td><code>=r</code></td>
+<td>只写输出到寄存器</td>
+<td><code>&quot;=r&quot;(out)</code></td>
+</tr>
+<tr>
+<td><code>+r</code></td>
+<td>可读写寄存器</td>
+<td><code>&quot;+r&quot;(var)</code></td>
+</tr>
+<tr>
+<td><code>=&amp;r</code></td>
+<td>早期破坏（earlyclobber），输出在输入被用完之前写入</td>
+<td><code>&quot;=&amp;r&quot;(result)</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四、常见修饰符"><a href="#四、常见修饰符" class="headerlink" title="四、常见修饰符"></a>四、常见修饰符</h2><ul>
+<li><code>=</code> 输出只写。</li>
+<li><code>+</code> 操作数可读可写。</li>
+<li><code>&amp;</code> 表示操作数在指令执行前就被修改（早期破坏），避免与输入分配同一寄存器。</li>
+<li><code>%</code> 在模板中引用操作数，如 <code>%0</code>；如果与寄存器名连用，如 <code>%%eax</code>。</li>
+<li><code>volatile</code>：放在 <code>asm</code> 后，禁止编译器删除或移动该汇编块（即使它看起来没有输出）。<ul>
+<li>有输出操作数时一般不需要，但通常加上以防优化。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="五、具体示例"><a href="#五、具体示例" class="headerlink" title="五、具体示例"></a>五、具体示例</h2><h3 id="1-加法（使用寄存器）"><a href="#1-加法（使用寄存器）" class="headerlink" title="1. 加法（使用寄存器）"></a>1. 加法（使用寄存器）</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">    <span class="type">int</span> res;</span><br><span class="line">    <span class="keyword">asm</span>(<span class="string">&quot;addl %1, %0&quot;</span> : <span class="string">&quot;=r&quot;</span>(res) : <span class="string">&quot;r&quot;</span>(a), <span class="string">&quot;0&quot;</span>(b));</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-读取-x86-TSC（时间戳计数器）"><a href="#2-读取-x86-TSC（时间戳计数器）" class="headerlink" title="2. 读取 x86 TSC（时间戳计数器）"></a>2. 读取 x86 TSC（时间戳计数器）</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uint64_t</span> <span class="title function_">rdtsc</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    <span class="type">uint32_t</span> lo, hi;</span><br><span class="line">    <span class="keyword">asm</span> <span class="title function_">volatile</span><span class="params">(<span class="string">&quot;rdtsc&quot;</span> : <span class="string">&quot;=a&quot;</span>(lo), <span class="string">&quot;=d&quot;</span>(hi))</span>;</span><br><span class="line">    <span class="keyword">return</span> ((<span class="type">uint64_t</span>)hi &lt;&lt; <span class="number">32</span>) | lo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-写入-I-O-端口-x86"><a href="#3-写入-I-O-端口-x86" class="headerlink" title="3. 写入 I&#x2F;O 端口 (x86)"></a>3. 写入 I&#x2F;O 端口 (x86)</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">void</span> <span class="title function_">outb</span><span class="params">(<span class="type">uint16_t</span> port, <span class="type">uint8_t</span> val)</span> &#123;</span><br><span class="line">    <span class="keyword">asm</span> <span class="title function_">volatile</span><span class="params">(<span class="string">&quot;outb %0, %1&quot;</span> : : <span class="string">&quot;a&quot;</span>(val), <span class="string">&quot;Nd&quot;</span>(port))</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-屏障（防止重排序）"><a href="#4-屏障（防止重排序）" class="headerlink" title="4. 屏障（防止重排序）"></a>4. 屏障（防止重排序）</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> barrier() asm volatile(<span class="string">&quot;&quot;</span> ::: <span class="string">&quot;memory&quot;</span>)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-用于-xv6-中切换进程上下文（示例框架）"><a href="#5-用于-xv6-中切换进程上下文（示例框架）" class="headerlink" title="5. 用于 xv6 中切换进程上下文（示例框架）"></a>5. 用于 xv6 中切换进程上下文（示例框架）</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">swtch</span><span class="params">(<span class="keyword">struct</span> context *old, <span class="keyword">struct</span> context *new)</span> &#123;</span><br><span class="line">    <span class="comment">// 保存old，恢复new，内联汇编完成寄存器保存/恢复</span></span><br><span class="line">    <span class="keyword">asm</span> <span class="title function_">volatile</span><span class="params">(</span></span><br><span class="line"><span class="params">        <span class="string">&quot;movl 4(%0), %%esp\n\t&quot;</span>   <span class="comment">// 假设context结构体保存了esp</span></span></span><br><span class="line"><span class="params">        ...</span></span><br><span class="line"><span class="params">        : : <span class="string">&quot;r&quot;</span>(old), <span class="string">&quot;r&quot;</span>(new) : <span class="string">&quot;memory&quot;</span></span></span><br><span class="line"><span class="params">    )</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="六、RISC-V-内联汇编"><a href="#六、RISC-V-内联汇编" class="headerlink" title="六、RISC-V 内联汇编"></a>六、RISC-V 内联汇编</h2><p>xv6 的实验可能使用 RISC-V，其语法相同，只是指令和寄存器名不同，约束与 x86 类似。</p>
+<ul>
+<li>寄存器约束：<code>&quot;r&quot;</code> 表示通用寄存器。</li>
+<li>示例：读取 CSR 寄存器<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">uint64_t</span> <span class="title function_">r_mhartid</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">uint64_t</span> x;</span><br><span class="line">    <span class="keyword">asm</span> <span class="title function_">volatile</span><span class="params">(<span class="string">&quot;csrr %0, mhartid&quot;</span> : <span class="string">&quot;=r&quot;</span>(x))</span>;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>写 CSR：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">void</span> <span class="title function_">w_mstatus</span><span class="params">(<span class="type">uint64_t</span> x)</span> &#123;</span><br><span class="line">    <span class="keyword">asm</span> <span class="title function_">volatile</span><span class="params">(<span class="string">&quot;csrw mstatus, %0&quot;</span> : : <span class="string">&quot;r&quot;</span>(x))</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="七、MSVC-内联汇编"><a href="#七、MSVC-内联汇编" class="headerlink" title="七、MSVC 内联汇编"></a>七、MSVC 内联汇编</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__asm &#123;</span><br><span class="line">    mov eax, var</span><br><span class="line">    add eax, <span class="number">5</span></span><br><span class="line">    mov result, eax</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>只能用于 32 位 x86，不支持 x64，不支持 ARM。</li>
+<li>不支持 GCC 扩展的约束语法，直接访问变量名，编译器自动分配。</li>
+</ul>
+<hr>
+<h2 id="八、关键注意事项"><a href="#八、关键注意事项" class="headerlink" title="八、关键注意事项"></a>八、关键注意事项</h2><ol>
+<li><strong>破坏列表不能省略</strong>：如果你修改了寄存器或内存，必须告知编译器，否则可能导致难以调试的运行时错误。</li>
+<li><strong>避免直接硬编码寄存器</strong>：尽量使用约束让编译器分配，除非有特殊要求（如系统调用使用特定寄存器）。</li>
+<li><strong><code>volatile</code> 和 <code>&quot;memory&quot;</code></strong>：当汇编指令有副作用且无输出操作数时，必须加 <code>volatile</code>；如果修改了内存位置，要加 <code>&quot;memory&quot;</code>。</li>
+<li><strong>内联汇编中的 C 标签</strong>：支持跳转到 C 标签（<code>asm goto</code>），用于内核中的某些错误处理，但较复杂。</li>
+<li><strong>可移植性</strong>：内联汇编与架构强相关，因此通常用 <code>#ifdef</code> 包裹不同架构的实现。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/asm/" rel="tag"># asm</a>
+              <a href="/tags/C/" rel="tag"># C</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Tech-Stack/languages/assembly/" rel="prev" title="汇编语言杂记">
+                  <i class="fa fa-angle-left"></i> 汇编语言杂记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Tech-Stack/frm-lib/hexo-note/" rel="next" title="hexo-note">
+                  hexo-note <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

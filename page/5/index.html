@@ -138,13 +138,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -175,7 +175,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/04/03/frm-lib/c++boost/Boost-Log/">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/Tech-Stack/languages/HtDP/htdp-II/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -193,7 +193,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/04/03/frm-lib/c++boost/Boost-Log/" class="post-title-link" itemprop="url">C++ Boost::Log</a>
+          <a href="/Tech-Stack/languages/HtDP/htdp-II/" class="post-title-link" itemprop="url">How to Design Programs -- II.Arbitrarily Data</a>
         </h2>
 
         <div class="post-meta-container">
@@ -204,14 +204,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2026-04-03 19:03:06" itemprop="dateCreated datePublished" datetime="2026-04-03T19:03:06+08:00">2026-04-03</time>
+      <time title="创建时间：2026-05-23 17:37:00" itemprop="dateCreated datePublished" datetime="2026-05-23T17:37:00+08:00">2026-05-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-07-07 19:51:07" itemprop="dateModified" datetime="2026-07-07T19:51:07+08:00">2026-07-07</time>
+      <time title="修改时间：2026-08-07 21:33:54" itemprop="dateModified" datetime="2026-08-07T21:33:54+08:00">2026-08-07</time>
     </span>
 
   
@@ -224,138 +224,716 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="Log"><a href="#Log" class="headerlink" title="Log"></a>Log</h1><blockquote>
-<p>一个高度模块化和可扩展的C++日志库，旨在为应用程序提供灵活的日志记录功能。</p>
+          <p><em><strong>程序即数据、数据即程序</strong></em></p>
+<blockquote>
+<p><em>How to Design Programs</em><br>一书聚焦于 <strong>GUI</strong> 与 <strong>批处理</strong> 程序</p>
 </blockquote>
-<p><a target="_blank" rel="noopener" href="https://boost.ac.cn/doc/libs/latest/libs/log/doc/html/index.html#log.intro">Boost::Log Refference</a></p>
-<h3 id="设计理念"><a href="#设计理念" class="headerlink" title="设计理念"></a>设计理念</h3><p>提供 <strong>高度模块化</strong> 和 <strong>可扩展</strong> 的日志处理。各个模块可以独立使用和替换，并且能够添加自定义功能。支持宽&#x2F;窄字符记录。</p>
-<h3 id="三层架构"><a href="#三层架构" class="headerlink" title="三层架构"></a>三层架构</h3><ol>
-<li><strong>日志数据收集层</strong><ul>
-<li>负责从程序中处理收集的日志事件</li>
+<p><em><strong><a target="_blank" rel="noopener" href="https://htdp.org/2026-2-25//Book/part_two.html">II.Arbitrarily Data</a></strong></em></p>
+<h1 id="任意大数据"><a href="#任意大数据" class="headerlink" title="任意大数据"></a>任意大数据</h1><h2 id="Lists-列表"><a href="#Lists-列表" class="headerlink" title="Lists 列表"></a>Lists 列表</h2><blockquote>
+<ul>
+<li><em>cons</em> 本质是一个二元组<ul>
+<li>形式为 <code>&#39;(1 2)</code></li>
+<li>输出形式为 <code>(1 . 2)</code> 使用 <code>.</code> 进行分隔</li>
 </ul>
 </li>
-<li><strong>收集数据处理层</strong><ul>
-<li>负责处理收集到的日志事件</li>
+<li><em>list</em> 表示一串二元组嵌套而成的列表<ul>
+<li>形式为 <code>&#39;(1 2 3 4 5)</code></li>
+<li>本质是 <code>&#39;(cons 1 (cons 2 (cons 3 (cons 4 &#39;()))))</code> 最内层的后一个元素（list最后一个元素之后）为 空 <code>&#39;()</code></li>
+<li>输出形式为 <code>(1 2 3 4 5)</code> 将空元素省略</li>
+<li>真列表(<em>proper list</em>)的结尾为一个隐式的 <code>&#39;()</code> 元素</li>
 </ul>
 </li>
-<li><strong>连接前两层的中央枢纽</strong><ul>
-<li>协调管理日志在上两层之间的流转</li>
 </ul>
+</blockquote>
+<p>这也就可以解释，为什么一下用例中 <code>(list? cons-cons)</code> 产生 <code>#f</code> 返回，因为， <code>cons-cons</code> 就不是真列表，而是一个 <code>(cons (list ...) elem)</code> 的二元组</p>
+<p>而 <code>(cons? ...)</code> 只需要检测输入是否为二元组，并且检查时直接将 <code>list</code> 展开为 <code>cons</code> 在下列用例中无论如何都返回为 <code>#t</code></p>
+<p>相当于 <code>(cons 1 (list 2 3 4 5))</code> 相当于 <code>(list 1 2 3 4 5)</code> 将cons内部的list展开</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">(define test-list</span><br><span class="line">    (list</span><br><span class="line">        1 (cons 2 3) (list 5 6 7 8) 9))</span><br><span class="line"></span><br><span class="line">(define test-cons</span><br><span class="line">    (cons</span><br><span class="line">        (cons 1 2)</span><br><span class="line">        (list 3 4 (cons 5 6) 7 (cons 8 9))))</span><br><span class="line"></span><br><span class="line">(define cons-cons</span><br><span class="line">    (cons 1</span><br><span class="line">        (cons 2</span><br><span class="line">            (cons 3</span><br><span class="line">                (cons 4 5)))))</span><br><span class="line"></span><br><span class="line">(define cons-null</span><br><span class="line">    (cons 1</span><br><span class="line">    (cons 2</span><br><span class="line">        (cons 3 &#x27;()))))</span><br><span class="line"></span><br><span class="line">(printf &quot;~a\n&quot; test-list)</span><br><span class="line">(printf &quot;~a\n&quot; test-cons)</span><br><span class="line">(printf &quot;~a\n&quot; cons-cons)</span><br><span class="line">(printf &quot;~a\n&quot; cons-null)</span><br><span class="line"></span><br><span class="line">(list? cons-cons) ; #f</span><br><span class="line">(cons? cons-cons) ; #t</span><br><span class="line">(list? cons-null) ; #t</span><br><span class="line">(cons? cons-null) ; #t</span><br><span class="line">(list? &#x27;(1 2 3 4 5)) ; #t</span><br><span class="line">(cons? &#x27;(1 2 3 4 5)) ; #t</span><br><span class="line"></span><br><span class="line">(define full-name</span><br><span class="line">    (cons &quot;first-name&quot;</span><br><span class="line">        (cons &quot;middle-name&quot;</span><br><span class="line">            (cons &quot;last-name&quot; &#x27;()))))</span><br><span class="line">(display full-name)</span><br><span class="line"></span><br><span class="line">(define cons-list</span><br><span class="line">    (cons 1 &#x27;(2 3 4 5)))</span><br><span class="line">(display cons-list)</span><br><span class="line">(printf &quot;\n&quot;)</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Tech-Stack/languages/HtDP/htdp-II/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/Tech-Stack/languages/HtDP/htdp-I/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Tech-Stack/languages/HtDP/htdp-I/" class="post-title-link" itemprop="url">How to Design Programs -- I.Fixed-Size Data</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-21 19:13:00" itemprop="dateCreated datePublished" datetime="2026-05-21T19:13:00+08:00">2026-05-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-07 21:33:54" itemprop="dateModified" datetime="2026-08-07T21:33:54+08:00">2026-08-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><em><strong>程序即数据、数据即程序</strong></em></p>
+<blockquote>
+<p><em>How to Design Programs</em><br>一书聚焦于 <strong>GUI</strong> 与 <strong>批处理</strong> 程序</p>
+</blockquote>
+<p><em><strong><a target="_blank" rel="noopener" href="https://htdp.org/2026-2-25//Book/part_one.html">I.Fixed-Size Data</a></strong></em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">lang racket</span><br><span class="line"></span><br><span class="line">; factorial function</span><br><span class="line">(define (factorial n)</span><br><span class="line">    (if (= n 0)</span><br><span class="line">        1</span><br><span class="line">        (* n (factorial (- n 1)))</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">; output 5!</span><br><span class="line">(displayln (factorial 5))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>原始表达式（ <em><strong>Lisp</strong></em> 中使用 <strong>前缀表达式</strong> 定义运算规则 ）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(+ 1 1)</span><br></pre></td></tr></table></figure>
+<p>即，自然语言中的 <code>1 + 1</code> 计算</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Tech-Stack/languages/HtDP/htdp-I/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/Computer-Sci/OS/xv6-labs/process-shell/process-shell/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Computer-Sci/OS/xv6-labs/process-shell/process-shell/" class="post-title-link" itemprop="url">process-shell</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-15 22:34:00" itemprop="dateCreated datePublished" datetime="2026-05-15T22:34:00+08:00">2026-05-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-07 21:33:54" itemprop="dateModified" datetime="2026-08-07T21:33:54+08:00">2026-08-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="wish-程序设计"><a href="#wish-程序设计" class="headerlink" title="wish 程序设计"></a>wish 程序设计</h1><h2 id="设计目标"><a href="#设计目标" class="headerlink" title="设计目标"></a>设计目标</h2><ul>
+<li>进一步熟悉 Linux 编程环境</li>
+<li>学习进程的 <strong>创建、销毁、管理</strong></li>
+<li>接触 shell 中的必要功能</li>
+</ul>
+<hr>
+<h2 id="设计需求"><a href="#设计需求" class="headerlink" title="设计需求"></a>设计需求</h2><h3 id="两种模式"><a href="#两种模式" class="headerlink" title="两种模式"></a>两种模式</h3><blockquote>
+<p>为每一个新命令创建一个进程</p>
+</blockquote>
+<h4 id="交互模式"><a href="#交互模式" class="headerlink" title="交互模式"></a>交互模式</h4><blockquote>
+<p>提示符回显，循环，直接输入命令</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">prompt&gt; ./wish</span><br><span class="line">wish&gt;</span><br></pre></td></tr></table></figure>
+
+<p>允许用户直接输入命令。</p>
+<hr>
+<h4 id="批处理模式"><a href="#批处理模式" class="headerlink" title="批处理模式"></a>批处理模式</h4><blockquote>
+<p>无提示符回显，单次调用<br>从文件读取需要执行的命令</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prompt&gt; ./wish batch.txt</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="功能结构"><a href="#功能结构" class="headerlink" title="功能结构"></a>功能结构</h3><h4 id="参考例程"><a href="#参考例程" class="headerlink" title="参考例程"></a>参考例程</h4><ul>
+<li><p><strong>fopen()</strong></p>
+</li>
+<li><p><strong>fclose()</strong></p>
+</li>
+<li><p><strong>fprintf()</strong></p>
+</li>
+<li><p><strong>getline()</strong></p>
+</li>
+<li><p><strong>strsep()</strong></p>
+</li>
+<li><p><strong>strdup()</strong></p>
+</li>
+<li><p><strong>fork()</strong></p>
+</li>
+<li><p><strong>execv()</strong></p>
+</li>
+<li><p><strong>wait()</strong></p>
+</li>
+<li><p><strong>waitpid()</strong></p>
+</li>
+<li><p><strong>chdir()</strong></p>
+</li>
+<li><p><strong>getcwd()</strong></p>
+</li>
+<li><p><strong>access()</strong></p>
+</li>
+</ul>
+<hr>
+<h4 id="基本Shell"><a href="#基本Shell" class="headerlink" title="基本Shell"></a>基本Shell</h4><ul>
+<li>运行在一个 while 循环中，反复请求输入，接收执行命令</li>
+<li>使用 <code>exit</code> 退出</li>
+<li>对于两种模式<ul>
+<li>交互模式：在一个循环中</li>
+<li>批处理模式：通过读文件，执行命令</li>
+</ul>
+</li>
+<li>退出方式<ul>
+<li>遇到 <code>EOF</code> 后，调用 <code>exit(0)</code> 退出</li>
+</ul>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Computer-Sci/OS/xv6-labs/process-shell/process-shell/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/Computer-Sci/OS/xv6-labs/initial-kv/initial-kv/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Computer-Sci/OS/xv6-labs/initial-kv/initial-kv/" class="post-title-link" itemprop="url">initial-kv</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-12 12:12:00" itemprop="dateCreated datePublished" datetime="2026-05-12T12:12:00+08:00">2026-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-07 21:33:54" itemprop="dateModified" datetime="2026-08-07T21:33:54+08:00">2026-08-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="kv程序设计"><a href="#kv程序设计" class="headerlink" title="kv程序设计"></a>kv程序设计</h1><h2 id="程序要求"><a href="#程序要求" class="headerlink" title="程序要求"></a>程序要求</h2><h3 id="命令设计"><a href="#命令设计" class="headerlink" title="命令设计"></a>命令设计</h3><ul>
+<li><p><em><strong>put</strong></em>：</p>
+<blockquote>
+<p>格式: <code>p,key,value</code></p>
+</blockquote>
+<ul>
+<li>其中 <code>key</code> 是 <em>整数</em> ，<code>value</code> 是 <em>任意字符串</em></li>
+</ul>
+</li>
+<li><p><em><strong>get</strong></em>：</p>
+<blockquote>
+<p>格式: <code>g,key</code></p>
+</blockquote>
+<ul>
+<li>其中 <code>key</code> 是整数。<ul>
+<li>键存在：系统应打印出<code>key,value</code> <code>\n</code></li>
+<li>键不存在：单独一行打印错误消息，格式为 <code>K not found</code>，其中 <code>K</code> 是键的实际整数值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><em><strong>delete</strong></em>：</p>
+<blockquote>
+<p>格式：<code>d,key</code></p>
+</blockquote>
+<ul>
+<li>功能：<ul>
+<li>删除相应的键值对（不打印任何内容）</li>
+<li>删除失败（并打印 <code>K not found</code>，其中 <code>K</code> 是键的实际值，即某个整数）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><em><strong>clear</strong></em>：</p>
+<blockquote>
+<p>格式: <code>c</code></p>
+</blockquote>
+<ul>
+<li>功能：从数据库中移除所有键值对。</li>
+</ul>
+</li>
+<li><p><em><strong>all</strong></em>：</p>
+<blockquote>
+<p>格式: <code>a</code></p>
+</blockquote>
+<ul>
+<li>功能：任意顺序打印数据库中的所有键值对，每行一个键值对 <code>key,value</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="合适的例程"><a href="#合适的例程" class="headerlink" title="合适的例程"></a>合适的例程</h2><ul>
+<li><p>文件操作</p>
+<ul>
+<li>fopen</li>
+<li>fwrite</li>
+<li>fread</li>
+<li>getline</li>
+<li>fprintf</li>
+</ul>
+</li>
+<li><p>字符串处理</p>
+<ul>
+<li>strsep(char** line, char** delim)<blockquote>
+<p>char** token &#x3D; strsep(char** line, char** delim)<br>按 delim 分割 *line</p>
+<ul>
+<li>返回 顺序第一个delim前的 token</li>
+<li>*line 指向 顺序第一个delim后的 token</li>
+<li>相当于 原 *line &#x3D; token <em>append</em> 后*line</li>
+</ul>
+</blockquote>
+</li>
+<li>stoi</li>
+</ul>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Computer-Sci/OS/xv6-labs/initial-kv/initial-kv/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/Computer-Sci/OS/xv6-labs/initial-reverse/initial-reverse/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Computer-Sci/OS/xv6-labs/initial-reverse/initial-reverse/" class="post-title-link" itemprop="url">initial-reverse</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-10 16:10:00" itemprop="dateCreated datePublished" datetime="2026-05-10T16:10:00+08:00">2026-05-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-07 21:33:54" itemprop="dateModified" datetime="2026-08-07T21:33:54+08:00">2026-08-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h1><blockquote>
+<p>reverse 程序的功能分别是进行文件的压缩(wzip)与解压缩(wunzip)<br>使用 <em>游程编码(REL)</em> 进行压缩</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">prompt&gt; ./reverse</span><br><span class="line">prompt&gt; ./reverse input.txt</span><br><span class="line">prompt&gt; ./reverse input.txt output.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="依赖例程"><a href="#依赖例程" class="headerlink" title="依赖例程"></a>依赖例程</h2><ul>
+<li><p><strong>fopen()</strong></p>
+</li>
+<li><p><strong>fgets()</strong></p>
+</li>
+<li><p><strong>fclose()</strong></p>
+</li>
+<li><p><strong>getline()</strong></p>
+</li>
+<li><p><strong>printf()</strong></p>
+</li>
+<li><p><strong>fwrite()</strong></p>
+</li>
+<li><p><strong>fread()</strong></p>
+</li>
+<li><p><strong>perror()</strong></p>
+</li>
+<li><p><strong>strerror()</strong></p>
+</li>
+</ul>
+<h2 id="实验需求"><a href="#实验需求" class="headerlink" title="实验需求"></a>实验需求</h2><ul>
+<li><p><strong>输入与输出相同：</strong> 如果输入文件和输出文件是同一个文件</p>
+<ul>
+<li>打印错误消息 “Input and output file must differ” 并以返回码 1 退出。</li>
+</ul>
+</li>
+<li><p><strong>字符串长度：</strong> 你不能对一行的长度做任何假设。因此，你可能需要读取非常长的输入行…</p>
+</li>
+<li><p><strong>文件长度：</strong> 你不能对文件的长度做任何假设，即文件可能<strong>非常</strong>长。</p>
+</li>
+<li><p><strong>无效文件：</strong> 如果用户指定了输入文件或输出文件，但当你尝试打开该文件（例如 <code>input.txt</code>）时因某种原因失败，应打印以下精确的错误消息：<code>error: cannot open file &#39;input.txt&#39;</code>，然后以返回码 1 退出（即调用 <code>exit(1);</code>）。</p>
+</li>
+<li><p><strong>传递给程序的参数过多：</strong> 如果用户运行 <code>reverse</code> 时参数过多，打印 <code>usage: reverse &lt;input&gt; &lt;output&gt;</code> 并以返回码 1 退出。</p>
+</li>
+<li><p><strong>如何打印错误消息：</strong> 发生任何错误时，应使用 <code>fprintf()</code> 将错误打印到屏幕上，并将错误消息发送到 <code>stderr</code>（标准错误）而不是 <code>stdout</code>（标准输出）。在 C 代码中通过以下方式实现：<code>fprintf(stderr, &quot;whatever the error message is\n&quot;);</code></p>
+</li>
+</ul>
+<p>要退出，调用 <code>exit(1)</code>。你传递给 <code>exit()</code> 的数字（本例中为 1）可供用户查看程序是返回了错误（即返回非零值）还是正常退出（即返回了 0）。</p>
+<p>对于读取输入文件，以下例程会让你的工作变得轻松：<code>fopen()</code>、<code>getline()</code> 和 <code>fclose()</code>。</p>
+<p>对于打印（到屏幕或到文件），使用 <code>fprintf()</code>。注意，通过将 <code>stdout</code> 传递给 <code>fprintf()</code> 可以很容易地写入标准输出；通过传入 <code>fopen</code> 返回的 <code>FILE *</code> 也可以很容易地写入文件，例如：<code>fp=fopen(...); fprintf(fp, ...);</code>。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Computer-Sci/OS/xv6-labs/initial-reverse/initial-reverse/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/Computer-Sci/OS/xv6-labs/initial-ultilities/initial-ultilities/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Computer-Sci/OS/xv6-labs/initial-ultilities/initial-ultilities/" class="post-title-link" itemprop="url">initial-ultilities</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-09 21:44:00" itemprop="dateCreated datePublished" datetime="2026-05-09T21:44:00+08:00">2026-05-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-07 21:33:54" itemprop="dateModified" datetime="2026-08-07T21:33:54+08:00">2026-08-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="wcat"><a href="#wcat" class="headerlink" title="wcat"></a>wcat</h1><blockquote>
+<p>wcat 程序的功能是读取用户指定的文件并打印文件内容</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">prompt&gt; ./wcat main.c</span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="依赖例程"><a href="#依赖例程" class="headerlink" title="依赖例程"></a>依赖例程</h2><ul>
+<li><p><strong>fopen()</strong></p>
+</li>
+<li><p><strong>fgets()</strong></p>
+</li>
+<li><p><strong>fclose()</strong></p>
+</li>
+<li><p><strong>printf()</strong></p>
+</li>
+<li><p><strong>perror()</strong></p>
+</li>
+<li><p><strong>strerror()</strong></p>
+</li>
+</ul>
+<h2 id="实验需求"><a href="#实验需求" class="headerlink" title="实验需求"></a>实验需求</h2><ul>
+<li>你的程序 <strong>wcat</strong> 可以在命令行上使用一个或多个文件调用；<ul>
+<li>它应该依次打印出每个文件。</li>
+</ul>
+</li>
+<li>在所有非错误情况下，<strong>wcat</strong> 应以状态码 0 退出<ul>
+<li>通常通过从 <strong>main()</strong> 返回 0（或调用 <strong>exit(0)</strong>）。</li>
+</ul>
+</li>
+<li>如果命令行上<em>没有指定任何文件</em>，<strong>wcat</strong> 应直接退出并返回 0。<ul>
+<li>注意，这与普通 UNIX <strong>cat</strong> 的行为略有不同（如果你愿意，可以找出不同之处）。</li>
+</ul>
+</li>
+<li>如果程序尝试 <strong>fopen()</strong> 一个文件并失败，应打印精确的消息 “wcat: cannot open file”（后跟换行符）并以状态码 1 退出。如果命令行上指定了多个文件，应依次打印文件直到文件列表结束或遇到打开文件错误（此时打印错误消息并退出 <strong>wcat</strong>）。</li>
+</ul>
+<h2 id="流程分析"><a href="#流程分析" class="headerlink" title="流程分析"></a>流程分析</h2><ol>
+<li>打开文件<blockquote>
+<p>使用 fopen()</p>
+</blockquote>
+<ul>
+<li><em>未指定文件</em><ul>
+<li>直接退出，返回0</li>
+</ul>
+</li>
+<li><em>指定文件</em><ul>
+<li>指定多个文件<ul>
+<li>依次打印文件列表，直到 <em>打开失败</em></li>
+</ul>
+</li>
+<li>打开失败<ul>
+<li>打印精确消息 “wcat: cannot open file\n”</li>
+<li>以状态码 1 退出</li>
+</ul>
+</li>
+<li>打开成功：向下进行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>读取文件内容<blockquote>
+<p>使用 fgets()</p>
+</blockquote>
+<ul>
+<li>可以打开多个文件，按照 <em><strong>**argv</strong></em> 的传参顺序进行提取<ul>
+<li>需要 (buffer_ptr, buffer_size, FILE*)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>输出文件内容<blockquote>
+<p>使用 printf()</p>
+</blockquote>
+</li>
+<li>关闭文件<blockquote>
+<p>使用 fclose()</p>
+</blockquote>
 </li>
 </ol>
-<blockquote>
-<p><strong>设计要点：</strong> 这个架构的核心优势是正交性，即日志的收集、处理方式和日志内容本身是相互独立的。这种设计让库不仅能用于传统日志记录，还能用于向用户发出通知、累积统计信息等场景。</p>
-</blockquote>
-<!-- main -->
-
-<h3 id="关键组件"><a href="#关键组件" class="headerlink" title="关键组件"></a>关键组件</h3><p>构成以上三层的具体组件：</p>
-<ul>
-<li><p><strong>日志源 (Logging Sources)：</strong> <em><strong>日志事件的发起者</strong></em> 。最常见的是日志记录器 (Logger)，它提供了类似 std::ostream 的流式接口来 <strong>格式化</strong> 日志消息。库也支持其他类型的源，如捕获子进程的控制台输出等。</p>
-</li>
-<li><p><strong>属性与属性值 (Attributes and Attribute Values)：</strong> <strong>日志记录的<em>元数据</em></strong> 。一个属性本质上是获取某个值的函数（例如获取当前时间），其返回的值就是 <em>属性值</em> ，会在日志处理的后续阶段使用。属性分为 <em>三种</em> 类型：</p>
-<ul>
-<li><p><em><strong>全局属性</strong></em> ：附加到 <em>所有</em> 日志记录，优先级最低。</p>
-</li>
-<li><p><em><strong>线程特定属性</strong></em> ：仅附加到 <em>特定线程</em> 生成的记录。</p>
-</li>
-<li><p><em><strong>源特定属性</strong></em> ：<strong>由日志源维护</strong> ，仅附加到通过 <em>该源生成的记录</em> ，优先级最高。</p>
-</li>
-<li><p>当同名属性出现在多个集合中时，优先级高的属性会覆盖优先级低的。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>日志核心 (Logging Core)：</strong> 中央枢纽的具体实现。它负责接收日志事件，并应用全局过滤器来决定哪些日志记录可以继续传递。核心被实现为 <em><strong>单例 (Singleton)</strong></em> ，可通过 boost::log::core::get() 访问。</p>
-</li>
-<li><p><strong>过滤器 (Filters)：</strong> 核心的一部分功能。过滤器用于在核心层面 <em><strong>筛选</strong></em> 日志记录，决定其是否被处理。</p>
-</li>
-<li><p><strong>接收器 (Sinks)：</strong> 日志处理的最终目的地。它是处理层的核心，负责将日志记录 <em><strong>格式化并输出到文件</strong></em> 、控制台、网络等不同目标。接收器采用前后端分离的设计：</p>
-<ul>
-<li><p><strong>前端 (Frontend)：</strong> 负责接收日志记录，并决定同步、异步等传递策略。</p>
-</li>
-<li><p><strong>后端 (Backend)：</strong> 负责执行实际的格式化操作并将日志写入最终目标。</p>
-</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/tools/vim-config/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/03/28/tools/vim-config/" class="post-title-link" itemprop="url">nvim配置文件</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-03-28 16:26:02" itemprop="dateCreated datePublished" datetime="2026-03-28T16:26:02+08:00">2026-03-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-07-07 19:51:07" itemprop="dateModified" datetime="2026-07-07T19:51:07+08:00">2026-07-07</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>neovim 基础配置文件</p>
+<p><strong><a href="./code/wcat.c">wcat.c</a></strong></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2026/03/28/tools/vim-config/">
+              <a class="btn" href="/Computer-Sci/OS/xv6-labs/initial-ultilities/initial-ultilities/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -386,7 +964,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/03/28/frm-lib/hexo-note/">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/Computer-Sci/OS/xv6-labs/xv6-catalog/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -404,7 +982,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/03/28/frm-lib/hexo-note/" class="post-title-link" itemprop="url">hexo-note</a>
+          <a href="/Computer-Sci/OS/xv6-labs/xv6-catalog/" class="post-title-link" itemprop="url">xv6-catalog</a>
         </h2>
 
         <div class="post-meta-container">
@@ -415,423 +993,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2026-03-28 15:50:52" itemprop="dateCreated datePublished" datetime="2026-03-28T15:50:52+08:00">2026-03-28</time>
+      <time title="创建时间：2026-05-08 10:00:00" itemprop="dateCreated datePublished" datetime="2026-05-08T10:00:00+08:00">2026-05-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-07-07 19:51:07" itemprop="dateModified" datetime="2026-07-07T19:51:07+08:00">2026-07-07</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>基于hexo包的网页配置</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/03/28/frm-lib/hexo-note/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/02/12/languages/assembly/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/02/12/languages/assembly/" class="post-title-link" itemprop="url">汇编语言杂记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-02-12 18:55:07" itemprop="dateCreated datePublished" datetime="2026-02-12T18:55:07+08:00">2026-02-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-07-07 19:51:07" itemprop="dateModified" datetime="2026-07-07T19:51:07+08:00">2026-07-07</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="汇编语言杂记"><a href="#汇编语言杂记" class="headerlink" title="汇编语言杂记"></a>汇编语言杂记</h1><ul>
-<li><strong>NASM</strong></li>
-<li><strong>GDB</strong></li>
-<li><strong>ld</strong></li>
-<li><strong>ar</strong></li>
-<li><strong>gcc</strong></li>
-<li><strong>xxd&#x2F;GHex</strong></li>
-</ul>
-<h2 id="寄存器名称与主要用途"><a href="#寄存器名称与主要用途" class="headerlink" title="寄存器名称与主要用途"></a>寄存器名称与主要用途</h2><table>
-<thead>
-<tr>
-<th>寄存器</th>
-<th>传统名称</th>
-<th>主要用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>RAX</td>
-<td>累加器 (Accumulator)</td>
-<td>函数返回值、算术运算、系统调用号</td>
-</tr>
-<tr>
-<td>RCX</td>
-<td>计数器 (Counter)</td>
-<td>第4个整数参数、循环计数、通用寄存器</td>
-</tr>
-<tr>
-<td>RDX</td>
-<td>数据寄存器 (Data)</td>
-<td>第3个整数参数、与RAX配合用于乘除法、通用寄存器</td>
-</tr>
-<tr>
-<td>RBX</td>
-<td>基址寄存器 (Base)</td>
-<td>被调用者保存、常用于存储基地址</td>
-</tr>
-<tr>
-<td>RSP</td>
-<td>栈指针 (Stack Pointer)</td>
-<td>指向当前栈顶、永远指向内存中的栈顶</td>
-</tr>
-<tr>
-<td>RBP</td>
-<td>基址指针 (Base Pointer)</td>
-<td>被调用者保存、通常用作栈帧基址（可选）</td>
-</tr>
-<tr>
-<td>RSI</td>
-<td>源索引 (Source Index)</td>
-<td>第2个整数参数、字符串&#x2F;数组操作源地址</td>
-</tr>
-<tr>
-<td>RDI</td>
-<td>目的索引 (Destination Index)</td>
-<td>第1个整数参数、字符串&#x2F;数组操作目的地址</td>
-</tr>
-</tbody></table>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/02/12/languages/assembly/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2026/02/02/tools/make-note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/02/02/tools/make-note/" class="post-title-link" itemprop="url">make-note</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-02-02 10:29:23" itemprop="dateCreated datePublished" datetime="2026-02-02T10:29:23+08:00">2026-02-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-07-07 19:51:07" itemprop="dateModified" datetime="2026-07-07T19:51:07+08:00">2026-07-07</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Makefile"><a href="#Makefile" class="headerlink" title="Makefile"></a>Makefile</h1><blockquote>
-<p>在Linux环境下，常常使用<code>make</code>程序自动化变异大型源码。<br>项目提供一个<code>Makefile</code>文件，<code>make</code>以此为基础进行程序的编译和链接。<br><code>make</code>并不限定为构建C&#x2F;C++项目服务，还可以用于任何文件的组织与处理，但主要用于Unix&#x2F;Linux环境的自动化开发。</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/make/manual/html_node/index.html#SEC_Contents">GNU make</a></p>
-<hr>
-<h2 id="Makefile简单模板"><a href="#Makefile简单模板" class="headerlink" title="Makefile简单模板"></a>Makefile简单模板</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">CC = gcc</span><br><span class="line">INC_DIR = ./<span class="keyword">include</span></span><br><span class="line">SRC_DIR = ./src</span><br><span class="line"></span><br><span class="line">CFLAGS = -g -Wall -Werror -I<span class="variable">$(INC_DIR)</span></span><br><span class="line">LINK = -lraylib -lm</span><br><span class="line"></span><br><span class="line">INCS = <span class="variable">$(INC_DIR)</span>/rlphysics.h <span class="variable">$(<span class="built_in">wildcard</span> <span class="variable">$(INC_DIR)</span>/rlphysics/*.h)</span></span><br><span class="line">SRCS = <span class="variable">$(SRC_DIR)</span>/*c</span><br><span class="line"></span><br><span class="line">TARGET = example</span><br><span class="line"></span><br><span class="line"><span class="variable">$(TARGET)</span>: <span class="variable">$(INCS)</span> <span class="variable">$(SRCS)</span> example.c</span><br><span class="line">	<span class="variable">$(CC)</span> <span class="variable">$^</span> <span class="variable">$(CFLAGS)</span> <span class="variable">$(LINK)</span> -o <span class="variable">$@</span></span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="keyword">.PHONY</span>: clean</span></span><br><span class="line"></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm <span class="variable">$(TARGET)</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="Makefile基础"><a href="#Makefile基础" class="headerlink" title="Makefile基础"></a>Makefile基础</h2><p>在Linux环境下，输入<code>make</code>命令，程序在当前目录下查找一个名为<code>Makefile</code>的文件，然后，根据该文件定的规则，自动化的执行任意命令。</p>
-<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p><code>Makefile</code>文件由若干条<strong>规则(Rule)<strong>构成，每一条规则指出一个</strong>目标文件(Target)</strong>，若干<strong>依赖文件(prerequisites)</strong>，以及生成目标文件的命令。<br><strong>规则</strong>如下：</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 目标文件: 依赖文件1 依赖文件2 ... </span></span><br><span class="line">    <span class="comment"># 命令</span></span><br><span class="line"><span class="section">m.txt: a.txt b.txt</span></span><br><span class="line">    cat a.txt b.txt &gt; m.txt</span><br></pre></td></tr></table></figure>
-<p>以上规则使用cat命令将文件a.txt b.txt合并写入m.txt</p>
-<blockquote>
-<p><em><strong>!注意：在Makefile的规则中，命令必须以Tab开头，不能是空格</strong></em></p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/02/02/tools/make-note/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2025/11/20/tools/git-note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/11/20/tools/git-note/" class="post-title-link" itemprop="url">git-note</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-11-20 16:10:21" itemprop="dateCreated datePublished" datetime="2025-11-20T16:10:21+08:00">2025-11-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-05 19:11:57" itemprop="dateModified" datetime="2026-08-05T19:11:57+08:00">2026-08-05</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="GIT-NOTE"><a href="#GIT-NOTE" class="headerlink" title="GIT NOTE"></a>GIT NOTE</h1><blockquote>
-<p>参考资料：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://git-scm.com/book/zh/v2">官方文档</a></li>
-<li><a target="_blank" rel="noopener" href="https://liaoxuefeng.com/books/git/introduction/index.html">教学笔记</a></li>
-<li><a target="_blank" rel="noopener" href="https://learngitbranching.js.org/?locale=zh_CN">教学网站</a></li>
-</ul>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/11/20/tools/git-note/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/2025/11/08/CS-infra/Networking/application-layer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/11/08/CS-infra/Networking/application-layer/" class="post-title-link" itemprop="url">应用层杂记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-11-08 19:47:22" itemprop="dateCreated datePublished" datetime="2025-11-08T19:47:22+08:00">2025-11-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-07-07 19:51:07" itemprop="dateModified" datetime="2026-07-07T19:51:07+08:00">2026-07-07</time>
+      <time title="修改时间：2026-08-07 21:33:54" itemprop="dateModified" datetime="2026-08-07T21:33:54+08:00">2026-08-07</time>
     </span>
 
   
@@ -845,10 +1014,24 @@
     
     <div class="post-body" itemprop="articleBody">
           <blockquote>
-<p>基于 《计算机网络：自顶向下方法》</p>
+<p>关于编写 <strong>C&#x2F;Linux</strong> 实验（流程设计）：</p>
+<ol>
+<li>建立一个自己的项目目录</li>
+<li>阅读各个实验子项的 <em><strong>README.md</strong></em> 文档</li>
+<li>阅读 <strong>man page</strong> 分析各个程序的功能实现</li>
+<li>设计程序流程</li>
+<li>编写程序</li>
+</ol>
 </blockquote>
-<hr>
-
+<h1 id="CATALOG"><a href="#CATALOG" class="headerlink" title="CATALOG"></a>CATALOG</h1><h2 id=""><a href="#" class="headerlink" title=""></a><img src="/./initial-ultilities/initial-ultilities.md" alt="initial-ultilities"></h2><h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="/./initial-reverse/initial-reverse.md" alt="initial-reverse"></h2><h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="/./initial-kv/initial-kv.md" alt="initial-kv"></h2><h2 id="-3"><a href="#-3" class="headerlink" title=""></a><img src="/./process-shell/process-shell.md" alt="process-shell"></h2><h2 id="-4"><a href="#-4" class="headerlink" title=""></a><img src="/./concurrency-webserver/concurrency-webserver.md" alt="concurrency-webserver"></h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Computer-Sci/OS/xv6-labs/xv6-catalog/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -867,7 +1050,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

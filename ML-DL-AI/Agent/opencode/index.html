@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="OpenCode 全面使用指南OpenCode 是一个开源的 AI 编程代理（AI Coding Agent），提供终端 TUI、桌面应用和 IDE 扩展三种形态，支持 75+ 家 LLM 提供商和本地模型。以下指南基于官方文档（opencode.ai&#x2F;docs）整理。  一、安装推荐方式（一行脚本）： 1curl -fsSL https:&#x2F;&#x2F;opencode.ai&#x2F;install |">
+<meta property="og:type" content="article">
+<meta property="og:title" content="opencode 使用指南">
+<meta property="og:url" content="http://iloging.github.io/ML-DL-AI/Agent/opencode/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="OpenCode 全面使用指南OpenCode 是一个开源的 AI 编程代理（AI Coding Agent），提供终端 TUI、桌面应用和 IDE 扩展三种形态，支持 75+ 家 LLM 提供商和本地模型。以下指南基于官方文档（opencode.ai&#x2F;docs）整理。  一、安装推荐方式（一行脚本）： 1curl -fsSL https:&#x2F;&#x2F;opencode.ai&#x2F;install |">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-07T04:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-07T13:33:54.377Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="AI Agent">
+<meta property="article:tag" content="tool">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://iloging.github.io/ML-DL-AI/Agent/opencode/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://iloging.github.io/ML-DL-AI/Agent/opencode/","path":"ML-DL-AI/Agent/opencode/","title":"opencode 使用指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>opencode 使用指南 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OpenCode-%E5%85%A8%E9%9D%A2%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">OpenCode 全面使用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%AE%89%E8%A3%85"><span class="nav-number">1.1.</span> <span class="nav-text">一、安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B"><span class="nav-number">1.2.</span> <span class="nav-text">二、快速上手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%85%8D%E7%BD%AE%E6%A8%A1%E5%9E%8B%E6%8F%90%E4%BE%9B%E5%95%86"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 配置模型提供商</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 初始化项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%BC%80%E5%A7%8B%E5%AF%B9%E8%AF%9D"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 开始对话</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81TUI-%E7%95%8C%E9%9D%A2%E6%93%8D%E4%BD%9C"><span class="nav-number">1.3.</span> <span class="nav-text">三、TUI 界面操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E9%94%AE%E4%BD%8D%EF%BC%88%E9%BB%98%E8%AE%A4-leader-%E9%94%AE%E4%B8%BA-Ctrl-X%EF%BC%89"><span class="nav-number">1.3.1.</span> <span class="nav-text">核心键位（默认 leader 键为 Ctrl+X）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E6%96%9C%E6%9D%A0%E5%91%BD%E4%BB%A4%EF%BC%88-%E5%BC%80%E5%A4%B4%EF%BC%89"><span class="nav-number">1.3.2.</span> <span class="nav-text">内置斜杠命令（&#x2F; 开头）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%8A%80%E5%B7%A7"><span class="nav-number">1.3.3.</span> <span class="nav-text">其他技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81CLI-%E5%91%BD%E4%BB%A4%EF%BC%88%E9%9D%9E%E4%BA%A4%E4%BA%92%E5%BC%8F%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">四、CLI 命令（非交互式）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.</span> <span class="nav-text">五、配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BD%8D%E7%BD%AE%E4%B8%8E%E4%BC%98%E5%85%88%E7%BA%A7%EF%BC%88%E5%90%8E%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%A6%86%E7%9B%96%E5%85%88%E5%8A%A0%E8%BD%BD%E7%9A%84%EF%BC%89"><span class="nav-number">1.5.1.</span> <span class="nav-text">配置文件位置与优先级（后加载的覆盖先加载的）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E9%A1%B9%EF%BC%88opencode-json%EF%BC%89"><span class="nav-number">1.5.2.</span> <span class="nav-text">常用配置项（opencode.json）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%9B%BF%E6%8D%A2"><span class="nav-number">1.5.3.</span> <span class="nav-text">变量替换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%8F%90%E4%BE%9B%E5%95%86"><span class="nav-number">1.6.</span> <span class="nav-text">六、模型与提供商</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%8F%90%E4%BE%9B%E5%95%86"><span class="nav-number">1.6.1.</span> <span class="nav-text">配置提供商</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%A8%A1%E5%9E%8B%EF%BC%88OpenAI-%E5%85%BC%E5%AE%B9%E5%8D%8F%E8%AE%AE%EF%BC%89"><span class="nav-number">1.6.2.</span> <span class="nav-text">本地模型（OpenAI 兼容协议）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%8F%90%E4%BE%9B%E5%95%86%E9%80%9F%E6%9F%A5"><span class="nav-number">1.6.3.</span> <span class="nav-text">常用提供商速查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81Agents%EF%BC%88%E4%BB%A3%E7%90%86%EF%BC%89"><span class="nav-number">1.7.</span> <span class="nav-text">七、Agents（代理）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="nav-number">1.7.1.</span> <span class="nav-text">内置代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="nav-number">1.7.2.</span> <span class="nav-text">使用方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BB%A3%E7%90%86"><span class="nav-number">1.7.3.</span> <span class="nav-text">自定义代理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.8.</span> <span class="nav-text">八、权限系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E8%87%AA%E5%AE%9A%E4%B9%89%E5%91%BD%E4%BB%A4%EF%BC%88%E9%87%8D%E5%A4%8D%E4%BB%BB%E5%8A%A1%EF%BC%89"><span class="nav-number">1.9.</span> <span class="nav-text">九、自定义命令（重复任务）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E3%80%81%E5%85%B6%E4%BB%96%E9%87%8D%E8%A6%81%E5%8A%9F%E8%83%BD"><span class="nav-number">1.10.</span> <span class="nav-text">十、其他重要功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%80%9F%E6%9F%A5"><span class="nav-number">1.11.</span> <span class="nav-text">十一、环境变量速查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E5%AE%9E%E7%94%A8%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.12.</span> <span class="nav-text">十二、实用建议</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iLogIng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://iloging.github.io/ML-DL-AI/Agent/opencode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="opencode 使用指南 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          opencode 使用指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-08-07 12:00:00 / 修改时间：21:33:54" itemprop="dateCreated datePublished" datetime="2026-08-07T12:00:00+08:00">2026-08-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="OpenCode-全面使用指南"><a href="#OpenCode-全面使用指南" class="headerlink" title="OpenCode 全面使用指南"></a>OpenCode 全面使用指南</h1><p>OpenCode 是一个开源的 AI 编程代理（AI Coding Agent），提供终端 TUI、桌面应用和 IDE 扩展三种形态，支持 75+ 家 LLM 提供商和本地模型。以下指南基于官方文档（opencode.ai&#x2F;docs）整理。</p>
+<hr>
+<h2 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h2><p><strong>推荐方式（一行脚本）：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://opencode.ai/install | bash</span><br></pre></td></tr></table></figure>
+
+<p><strong>其他方式：</strong></p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>npm</td>
+<td><code>npm install -g opencode-ai</code></td>
+</tr>
+<tr>
+<td>bun</td>
+<td><code>bun install -g opencode-ai</code></td>
+</tr>
+<tr>
+<td>Homebrew</td>
+<td><code>brew install anomalyco/tap/opencode</code></td>
+</tr>
+<tr>
+<td>Arch</td>
+<td><code>sudo pacman -S opencode</code> 或 <code>paru -S opencode-bin</code></td>
+</tr>
+<tr>
+<td>Windows (Scoop)</td>
+<td><code>scoop install opencode</code></td>
+</tr>
+<tr>
+<td>Windows (Chocolatey)</td>
+<td><code>choco install opencode</code></td>
+</tr>
+<tr>
+<td>Docker</td>
+<td><code>docker run -it --rm ghcr.io/anomalyco/opencode</code></td>
+</tr>
+</tbody></table>
+<p><strong>注意：</strong> Windows 强烈建议使用 WSL；使用脚本安装时，要使用现代终端模拟器（WezTerm、Alacritty、Ghostty、Kitty 等）。</p>
+<p><strong>升级 &#x2F; 卸载：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">opencode upgrade            <span class="comment"># 升级到最新版</span></span><br><span class="line">opencode upgrade v0.1.48    <span class="comment"># 升级到指定版本</span></span><br><span class="line">opencode uninstall          <span class="comment"># 卸载（-c 保留配置，-d 保留数据）</span></span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<hr>
+<h2 id="二、快速上手"><a href="#二、快速上手" class="headerlink" title="二、快速上手"></a>二、快速上手</h2><h3 id="1-配置模型提供商"><a href="#1-配置模型提供商" class="headerlink" title="1. 配置模型提供商"></a>1. 配置模型提供商</h3><p>在 TUI 中运行 <code>/connect</code>，选择提供商并粘贴 API Key（存储在 <code>~/.local/share/opencode/auth.json</code>）。新手建议用 <strong>OpenCode Zen</strong>（官方精选模型，<code>opencode.ai/auth</code> 注册获取 Key）；已有订阅可零配置使用 ChatGPT Plus&#x2F;Pro、GitHub Copilot、GitLab Duo。</p>
+<h3 id="2-初始化项目"><a href="#2-初始化项目" class="headerlink" title="2. 初始化项目"></a>2. 初始化项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /path/to/project</span><br><span class="line">opencode</span><br><span class="line">/init    <span class="comment"># 分析项目并生成 AGENTS.md（建议提交到 Git）</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-开始对话"><a href="#3-开始对话" class="headerlink" title="3. 开始对话"></a>3. 开始对话</h3><ul>
+<li><strong>提问代码库</strong>：<code>这个项目如何处理认证？@packages/functions/src/api/index.ts</code>（用 <code>@</code> 模糊搜索引用文件，内容自动加入上下文）</li>
+<li><strong>添加功能</strong>：先按 <code>Tab</code> 切到 Plan 模式（左下角有指示器）描述需求 → 满意后再按 <code>Tab</code> 回到 Build 模式让它实现</li>
+<li><strong>撤销&#x2F;重做</strong>：<code>/undo</code>、<code>/redo</code>（依赖 Git 仓库）</li>
+<li><strong>分享会话</strong>：<code>/share</code> 生成链接复制到剪贴板</li>
+</ul>
+<hr>
+<h2 id="三、TUI-界面操作"><a href="#三、TUI-界面操作" class="headerlink" title="三、TUI 界面操作"></a>三、TUI 界面操作</h2><h3 id="核心键位（默认-leader-键为-Ctrl-X）"><a href="#核心键位（默认-leader-键为-Ctrl-X）" class="headerlink" title="核心键位（默认 leader 键为 Ctrl+X）"></a>核心键位（默认 leader 键为 <code>Ctrl+X</code>）</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>键位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>切换主代理（Build&#x2F;Plan）</td>
+<td><code>Tab</code> &#x2F; <code>Shift+Tab</code></td>
+</tr>
+<tr>
+<td>切换模型变体（推理强度）</td>
+<td><code>Ctrl+T</code></td>
+</tr>
+<tr>
+<td>新建会话</td>
+<td><code>Ctrl+X n</code></td>
+</tr>
+<tr>
+<td>会话列表</td>
+<td><code>Ctrl+X l</code></td>
+</tr>
+<tr>
+<td>撤销 &#x2F; 重做</td>
+<td><code>Ctrl+X u</code> &#x2F; <code>Ctrl+X r</code></td>
+</tr>
+<tr>
+<td>压缩上下文</td>
+<td><code>Ctrl+X c</code></td>
+</tr>
+<tr>
+<td>模型列表</td>
+<td><code>Ctrl+X m</code> &#x2F; <code>Ctrl+A</code></td>
+</tr>
+<tr>
+<td>主题列表</td>
+<td><code>Ctrl+X t</code></td>
+</tr>
+<tr>
+<td>代理列表</td>
+<td><code>Ctrl+X a</code></td>
+</tr>
+<tr>
+<td>命令面板</td>
+<td><code>Ctrl+P</code></td>
+</tr>
+<tr>
+<td>编辑器写消息</td>
+<td><code>Ctrl+X e</code></td>
+</tr>
+<tr>
+<td>导出会话</td>
+<td><code>Ctrl+X x</code></td>
+</tr>
+<tr>
+<td>退出</td>
+<td><code>Ctrl+X q</code> 或 <code>Ctrl+C</code> &#x2F; <code>Ctrl+D</code></td>
+</tr>
+<tr>
+<td>子会话导航</td>
+<td>主代理调子代理后：<code>Ctrl+X ↓</code> 进入，<code>←/→</code> 切换，<code>↑</code> 返回</td>
+</tr>
+<tr>
+<td>多行输入</td>
+<td><code>Shift+Enter</code></td>
+</tr>
+</tbody></table>
+<h3 id="内置斜杠命令（-开头）"><a href="#内置斜杠命令（-开头）" class="headerlink" title="内置斜杠命令（/ 开头）"></a>内置斜杠命令（<code>/</code> 开头）</h3><p><code>/connect</code>（连接提供商）、<code>/init</code>（生成 AGENTS.md）、<code>/compact</code>（压缩上下文）、<code>/details</code>（切换工具执行细节）、<code>/editor</code>（外部编辑器写消息）、<code>/export</code>（导出 Markdown）、<code>/help</code>、<code>/models</code>、<code>/new</code>、<code>/redo</code>、<code>/sessions</code>、<code>/share</code>、<code>/unshare</code>、<code>/themes</code>、<code>/thinking</code>（显示思考块）、<code>/undo</code>、<code>/exit</code>。</p>
+<h3 id="其他技巧"><a href="#其他技巧" class="headerlink" title="其他技巧"></a>其他技巧</h3><ul>
+<li><strong><code>!</code> 前缀执行 shell 命令</strong>：<code>!ls -la</code>，输出会作为工具结果加入对话</li>
+<li><strong>拖拽图片</strong>进终端可附加图片参考</li>
+<li><strong>命令面板</strong>（<code>Ctrl+P</code>）可切换自动批准权限、隐藏用户名等持久化设置</li>
+</ul>
+<hr>
+<h2 id="四、CLI-命令（非交互式）"><a href="#四、CLI-命令（非交互式）" class="headerlink" title="四、CLI 命令（非交互式）"></a>四、CLI 命令（非交互式）</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>opencode</code></td>
+<td>启动 TUI（<code>-c</code> 继续上次会话，<code>-s ID</code> 指定会话，<code>-m</code> 指定模型，<code>--auto</code> 自动批准权限）</td>
+</tr>
+<tr>
+<td><code>opencode run &quot;...&quot;</code></td>
+<td>非交互模式直接提问（脚本&#x2F;自动化）；<code>-f</code> 附加文件，<code>--format json</code> 输出 JSON 事件</td>
+</tr>
+<tr>
+<td><code>opencode agent create</code></td>
+<td>交互式创建自定义代理</td>
+</tr>
+<tr>
+<td><code>opencode auth login/list/logout</code></td>
+<td>管理提供商凭据</td>
+</tr>
+<tr>
+<td><code>opencode models [provider]</code></td>
+<td>列出可用模型（<code>--refresh</code> 刷新缓存，<code>--verbose</code> 显示成本）</td>
+</tr>
+<tr>
+<td><code>opencode mcp add/list/auth</code></td>
+<td>管理 MCP 服务器</td>
+</tr>
+<tr>
+<td><code>opencode session list/delete</code></td>
+<td>管理会话</td>
+</tr>
+<tr>
+<td><code>opencode stats</code></td>
+<td>Token 用量与成本统计（<code>--days</code>、<code>--tools</code>、<code>--models</code>）</td>
+</tr>
+<tr>
+<td><code>opencode export/import</code></td>
+<td>导出&#x2F;导入会话 JSON（<code>--sanitize</code> 脱敏）</td>
+</tr>
+<tr>
+<td><code>opencode serve</code> &#x2F; <code>opencode web</code></td>
+<td>无头服务器 &#x2F; Web 界面（可用 <code>OPENCODE_SERVER_PASSWORD</code> 开启基本认证）</td>
+</tr>
+<tr>
+<td><code>opencode attach &lt;url&gt;</code></td>
+<td>用 TUI 连接远程 opencode 后端</td>
+</tr>
+<tr>
+<td><code>opencode pr &lt;number&gt;</code></td>
+<td>检出 GitHub PR 分支并运行</td>
+</tr>
+<tr>
+<td><code>opencode plugin &lt;module&gt;</code></td>
+<td>安装插件</td>
+</tr>
+<tr>
+<td><code>opencode github install/run</code></td>
+<td>安装&#x2F;运行 GitHub Agent（仓库自动化）</td>
+</tr>
+<tr>
+<td><code>opencode acp</code></td>
+<td>启动 ACP（Agent Client Protocol）服务器</td>
+</tr>
+<tr>
+<td><code>opencode db path</code></td>
+<td>查看数据库路径</td>
+</tr>
+<tr>
+<td><code>opencode debug</code></td>
+<td>调试与排障工具</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、配置文件"><a href="#五、配置文件" class="headerlink" title="五、配置文件"></a>五、配置文件</h2><h3 id="配置文件位置与优先级（后加载的覆盖先加载的）"><a href="#配置文件位置与优先级（后加载的覆盖先加载的）" class="headerlink" title="配置文件位置与优先级（后加载的覆盖先加载的）"></a>配置文件位置与优先级（后加载的覆盖先加载的）</h3><ol>
+<li>远程配置（组织的 <code>.well-known/opencode</code>）</li>
+<li>全局配置 <code>~/.config/opencode/opencode.json</code></li>
+<li>自定义路径（<code>OPENCODE_CONFIG</code> 环境变量）</li>
+<li>项目配置 <code>opencode.json</code>（在项目根目录）</li>
+<li><code>.opencode/</code> 目录（agents、commands、plugins、skills 等）</li>
+<li>内联配置（<code>OPENCODE_CONFIG_CONTENT</code>）</li>
+<li>托管配置（macOS <code>/Library/Application Support/opencode/</code>、Linux <code>/etc/opencode/</code>）</li>
+</ol>
+<blockquote>
+<p>配置是<strong>合并</strong>而非替换；支持 JSON &#x2F; JSONC，schema 在 <code>opencode.ai/config.json</code>（TUI 用 <code>opencode.ai/tui.json</code>）。</p>
+</blockquote>
+<h3 id="常用配置项（opencode-json）"><a href="#常用配置项（opencode-json）" class="headerlink" title="常用配置项（opencode.json）"></a>常用配置项（opencode.json）</h3><figure class="highlight jsonc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;$schema&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://opencode.ai/config.json&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;model&quot;</span><span class="punctuation">:</span> <span class="string">&quot;anthropic/claude-sonnet-4-5&quot;</span><span class="punctuation">,</span>      <span class="comment">// 主模型 provider/model</span></span><br><span class="line">  <span class="attr">&quot;small_model&quot;</span><span class="punctuation">:</span> <span class="string">&quot;anthropic/claude-haiku-4-5&quot;</span><span class="punctuation">,</span> <span class="comment">// 轻量任务（标题生成等）</span></span><br><span class="line">  <span class="attr">&quot;default_agent&quot;</span><span class="punctuation">:</span> <span class="string">&quot;plan&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;subagent_depth&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span>                          <span class="comment">// 子代理嵌套深度</span></span><br><span class="line">  <span class="attr">&quot;autoupdate&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span>                           <span class="comment">// 自动更新，可设 &quot;notify&quot;</span></span><br><span class="line">  <span class="attr">&quot;share&quot;</span><span class="punctuation">:</span> <span class="string">&quot;manual&quot;</span><span class="punctuation">,</span>                            <span class="comment">// manual | auto | disabled</span></span><br><span class="line">  <span class="attr">&quot;snapshot&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span>                             <span class="comment">// 文件变更快照（undo 依赖）</span></span><br><span class="line">  <span class="attr">&quot;formatter&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span>                            <span class="comment">// 代码格式化</span></span><br><span class="line">  <span class="attr">&quot;lsp&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span>                                  <span class="comment">// LSP 服务器</span></span><br><span class="line">  <span class="attr">&quot;compaction&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;auto&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="attr">&quot;prune&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span> <span class="attr">&quot;reserved&quot;</span><span class="punctuation">:</span> <span class="number">10000</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;instructions&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;CONTRIBUTING.md&quot;</span><span class="punctuation">,</span> <span class="string">&quot;.cursor/rules/*.md&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;enabled_providers&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;anthropic&quot;</span><span class="punctuation">,</span> <span class="string">&quot;openai&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;disabled_providers&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;gemini&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;plugin&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;opencode-helicone-session&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;permission&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;edit&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ask&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;bash&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ask&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;provider&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;anthropic&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;options&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;baseURL&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://...&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;apiKey&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&#123;env:ANTHROPIC_API_KEY&#125;&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;timeout&quot;</span><span class="punctuation">:</span> <span class="number">600000</span> <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;server&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;port&quot;</span><span class="punctuation">:</span> <span class="number">4096</span><span class="punctuation">,</span> <span class="attr">&quot;hostname&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.0.0.0&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;shell&quot;</span><span class="punctuation">:</span> <span class="string">&quot;pwsh&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="变量替换"><a href="#变量替换" class="headerlink" title="变量替换"></a>变量替换</h3><ul>
+<li>环境变量：<code>{env:ANTHROPIC_API_KEY}</code></li>
+<li>文件内容：<code>{file:~/.secrets/openai-key}</code>、<code>{file:./prompts/build.txt}</code></li>
+</ul>
+<hr>
+<h2 id="六、模型与提供商"><a href="#六、模型与提供商" class="headerlink" title="六、模型与提供商"></a>六、模型与提供商</h2><h3 id="配置提供商"><a href="#配置提供商" class="headerlink" title="配置提供商"></a>配置提供商</h3><ol>
+<li><code>/connect</code> 选择提供商并填 Key（或设置对应环境变量，如 <code>DEEPSEEK_API_KEY</code>、<code>OPENAI_API_KEY</code>）</li>
+<li><code>/models</code> 选择模型</li>
+<li>可在配置中用 <code>blacklist</code> &#x2F; <code>whitelist</code> 过滤模型列表，用 <code>baseURL</code> 指向代理&#x2F;自建端点</li>
+</ol>
+<h3 id="本地模型（OpenAI-兼容协议）"><a href="#本地模型（OpenAI-兼容协议）" class="headerlink" title="本地模型（OpenAI 兼容协议）"></a>本地模型（OpenAI 兼容协议）</h3><p>支持 Ollama、LM Studio、llama.cpp、Atomic Chat 等：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;provider&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;ollama&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;npm&quot;</span><span class="punctuation">:</span> <span class="string">&quot;@ai-sdk/openai-compatible&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Ollama (local)&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;options&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;baseURL&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://localhost:11434/v1&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;models&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;llama2&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Llama 2&quot;</span> <span class="punctuation">&#125;</span> <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>本地小模型注意：工具调用不好用时可调大 Ollama 的 <code>num_ctx</code>（16k-32k）。</p>
+</blockquote>
+<h3 id="常用提供商速查"><a href="#常用提供商速查" class="headerlink" title="常用提供商速查"></a>常用提供商速查</h3><ul>
+<li><strong>Anthropic &#x2F; OpenAI</strong>：<code>/connect</code> 后可选订阅 OAuth 登录或手动填 API Key</li>
+<li><strong>DeepSeek &#x2F; Moonshot &#x2F; Groq &#x2F; Cerebras &#x2F; OpenRouter</strong> 等：平台申请 Key → <code>/connect</code> → <code>/models</code></li>
+<li><strong>Amazon Bedrock</strong>：支持 IAM Key、<code>AWS_PROFILE</code>、Bearer Token</li>
+<li><strong>Azure OpenAI</strong>：<code>/connect</code> 填 Key + 设置 <code>AZURE_RESOURCE_NAME</code> 环境变量</li>
+</ul>
+<hr>
+<h2 id="七、Agents（代理）"><a href="#七、Agents（代理）" class="headerlink" title="七、Agents（代理）"></a>七、Agents（代理）</h2><p>OpenCode 用不同类型的代理分工协作：</p>
+<h3 id="内置代理"><a href="#内置代理" class="headerlink" title="内置代理"></a>内置代理</h3><table>
+<thead>
+<tr>
+<th>代理</th>
+<th>类型</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>build</strong></td>
+<td>primary（默认）</td>
+<td>全工具可用，日常开发</td>
+</tr>
+<tr>
+<td><strong>plan</strong></td>
+<td>primary</td>
+<td>只读规划：编辑与 bash 默认 <code>ask</code>，分析代码不落地修改</td>
+</tr>
+<tr>
+<td><strong>general</strong></td>
+<td>subagent</td>
+<td>通用研究、多步任务，可并行执行</td>
+</tr>
+<tr>
+<td><strong>explore</strong></td>
+<td>subagent</td>
+<td>快速只读探索代码库</td>
+</tr>
+<tr>
+<td><strong>scout</strong></td>
+<td>subagent</td>
+<td>只读外部文档&#x2F;依赖源码调研</td>
+</tr>
+</tbody></table>
+<p>另有隐藏系统代理：compaction（压缩）、title（标题）、summary（摘要）。</p>
+<h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><ul>
+<li><code>Tab</code> 切换主代理；消息中 <code>@explore</code>、<code>@general</code> 等直接调用子代理</li>
+<li>子代理工作在新会话中，用 <code>←/→</code> 切换子会话、<code>↑</code> 返回主会话</li>
+</ul>
+<h3 id="自定义代理"><a href="#自定义代理" class="headerlink" title="自定义代理"></a>自定义代理</h3><p>两种方式：<code>opencode agent create</code> 交互式生成，或写 Markdown 文件（<code>.opencode/agents/</code> 或 <code>~/.config/opencode/agents/</code>）：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">description: Reviews code for quality and best practices</span><br><span class="line">mode: subagent</span><br><span class="line">model: anthropic/claude-sonnet-4-20250514</span><br><span class="line">temperature: 0.1</span><br><span class="line">permission:</span><br><span class="line">  edit: deny</span><br><span class="line"><span class="section">  bash: deny</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line">你是代码审查专家，关注安全、性能、可维护性，只提建议不修改代码。</span><br></pre></td></tr></table></figure>
+
+<p>常用选项：<code>description</code>（必填）、<code>mode</code>（primary&#x2F;subagent&#x2F;all）、<code>model</code>、<code>temperature</code>、<code>steps</code>（最大迭代步数）、<code>prompt</code>、<code>permission</code>、<code>hidden</code>、<code>color</code>、<code>top_p</code>；其余参数会直接透传给提供商（如 <code>reasoningEffort</code>）。</p>
+<hr>
+<h2 id="八、权限系统"><a href="#八、权限系统" class="headerlink" title="八、权限系统"></a>八、权限系统</h2><p>默认<strong>全部放行</strong>，可配置为 <code>allow</code> &#x2F; <code>ask</code> &#x2F; <code>deny</code>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;permission&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;*&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ask&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;bash&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;*&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ask&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;git *&quot;</span><span class="punctuation">:</span> <span class="string">&quot;allow&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;rm *&quot;</span><span class="punctuation">:</span> <span class="string">&quot;deny&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;edit&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;*&quot;</span><span class="punctuation">:</span> <span class="string">&quot;deny&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;src/**&quot;</span><span class="punctuation">:</span> <span class="string">&quot;allow&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>规则匹配</strong>：支持 <code>*</code>（任意多字符）、<code>?</code>（单字符），<strong>最后匹配的规则生效</strong>，所以通配放前面、具体规则放后面</li>
+<li><strong>关键权限键</strong>：<code>read</code>、<code>edit</code>（覆盖 edit&#x2F;write&#x2F;patch）、<code>bash</code>、<code>glob</code>、<code>grep</code>、<code>task</code>（子代理）、<code>skill</code>、<code>lsp</code>、<code>webfetch</code>、<code>websearch</code>、<code>external_directory</code>（工作目录外路径，默认 ask）、<code>doom_loop</code>（重复工具调用防护，默认 ask）</li>
+<li><strong>安全默认</strong>：<code>.env</code> 文件默认禁止读取</li>
+<li><strong>ask 弹窗选项</strong>：<code>once</code>（仅本次）&#x2F; <code>always</code>（本次会话内）+ 建议模式 &#x2F; <code>reject</code></li>
+<li><strong>自动模式</strong>：<code>opencode --auto</code> 自动批准未显式 deny 的请求</li>
+<li><strong>每代理覆盖</strong>：agent 的 <code>permission</code> 优先级高于全局配置</li>
+</ul>
+<hr>
+<h2 id="九、自定义命令（重复任务）"><a href="#九、自定义命令（重复任务）" class="headerlink" title="九、自定义命令（重复任务）"></a>九、自定义命令（重复任务）</h2><p>在 <code>.opencode/commands/</code> 或 <code>~/.config/opencode/commands/</code> 下建 <code>xxx.md</code>，文件名即命令名：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">description: Run tests with coverage</span><br><span class="line">agent: build</span><br><span class="line"><span class="section">model: anthropic/claude-3-5-sonnet-20241022</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line">Run the full test suite with coverage report and show any failures.</span><br><span class="line">Focus on the failing tests and suggest fixes.</span><br></pre></td></tr></table></figure>
+
+<p>TUI 中执行 <code>/test</code>。模板支持特殊语法：</p>
+<ul>
+<li><code>$ARGUMENTS</code>、<code>$1</code>&#x2F;<code>$2</code>…：命令行参数</li>
+<li><code>!`npm test`</code>：嵌入 shell 命令输出</li>
+<li><code>@src/components/Button.tsx</code>：引用文件</li>
+<li>自定义命令可覆盖内置命令</li>
+</ul>
+<hr>
+<h2 id="十、其他重要功能"><a href="#十、其他重要功能" class="headerlink" title="十、其他重要功能"></a>十、其他重要功能</h2><ul>
+<li><strong>Rules &#x2F; AGENTS.md</strong>：<code>/init</code> 生成，项目级规则（也可用 <code>instructions</code> 配置项引用多个规则文件）</li>
+<li><strong>MCP 服务器</strong>：<code>opencode mcp add</code> 或配置 <code>&quot;mcp&quot;: {}</code>（local&#x2F;remote 类型），<code>opencode mcp list</code> 查看状态</li>
+<li><strong>Skills</strong>：<code>.opencode/skills/</code> 定义可复用技能</li>
+<li><strong>主题</strong>：<code>/themes</code> 选择，或 <code>tui.json</code> 中 <code>&quot;theme&quot;: &quot;tokyonight&quot;</code></li>
+<li><strong>GitHub 集成</strong>：<code>opencode github install</code> 在仓库安装 GitHub Actions 工作流，支持自动化 issue&#x2F;PR</li>
+<li><strong>IDE</strong>：可安装 IDE 扩展在编辑器内使用</li>
+<li><strong>Web&#x2F;远程</strong>：<code>opencode web</code> 起 Web 界面；<code>opencode serve</code> + <code>opencode attach</code> 远程连接</li>
+<li><strong>统计</strong>：<code>opencode stats</code> 查看各项目&#x2F;模型的 token 成本</li>
+</ul>
+<hr>
+<h2 id="十一、环境变量速查"><a href="#十一、环境变量速查" class="headerlink" title="十一、环境变量速查"></a>十一、环境变量速查</h2><p>常用：<code>OPENCODE_CONFIG</code>（自定义配置路径）、<code>OPENCODE_TUI_CONFIG</code>、<code>OPENCODE_CONFIG_DIR</code>、<code>OPENCODE_SERVER_PASSWORD</code>（server 认证）、<code>OPENCODE_PERMISSION</code>（内联权限）、<code>OPENCODE_MODELS_URL</code>、<code>EDITOR</code>（&#x2F;editor、&#x2F;export 用，GUI 编辑器需带 <code>--wait</code>）。</p>
+<hr>
+<h2 id="十二、实用建议"><a href="#十二、实用建议" class="headerlink" title="十二、实用建议"></a>十二、实用建议</h2><ol>
+<li><strong>详细描述需求</strong>：像对初级同事说话一样给足上下文和示例；大任务先切 Plan 模式出方案再实现</li>
+<li><strong>善用 <code>@</code> 引用文件</strong>，避免代理猜错代码位置</li>
+<li><strong>善用子代理</strong>：<code>@explore</code> 查代码、<code>@general</code> 并行干活，保持主上下文干净</li>
+<li><strong>&#x2F;undo 依赖 Git</strong>，项目记得 <code>git init</code>；AGENTS.md 提交进仓库</li>
+<li><strong>控制成本</strong>：<code>opencode stats</code> 看用量；用 <code>small_model</code> 跑轻量任务；<code>steps</code> 限制代理迭代</li>
+<li><strong>TUI 体验</strong>：<code>tui.json</code> 可开 <code>attention</code>（通知+音效）、调滚动速度；用 <code>Ctrl+X h</code> 打开快捷键帮助</li>
+<li><strong>遇到问题</strong>：<code>opencode debug</code>、<code>--print-logs</code>、或查看 <a target="_blank" rel="noopener" href="https://opencode.ai/troubleshooting%EF%BC%9B%E7%A4%BE%E5%8C%BA%E5%9C%A8">https://opencode.ai/troubleshooting；社区在</a> Discord</li>
+</ol>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://opencode.ai/docs%EF%BC%88%E5%90%AB%E4%B8%AD%E6%96%87%E7%89%88%EF%BC%89%EF%BC%8CGitHub%EF%BC%9Ahttps://github.com/anomalyco/opencode">https://opencode.ai/docs（含中文版），GitHub：https://github.com/anomalyco/opencode</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/tool/" rel="tag"># tool</a>
+              <a href="/tags/AI-Agent/" rel="tag"># AI Agent</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/My-Projects/http-server-overview/" rel="prev" title="基于 Boost.Asio 的静态 HTTP 服务器">
+                  <i class="fa fa-angle-left"></i> 基于 Boost.Asio 的静态 HTTP 服务器
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Graphics/Games101/Lecture-13/" rel="next" title="">
+                   <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
