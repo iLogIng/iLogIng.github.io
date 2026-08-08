@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="vbDoNUyw1fTmCxqT1wYbKjPkHhe47UsNd0Xr_skRB5M">
+  <meta name="msvalidate.01" content="DC6B47CBA3456E79B5CB2BDA940BE7F8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":100,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="基于 Boost 的 HTTP 服务器：框架设计 本文是 http_server 系列的框架篇，对应总览中的”三层架构”部分展开三个核心设计决策：请求处理的解耦、并发模型的选择、缓存的分层演进 http_server">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 Boost 的 HTTP 服务器：框架设计">
+<meta property="og:url" content="https://iloging.github.io/My-Projects/http_server/http-server-frm-desng/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="基于 Boost 的 HTTP 服务器：框架设计 本文是 http_server 系列的框架篇，对应总览中的”三层架构”部分展开三个核心设计决策：请求处理的解耦、并发模型的选择、缓存的分层演进 http_server">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-08T08:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-08T10:50:00.923Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="my projects">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://iloging.github.io/My-Projects/http_server/http-server-frm-desng/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://iloging.github.io/My-Projects/http_server/http-server-frm-desng/","path":"My-Projects/http_server/http-server-frm-desng/","title":"基于 Boost 的 HTTP 服务器：框架设计"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>基于 Boost 的 HTTP 服务器：框架设计 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/7.2.0/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.2.1/firebase-app-compat.js" integrity="sha256-d21UgtIcA6c6qwr8nWk6lxs/KrpbWhknQN7qBjWA2Kk=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.2.1/firebase-firestore-compat.js" integrity="sha256-leHatffkFuVGIg7ABaA5BDsqsEUtktL4tftb3OdQfg0=" crossorigin="anonymous" defer></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":null,"projectId":null}</script>
+  <script src="/js/third-party/statistics/firestore.js" defer></script>
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-Boost-%E7%9A%84-HTTP-%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%9A%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.</span> <span class="nav-text">基于 Boost 的 HTTP 服务器：框架设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%EF%BC%9A%E4%BB%8E%E8%80%A6%E5%90%88%E5%88%B0%E8%A7%A3%E8%80%A6"><span class="nav-number">1.1.</span> <span class="nav-text">请求处理：从耦合到解耦</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%98%E6%96%B9%E7%A4%BA%E4%BE%8B%E7%9A%84%E8%80%A6%E5%90%88%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">官方示例的耦合问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E8%A7%A3%E8%80%A6%E6%96%B9%E6%A1%88%E7%9A%84%E7%81%B5%E6%B4%BB%E5%BA%A6"><span class="nav-number">1.1.2.</span> <span class="nav-text">两种解耦方案的灵活度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9E%E8%B0%83%E6%B3%A8%E5%85%A5"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">回调注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E6%8E%A5%E5%8F%A3-%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">抽象接口 + 路由表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E7%BB%93%E5%90%88"><span class="nav-number">1.1.3.</span> <span class="nav-text">项目中的结合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.1.4.</span> <span class="nav-text">最终设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#message-generator%EF%BC%9A%E8%A7%A3%E8%80%A6%E7%9A%84%E5%9F%BA%E7%9F%B3"><span class="nav-number">1.1.5.</span> <span class="nav-text">message_generator：解耦的基石</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84%E4%B8%8E%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">三层架构与并发模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E8%81%8C%E8%B4%A3%E5%88%92%E5%88%86"><span class="nav-number">1.2.1.</span> <span class="nav-text">三层职责划分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session-%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="nav-number">1.2.2.</span> <span class="nav-text">session 状态机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%8F%E8%BF%9E%E6%8E%A5-strand-%E7%9A%84%E5%86%B3%E7%AD%96"><span class="nav-number">1.2.3.</span> <span class="nav-text">每连接 strand 的决策</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%85%E6%97%B6%E4%B8%8E%E9%99%90%E6%B5%81"><span class="nav-number">1.2.4.</span> <span class="nav-text">超时与限流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E9%9B%85%E5%85%B3%E9%97%AD"><span class="nav-number">1.2.5.</span> <span class="nav-text">优雅关闭</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E8%AE%BE%E8%AE%A1%E6%BC%94%E8%BF%9B"><span class="nav-number">1.3.</span> <span class="nav-text">缓存设计演进</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B6%E6%AE%B5%E4%B8%80%EF%BC%9A%E6%97%A0%E7%BC%93"><span class="nav-number">1.3.1.</span> <span class="nav-text">阶段一：无缓</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B6%E6%AE%B5%E4%BA%8C%EF%BC%9ALRU-%E5%86%85%E5%AE%B9%E7%BC%93%E5%AD%98"><span class="nav-number">1.3.2.</span> <span class="nav-text">阶段二：LRU 内容缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B6%E6%AE%B5%E4%B8%89%EF%BC%9Ashared-ptr-%E9%9B%B6%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.3.3.</span> <span class="nav-text">阶段三：shared_ptr 零拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B6%E6%AE%B5%E5%9B%9B%EF%BC%9A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90%E7%BC%93%E5%AD%98"><span class="nav-number">1.3.4.</span> <span class="nav-text">阶段四：路径解析缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B6%E6%AE%B5%E4%BA%94%EF%BC%9ATTL-%E5%A4%B1%E6%95%88"><span class="nav-number">1.3.5.</span> <span class="nav-text">阶段五：TTL 失效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B6%E6%AE%B5%E5%85%AD%EF%BC%9Agzip-%E9%A2%84%E5%8E%8B%E7%BC%A9"><span class="nav-number">1.3.6.</span> <span class="nav-text">阶段六：gzip 预压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8C%E7%BC%93%E5%AD%98%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%98%E7%94%B1"><span class="nav-number">1.3.7.</span> <span class="nav-text">双缓存的设计缘由</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%80%BB%E7%BB%93"><span class="nav-number">1.4.</span> <span class="nav-text">设计总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%EF%BC%9A%E8%A7%A3%E8%80%A6"><span class="nav-number">1.4.1.</span> <span class="nav-text">请求处理：解耦</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%EF%BC%9Astrand-%E4%B8%8E%E9%94%81"><span class="nav-number">1.4.2.</span> <span class="nav-text">并发：strand 与锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%EF%BC%9A%E5%B1%82%E6%AC%A1%E5%8C%96%E4%B8%8E%E5%8D%95%E4%B8%80"><span class="nav-number">1.4.3.</span> <span class="nav-text">缓存：层次化与单一</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#END"><span class="nav-number">1.5.</span> <span class="nav-text">END</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="iLogIng"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description">Volador235 的博客：技术学习与个人生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnZvbGFkb3IxMjl6aEBnbWFpbC5jb20=" title="E-Mail → mailto:volador129zh@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/My-Projects/http_server/http-server-frm-desng/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="基于 Boost 的 HTTP 服务器：框架设计 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于 Boost 的 HTTP 服务器：框架设计<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmcvTVktTk9URS90cmVlL21hc3Rlci9NeS1Qcm9qZWN0cy9odHRwX3NlcnZlci9odHRwLXNlcnZlci1mcm0tZGVzbmcubWQ=" title="编辑"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-08-08 16:00:00 / 修改时间：18:50:00" itemprop="dateCreated datePublished" datetime="2026-08-08T16:00:00+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%88%91%E7%9A%84%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">我的项目</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="基于-Boost-的-HTTP-服务器：框架设计"><a href="#基于-Boost-的-HTTP-服务器：框架设计" class="headerlink" title="基于 Boost 的 HTTP 服务器：框架设计"></a>基于 Boost 的 HTTP 服务器：框架设计</h1><blockquote>
+<p>本文是 http_server 系列的框架篇，对应总览中的”三层架构”部分<br>展开三个核心设计决策：请求处理的解耦、并发模型的选择、缓存的分层演进</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmcvaHR0cF9zZXJ2ZXI=">http_server<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<span id="more"></span>
+
+<hr>
+<h2 id="请求处理：从耦合到解耦"><a href="#请求处理：从耦合到解耦" class="headerlink" title="请求处理：从耦合到解耦"></a>请求处理：从耦合到解耦</h2><h3 id="官方示例的耦合问题"><a href="#官方示例的耦合问题" class="headerlink" title="官方示例的耦合问题"></a>官方示例的耦合问题</h3><p>Beast 官方示例（<code>http/server</code>）中，请求处理逻辑直接写在 session 的回调链里：<br><code>on_read</code> 拿到解析完成的请求后，立即在连接上下文中构造响应——文件读取、响应头构造、<br>body 填充全部与 <code>stream_</code>、<code>buffer_</code>、<code>parser_</code> 这些连接私有成员写在一起。</p>
+<p>这种写法的问题在于：<em><strong>业务逻辑与连接生命周期强耦合</strong></em></p>
+<p>导致：</p>
+<ul>
+<li>新增一种业务（例如 POST 动态接口），必须修改网络层代码</li>
+<li>业务无法脱离连接独立测试</li>
+<li>连接的状态机被业务分支侵入，可读性与可维护性同时下降</li>
+</ul>
+<h3 id="两种解耦方案的灵活度"><a href="#两种解耦方案的灵活度" class="headerlink" title="两种解耦方案的灵活度"></a>两种解耦方案的灵活度</h3><blockquote>
+<p>如何让业务与连接解耦？<br>两种思路：回调注入，或抽象接口 + 路由表</p>
+</blockquote>
+<h4 id="回调注入"><a href="#回调注入" class="headerlink" title="回调注入"></a>回调注入</h4><p>业务以 lambda &#x2F; 函数指针形态直接注入处理流程，简单直接，无类型约束。</p>
+<ul>
+<li>灵活：任何可调用对象都可成为处理器</li>
+<li>代价：没有统一签名约束，处理器的入参、返回值形态各异，难组合、难替换、难测试</li>
+</ul>
+<h4 id="抽象接口-路由表"><a href="#抽象接口-路由表" class="headerlink" title="抽象接口 + 路由表"></a>抽象接口 + 路由表</h4><p>定义统一处理器签名，注册进路由表，请求经路由匹配后分发。</p>
+<ul>
+<li>约束：所有业务遵循同一签名，可注册、可替换、可统一测试</li>
+<li>代价：需要引入类型抽象与注册机制，骨架成本更高</li>
+</ul>
+<h3 id="项目中的结合"><a href="#项目中的结合" class="headerlink" title="项目中的结合"></a>项目中的结合</h3><p>本项目采取<em><strong>以抽象接口为主、回调注入为辅</strong></em>的组合：</p>
+<p>统一签名为骨架：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// includes/router.hpp</span></span><br><span class="line"><span class="keyword">using</span> Handler = std::function&lt;http::<span class="built_in">message_generator</span>(<span class="type">const</span> http::request&lt;http::string_body&gt;&amp;)&gt;;</span><br></pre></td></tr></table></figure>
+
+<p><code>Handler</code> 是 <code>std::function</code> 包装器——签名统一，作为抽象接口，<br>承载形态自由（回调注入的特征），两种方案于此处合流。</p>
+<p>回调注入体现在两处：</p>
+<ul>
+<li>默认处理器：main 中直接以 lambda 确保 404 code 的最低限度响应处理</li>
+<li>动态 API 端点：<code>handle_hello</code> &#x2F; <code>handle_echo</code> 函数指针直接注册（于<code>src/main.cpp</code>中进行的注册测试）</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/main.cpp</span></span><br><span class="line"><span class="keyword">auto</span> default_handler = [](<span class="type">const</span> <span class="keyword">auto</span>&amp; req) &#123;</span><br><span class="line">    <span class="keyword">return</span> server_utils::<span class="built_in">make_not_found</span>(req, req.<span class="built_in">target</span>());</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">auto</span> dynamic_api = std::<span class="built_in">make_shared</span>&lt;server_service::dynamic_api_service&gt;(<span class="string">&quot;/api&quot;</span>);</span><br><span class="line">dynamic_api-&gt;<span class="built_in">add_endpoint</span>(http::verb::get, <span class="string">&quot;/api/hello&quot;</span>, handle_hello);</span><br></pre></td></tr></table></figure>
+
+<h3 id="最终设计"><a href="#最终设计" class="headerlink" title="最终设计"></a>最终设计</h3><p>请求处理层由三个对象构成：</p>
+<table>
+<thead>
+<tr>
+<th align="left">对象</th>
+<th align="left">职责</th>
+<th align="left">关键成员</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>Handler</code></td>
+<td align="left">统一处理器签名</td>
+<td align="left"><code>std::function&lt;message_generator(const request&amp;)&gt;</code></td>
+</tr>
+<tr>
+<td align="left"><code>router</code></td>
+<td align="left">路由匹配</td>
+<td align="left">精确路由 <code>unordered_map</code> + 前缀路由 <code>vector</code></td>
+</tr>
+<tr>
+<td align="left"><code>request_handler</code></td>
+<td align="left">分发入口</td>
+<td align="left">共享路由表 + 默认处理器</td>
+</tr>
+</tbody></table>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// includes/request_handler.hpp</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">request_handler</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">using</span> router_ptr = std::shared_ptr&lt;router&gt;;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    router_ptr routers_;            <span class="comment">// 共享路由表</span></span><br><span class="line">    Handler default_handler_;       <span class="comment">// 默认处理器</span></span><br></pre></td></tr></table></figure>
+
+<p><code>handle_request</code> 的完整实现只需要 6 行：匹配到则调用，否则使用 404 响应</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/request_handler.cpp</span></span><br><span class="line">server_service::http::message_generator</span><br><span class="line">server_service::request_handler::</span><br><span class="line"><span class="built_in">handle_request</span>(<span class="type">const</span> http::request&lt;http::string_body&gt;&amp; req)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">auto</span> matched_handler = routers_-&gt;<span class="built_in">match</span>(req))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">matched_handler</span>(req);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">default_handler_</span>(req);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>main 中的组装关系</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/main.cpp</span></span><br><span class="line"><span class="keyword">auto</span> static_service = std::<span class="built_in">make_shared</span>&lt;server_service::static_file_service&gt;(config);</span><br><span class="line"><span class="keyword">auto</span> static_handler = static_service-&gt;<span class="built_in">as_handler</span>();</span><br><span class="line"><span class="keyword">auto</span> router = std::<span class="built_in">make_shared</span>&lt;server_service::router&gt;();</span><br><span class="line">router-&gt;<span class="built_in">add_prefix_route</span>(http::verb::get, <span class="string">&quot;/&quot;</span>, static_handler);</span><br><span class="line">router-&gt;<span class="built_in">add_prefix_route</span>(http::verb::head, <span class="string">&quot;/&quot;</span>, static_handler);</span><br></pre></td></tr></table></figure>
+
+<p>服务对象通过 <code>as_handler()</code> 转换为 <code>Handler</code> 注册进路由表；<br><code>request_handler</code> 组合路由表后注入 listener，session 只与 <code>request_handler</code> 进行交互——<br><em><strong>网络层不需要理解任何具体业务细节</strong></em>，业务层不掌握任何连接细节</p>
+<h3 id="message-generator：解耦的基石"><a href="#message-generator：解耦的基石" class="headerlink" title="message_generator：解耦的基石"></a>message_generator：解耦的基石</h3><p>解耦成立的前提是返回类型的完备性。<code>http::message_generator</code> 是 Beast 对”响应”的抽象：</p>
+<ul>
+<li>可持有立即构造的普通响应（<code>response&lt;...&gt;</code> 对象）</li>
+<li>也可持有尚未完成的异步响应（deferred，响应数据未就绪时先返回占位）</li>
+</ul>
+<p>业务层只需要”接收一个请求对象，返回一个响应生成器”，<br>响应何时写回、连接是否复用（<code>msg.keep_alive()</code>）均由网络层处理——<br><em><strong>业务层对连接一无所知，连接层对业务也一无所知</strong></em></p>
+<hr>
+<h2 id="三层架构与并发模型"><a href="#三层架构与并发模型" class="headerlink" title="三层架构与并发模型"></a>三层架构与并发模型</h2><h3 id="三层职责划分"><a href="#三层职责划分" class="headerlink" title="三层职责划分"></a>三层职责划分</h3><blockquote>
+<p>对于个人开发，架构层面应该尽量简单</p>
+</blockquote>
+<p>三层划分即”<em><strong>连接接收 &#x2F; 路由匹配与分发 &#x2F; 响应内容</strong></em>“，不再细分：</p>
+<table>
+<thead>
+<tr>
+<th align="left">层</th>
+<th align="left">模块</th>
+<th align="left">职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">网络层</td>
+<td align="left">listener &#x2F; session</td>
+<td align="left">接收连接、读写报文、超时与限流</td>
+</tr>
+<tr>
+<td align="left">处理层</td>
+<td align="left">request_handler &#x2F; router</td>
+<td align="left">请求分发与路由匹配</td>
+</tr>
+<tr>
+<td align="left">服务层</td>
+<td align="left">static_file_service &#x2F; dynamic_api_service &#x2F; cache</td>
+<td align="left">生成内容响应</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">    subgraph 网络层</span><br><span class="line">        listener[listener]</span><br><span class="line">        session[session]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph 处理层</span><br><span class="line">        request_handler[request_handler]</span><br><span class="line">        router[router]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph 服务层</span><br><span class="line">        static_service[static_file_service]</span><br><span class="line">        dynamic_api[dynamic_api_service]</span><br><span class="line">        cache[cache]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    listener --&gt;|accept| session</span><br><span class="line">    session --&gt;|async_read → 请求报文| request_handler</span><br><span class="line">    request_handler --&gt;|路由匹配| router</span><br><span class="line">    router --&gt;|分发| static_service</span><br><span class="line">    router --&gt;|分发| dynamic_api</span><br><span class="line">    static_service -.-&gt;|读缓存| cache</span><br><span class="line">    static_service --&gt;|message_generator 响应| session</span><br><span class="line">    dynamic_api --&gt;|message_generator 响应| session</span><br></pre></td></tr></table></figure>
+
+<h3 id="session-状态机"><a href="#session-状态机" class="headerlink" title="session 状态机"></a>session 状态机</h3><p>session 是网络层的核心，其生命周期是一个异步状态机：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">stateDiagram-v2</span><br><span class="line">    [*] --&gt; run: 连接建立</span><br><span class="line">    run --&gt; do_read: strand 派发</span><br><span class="line">    do_read --&gt; on_read: async_read 完成</span><br><span class="line">    on_read --&gt; send_response: 业务返回响应</span><br><span class="line">    send_response --&gt; on_write: async_write 完成</span><br><span class="line">    on_write --&gt; do_read: keep-alive</span><br><span class="line">    on_write --&gt; do_close: 非 keep-alive</span><br><span class="line">    on_read --&gt; do_close: 超时 / EOF / 解析错误</span><br><span class="line">    do_close --&gt; [*]</span><br></pre></td></tr></table></figure>
+
+<p>各状态的实现要点（src&#x2F;server.cpp）：</p>
+<ul>
+<li><strong>do_read</strong>：每次读前 <code>parser_.emplace()</code> 新建解析器——<em><strong>新实例隔离前后请求的解析状态</strong></em>，天然避免 keep-alive 下状态残留；<code>body_limit()</code> 超限时 <code>async_read</code> 直接返回 413 code</li>
+<li><strong>on_read</strong>：错误码分流——<code>end_of_stream</code> 正常关闭、<code>timeout</code> 超时关闭、其余记日志；解析成功则取出请求交给业务层</li>
+<li><strong>send_response</strong>：取 <code>msg.keep_alive()</code> 后 <code>async_write</code> 写回</li>
+<li><strong>on_write</strong>：按 keep-alive 决定回到 do_read 或 do_close</li>
+</ul>
+<h3 id="每连接-strand-的决策"><a href="#每连接-strand-的决策" class="headerlink" title="每连接 strand 的决策"></a>每连接 strand 的决策</h3><blockquote>
+<p>并发模型：单 io_context + 多线程事件循环</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/main.cpp</span></span><br><span class="line">net::io_context io&#123;<span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(config.<span class="built_in">threads</span>())&#125;;</span><br><span class="line">std::vector&lt;std::thread&gt; thrds;</span><br><span class="line">thrds.<span class="built_in">reserve</span>(config.<span class="built_in">threads</span>() - <span class="number">1</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">1</span>; i &lt; config.<span class="built_in">threads</span>(); ++i) &#123;</span><br><span class="line">    thrds.<span class="built_in">emplace_back</span>([&amp;io] &#123; io.<span class="built_in">run</span>(); &#125;);</span><br><span class="line">&#125;</span><br><span class="line">io.<span class="built_in">run</span>();</span><br></pre></td></tr></table></figure>
+
+<p>N 个线程共享一个 io_context 调用 <code>io.run()</code>，事件循环内部调度完成处理器。</p>
+<p><strong>线程间如何避免数据竞争？</strong></p>
+<p><strong>选择：每连接独立 strand</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/server.cpp</span></span><br><span class="line">acceptor_.<span class="built_in">async_accept</span>(</span><br><span class="line">    net::<span class="built_in">make_strand</span>(ioc_),          <span class="comment">// 每个新连接获得独立 strand</span></span><br><span class="line">    beast::<span class="built_in">bind_front_handler</span>(&amp;listener::on_accept, <span class="built_in">shared_from_this</span>())</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>每连接一个 strand，该连接上的所有回调（读、写、定时器）串行执行。<br>strand 内的代码无需加锁——session 的 <code>parser_</code>、<code>buffer_</code> 全程免锁，<br><em><strong>整个 session 没有一处 mutex</strong></em></p>
+<p>对于其他异步模型的选择权衡：</p>
+<ul>
+<li><strong>每连接一个线程</strong>：并发受线程数限制，线程&#x2F;栈开销随连接数线性增长</li>
+<li><strong>裸异步回调</strong>：连接间回调可能并发触碰共享状态，需要自行加锁</li>
+<li><strong>全局共享锁</strong>：锁争用成为高并发下的吞吐瓶颈，并且在项目演进中难以优化</li>
+</ul>
+<p>strand 的代价是回调无法并行执行，但是同一连接的读写天然串行，损失小，<br>换来的是会话状态零锁设计——高并发静态服务场景下是更优解</p>
+<h3 id="超时与限流"><a href="#超时与限流" class="headerlink" title="超时与限流"></a>超时与限流</h3><p><strong>超时</strong>：<code>beast::tcp_stream</code> 将套接字与超时合为一体</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/server.cpp</span></span><br><span class="line">stream_.<span class="built_in">expires_after</span>(std::chrono::<span class="built_in">seconds</span>(config_.<span class="built_in">timeout_seconds</span>()));</span><br></pre></td></tr></table></figure>
+
+<p>每次读（do_read）与写（send_response）前刷新超时，<br>超时表现为 <code>async_read</code> &#x2F; <code>async_write</code> 返回 <code>beast::error::timeout</code>，<br>on_read &#x2F; on_write 中捕获该错误码直接 <code>do_close()</code></p>
+<p><strong>限流</strong>：活跃会话原子计数 + accept 预检</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/server.cpp</span></span><br><span class="line"><span class="keyword">if</span>(session::<span class="built_in">active_sessions</span>() &gt;= config_.<span class="built_in">max_connections</span>()) &#123;</span><br><span class="line">    <span class="comment">// 拒绝：写 503 + Retry-After 后关闭，不创建 session</span></span><br><span class="line">    <span class="keyword">auto</span> stream = std::<span class="built_in">make_shared</span>&lt;beast::tcp_stream&gt;(std::<span class="built_in">move</span>(socket));</span><br><span class="line">    stream-&gt;<span class="built_in">expires_after</span>(std::chrono::<span class="built_in">seconds</span>(<span class="number">5</span>));</span><br><span class="line">    http::<span class="built_in">async_write</span>(*stream,</span><br><span class="line">        server_utils::<span class="built_in">make_service_unavailable</span>(<span class="number">11</span>, <span class="literal">false</span>, <span class="string">&quot;Too Many Connections&quot;</span>),</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
+
+<p>数据处理流程：accept 成功 -&gt; 原子计数预检 -&gt; 超限则用临时 tcp_stream 异步写 503 code，<br>（含 <code>Retry-After</code> 头）后 shutdown；未超限制再创建 session 会话<br>拒绝路径不进入业务层，限流开销仅为一次计数比较</p>
+<h3 id="优雅关闭"><a href="#优雅关闭" class="headerlink" title="优雅关闭"></a>优雅关闭</h3><blockquote>
+<p><code>graceful_shutdown</code>模块</p>
+</blockquote>
+<p>信号捕获 + 双定时器（graceful_shutdown 模块）：</p>
+<ol>
+<li><code>signals_(ioc, SIGINT, SIGTERM)</code> 捕获信号</li>
+<li><code>listener-&gt;stop()</code>：关闭 acceptor，不再接受新连接</li>
+<li><code>check_timer_</code> 每 1s 轮询活跃会话数，清零则关闭完成</li>
+<li><code>force_timer_</code> 30s 限时：超时强制 <code>io.stop()</code></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/graceful_shutdown.cpp</span></span><br><span class="line">signals_.<span class="built_in">async_wait</span>(</span><br><span class="line">    [<span class="keyword">this</span>](<span class="type">const</span> boost::system::error_code&amp; ec, <span class="type">int</span> signal_number) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">on_signal</span>(ec, signal_number);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在途请求有机会完成，未完成的请求被强制终止，服务以确定的状态退出，确保了进程状态安全</p>
+<hr>
+<h2 id="缓存设计演进"><a href="#缓存设计演进" class="headerlink" title="缓存设计演进"></a>缓存设计演进</h2><blockquote>
+<p>缓存并非是一次性设计出来的，而是随项目同步演进</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">    subgraph 请求路径</span><br><span class="line">        req[请求 target]</span><br><span class="line">        path_cache[路径解析缓存&lt;br/&gt;map + shared_mutex&lt;br/&gt;4096 上限]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph 内容缓存</span><br><span class="line">        lru[LRU 内容缓存&lt;br/&gt;lru_cache 泛型&lt;br/&gt;cached_file 条目]</span><br><span class="line">        gzip[gzip 预压缩版本&lt;br/&gt;cached_file.compressed]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph 响应构造</span><br><span class="line">        body[shared_string_body&lt;br/&gt;零拷贝 writer]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    req --&gt;|路径解析/校验| path_cache</span><br><span class="line">    path_cache --&gt;|full_path| lru</span><br><span class="line">    lru --&gt;|content + ETag/Last-Modified| body</span><br><span class="line">    lru --&gt;|compressed| gzip</span><br><span class="line">    gzip --&gt;|按 Accept-Encoding 选择| body</span><br></pre></td></tr></table></figure>
+
+<h3 id="阶段一：无缓"><a href="#阶段一：无缓" class="headerlink" title="阶段一：无缓"></a>阶段一：无缓</h3><p>每请求 open + stat + read 三次系统调用，重复读盘、重复系统调用。<br>warm 路径的系统调用成为明显热点，影响了报文处理效率，是当时最大性能短板，影响处理效能</p>
+<h3 id="阶段二：LRU-内容缓存"><a href="#阶段二：LRU-内容缓存" class="headerlink" title="阶段二：LRU 内容缓存"></a>阶段二：LRU 内容缓存</h3><p>引入泛型 <code>lru_cache</code> 模板：<code>std::list</code> 维护访问顺序 + <code>unordered_map</code> 建立 key 到迭代器的索引，<br>命中时 <code>splice</code> 到队首，容量满时驱逐队尾。线程安全由内部 mutex 保证。</p>
+<p>该阶段的缓存进化为记录完整文件内容 + 元数据（ETag &#x2F; Last-Modified）</p>
+<h3 id="阶段三：shared-ptr-零拷贝"><a href="#阶段三：shared-ptr-零拷贝" class="headerlink" title="阶段三：shared_ptr 零拷贝"></a>阶段三：shared_ptr 零拷贝</h3><p>缓存的下一层问题：<strong>值拷贝</strong> 问题。每次命中把字符串复制进响应体，大文件成本显著。（拷贝 <code>std::string</code> 对象）</p>
+<p><code>cached_file</code> 改进为持有 <code>std::shared_ptr&lt;const std::string&gt;</code>，<br>并自定义 Beast Body 类型 <code>shared_string_body</code>——writer 直接指向缓存数据，<br><em><strong>响应写出零拷贝，body 数据与缓存共享一份内存</strong></em>，只需要进行<code>std::shared_ptr&lt;&gt;</code>的引用计数增加</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// includes/static_file_service.hpp</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">cached_file</span></span><br><span class="line">&#123;</span><br><span class="line">    std::shared_ptr&lt;<span class="type">const</span> std::string&gt; content;</span><br><span class="line">    std::string etag;</span><br><span class="line">    std::string last_modified;</span><br><span class="line">    std::<span class="type">time_t</span> last_modified_time = <span class="number">0</span>;</span><br><span class="line">    std::chrono::steady_clock::time_point expires_at;</span><br><span class="line">    std::shared_ptr&lt;<span class="type">const</span> std::string&gt; compressed;   <span class="comment">// gzip 预压缩版本</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="阶段四：路径解析缓存"><a href="#阶段四：路径解析缓存" class="headerlink" title="阶段四：路径解析缓存"></a>阶段四：路径解析缓存</h3><p>内容缓存解决读盘，路径解析的<strong>系统调用</strong>仍是热点：<br>路径拼接、合法性检查、<code>weakly_canonical</code> 规范化、目录存在性检查。</p>
+<p>引入独立的路径解析缓存：<code>std::map</code> + 透明比较器实现 <code>string_view</code> 异构查找<br>（免构造临时 key，由于项目设定为C++17所以没有使用<code>std::unoredered_map</code>的透明比较器实现），<br><code>shared_mutex</code> 支持并发读取——读多写少场景比互斥锁吞吐更高，减少了读竞争，<br>容量上限 4096 防止无限增长</p>
+<h3 id="阶段五：TTL-失效"><a href="#阶段五：TTL-失效" class="headerlink" title="阶段五：TTL 失效"></a>阶段五：TTL 失效</h3><p>缓存内容过期问题：文件在服务器运行期间可能被修改，缓存会返回旧内容。</p>
+<p>选择 TTL 缓冲失效：<code>cache_ttl_seconds</code> 配置 + 条目 <code>expires_at</code> 时间戳，命中时校验过期则驱逐重读。<br>未采用 inotify 主动失效——文件监听复杂度较高与 30s 内旧内容的可接受度相比，得不偿失，<br>但是，如果提高缓存驻留时间，该设计需要再次权衡是否进行重构</p>
+<h3 id="阶段六：gzip-预压缩"><a href="#阶段六：gzip-预压缩" class="headerlink" title="阶段六：gzip 预压缩"></a>阶段六：gzip 预压缩</h3><p>压缩是 CPU 密集操作，若每个请求实时压缩，高并发下 CPU 成为瓶颈。</p>
+<p>预压缩设计：读盘时按 MIME 类型判断是否可压缩文本，压缩一次存入 <code>compressed</code> 同时存入缓存，<br>协商从”压缩”变成”选择”——按 Accept-Encoding 挑选已有的缓存版本，减少了后续文件的压缩消耗</p>
+<h3 id="双缓存的设计缘由"><a href="#双缓存的设计缘由" class="headerlink" title="双缓存的设计缘由"></a>双缓存的设计缘由</h3><p><strong>为什么路径缓存与内容缓存分开？</strong></p>
+<p><strong>两者对象特征不同：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">对比项</th>
+<th align="left">路径缓存</th>
+<th align="left">内容缓存</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">对象大小</td>
+<td align="left">小（路径字符串）</td>
+<td align="left">大（文件内容）</td>
+</tr>
+<tr>
+<td align="left">访问频率</td>
+<td align="left">高频（每请求必查）</td>
+<td align="left">随内容命中率</td>
+</tr>
+<tr>
+<td align="left">锁策略</td>
+<td align="left">shared_mutex（读多写少）</td>
+<td align="left">mutex（读写竞争）</td>
+</tr>
+<tr>
+<td align="left">容量</td>
+<td align="left">4096 固定上限</td>
+<td align="left">配置项 max_cache_entries</td>
+</tr>
+</tbody></table>
+<p>对象大小与访问频率不同，锁策略与容量策略也不同——分层是更自然合理的取舍</p>
+<hr>
+<h2 id="设计总结"><a href="#设计总结" class="headerlink" title="设计总结"></a>设计总结</h2><h3 id="请求处理：解耦"><a href="#请求处理：解耦" class="headerlink" title="请求处理：解耦"></a>请求处理：解耦</h3><table>
+<thead>
+<tr>
+<th align="left">对比项</th>
+<th align="left">抽象接口 + 路由表</th>
+<th align="left">回调注入</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">签名约束</td>
+<td align="left">统一 Handler</td>
+<td align="left">无约束</td>
+</tr>
+<tr>
+<td align="left">组合性</td>
+<td align="left">可注册、可替换</td>
+<td align="left">散落各处</td>
+</tr>
+<tr>
+<td align="left">测试性</td>
+<td align="left">可独立测试</td>
+<td align="left">依赖宿主</td>
+</tr>
+<tr>
+<td align="left">项目定位</td>
+<td align="left">骨架</td>
+<td align="left">默认处理器、API 端点</td>
+</tr>
+</tbody></table>
+<h3 id="并发：strand-与锁"><a href="#并发：strand-与锁" class="headerlink" title="并发：strand 与锁"></a>并发：strand 与锁</h3><table>
+<thead>
+<tr>
+<th align="left">对比项</th>
+<th align="left">每连接 strand</th>
+<th align="left">全局加锁</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">会话内状态</td>
+<td align="left">免锁（串行回调）</td>
+<td align="left">需锁保护</td>
+</tr>
+<tr>
+<td align="left">锁争用</td>
+<td align="left">无</td>
+<td align="left">高并发下明显</td>
+</tr>
+<tr>
+<td align="left">代价</td>
+<td align="left">同连接回调串行</td>
+<td align="left">锁粒度控制复杂</td>
+</tr>
+</tbody></table>
+<h3 id="缓存：层次化与单一"><a href="#缓存：层次化与单一" class="headerlink" title="缓存：层次化与单一"></a>缓存：层次化与单一</h3><table>
+<thead>
+<tr>
+<th align="left">对比项</th>
+<th align="left">层次化缓存</th>
+<th align="left">单一缓存</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">对象特征</td>
+<td align="left">按大小&#x2F;频率分层</td>
+<td align="left">一刀切</td>
+</tr>
+<tr>
+<td align="left">锁策略</td>
+<td align="left">各自适配</td>
+<td align="left">全局统一</td>
+</tr>
+<tr>
+<td align="left">复杂度</td>
+<td align="left">略高</td>
+<td align="left">低</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>iLogIng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://iloging.github.io/My-Projects/http_server/http-server-frm-desng/" title="基于 Boost 的 HTTP 服务器：框架设计">https://iloging.github.io/My-Projects/http_server/http-server-frm-desng/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC8="><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/my-projects/" rel="tag"># my projects</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/ML-DL-AI/Agent/opencode/" rel="prev" title="opencode 使用指南">
+                  <i class="fa fa-angle-left"></i> opencode 使用指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/My-Projects/http_server/http-server-protocol/" rel="next" title="基于 Boost 的 HTTP 服务器：HTTP 协议细节">
+                  基于 Boost 的 HTTP 服务器：HTTP 协议细节 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2025 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></span>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"iLogIng/blog-comments","issue_term":"pathname","theme":"preferred-color-scheme"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>

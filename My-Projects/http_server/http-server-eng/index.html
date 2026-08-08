@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="vbDoNUyw1fTmCxqT1wYbKjPkHhe47UsNd0Xr_skRB5M">
+  <meta name="msvalidate.01" content="DC6B47CBA3456E79B5CB2BDA940BE7F8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":100,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="基于 Boost 的 HTTP 服务器：项目工程化 测试、CI、容器、部署——工程化的目的就是可重复的验证 改动可重复验证、构建可重复验证、部署可复现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 Boost 的 HTTP 服务器：项目工程化">
+<meta property="og:url" content="https://iloging.github.io/My-Projects/http_server/http-server-eng/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="基于 Boost 的 HTTP 服务器：项目工程化 测试、CI、容器、部署——工程化的目的就是可重复的验证 改动可重复验证、构建可重复验证、部署可复现">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-08T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-08T10:46:30.468Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="my projects">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://iloging.github.io/My-Projects/http_server/http-server-eng/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://iloging.github.io/My-Projects/http_server/http-server-eng/","path":"My-Projects/http_server/http-server-eng/","title":"基于 Boost 的 HTTP 服务器：项目工程化"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>基于 Boost 的 HTTP 服务器：项目工程化 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/7.2.0/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.2.1/firebase-app-compat.js" integrity="sha256-d21UgtIcA6c6qwr8nWk6lxs/KrpbWhknQN7qBjWA2Kk=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.2.1/firebase-firestore-compat.js" integrity="sha256-leHatffkFuVGIg7ABaA5BDsqsEUtktL4tftb3OdQfg0=" crossorigin="anonymous" defer></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":null,"projectId":null}</script>
+  <script src="/js/third-party/statistics/firestore.js" defer></script>
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-Boost-%E7%9A%84-HTTP-%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%9A%E9%A1%B9%E7%9B%AE%E5%B7%A5%E7%A8%8B%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">基于 Boost 的 HTTP 服务器：项目工程化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#140-%E4%B8%AA%E6%B5%8B%E8%AF%95%E7%9A%84%E4%BD%93%E7%B3%BB"><span class="nav-number">1.1.</span> <span class="nav-text">140 个测试的体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B1%82%E8%AE%BE%E8%AE%A1%EF%BC%9A%E5%8D%95%E5%85%83-%E9%9B%86%E6%88%90"><span class="nav-number">1.1.1.</span> <span class="nav-text">分层设计：单元 + 集成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMake-%E7%BB%84%E7%BB%87%E4%B8%8E%E8%87%AA%E5%8A%A8%E5%8C%96"><span class="nav-number">1.1.2.</span> <span class="nav-text">CMake 组织与自动化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E6%88%90%E6%B5%8B%E8%AF%95%EF%BC%9Afork-%E7%9C%9F%E5%AE%9E%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.1.3.</span> <span class="nav-text">集成测试：fork 真实服务器进程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E7%A8%8B%E7%BB%86%E8%8A%82"><span class="nav-number">1.2.</span> <span class="nav-text">工程细节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A%E9%98%B2%E6%8A%A4%EF%BC%9A%E5%8F%8C%E9%87%8D%E6%A0%A1%E9%AA%8C"><span class="nav-number">1.2.1.</span> <span class="nav-text">路径穿越防护：双重校验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CI-%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="nav-number">1.2.2.</span> <span class="nav-text">CI 流水线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-%E5%A4%9A%E9%98%B6%E6%AE%B5%E6%9E%84%E5%BB%BA"><span class="nav-number">1.2.3.</span> <span class="nav-text">Docker 多阶段构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E7%BD%91%E9%AA%8C%E8%AF%81%EF%BC%9A%E5%8D%8F%E8%AE%AE%E4%B8%8E%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.4.</span> <span class="nav-text">公网验证：协议与网络环境问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SELinux-%E5%B9%B3%E5%8F%B0%E9%80%82%E9%85%8D"><span class="nav-number">1.2.5.</span> <span class="nav-text">SELinux 平台适配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#END"><span class="nav-number">1.4.</span> <span class="nav-text">END</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="iLogIng"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description">Volador235 的博客：技术学习与个人生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnZvbGFkb3IxMjl6aEBnbWFpbC5jb20=" title="E-Mail → mailto:volador129zh@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/My-Projects/http_server/http-server-eng/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="基于 Boost 的 HTTP 服务器：项目工程化 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于 Boost 的 HTTP 服务器：项目工程化<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmcvTVktTk9URS90cmVlL21hc3Rlci9NeS1Qcm9qZWN0cy9odHRwX3NlcnZlci9odHRwLXNlcnZlci1lbmcubWQ=" title="编辑"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-08-08 18:00:00 / 修改时间：18:46:30" itemprop="dateCreated datePublished" datetime="2026-08-08T18:00:00+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%88%91%E7%9A%84%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">我的项目</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="基于-Boost-的-HTTP-服务器：项目工程化"><a href="#基于-Boost-的-HTTP-服务器：项目工程化" class="headerlink" title="基于 Boost 的 HTTP 服务器：项目工程化"></a>基于 Boost 的 HTTP 服务器：项目工程化</h1><blockquote>
+<p>测试、CI、容器、部署——工程化的目的就是<em><strong>可重复的验证</strong></em></p>
+<p>改动可重复验证、构建可重复验证、部署可复现</p>
+</blockquote>
+<span id="more"></span>
+
+<hr>
+<h2 id="140-个测试的体系"><a href="#140-个测试的体系" class="headerlink" title="140 个测试的体系"></a>140 个测试的体系</h2><h3 id="分层设计：单元-集成"><a href="#分层设计：单元-集成" class="headerlink" title="分层设计：单元 + 集成"></a>分层设计：单元 + 集成</h3><blockquote>
+<p>测试分几层？为什么不能只有一个测试文件？</p>
+</blockquote>
+<p>测试分两层，动机各不相同：</p>
+<table>
+<thead>
+<tr>
+<th align="left">层</th>
+<th align="left">目标</th>
+<th align="left">覆盖</th>
+<th align="left">定位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">单元</td>
+<td align="left">logger &#x2F; utils &#x2F; router &#x2F; config &#x2F; dynamic_api</td>
+<td align="left">模块逻辑</td>
+<td align="left">逻辑对错</td>
+</tr>
+<tr>
+<td align="left">集成</td>
+<td align="left">test_integration</td>
+<td align="left">系统行为</td>
+<td align="left">端到端正确</td>
+</tr>
+</tbody></table>
+<p><strong>单元测试</strong>：编译期直接链接模块源码，不经过网络——<br>utils 的 Range 解析、ETag 弱比较、router 的精确&#x2F;前缀匹配、<br>config 的三级优先级、dynamic_api 的 Allow 头构造，均可单测断言。<br>优点：快、准、可隔离——失败即定位到模块</p>
+<p><strong>集成测试</strong>：真实进程端到端——真实网络栈、真实线程模型、真实报文读写。<br>“用客户端的眼睛验证服务器”</p>
+<h3 id="CMake-组织与自动化"><a href="#CMake-组织与自动化" class="headerlink" title="CMake 组织与自动化"></a>CMake 组织与自动化</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test/CMakeLists.txt</span></span><br><span class="line"><span class="keyword">add_executable</span>(test_integration test_integration.cpp)</span><br><span class="line"><span class="keyword">target_compile_definitions</span>(test_integration PRIVATE</span><br><span class="line">    SERVER_BINARY=<span class="string">&quot;$&#123;CMAKE_BINARY_DIR&#125;/src/http_server&quot;</span></span><br><span class="line">    DOC_ROOT=<span class="string">&quot;$&#123;PROJECT_SOURCE_DIR&#125;/app&quot;</span></span><br><span class="line">)</span><br><span class="line">...</span><br><span class="line"><span class="keyword">include</span>(GoogleTest)</span><br><span class="line">gtest_discover_tests(test_integration)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>gtest_discover_tests</code> 自动发现用例并注册到 ctest</li>
+<li><code>SERVER_BINARY</code> &#x2F; <code>DOC_ROOT</code> 编译定义注入——测试不硬编码路径，跨环境可用</li>
+<li><code>project_warnings</code> &#x2F; <code>project_defs</code> 与主程序共享编译纪律</li>
+</ul>
+<h3 id="集成测试：fork-真实服务器进程"><a href="#集成测试：fork-真实服务器进程" class="headerlink" title="集成测试：fork 真实服务器进程"></a>集成测试：fork 真实服务器进程</h3><blockquote>
+<p>测试怎么启动服务器？——不能进程内调用，要 fork 真实进程</p>
+</blockquote>
+<p><code>SetUpTestSuite</code> 中 fork + execl 拉起真实服务器：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test/test_integration.cpp</span></span><br><span class="line">server_pid_ = fork();</span><br><span class="line"><span class="keyword">if</span> (server_pid_ == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">execl</span>(bin_path.<span class="built_in">c_str</span>(), bin_path.<span class="built_in">c_str</span>(),</span><br><span class="line">          <span class="string">&quot;--port&quot;</span>, port_str.<span class="built_in">c_str</span>(),          <span class="comment">// TEST_PORT = 19876</span></span><br><span class="line">          <span class="string">&quot;--doc_root&quot;</span>, doc_root_str.<span class="built_in">c_str</span>(),</span><br><span class="line">          <span class="string">&quot;--threads&quot;</span>, <span class="string">&quot;2&quot;</span>,</span><br><span class="line">          <span class="string">&quot;--timeout_seconds&quot;</span>, <span class="string">&quot;10&quot;</span>,</span><br><span class="line">          <span class="string">&quot;--cache_ttl_seconds&quot;</span>, <span class="string">&quot;1&quot;</span>,</span><br><span class="line">          <span class="built_in">static_cast</span>&lt;<span class="type">char</span>*&gt;(<span class="literal">nullptr</span>));</span><br><span class="line">    _exit(<span class="number">127</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>三个关键设计：</p>
+<ul>
+<li><strong>就绪探测</strong>：fork 是异步的，服务器监听就绪前无法连接——<br><code>try_connect</code> 轮询（50 次 * 100ms）等待就绪，避免竞态</li>
+<li><strong>测试专用配置</strong>：独立端口 19876、TTL 1s——测试不被默认配置绑死，<br>也能覆盖”缓存过期”这类时序场景</li>
+<li><strong>收尾即验证</strong>：<code>TearDownTestSuite</code> 发 <code>SIGTERM</code>——服务器走优雅关闭路径<br>退出（未正常退出则兜底 <code>SIGKILL</code> + <code>waitpid</code>）。<em>收尾本身就在验证优雅关闭</em></li>
+</ul>
+<p><strong>为什么 fork 而不是进程内调用</strong>：进程内调用会共享地址空间——<br>测试与服务器同进程，无法覆盖并发、套接字、解析器在真实线程模型下的行为。<br>fork 真实进程，测试即是独立客户端</p>
+<p><strong>测试即文档</strong>：304 条件请求、206 Range、gzip 协商、405&#x2F;OPTIONS、<br>HEAD 无 body——协议篇讲的每个语义，集成测试里都有用例落点</p>
+<hr>
+<h2 id="工程细节"><a href="#工程细节" class="headerlink" title="工程细节"></a>工程细节</h2><h3 id="路径穿越防护：双重校验"><a href="#路径穿越防护：双重校验" class="headerlink" title="路径穿越防护：双重校验"></a>路径穿越防护：双重校验</h3><blockquote>
+<p>请求 <code>GET /../../etc/passwd</code> 会发生什么？</p>
+</blockquote>
+<p>第一重：轻量检查（utils.cpp）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils.cpp</span></span><br><span class="line"><span class="built_in">is_safe_path</span>(beast::string_view path)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(path.<span class="built_in">empty</span>() ||</span><br><span class="line">       path[<span class="number">0</span>] != <span class="string">&#x27;/&#x27;</span> ||</span><br><span class="line">       path.<span class="built_in">find</span>(<span class="string">&quot;..&quot;</span>) != beast::string_view::npos)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非空、<code>/</code> 开头、不含 <code>..</code>——零系统调用，挡住绝大部分恶意输入。<br>该检查与路径解析缓存协同：恶意请求在缓存命中路径即被拒绝</p>
+<p>第二重：<code>weakly_canonical</code> 规范化后的保障（utils.cpp）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils.cpp</span></span><br><span class="line">normalized_full_path = fs::<span class="built_in">weakly_canonical</span>(full_path);</span><br></pre></td></tr></table></figure>
+
+<p>符号链接、<code>/a/./b</code> 这类路径别名在规范化后现形——<br>校验规范化结果仍在 doc_root 内，语义级绕过被拦截</p>
+<p><strong>为什么双重</strong>：轻量检查挡 99% 恶意输入（快速路径、零开销），保证了速度与正确性</p>
+<h3 id="CI-流水线"><a href="#CI-流水线" class="headerlink" title="CI 流水线"></a>CI 流水线</h3><p>GitHub Actions，双构建矩阵：</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">触发</td>
+<td align="left">push &#x2F; PR main + 手动 <code>workflow_dispatch</code></td>
+</tr>
+<tr>
+<td align="left">产物</td>
+<td align="left">Debug &#x2F; Release * g++，<code>fail-fast: false</code></td>
+</tr>
+<tr>
+<td align="left">环境</td>
+<td align="left">ubuntu-24.04</td>
+</tr>
+</tbody></table>
+<p>设计要点：</p>
+<ul>
+<li><strong><code>fail-fast: false</code></strong>：两种构建配置都必须出结果——Debug 挂掉不影响 Release 结论</li>
+<li><strong>GTest 源码编译安装</strong>：Ubuntu 的 libgtest-dev 仅含源码，需先 cmake 构建安装，<br><code>find_package(GTest CONFIG)</code> 才能找到</li>
+<li><strong>ccache 缓存</strong>：按 build_type + sha 作 key，命中跳过重编译</li>
+<li><strong>防 OOM</strong>：<code>CMAKE_BUILD_PARALLEL_LEVEL=2</code>——Actions 环境内存有限，<br>并行编译数不设限会内存耗尽</li>
+<li><strong>ctest 自动发现</strong>：<code>gtest_discover_tests</code> 注册的用例一键启动</li>
+</ul>
+<h3 id="Docker-多阶段构建"><a href="#Docker-多阶段构建" class="headerlink" title="Docker 多阶段构建"></a>Docker 多阶段构建</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构建阶段：编译依赖 + Release 构建</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">24.04</span> AS builder</span><br><span class="line">...</span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; cmake --build . --parallel $(<span class="built_in">nproc</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行阶段：仅运行时库</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">24.04</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> --from=builder /src/build/src/http_server /usr/local/bin/http_server</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> useradd -m -s /bin/bash http_server_user \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">chown</span> -R http_server_user:http_server_user /srv</span></span><br><span class="line"><span class="keyword">USER</span> http_server_user</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>镜像约 <strong>99MB</strong>（运行阶段只装运行时库，编译工具不进镜像）</li>
+<li><strong>非 root 用户</strong>运行——容器逃逸风险收窄</li>
+<li><code>APT_MIRROR</code> 构建参数——国内网络可切清华源，绕过不稳定代理</li>
+</ul>
+<h3 id="公网验证：协议与网络环境问题"><a href="#公网验证：协议与网络环境问题" class="headerlink" title="公网验证：协议与网络环境问题"></a>公网验证：协议与网络环境问题</h3><blockquote>
+<p>本地 curl 正常，公网验证暴露的是环境问题</p>
+</blockquote>
+<p>用 cloudflared 临时隧道将本机容器暴露为公网 HTTPS URL，<br>实测（移动宽带 + IPv4 edge）：根路径 200、404 透传、连续 10 次全 200、100 并发全 200</p>
+<p>两个排查经验：</p>
+<ul>
+<li><strong>530（边缘连不上隧道）</strong>：运营商拦截 cloudflared 的 7844 端口&#x2F;IPv6——<br>加 <code>--edge-ip-version 4 --protocol http2</code> 强制 IPv4 + TCP 443 绕过</li>
+<li><strong>502（隧道通但够不到服务）</strong>：origin 写 <code>localhost</code> 被解析成 <code>::1</code>，<br>容器只监听 IPv4——显式写 <code>http://127.0.0.1:8080</code></li>
+</ul>
+<blockquote>
+<p>这两个问题都是协议&#x2F;网络环境问题，不是服务器代码问题——<br>但只有真实公网验证才会暴露</p>
+</blockquote>
+<h3 id="SELinux-平台适配"><a href="#SELinux-平台适配" class="headerlink" title="SELinux 平台适配"></a>SELinux 平台适配</h3><p>开发平台 Fedora 默认 SELinux enforcing，容器运行需正确的容器标签适配</p>
+<hr>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>工程化的闭环：<em><strong>改动 -&gt; 140 测试 -&gt; 双配置矩阵 -&gt; 容器镜像 -&gt; 公网实测</strong></em></p>
+<p>每一环都是可重复的验证：测试可重复（<code>ctest</code>）、构建可重复（CI workflow）、<br>部署可复现（多阶段镜像 + 实测记录）。<br>工程化的价值不仅仅在于工具本身，而在于任何一次改动都能走完这条链，结论不依赖”当时的手感”，<br>而是一套可测试，能复现的项目流程</p>
+<hr>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>iLogIng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://iloging.github.io/My-Projects/http_server/http-server-eng/" title="基于 Boost 的 HTTP 服务器：项目工程化">https://iloging.github.io/My-Projects/http_server/http-server-eng/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC8="><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/my-projects/" rel="tag"># my projects</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/My-Projects/http_server/http-server-protocol/" rel="prev" title="基于 Boost 的 HTTP 服务器：HTTP 协议细节">
+                  <i class="fa fa-angle-left"></i> 基于 Boost 的 HTTP 服务器：HTTP 协议细节
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/My-Projects/http_server/http-server-perf/" rel="next" title="基于 Boost 的 HTTP 服务器：性能方法论">
+                  基于 Boost 的 HTTP 服务器：性能方法论 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2025 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></span>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"iLogIng/blog-comments","issue_term":"pathname","theme":"preferred-color-scheme"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>

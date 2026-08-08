@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="vbDoNUyw1fTmCxqT1wYbKjPkHhe47UsNd0Xr_skRB5M">
+  <meta name="msvalidate.01" content="DC6B47CBA3456E79B5CB2BDA940BE7F8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":100,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="基于 Boost 的静态 HTTP 服务器 本文介绍了如何借助C++Boost库设计并开发一个简单 静态HTTP服务器 http_server">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 Boost 的静态 HTTP 服务器">
+<meta property="og:url" content="https://iloging.github.io/My-Projects/http_server/http-server-overview/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="基于 Boost 的静态 HTTP 服务器 本文介绍了如何借助C++Boost库设计并开发一个简单 静态HTTP服务器 http_server">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-06T14:45:07.000Z">
+<meta property="article:modified_time" content="2026-08-08T10:51:48.908Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="my projects">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://iloging.github.io/My-Projects/http_server/http-server-overview/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://iloging.github.io/My-Projects/http_server/http-server-overview/","path":"My-Projects/http_server/http-server-overview/","title":"基于 Boost 的静态 HTTP 服务器"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>基于 Boost 的静态 HTTP 服务器 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/7.2.0/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.2.1/firebase-app-compat.js" integrity="sha256-d21UgtIcA6c6qwr8nWk6lxs/KrpbWhknQN7qBjWA2Kk=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.2.1/firebase-firestore-compat.js" integrity="sha256-leHatffkFuVGIg7ABaA5BDsqsEUtktL4tftb3OdQfg0=" crossorigin="anonymous" defer></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":null,"projectId":null}</script>
+  <script src="/js/third-party/statistics/firestore.js" defer></script>
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-Boost-%E7%9A%84%E9%9D%99%E6%80%81-HTTP-%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">基于 Boost 的静态 HTTP 服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">项目概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-Boost-%E4%BD%9C%E4%B8%BA%E4%BE%9D%E8%B5%96%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">为什么使用 Boost 作为依赖？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E6%80%BB%E8%A7%88"><span class="nav-number">1.2.1.</span> <span class="nav-text">技术选型总览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E4%BD%BF%E7%94%A8Go%E8%AF%AD%E8%A8%80%EF%BC%8CDragon%E3%80%81Nodejs%E6%A1%86%E6%9E%B6%E7%AD%89%E5%BB%BA%E7%AB%8B%E5%9C%A8%E6%9B%B4%E6%88%90%E7%86%9F%E7%94%9F%E6%80%81%E4%B9%8B%E4%B8%8A%E7%9A%84%E6%8A%80%E6%9C%AF%E6%A0%88%EF%BC%9F"><span class="nav-number">1.2.2.</span> <span class="nav-text">为什么不使用Go语言，Dragon、Nodejs框架等建立在更成熟生态之上的技术栈？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%8E%B0%E6%88%90%E7%9A%84Nginx%E4%B8%BA%E9%A6%96%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AF%E4%BB%B6%EF%BC%9F"><span class="nav-number">1.2.3.</span> <span class="nav-text">为什么不使用现成的Nginx为首的服务器软件？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%81%9Alibc%E5%BA%95%E5%B1%82%E5%8C%85%E8%A3%85%EF%BC%9F"><span class="nav-number">1.2.4.</span> <span class="nav-text">为什么不做libc底层包装？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%89%8B%E5%86%99HTTP%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90%EF%BC%9F"><span class="nav-number">1.2.5.</span> <span class="nav-text">为什么不手写HTTP报文解析？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Beast-%E6%8F%90%E4%BE%9B%E7%9A%84%E6%8E%A5%E5%8F%A3%E6%8A%BD%E8%B1%A1"><span class="nav-number">1.3.</span> <span class="nav-text">Beast 提供的接口抽象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp-stream-%E2%80%94%E2%80%94-%E5%A5%97%E6%8E%A5%E5%AD%97%E4%B8%8E%E8%B6%85%E6%97%B6%E7%9A%84%E5%90%88%E6%88%90"><span class="nav-number">1.3.1.</span> <span class="nav-text">tcp_stream —— 套接字与超时的合成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#request-parser-%E2%80%94%E2%80%94-%E6%8A%A5%E6%96%87%E8%BE%B9%E7%95%8C%E7%9A%84%E5%A4%84%E7%90%86%E8%80%85"><span class="nav-number">1.3.2.</span> <span class="nav-text">request_parser —— 报文边界的处理者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#message-generator-%E2%80%94%E2%80%94-%E4%B8%9A%E5%8A%A1%E4%B8%8E%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%BE%B9%E7%95%8C"><span class="nav-number">1.3.3.</span> <span class="nav-text">message_generator —— 业务与连接的边界</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E6%8A%A5%E5%91%8A"><span class="nav-number">1.4.</span> <span class="nav-text">项目报告</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97"><span class="nav-number">1.4.1.</span> <span class="nav-text">功能模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84"><span class="nav-number">1.4.2.</span> <span class="nav-text">三层架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%8E%8B%E6%B5%8B"><span class="nav-number">1.4.3.</span> <span class="nav-text">项目压测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E7%A8%8B%E5%8C%96"><span class="nav-number">1.4.4.</span> <span class="nav-text">工程化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#END"><span class="nav-number">1.5.</span> <span class="nav-text">END</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="iLogIng"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description">Volador235 的博客：技术学习与个人生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnZvbGFkb3IxMjl6aEBnbWFpbC5jb20=" title="E-Mail → mailto:volador129zh@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/My-Projects/http_server/http-server-overview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="基于 Boost 的静态 HTTP 服务器 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于 Boost 的静态 HTTP 服务器<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmcvTVktTk9URS90cmVlL21hc3Rlci9NeS1Qcm9qZWN0cy9odHRwX3NlcnZlci9odHRwLXNlcnZlci1vdmVydmlldy5tZA==" title="编辑"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-08-06 22:45:07" itemprop="dateCreated datePublished" datetime="2026-08-06T22:45:07+08:00">2026-08-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-08 18:51:48" itemprop="dateModified" datetime="2026-08-08T18:51:48+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%88%91%E7%9A%84%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">我的项目</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="基于-Boost-的静态-HTTP-服务器"><a href="#基于-Boost-的静态-HTTP-服务器" class="headerlink" title="基于 Boost 的静态 HTTP 服务器"></a>基于 Boost 的静态 HTTP 服务器</h1><blockquote>
+<p>本文介绍了如何借助C++Boost库设计并开发一个简单 <em><strong>静态HTTP服务器</strong></em></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmcvaHR0cF9zZXJ2ZXI=">http_server<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<span id="more"></span>
+
+<hr>
+<h2 id="项目概览"><a href="#项目概览" class="headerlink" title="项目概览"></a>项目概览</h2><blockquote>
+<p>2026.4.1 立项，2026.8.7 收尾的异步 HTTP 服务器学习项目<br>定位：理解 Asio 异步模型与服务器底层实现，而非业务层开发</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="left">指标</th>
+<th align="left">数据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">代码规模</td>
+<td align="left">3300 行（src 2245 + includes 1055）</td>
+</tr>
+<tr>
+<td align="left">模块数</td>
+<td align="left">12</td>
+</tr>
+<tr>
+<td align="left">测试用例</td>
+<td align="left">140（Google Test 单元 + 进程级集成）</td>
+</tr>
+<tr>
+<td align="left">提交数</td>
+<td align="left">172</td>
+</tr>
+<tr>
+<td align="left">版本</td>
+<td align="left">v0.7.0</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="为什么使用-Boost-作为依赖？"><a href="#为什么使用-Boost-作为依赖？" class="headerlink" title="为什么使用 Boost 作为依赖？"></a>为什么使用 Boost 作为依赖？</h2><p>Boost库是一组高质量的、经过同行评审的C++库集合。<br>这些库旨在扩展C++标准库的功能，提供更多的工具和功能，使开发者能够更高效地编写复杂的程序。</p>
+<p>Boost就是一个庞大的C++工具库，其Asio与Beast组件刚好符合开发一个简单的静态HTTP服务器需求。</p>
+<h3 id="技术选型总览"><a href="#技术选型总览" class="headerlink" title="技术选型总览"></a>技术选型总览</h3><table>
+<thead>
+<tr>
+<th align="left">决策点</th>
+<th align="left">候选方案</th>
+<th align="left">选择</th>
+<th align="left">理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">语言</td>
+<td align="left">C++ &#x2F; Go &#x2F; Nodejs</td>
+<td align="left">C++17</td>
+<td align="left">熟悉，学习底层实现，而非业务抽象</td>
+</tr>
+<tr>
+<td align="left">网络库</td>
+<td align="left">手写 epoll &#x2F; libuv &#x2F; Boost.Asio</td>
+<td align="left">Boost.Asio</td>
+<td align="left">成熟异步模型，抽象层级合适，跨平台</td>
+</tr>
+<tr>
+<td align="left">HTTP 协议库</td>
+<td align="left">手写解析 &#x2F; Boost.Beast</td>
+<td align="left">Boost.Beast</td>
+<td align="left">parser &#x2F; serializer 抽象，避免协议细节重复造轮子</td>
+</tr>
+<tr>
+<td align="left">交付形态</td>
+<td align="left">自研 &#x2F; nginx 二次开发</td>
+<td align="left">自研</td>
+<td align="left">学习效率优先</td>
+</tr>
+</tbody></table>
+<h3 id="为什么不使用Go语言，Dragon、Nodejs框架等建立在更成熟生态之上的技术栈？"><a href="#为什么不使用Go语言，Dragon、Nodejs框架等建立在更成熟生态之上的技术栈？" class="headerlink" title="为什么不使用Go语言，Dragon、Nodejs框架等建立在更成熟生态之上的技术栈？"></a>为什么不使用Go语言，Dragon、Nodejs框架等建立在更成熟生态之上的技术栈？</h3><blockquote>
+<p>使用Go、Nodejs提供的接口就能够简易开发一个高并发的异步、协程服务器<br>为什么还要使用C++编写一个呢？</p>
+</blockquote>
+<p>Go、Dragon、Nodejs等语言&#x2F;框架提供的接口进行了高度的抽象，<br>抽象层次太高，隐藏了大量的实现细节，让用户只需要专注于业务层次，<br>该项目的定位是建立对底层实现与业务层应用间的理解，而非业务层面的开发</p>
+<h3 id="为什么不使用现成的Nginx为首的服务器软件？"><a href="#为什么不使用现成的Nginx为首的服务器软件？" class="headerlink" title="为什么不使用现成的Nginx为首的服务器软件？"></a>为什么不使用现成的Nginx为首的服务器软件？</h3><blockquote>
+<p>为什么不使用现成的服务？</p>
+</blockquote>
+<p>像<em><strong>Nginx</strong></em>这一静态服务器标杆那样，从底层进行编写能够减少包装极大程度的压榨性能，<br>并使用<em><strong>sendfile()、tcp_nopush()、gzip_static()、CPU核心绑定、系统级的文件句柄配置</strong></em>等技巧，<br>进行<em><strong>文件零拷贝、减少内核调用与I&#x2F;O开销、异步非阻塞事件驱动开销</strong></em>等优化，<br>以达到最极致的rps优化</p>
+<p>这些内核级技巧正是 nginx 的性能壁垒：同为 i5-1235U 平台实测（qps&#x2F;MHz 归一化），本服务器约为 nginx 的 <strong>67~73%</strong>，差距来源即为上述尚未实现的优化（sendfile 大文件零拷贝、CPU 绑定等列入 TODO 按需推进）</p>
+<p>除非阅读源码，相比于自己进行开发，虽然能理解底层的实现与优化，但是<strong>学习效率太低</strong></p>
+<h3 id="为什么不做libc底层包装？"><a href="#为什么不做libc底层包装？" class="headerlink" title="为什么不做libc底层包装？"></a>为什么不做libc底层包装？</h3><blockquote>
+<p>既然要使用C++从底层开发，为什么不使用操作系统提供的libc库？</p>
+</blockquote>
+<p>对于该静态HTTP服务器，从更原子化的方式进行项目编写其时间成本对个人而言是极为庞大的，<br>而且大多数的成本集中在底层封装上，虽然能够从操作系统内核层次理解上层服务器设计，</p>
+<p>对于服务器而言，<br><strong>UNIX&#x2F;Linux</strong>提供了<em><strong>一切皆文件</strong></em>的抽象，<br>让网络流的收发被简化为文件的<em><strong>接收、读取、处理、发送</strong></em>操作，<br>对于网络报文对象而言，则是<em><strong>字符串匹配、字节流解析</strong></em>操作，<br>在原语层面提供了良好的抽象方式，</p>
+<p>Boost提供的包装是更易用的接口封装，减少了底层交互的过多暴露，<br>只需要理解底层功能核心libc接口的原理，使用上层的简易包装进行实现，能节省开发时间，<br>与理解接口以及服务器设计这一目标是相符的</p>
+<h3 id="为什么不手写HTTP报文解析？"><a href="#为什么不手写HTTP报文解析？" class="headerlink" title="为什么不手写HTTP报文解析？"></a>为什么不手写HTTP报文解析？</h3><blockquote>
+<p>为什么使用 Boost.Beast ？</p>
+</blockquote>
+<p>与原计划于预期目标相悖：学习静态HTTP服务器设计与并发功能实现</p>
+<hr>
+<h2 id="Beast-提供的接口抽象"><a href="#Beast-提供的接口抽象" class="headerlink" title="Beast 提供的接口抽象"></a>Beast 提供的接口抽象</h2><p>排除上述备选方案后，Boost.Asio&#x2F;Beast 提供了服务器开发的完整骨架。<br>Beast 的价值在于把 HTTP&#x2F;1.1 协议中最容易出错的部分收敛为以下三个抽象：</p>
+<h3 id="tcp-stream-——-套接字与超时的合成"><a href="#tcp-stream-——-套接字与超时的合成" class="headerlink" title="tcp_stream —— 套接字与超时的合成"></a>tcp_stream —— 套接字与超时的合成</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// /includes/server.hpp</span></span><br><span class="line">beast::tcp_stream stream_;                              <span class="comment">// TCP 连接流</span></span><br><span class="line">beast::flat_buffer buffer_;                             <span class="comment">// 平坦的缓存区域</span></span><br><span class="line">boost::optional&lt;http::request_parser&lt;http::string_body&gt;&gt; parser_;   <span class="comment">// 请求分析器</span></span><br></pre></td></tr></table></figure>
+
+<p><code>beast::tcp_stream</code> 将 TCP 套接字与超时控制合为一体，<br><code>expires_after()</code> 为每次异步读写设置超时，读超时 &#x2F; 空闲超时统一为流上的一个调用，<br>避免了为每个连接自建定时器的繁琐</p>
+<h3 id="request-parser-——-报文边界的处理者"><a href="#request-parser-——-报文边界的处理者" class="headerlink" title="request_parser —— 报文边界的处理者"></a>request_parser —— 报文边界的处理者</h3><p>HTTP&#x2F;1.1 报文的解析繁琐点在于：Content-Length &#x2F; chunked 编码的 body 边界、<br>keep-alive 下多次请求的帧切分、请求行与头部的字段校验。<br><code>http::request_parser</code> 配合 <code>flat_buffer</code> 异步消费字节流：</p>
+<ul>
+<li>内部状态机管理解析进度，<code>body_limit()</code> 超限时 <code>async_read</code> 直接返回 413</li>
+<li>每次读前 <code>emplace</code> 新实例，天然隔离前后请求的解析状态</li>
+<li>解析完成后经 <code>parser_-&gt;get()</code> 取出请求报文，交由业务层处理</li>
+</ul>
+<h3 id="message-generator-——-业务与连接的边界"><a href="#message-generator-——-业务与连接的边界" class="headerlink" title="message_generator —— 业务与连接的边界"></a>message_generator —— 业务与连接的边界</h3><p><code>http::message_generator</code> 是 Beast 对”响应”的抽象，<br>既可以是立即构造的普通响应，也可以是尚未完成的异步响应</p>
+<p>业务层接口据此定义为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// includes/router.hpp</span></span><br><span class="line"><span class="keyword">using</span> Handler = std::function&lt;http::<span class="built_in">message_generator</span>(<span class="type">const</span> http::request&lt;http::string_body&gt;&amp;)&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>业务模块只需要处理”一个请求对象”并返回”一个响应生成器”，<br>连接生命周期与写回时机均由网络层负责——这是本服务器 request_handler 解耦设计的基础</p>
+<hr>
+<h2 id="项目报告"><a href="#项目报告" class="headerlink" title="项目报告"></a>项目报告</h2><h3 id="功能模块"><a href="#功能模块" class="headerlink" title="功能模块"></a>功能模块</h3><table>
+<thead>
+<tr>
+<th align="left">功能</th>
+<th align="left">模块</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">静态文件服务</td>
+<td align="left">static_file_service</td>
+<td align="left">GET&#x2F;HEAD，LRU 内容缓存 + 路径解析缓存</td>
+</tr>
+<tr>
+<td align="left">条件请求</td>
+<td align="left">static_file_service &#x2F; utils</td>
+<td align="left">ETag &#x2F; Last-Modified，304 空 body</td>
+</tr>
+<tr>
+<td align="left">Range 断点续传</td>
+<td align="left">static_file_service</td>
+<td align="left">206&#x2F;416，shared_slice_body 零拷贝切片</td>
+</tr>
+<tr>
+<td align="left">gzip 内容协商</td>
+<td align="left">static_file_service &#x2F; utils</td>
+<td align="left">预压缩缓存，Vary 头，Range 不压缩</td>
+</tr>
+<tr>
+<td align="left">动态 API</td>
+<td align="left">dynamic_api_service</td>
+<td align="left">端点注册表，405 + Allow，OPTIONS</td>
+</tr>
+<tr>
+<td align="left">路由分发</td>
+<td align="left">router</td>
+<td align="left">精确匹配 + 前缀匹配</td>
+</tr>
+<tr>
+<td align="left">限流 &#x2F; 超时 &#x2F; body 限制</td>
+<td align="left">server</td>
+<td align="left">503 + Retry-After、expires_after、413</td>
+</tr>
+<tr>
+<td align="left">配置 &#x2F; 日志 &#x2F; 缓存</td>
+<td align="left">config &#x2F; logger &#x2F; cache</td>
+<td align="left">三级优先级、六级别日志轮转、泛型 LRU</td>
+</tr>
+<tr>
+<td align="left">优雅关闭</td>
+<td align="left">graceful_shutdown</td>
+<td align="left">信号捕获 -&gt; 会话排空 -&gt; 强制超时</td>
+</tr>
+<tr>
+<td align="left">路径穿越防护</td>
+<td align="left">utils</td>
+<td align="left">轻量检查 + weakly_canonical 双重校验</td>
+</tr>
+</tbody></table>
+<h3 id="三层架构"><a href="#三层架构" class="headerlink" title="三层架构"></a>三层架构</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">    subgraph 网络层</span><br><span class="line">        listener[listener]</span><br><span class="line">        session[session]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph 处理层</span><br><span class="line">        request_handler[request_handler]</span><br><span class="line">        router[router]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph 服务层</span><br><span class="line">        static_service[static_file_service]</span><br><span class="line">        dynamic_api[dynamic_api_service]</span><br><span class="line">        cache[cache]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    listener --&gt;|accept| session</span><br><span class="line">    session --&gt;|async_read → 请求报文| request_handler</span><br><span class="line">    request_handler --&gt;|路由匹配| router</span><br><span class="line">    router --&gt;|分发| static_service</span><br><span class="line">    router --&gt;|分发| dynamic_api</span><br><span class="line">    static_service -.-&gt;|读缓存| cache</span><br><span class="line">    static_service --&gt;|message_generator 响应| session</span><br><span class="line">    dynamic_api --&gt;|message_generator 响应| session</span><br></pre></td></tr></table></figure>
+
+<h3 id="项目压测"><a href="#项目压测" class="headerlink" title="项目压测"></a>项目压测</h3><blockquote>
+<p>平台：i5-1235U（10 核 12 线程）&#x2F; Fedora 44（kernel 7.1.6）<br>目标文件 <code>/app/index.html</code>（9KB）；服务端 8 线程、关访问日志，wrk 30s</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="left">配置</th>
+<th align="center">QPS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">t6-c100</td>
+<td align="center">~153k</td>
+</tr>
+<tr>
+<td align="left">t6-c400</td>
+<td align="center">~138k</td>
+</tr>
+<tr>
+<td align="left">t6-c1000</td>
+<td align="center">~110k</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>nginx 对比（qps&#x2F;MHz 归一化，消除锁频平台跨轮次偏差）：当前平台同等条件下约为 nginx 的 <strong>67~73%</strong><br>完整 18 组压测矩阵（t4&#x2F;t6&#x2F;t8 * c100~c1000）见项目 &#x2F;docs&#x2F;stress-test&#x2F;</p>
+</blockquote>
+<h3 id="工程化"><a href="#工程化" class="headerlink" title="工程化"></a>工程化</h3><ul>
+<li><strong>CI</strong>：GitHub Actions，ubuntu-24.04 + g++，Debug&#x2F;Release 双构建 + ccache + ctest</li>
+<li><strong>Docker</strong>：多阶段构建（编译-&gt;运行） + 非 root 用户</li>
+<li><strong>公网验证</strong>：cloudflared 临时隧道暴露 HTTPS URL 实测</li>
+<li><strong>SELinux</strong>：容器标签适配（开发平台为 Fedora 44）</li>
+</ul>
+<hr>
+<blockquote>
+<p>本文为项目总览，聚焦技术选型与最终成果；实现细节将在以下文章中展开：</p>
+<ul>
+<li><strong>框架设计</strong>：request_handler 解耦、三层架构与每连接 strand、缓存设计演进</li>
+<li><strong>HTTP 协议细节</strong>：304 条件请求、Range 断点续传、gzip 协商、405&#x2F;OPTIONS 语义</li>
+<li><strong>性能方法论</strong>：压测方案设计、优化链条、最终成绩</li>
+<li><strong>项目工程化</strong>：基于 gtest 的测试体系、路径穿越防护、CI &#x2F; Docker &#x2F; 公网验证</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>iLogIng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://iloging.github.io/My-Projects/http_server/http-server-overview/" title="基于 Boost 的静态 HTTP 服务器">https://iloging.github.io/My-Projects/http_server/http-server-overview/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC8="><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/my-projects/" rel="tag"># my projects</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/ML-DL-AI/Agent/ai-agent-book/chapter-1/" rel="prev" title="ai-agent-book Chapter-1">
+                  <i class="fa fa-angle-left"></i> ai-agent-book Chapter-1
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/ML-DL-AI/Agent/opencode/" rel="next" title="opencode 使用指南">
+                  opencode 使用指南 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2025 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></span>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"iLogIng/blog-comments","issue_term":"pathname","theme":"preferred-color-scheme"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="vbDoNUyw1fTmCxqT1wYbKjPkHhe47UsNd0Xr_skRB5M">
+  <meta name="msvalidate.01" content="DC6B47CBA3456E79B5CB2BDA940BE7F8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":100,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="基于 Boost 的 HTTP 服务器：HTTP 协议细节 本文是 http_server 系列的协议篇，对应总览中的功能地图展开四个核心协议特性的语义与实现：304 条件请求、Range 断点续传、gzip 协商、405&#x2F;OPTIONS http_server">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 Boost 的 HTTP 服务器：HTTP 协议细节">
+<meta property="og:url" content="https://iloging.github.io/My-Projects/http_server/http-server-protocol/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="基于 Boost 的 HTTP 服务器：HTTP 协议细节 本文是 http_server 系列的协议篇，对应总览中的功能地图展开四个核心协议特性的语义与实现：304 条件请求、Range 断点续传、gzip 协商、405&#x2F;OPTIONS http_server">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-08T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-08T09:33:46.867Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="my projects">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://iloging.github.io/My-Projects/http_server/http-server-protocol/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://iloging.github.io/My-Projects/http_server/http-server-protocol/","path":"My-Projects/http_server/http-server-protocol/","title":"基于 Boost 的 HTTP 服务器：HTTP 协议细节"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>基于 Boost 的 HTTP 服务器：HTTP 协议细节 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/7.2.0/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.2.1/firebase-app-compat.js" integrity="sha256-d21UgtIcA6c6qwr8nWk6lxs/KrpbWhknQN7qBjWA2Kk=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.2.1/firebase-firestore-compat.js" integrity="sha256-leHatffkFuVGIg7ABaA5BDsqsEUtktL4tftb3OdQfg0=" crossorigin="anonymous" defer></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":null,"projectId":null}</script>
+  <script src="/js/third-party/statistics/firestore.js" defer></script>
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-Boost-%E7%9A%84-HTTP-%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%9AHTTP-%E5%8D%8F%E8%AE%AE%E7%BB%86%E8%8A%82"><span class="nav-number">1.</span> <span class="nav-text">基于 Boost 的 HTTP 服务器：HTTP 协议细节</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E8%AF%B7%E6%B1%82%EF%BC%9AETag-%E4%B8%8E-304"><span class="nav-number">1.1.</span> <span class="nav-text">条件请求：ETag 与 304</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E6%9D%A1%E4%BB%B6%E5%A4%B4%E7%9A%84%E8%AF%AD%E4%B9%89"><span class="nav-number">1.1.1.</span> <span class="nav-text">请求条件头的语义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%B1%E6%AF%94%E8%BE%83%E4%B8%8E%E5%88%97%E8%A1%A8%E5%8C%B9%E9%85%8D"><span class="nav-number">1.1.2.</span> <span class="nav-text">弱比较与列表匹配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#If-Modified-Since-%E4%B8%8E%E4%BC%98%E5%85%88%E7%BA%A7"><span class="nav-number">1.1.3.</span> <span class="nav-text">If-Modified-Since 与优先级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#304-%E5%93%8D%E5%BA%94%E4%B8%8E-ETag-%E7%94%9F%E6%88%90"><span class="nav-number">1.1.4.</span> <span class="nav-text">304 响应与 ETag 生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%B7%E8%AF%B7%E6%B1%82%E6%8B%92%E7%BB%9D-bug"><span class="nav-number">1.1.5.</span> <span class="nav-text">冷请求拒绝 bug</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Range-%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0%EF%BC%9A206-416"><span class="nav-number">1.2.</span> <span class="nav-text">Range 断点续传：206&#x2F;416</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Range-%E5%A4%B4%E7%9A%84%E4%B8%89%E7%A7%8D%E5%BD%A2%E6%80%81"><span class="nav-number">1.2.1.</span> <span class="nav-text">Range 头的三种形态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90%EF%BC%9A%E5%8D%95%E6%AE%B5%E6%A0%A1%E9%AA%8C%E4%B8%8E%E6%95%B4%E5%A4%B4%E5%90%88%E6%B3%95%E6%80%A7"><span class="nav-number">1.2.2.</span> <span class="nav-text">解析：单段校验与整头合法性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%82%E8%A7%A3%E4%B8%8E%E5%86%B3%E7%AD%96%E6%B1%87%E8%81%9A"><span class="nav-number">1.2.3.</span> <span class="nav-text">求解与决策汇聚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%B6%E6%8B%B7%E8%B4%9D%E5%88%87%E7%89%87"><span class="nav-number">1.2.4.</span> <span class="nav-text">零拷贝切片</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gzip-%E5%86%85%E5%AE%B9%E5%8D%8F%E5%95%86"><span class="nav-number">1.3.</span> <span class="nav-text">gzip 内容协商</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E9%80%89%E6%8B%A9%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%95%86%EF%BC%8C%E8%80%8C%E9%9D%9E%E5%8E%8B%E7%BC%A9"><span class="nav-number">1.3.1.</span> <span class="nav-text">通过选择进行协商，而非压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E6%A0%BC%E5%BC%8F%EF%BC%9Agzip-15-16"><span class="nav-number">1.3.2.</span> <span class="nav-text">容器格式：gzip 15+16</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E5%95%86%E6%B5%81%E7%A8%8B"><span class="nav-number">1.3.3.</span> <span class="nav-text">协商流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Range-%E4%B8%8D%E5%8E%8B%E7%BC%A9"><span class="nav-number">1.3.4.</span> <span class="nav-text">Range 不压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vary-%E4%B8%8E-HEAD-%E9%95%BF%E5%BA%A6%E4%B8%80%E8%87%B4%E6%80%A7"><span class="nav-number">1.3.5.</span> <span class="nav-text">Vary 与 HEAD 长度一致性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81-API%EF%BC%9A405-OPTIONS"><span class="nav-number">1.4.</span> <span class="nav-text">动态 API：405&#x2F;OPTIONS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E7%82%B9%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="nav-number">1.4.1.</span> <span class="nav-text">端点注册表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#405-Allow"><span class="nav-number">1.4.2.</span> <span class="nav-text">405 + Allow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OPTIONS-%E5%8A%A8%E6%80%81-Allow"><span class="nav-number">1.4.3.</span> <span class="nav-text">OPTIONS 动态 Allow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82%EF%BC%9A%E7%BA%AF%E8%B7%AF%E5%BE%84%E5%8C%B9%E9%85%8D"><span class="nav-number">1.4.4.</span> <span class="nav-text">实现细节：纯路径匹配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.5.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#END"><span class="nav-number">1.6.</span> <span class="nav-text">END</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="iLogIng"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description">Volador235 的博客：技术学习与个人生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnZvbGFkb3IxMjl6aEBnbWFpbC5jb20=" title="E-Mail → mailto:volador129zh@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/My-Projects/http_server/http-server-protocol/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="基于 Boost 的 HTTP 服务器：HTTP 协议细节 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于 Boost 的 HTTP 服务器：HTTP 协议细节<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmcvTVktTk9URS90cmVlL21hc3Rlci9NeS1Qcm9qZWN0cy9odHRwX3NlcnZlci9odHRwLXNlcnZlci1wcm90b2NvbC5tZA==" title="编辑"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-08-08 18:00:00 / 修改时间：17:33:46" itemprop="dateCreated datePublished" datetime="2026-08-08T18:00:00+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%88%91%E7%9A%84%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">我的项目</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="基于-Boost-的-HTTP-服务器：HTTP-协议细节"><a href="#基于-Boost-的-HTTP-服务器：HTTP-协议细节" class="headerlink" title="基于 Boost 的 HTTP 服务器：HTTP 协议细节"></a>基于 Boost 的 HTTP 服务器：HTTP 协议细节</h1><blockquote>
+<p>本文是 http_server 系列的协议篇，对应总览中的功能地图<br>展开四个核心协议特性的语义与实现：304 条件请求、Range 断点续传、gzip 协商、405&#x2F;OPTIONS</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmcvaHR0cF9zZXJ2ZXI=">http_server<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<span id="more"></span>
+
+<hr>
+<h2 id="条件请求：ETag-与-304"><a href="#条件请求：ETag-与-304" class="headerlink" title="条件请求：ETag 与 304"></a>条件请求：ETag 与 304</h2><h3 id="请求条件头的语义"><a href="#请求条件头的语义" class="headerlink" title="请求条件头的语义"></a>请求条件头的语义</h3><blockquote>
+<p>客户端已有缓存，如何避免重复传输？<br>条件请求：服务端校验缓存是否仍然有效，有效则回 304，无效才回 200</p>
+</blockquote>
+<p>条件请求的核心是<em><strong>验证器</strong></em>：服务端为资源生成验证器（ETag &#x2F; Last-Modified），<br>客户端在条件头中带回，服务端比较后决定响应。</p>
+<p>本项目使用两个条件头（参考 RFC 7232）：</p>
+<table>
+<thead>
+<tr>
+<th align="left">条件头</th>
+<th align="left">携带的验证器</th>
+<th align="left">命中条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">If-None-Match</td>
+<td align="left">ETag 列表</td>
+<td align="left">任一 ETag 弱匹配当前资源</td>
+</tr>
+<tr>
+<td align="left">If-Modified-Since</td>
+<td align="left">时间戳</td>
+<td align="left">资源 Last-Modified 不晚于该时间</td>
+</tr>
+</tbody></table>
+<h3 id="弱比较与列表匹配"><a href="#弱比较与列表匹配" class="headerlink" title="弱比较与列表匹配"></a>弱比较与列表匹配</h3><p>ETag 比较分强比较与弱比较。弱比较忽略 <code>W/</code> 弱验证器前缀后比较字符串：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils.cpp</span></span><br><span class="line"><span class="comment">// RFC 7232 弱比较: 忽略 W/ 前缀后字符串相等</span></span><br><span class="line"><span class="function"><span class="type">bool</span></span></span><br><span class="line"><span class="function"><span class="title">weak_etag_equal</span><span class="params">(boost::beast::string_view a, boost::beast::string_view b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">strip_weak_prefix</span>(a) == <span class="built_in">strip_weak_prefix</span>(b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>If-None-Match 是<em><strong>逗号分隔的 ETag 列表</strong></em>，任一项弱匹配即命中；<br><code>&quot;*&quot;</code> 是特殊形式，匹配任意实体：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils.cpp</span></span><br><span class="line"><span class="keyword">auto</span> inm = req[http::field::if_none_match];</span><br><span class="line"><span class="keyword">if</span> (!inm.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">trim_ows</span>(inm) == <span class="string">&quot;*&quot;</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 逗号分隔 ETag 列表，任一项弱匹配即命中</span></span><br><span class="line">    beast::string_view rest = inm;</span><br><span class="line">    <span class="keyword">while</span> (!rest.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">        <span class="keyword">auto</span> comma = rest.<span class="built_in">find</span>(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">        <span class="keyword">auto</span> item =</span><br><span class="line">            <span class="built_in">trim_ows</span>((comma == beast::string_view::npos) ? rest : rest.<span class="built_in">substr</span>(<span class="number">0</span>, comma));</span><br><span class="line">        <span class="keyword">if</span> (!item.<span class="built_in">empty</span>() &amp;&amp; <span class="built_in">weak_etag_equal</span>(item, etag)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
+
+<h3 id="If-Modified-Since-与优先级"><a href="#If-Modified-Since-与优先级" class="headerlink" title="If-Modified-Since 与优先级"></a>If-Modified-Since 与优先级</h3><p>RFC 7232 §3.3 规定：<em><strong>If-None-Match 存在时，服务器必须忽略 If-Modified-Since</strong></em>。<br>实现中先检查 INM，非空则走 ETag 分支并直接返回，IMS 仅在 INM 缺失时生效：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils.cpp</span></span><br><span class="line"><span class="keyword">auto</span> ims = req[http::field::if_modified_since];</span><br><span class="line"><span class="keyword">if</span> (!ims.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">    std::<span class="type">time_t</span> since;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">parse_http_date</span>(ims, since)) &#123;</span><br><span class="line">        <span class="keyword">return</span> last_modified_time &lt;= since;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>HTTP 日期解析用 <code>strptime</code> 严格匹配 RFC 1123 格式（<code>%a, %d %b %Y %H:%M:%S GMT</code>）<br>后经 <code>timegm</code> 转时间戳，解析失败视为条件头无效（回 200）</p>
+<h3 id="304-响应与-ETag-生成"><a href="#304-响应与-ETag-生成" class="headerlink" title="304 响应与 ETag 生成"></a>304 响应与 ETag 生成</h3><p>304 的语义是”资源未变化”——<em><strong>不允许携带 body</strong></em>，仅回验证器头：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils.cpp</span></span><br><span class="line">server_utils::</span><br><span class="line"><span class="built_in">make_not_modified</span>(...)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 304 不允许携带 body，仅回 ETag/Last-Modified 头</span></span><br><span class="line">    http::response&lt;http::string_body&gt; res&#123;http::status::not_modified, req.<span class="built_in">version</span>()&#125;;</span><br><span class="line">    res.<span class="built_in">set</span>(http::field::etag, etag);</span><br><span class="line">    res.<span class="built_in">set</span>(http::field::last_modified, last_modified);</span><br><span class="line">    res.<span class="built_in">content_length</span>(<span class="number">0</span>);</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<p>ETag 由文件 mtime 与 size 组合生成——内容变化（mtime 或 size 变）必然导致 ETag 变化：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils.cpp</span></span><br><span class="line"><span class="function">std::string</span></span><br><span class="line"><span class="function"><span class="title">make_etag</span><span class="params">(std::<span class="type">time_t</span> mtime, std::<span class="type">size_t</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;\&quot;&quot;</span> + std::<span class="built_in">to_string</span>(mtime) + <span class="string">&quot;-&quot;</span> + std::<span class="built_in">to_string</span>(size) + <span class="string">&quot;\&quot;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="冷请求拒绝-bug"><a href="#冷请求拒绝-bug" class="headerlink" title="冷请求拒绝 bug"></a>冷请求拒绝 bug</h3><blockquote>
+<p>条件请求的判定最初只存在于缓存命中路径，存在什么漏洞？</p>
+</blockquote>
+<p>修复提交前，<code>is_not_modified</code> 只在 <code>build_content_response</code><br>（缓存命中路径）被调用；对于<em><strong>冷缓存路径（首次请求 &#x2F; 缓存淘汰后）直接返回 200</strong></em>，<br>条件请求被静默忽略——客户端永远拿不到 304</p>
+<p><strong>修复方法：</strong><code>handle_GET_request</code> 与 <code>handle_HEAD_request</code> 的未命中分支，<br>在读取文件后同样先做条件判定：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/static_file_service.cpp</span></span><br><span class="line"><span class="type">const</span> std::string etag = server_utils::<span class="built_in">make_etag</span>(<span class="type">mtime_t</span>, size);</span><br><span class="line"><span class="type">const</span> std::string last_modified = server_utils::<span class="built_in">to_http_date</span>(<span class="type">mtime_t</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 条件请求 冷缓存路径同样生效</span></span><br><span class="line"><span class="keyword">if</span>(server_utils::<span class="built_in">is_not_modified</span>(req, etag, <span class="type">mtime_t</span>)) &#123;</span><br><span class="line">    <span class="keyword">return</span> server_utils::<span class="built_in">make_not_modified</span>(req, etag, last_modified);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><em><strong>条件请求是 HTTP 语义，必须独立于缓存状态生效</strong></em>——缓存只影响服务端读取方式，不影响对客户端条件的判定</p>
+</blockquote>
+<hr>
+<h2 id="Range-断点续传：206-416"><a href="#Range-断点续传：206-416" class="headerlink" title="Range 断点续传：206&#x2F;416"></a>Range 断点续传：206&#x2F;416</h2><h3 id="Range-头的三种形态"><a href="#Range-头的三种形态" class="headerlink" title="Range 头的三种形态"></a>Range 头的三种形态</h3><blockquote>
+<p>客户端请求资源的一部分（断点续传 &#x2F; 分段下载），服务端如何回应？</p>
+</blockquote>
+<p>单段 Range 区间有三种形态（RFC 7233）：</p>
+<table>
+<thead>
+<tr>
+<th align="left">形态</th>
+<th align="left">含义</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>a-b</code></td>
+<td align="left">闭区间 [a, b]</td>
+<td align="left"><code>bytes=0-99</code></td>
+</tr>
+<tr>
+<td align="left"><code>a-</code></td>
+<td align="left">开区间，从 a 到结尾</td>
+<td align="left"><code>bytes=100-</code></td>
+</tr>
+<tr>
+<td align="left"><code>-b</code></td>
+<td align="left">后缀区间，最后 b 字节</td>
+<td align="left"><code>bytes=-500</code></td>
+</tr>
+</tbody></table>
+<h3 id="解析：单段校验与整头合法性"><a href="#解析：单段校验与整头合法性" class="headerlink" title="解析：单段校验与整头合法性"></a>解析：单段校验与整头合法性</h3><p><code>parse_single_range</code> 解析单个区间并做语法校验——<code>&quot;-&quot;</code>（空两端）、<code>a &gt; b</code>、<br>非数字、无 <code>-</code> 均为语法非法：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils.cpp</span></span><br><span class="line"><span class="keyword">if</span> (left.<span class="built_in">empty</span>() &amp;&amp; right.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;                                         <span class="comment">// &quot;-&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (left.<span class="built_in">empty</span>()) &#123;                                       <span class="comment">// -b 后缀区间</span></span><br><span class="line">    ...</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (right.<span class="built_in">empty</span>()) &#123;                               <span class="comment">// a- 开区间</span></span><br><span class="line">    ...</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;                                                  <span class="comment">// a-b</span></span><br><span class="line">    <span class="keyword">if</span> (a &gt; b) <span class="keyword">return</span> <span class="literal">false</span>;                              <span class="comment">// 语法非法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>parse_range_header</code> 负责整头：校验 <code>bytes=</code> 前缀（忽略大小写）、按 <code>,</code> 分割多段、<br><em><strong>任一段非法则整头非法</strong></em>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils.cpp</span></span><br><span class="line"><span class="comment">// 按 &#x27;,&#x27; 分割，每段委托 parse_single_range</span></span><br><span class="line">...</span><br><span class="line"><span class="comment">// 任一段非法 -&gt; 整头非法</span></span><br><span class="line"><span class="keyword">if</span> (!<span class="built_in">parse_single_range</span>(seg, range)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="求解与决策汇聚"><a href="#求解与决策汇聚" class="headerlink" title="求解与决策汇聚"></a>求解与决策汇聚</h3><p><code>resolve_range</code> 将区间规格求解为实际字节偏移，边界收敛到文件范围：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils.cpp</span></span><br><span class="line"><span class="keyword">if</span> (start &gt;= total_size) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;                          <span class="comment">// a 超出文件 -&gt; 416</span></span><br><span class="line">&#125;</span><br><span class="line">std::<span class="type">size_t</span> end = range.end.<span class="built_in">has_value</span>()</span><br><span class="line">    ? std::<span class="built_in">min</span>(range.end.<span class="built_in">value</span>(), total_size - <span class="number">1</span>)   <span class="comment">// 闭区间截断到文件尾</span></span><br><span class="line">    : total_size - <span class="number">1</span>;</span><br><span class="line">length = end - start + <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>决策汇聚在 <code>apply_range</code>（<code>static_file_service.cpp</code>）——三种结果：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 解析 Range 头并求解</span></span><br><span class="line"><span class="comment">// 无头/非法/多区间 -&gt; 200；不可满足 -&gt; 416</span></span><br><span class="line"><span class="keyword">if</span> (server_utils::<span class="built_in">parse_range_header</span>(...) &amp;&amp; ranges.<span class="built_in">size</span>() == <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (server_utils::<span class="built_in">resolve_range</span>(ranges[<span class="number">0</span>], total, res.start, res.length)) &#123;</span><br><span class="line">        res.status = http::status::partial_content;      <span class="comment">// 206</span></span><br><span class="line">        ...</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        res.status = http::status::range_not_satisfiable; <span class="comment">// 416</span></span><br><span class="line">        res.content_range = <span class="string">&quot;bytes */&quot;</span> + std::<span class="built_in">to_string</span>(total);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">flowchart TD</span><br><span class="line">    A[Range 头] --&gt; B&#123;parse_range_header&#125;</span><br><span class="line">    B -- 无头 / 语法非法 / 多区间 --&gt; C[200 全量响应]</span><br><span class="line">    B -- 合法单段 --&gt; D&#123;resolve_range&#125;</span><br><span class="line">    D -- start &gt;= total --&gt; E[416&lt;br/&gt;Content-Range: bytes */total]</span><br><span class="line">    D -- 可满足 --&gt; F[206&lt;br/&gt;Content-Range: bytes s-e/total&lt;br/&gt;shared_slice_body 切片]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>多区间回 200 的依据：RFC 7233 允许服务器忽略无法满足的 Range 头</p>
+</blockquote>
+<h3 id="零拷贝切片"><a href="#零拷贝切片" class="headerlink" title="零拷贝切片"></a>零拷贝切片</h3><p>206 响应的 body 是缓存内容的一个区间。自定义 <code>shared_slice_body</code>：</p>
+<p>value_type 持有缓存 shared_ptr + offset + length，writer 直接构造</p>
+<p>指向 <code>data() + offset</code> 的 const_buffer——<em><strong>切片不复制任何字节</strong></em>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// includes/static_file_service.hpp</span></span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    &#123;const_buffers_type&#123;body_.data-&gt;<span class="built_in">data</span>() + body_.offset, body_.length&#125;, <span class="literal">false</span>&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="gzip-内容协商"><a href="#gzip-内容协商" class="headerlink" title="gzip 内容协商"></a>gzip 内容协商</h2><h3 id="通过选择进行协商，而非压缩"><a href="#通过选择进行协商，而非压缩" class="headerlink" title="通过选择进行协商，而非压缩"></a>通过选择进行协商，而非压缩</h3><blockquote>
+<p>压缩是 CPU 密集操作，每个请求实时压缩会怎样？<br>高并发下 CPU 成为瓶颈——预压缩：读盘时压一次，请求时挑选版本</p>
+</blockquote>
+<p>读盘阶段按 MIME 判断是否可压缩文本，压缩一次存入缓存条目 <code>compressed</code>；<br>请求阶段按 Accept-Encoding 挑选已有版本。<em><strong>将协商从”压缩”变为”选择”</strong></em></p>
+<h3 id="容器格式：gzip-15-16"><a href="#容器格式：gzip-15-16" class="headerlink" title="容器格式：gzip 15+16"></a>容器格式：gzip 15+16</h3><p>zlib 的 <code>deflateInit2</code> 通过 windowBits 决定输出容器格式：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils.cpp</span></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">deflateInit2</span>(&amp;strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED,</span><br><span class="line">        <span class="number">15</span> + <span class="number">16</span>, <span class="number">8</span>, Z_DEFAULT_STRATEGY) != Z_OK) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">windowBits</th>
+<th align="left">容器</th>
+<th align="left">头部</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">15</td>
+<td align="left">zlib 容器</td>
+<td align="left">zlib 头（2 字节）</td>
+</tr>
+<tr>
+<td align="left">15 + 16</td>
+<td align="left"><strong>gzip 容器</strong></td>
+<td align="left">gzip 头尾</td>
+</tr>
+</tbody></table>
+<p>响应头标 <code>Content-Encoding: gzip</code> 而数据若是 zlib 容器，客户端解压直接失败——<br><em><strong>容器格式必须与响应头声明一致</strong></em>，这是协商实现中最典型的坑</p>
+<h3 id="协商流程"><a href="#协商流程" class="headerlink" title="协商流程"></a>协商流程</h3><p><code>Accept-Encoding</code> 用 Beast 的 <code>token_list</code> 解析，存在 <code>gzip</code> 即选压缩版本：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/static_file_service.cpp</span></span><br><span class="line"><span class="keyword">if</span> (compressed &amp;&amp;</span><br><span class="line">    server_utils::<span class="built_in">should_compress</span>(server_utils::<span class="built_in">mime_type</span>(full_path))) &#123;</span><br><span class="line">    http::token_list encodings&#123;req[http::field::accept_encoding]&#125;;</span><br><span class="line">    <span class="keyword">if</span> (encodings.<span class="built_in">exists</span>(<span class="string">&quot;gzip&quot;</span>)) &#123;</span><br><span class="line">        http::response&lt;shared_string_body&gt; res&#123;http::status::ok, req.<span class="built_in">version</span>()&#125;;</span><br><span class="line">        res.<span class="built_in">set</span>(http::field::content_encoding, <span class="string">&quot;gzip&quot;</span>);</span><br><span class="line">        res.<span class="built_in">content_length</span>(compressed-&gt;<span class="built_in">size</span>());   <span class="comment">// 压缩后长度</span></span><br><span class="line">        res.<span class="built_in">body</span>() = compressed;</span><br></pre></td></tr></table></figure>
+
+<p>注意 Content-Length 是<em><strong>压缩后字节数</strong></em>（<code>compressed-&gt;size()</code>），而非原始大小，<br>若填写为原始大小，会导致客户端等待阻塞（未接受到期望的字节流大小），导致连接超时</p>
+<h3 id="Range-不压缩"><a href="#Range-不压缩" class="headerlink" title="Range 不压缩"></a>Range 不压缩</h3><blockquote>
+<p>Range 请求能返回压缩切片吗？</p>
+</blockquote>
+<p>不能。压缩后字节偏移不再对应文件原始字节——Range 语义基于原始资源（RFC 7233），<br>所以 206 分支<strong>先于</strong> gzip 协商判断，Range 请求一律返回原始字节切片：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">flowchart TD</span><br><span class="line">    A[请求到达] --&gt; B&#123;合法 Range?&#125;</span><br><span class="line">    B -- 是 --&gt; R[206 切片响应&lt;br/&gt;基于原始字节]</span><br><span class="line">    B -- 否 --&gt; C&#123;MIME 可压缩?&#125;</span><br><span class="line">    C -- 否 --&gt; P[200 明文响应]</span><br><span class="line">    C -- 是 --&gt; D&#123;压缩版本存在?&#125;</span><br><span class="line">    D -- 否 --&gt; P</span><br><span class="line">    D -- 是 --&gt; E&#123;Accept-Encoding 含 gzip?&#125;</span><br><span class="line">    E -- 是 --&gt; G[200 压缩响应&lt;br/&gt;Content-Encoding: gzip]</span><br><span class="line">    E -- 否 --&gt; P</span><br></pre></td></tr></table></figure>
+
+<h3 id="Vary-与-HEAD-长度一致性"><a href="#Vary-与-HEAD-长度一致性" class="headerlink" title="Vary 与 HEAD 长度一致性"></a>Vary 与 HEAD 长度一致性</h3><ul>
+<li><strong>Vary: Accept-Encoding</strong>：304 &#x2F; 206 &#x2F; 200 全路径回 Vary——<br>中间缓存按请求头区分缓存版本，<em><strong>防止压缩版与明文版串用</strong></em></li>
+<li><strong>HEAD 长度一致性</strong>：HEAD 命中缓存时报告 <code>compressed-&gt;size()</code>，与 GET 压缩响应一致；<br>未命中不读文件内容（<code>compressed_size = 0</code>）——注释明确”压缩长度与 GET 缓存命中后一致”。<br>HEAD 的 Content-Length 必须等于 GET 的 body 长度，否则客户端断流</li>
+</ul>
+<hr>
+<h2 id="动态-API：405-OPTIONS"><a href="#动态-API：405-OPTIONS" class="headerlink" title="动态 API：405&#x2F;OPTIONS"></a>动态 API：405&#x2F;OPTIONS</h2><h3 id="端点注册表"><a href="#端点注册表" class="headerlink" title="端点注册表"></a>端点注册表</h3><p><code>dynamic_api_service</code> 以 base_path 挂载，端点完全自由注册：<br>注册表 <code>endpoints_[path][method]</code>，无内置处理器——</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/dynamic_api_service.cpp</span></span><br><span class="line">dynamic_api_service&amp;</span><br><span class="line">dynamic_api_service::</span><br><span class="line"><span class="built_in">add_endpoint</span>(http::verb method, std::string path, Handler handler)</span><br><span class="line">&#123;</span><br><span class="line">    endpoints_[std::<span class="built_in">move</span>(path)][method] = std::<span class="built_in">move</span>(handler);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;                                     <span class="comment">// 链式注册</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>handle_request</code> 的判定顺序：<br>OPTIONS 全局支持 -&gt; 路径不存在 404 -&gt; 方法未注册 405 + Allow -&gt; 调用端点处理器</p>
+<h3 id="405-Allow"><a href="#405-Allow" class="headerlink" title="405 + Allow"></a>405 + Allow</h3><p>RFC 7231：<em><strong>路径存在但方法未注册，回 405，且必须带 Allow 头</strong></em>——<br>Allow 列出该路径当前支持的完整方法集，客户端据此改派请求：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/dynamic_api_service.cpp</span></span><br><span class="line"><span class="keyword">auto</span> handler_it = it-&gt;second.<span class="built_in">find</span>(req.<span class="built_in">method</span>());</span><br><span class="line"><span class="keyword">if</span> (handler_it == it-&gt;second.<span class="built_in">end</span>()) &#123;</span><br><span class="line">    <span class="comment">// RFC 7231 路径存在但方法未注册 -&gt; 405 + Allow</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">make_method_not_allowed</span>(req, it-&gt;second);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="OPTIONS-动态-Allow"><a href="#OPTIONS-动态-Allow" class="headerlink" title="OPTIONS 动态 Allow"></a>OPTIONS 动态 Allow</h3><p>OPTIONS 全局支持：无论路径是否注册，均回 200 + Allow。<br>Allow 由注册表<em><strong>动态计算</strong></em>——注册 GET 的路径自动附加 HEAD（GET 隐含 HEAD 的语义），<br>未注册路径的 Allow 为空集：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/dynamic_api_service.cpp</span></span><br><span class="line">std::string</span><br><span class="line">dynamic_api_service::</span><br><span class="line"><span class="built_in">build_allow_header</span>(<span class="type">const</span> method_handlers&amp; methods)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// GET 隐含 HEAD</span></span><br><span class="line">    <span class="keyword">if</span> (methods.<span class="built_in">count</span>(http::verb::get)) &#123;</span><br><span class="line">        <span class="built_in">append</span>(http::verb::get);</span><br><span class="line">        <span class="built_in">append</span>(http::verb::head);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<p>Allow 输出按固定方法序（GET&#x2F;HEAD&#x2F;POST&#x2F;PUT&#x2F;DELETE&#x2F;PATCH）排列，（该服务器仅支持 GET&#x2F;HEAD&#x2F;POST）<br>保证同一路径多次查询的 Allow 头稳定可比较</p>
+<h3 id="实现细节：纯路径匹配"><a href="#实现细节：纯路径匹配" class="headerlink" title="实现细节：纯路径匹配"></a>实现细节：纯路径匹配</h3><p><code>handle_request</code> 先剥离 query &#x2F; fragment 再查注册表：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/dynamic_api_service.cpp</span></span><br><span class="line"><span class="comment">// 剥离 query/fragment，端点按纯路径匹配</span></span><br><span class="line"><span class="keyword">auto</span> path = server_utils::<span class="built_in">target_path</span>(req.<span class="built_in">target</span>());</span><br></pre></td></tr></table></figure>
+
+<p><code>/api/hello?name=x</code> 与 <code>/api/hello</code> 命中同一端点——<br>query 属于请求参数而非路径标识</p>
+<hr>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li><strong>304</strong>：条件请求独立于缓存状态生效（项目中的304冷请求bug问题）</li>
+<li><strong>206</strong>：Range 基于原始字节，多区间&#x2F;非法可忽略返回 200</li>
+<li><strong>gzip</strong>：协商是选择，容器格式必须与声明一致，不需要每对象压缩</li>
+<li><strong>405</strong>：方法未注册必须回 Allow，OPTIONS 从注册表动态计算</li>
+</ul>
+<hr>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>iLogIng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://iloging.github.io/My-Projects/http_server/http-server-protocol/" title="基于 Boost 的 HTTP 服务器：HTTP 协议细节">https://iloging.github.io/My-Projects/http_server/http-server-protocol/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC8="><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/my-projects/" rel="tag"># my projects</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/My-Projects/http_server/http-server-frm-desng/" rel="prev" title="基于 Boost 的 HTTP 服务器：框架设计">
+                  <i class="fa fa-angle-left"></i> 基于 Boost 的 HTTP 服务器：框架设计
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/My-Projects/http_server/http-server-eng/" rel="next" title="基于 Boost 的 HTTP 服务器：项目工程化">
+                  基于 Boost 的 HTTP 服务器：项目工程化 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2025 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></span>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"iLogIng/blog-comments","issue_term":"pathname","theme":"preferred-color-scheme"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>

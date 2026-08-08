@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="vbDoNUyw1fTmCxqT1wYbKjPkHhe47UsNd0Xr_skRB5M">
+  <meta name="msvalidate.01" content="DC6B47CBA3456E79B5CB2BDA940BE7F8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":100,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="基于 Boost 的 HTTP 服务器：性能方法论 同一分支代码，中间仅仅进行了Bug修复，前后压测，一次 153k QPS，一次 45k QPS是什么导致了这一“回归性”问题？是构建配置的不同——Debug（-O0）与 Release，导致了该“回归性”问题 测量方法先于优化方法：本篇从压测设计开始">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 Boost 的 HTTP 服务器：性能方法论">
+<meta property="og:url" content="https://iloging.github.io/My-Projects/http_server/http-server-perf/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="基于 Boost 的 HTTP 服务器：性能方法论 同一分支代码，中间仅仅进行了Bug修复，前后压测，一次 153k QPS，一次 45k QPS是什么导致了这一“回归性”问题？是构建配置的不同——Debug（-O0）与 Release，导致了该“回归性”问题 测量方法先于优化方法：本篇从压测设计开始">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-08T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-08T10:50:44.496Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="my projects">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://iloging.github.io/My-Projects/http_server/http-server-perf/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://iloging.github.io/My-Projects/http_server/http-server-perf/","path":"My-Projects/http_server/http-server-perf/","title":"基于 Boost 的 HTTP 服务器：性能方法论"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>基于 Boost 的 HTTP 服务器：性能方法论 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/7.2.0/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.2.1/firebase-app-compat.js" integrity="sha256-d21UgtIcA6c6qwr8nWk6lxs/KrpbWhknQN7qBjWA2Kk=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.2.1/firebase-firestore-compat.js" integrity="sha256-leHatffkFuVGIg7ABaA5BDsqsEUtktL4tftb3OdQfg0=" crossorigin="anonymous" defer></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":null,"projectId":null}</script>
+  <script src="/js/third-party/statistics/firestore.js" defer></script>
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-Boost-%E7%9A%84-HTTP-%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%9A%E6%80%A7%E8%83%BD%E6%96%B9%E6%B3%95%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">基于 Boost 的 HTTP 服务器：性能方法论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%8B%E6%B5%8B%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.1.</span> <span class="nav-text">压测方案设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B3%E5%8F%B0%E7%9A%84%E9%94%81%E9%A2%91%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">平台的锁频问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wrk-%E5%8F%82%E6%95%B0%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.1.2.</span> <span class="nav-text">wrk 参数设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E9%85%8D%E6%AF%94%EF%BC%9A%E6%91%B8%E7%B4%A2%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.3.</span> <span class="nav-text">线程配比：摸索方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU-MHz-%E9%87%87%E6%A0%B7"><span class="nav-number">1.1.4.</span> <span class="nav-text">CPU MHz 采样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E6%88%90%E6%9C%AC"><span class="nav-number">1.1.5.</span> <span class="nav-text">日志成本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E9%93%BE%E6%9D%A1"><span class="nav-number">1.2.</span> <span class="nav-text">优化链条</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E4%B8%80%EF%BC%9Awarm-%E8%B7%AF%E5%BE%84%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">问题一：warm 路径的系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E4%BA%8C%EF%BC%9A%E7%BC%93%E5%AD%98%E5%80%BC%E7%9A%84%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.2.2.</span> <span class="nav-text">问题二：缓存值的拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E4%B8%89%EF%BC%9A%E6%AF%8F%E8%AF%B7%E6%B1%82%E7%9A%84%E4%B8%B4%E6%97%B6%E5%88%86%E9%85%8D"><span class="nav-number">1.2.3.</span> <span class="nav-text">问题三：每请求的临时分配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%9B%9E%E5%BD%92%E5%AF%B9%E7%85%A7%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7"><span class="nav-number">1.2.4.</span> <span class="nav-text">关于回归对照的必要性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E9%93%BE%E5%B0%8F%E7%BB%93"><span class="nav-number">1.2.5.</span> <span class="nav-text">优化链小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E6%88%90%E7%BB%A9"><span class="nav-number">1.3.</span> <span class="nav-text">最终成绩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%93%E5%89%8D%E5%B9%B3%E5%8F%B0%E7%9A%84%E5%81%8F%E5%B7%AE%E5%A3%B0%E6%98%8E"><span class="nav-number">1.3.1.</span> <span class="nav-text">当前平台的偏差声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%90%E7%BB%A9%E5%8D%95"><span class="nav-number">1.3.2.</span> <span class="nav-text">成绩单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%80%E9%99%90%E6%80%A7%E8%AE%A8%E8%AE%BA"><span class="nav-number">1.3.3.</span> <span class="nav-text">局限性讨论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.4.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E5%8E%8B%E6%B5%8B%E6%96%B9%E6%B3%95%E8%AE%BA"><span class="nav-number">1.5.</span> <span class="nav-text">附录：压测方法论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83"><span class="nav-number">1.5.1.</span> <span class="nav-text">测试环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%8F%82%E6%95%B0"><span class="nav-number">1.5.2.</span> <span class="nav-text">服务端参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wrk-%E5%8F%82%E6%95%B0"><span class="nav-number">1.5.3.</span> <span class="nav-text">wrk 参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU-%E9%A2%91%E7%8E%87%E9%87%87%E6%A0%B7"><span class="nav-number">1.5.4.</span> <span class="nav-text">CPU 频率采样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E8%A7%84%E8%8C%83"><span class="nav-number">1.5.5.</span> <span class="nav-text">流程规范</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#END"><span class="nav-number">1.6.</span> <span class="nav-text">END</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="iLogIng"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description">Volador235 的博客：技术学习与个人生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnZvbGFkb3IxMjl6aEBnbWFpbC5jb20=" title="E-Mail → mailto:volador129zh@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/My-Projects/http_server/http-server-perf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="基于 Boost 的 HTTP 服务器：性能方法论 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于 Boost 的 HTTP 服务器：性能方法论<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmcvTVktTk9URS90cmVlL21hc3Rlci9NeS1Qcm9qZWN0cy9odHRwX3NlcnZlci9odHRwLXNlcnZlci1wZXJmLm1k" title="编辑"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-08-08 20:00:00 / 修改时间：18:50:44" itemprop="dateCreated datePublished" datetime="2026-08-08T20:00:00+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%88%91%E7%9A%84%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">我的项目</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="基于-Boost-的-HTTP-服务器：性能方法论"><a href="#基于-Boost-的-HTTP-服务器：性能方法论" class="headerlink" title="基于 Boost 的 HTTP 服务器：性能方法论"></a>基于 Boost 的 HTTP 服务器：性能方法论</h1><blockquote>
+<p>同一分支代码，中间仅仅进行了Bug修复，前后压测，一次 153k QPS，一次 45k QPS<br>是什么导致了这一“回归性”问题？<br>是构建配置的不同——Debug（-O0）与 Release，导致了该“回归性”问题</p>
+<p>测量方法先于优化方法：本篇从压测设计开始</p>
+</blockquote>
+<span id="more"></span>
+
+<hr>
+<h2 id="压测方案设计"><a href="#压测方案设计" class="headerlink" title="压测方案设计"></a>压测方案设计</h2><h3 id="平台的锁频问题"><a href="#平台的锁频问题" class="headerlink" title="平台的锁频问题"></a>平台的锁频问题</h3><p>测试平台 i5-1235U（10 核 12 线程，2P+8E 混合核），Fedora 44。<br>CPU 默认处于 powersave 电源策略，<em><strong>频率被锁在 ~1.9GHz</strong></em>（上限 4.4GHz）。<br>（至今未得到解决）</p>
+<p>锁频带来的直接后果：</p>
+<ul>
+<li>绝对 QPS 偏低（本机上限被频率压制）</li>
+<li>频率并非恒定：跨轮次测试时频率会漂移，<strong>绝对值跨轮次不可比</strong></li>
+</ul>
+<p>同平台同条件下测出的比率有效，但不同时间测出的绝对数字无法直接对比——<br>决定了我的这一整套压测方案的设计走向</p>
+<h3 id="wrk-参数设计"><a href="#wrk-参数设计" class="headerlink" title="wrk 参数设计"></a>wrk 参数设计</h3><p>压测工具用 wrk，参数三个维度：</p>
+<table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">取值</th>
+<th align="left">依据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>-t</code> wrk 线程</td>
+<td align="left">4 &#x2F; 6 &#x2F; 8</td>
+<td align="left">覆盖服务端线程配比矩阵</td>
+</tr>
+<tr>
+<td align="left"><code>-c</code> 连接数</td>
+<td align="left">100 &#x2F; 400 &#x2F; 500 &#x2F; 600 &#x2F; 800 &#x2F; 1000</td>
+<td align="left">覆盖低并发到高并发</td>
+</tr>
+<tr>
+<td align="left"><code>-d</code> 时长</td>
+<td align="left">30s</td>
+<td align="left">10s 抖动大，30s 较为稳定</td>
+</tr>
+</tbody></table>
+<p>每组参数 <strong>3 轮循环取中位数</strong>，单轮波动用中位数而不是平均值消减</p>
+<h3 id="线程配比：摸索方法"><a href="#线程配比：摸索方法" class="headerlink" title="线程配比：摸索方法"></a>线程配比：摸索方法</h3><blockquote>
+<p>wrk 与服务端同机运行，线程如何分配才公平？</p>
+</blockquote>
+<p>同机测试存在<em><strong>客户端抢占</strong></em>问题：wrk 线程与服务端线程共享 CPU，<br>wrk 线程多于服务端时，客户端抢占服务端 CPU，系统性低估服务端能力。</p>
+<p>摸索方法：固定连接数，避免超出物理线程，遍历 wrk 线程 &#x2F; 服务端线程配比对照：</p>
+<table>
+<thead>
+<tr>
+<th align="center">wrk &#x2F; 服务线程</th>
+<th align="center">c100</th>
+<th align="center">c400</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">8 &#x2F; 4</td>
+<td align="center">173k</td>
+<td align="center">137k</td>
+</tr>
+<tr>
+<td align="center"><strong>6 &#x2F; 6</strong></td>
+<td align="center"><strong>199k</strong></td>
+<td align="center"><strong>166k</strong></td>
+</tr>
+<tr>
+<td align="center">4 &#x2F; 4</td>
+<td align="center">179k</td>
+<td align="center">163k</td>
+</tr>
+</tbody></table>
+<p>6 &#x2F; 6 配比测得最高——本机 12 逻辑线程均分给客户端与服务端时<br>双方竞争最均衡，最接近服务端真实能力。此后所有对照测试固定 6&#x2F;6</p>
+<h3 id="CPU-MHz-采样"><a href="#CPU-MHz-采样" class="headerlink" title="CPU MHz 采样"></a>CPU MHz 采样</h3><p>锁频平台的频率会漂移，为让跨轮次数据可比，测试期间并行采样频率：</p>
+<ul>
+<li>测试进行中，每秒读取 <code>/proc/cpuinfo</code> 取全部逻辑核的平均 MHz</li>
+<li>测试结束后，用平均频率将 QPS 归一化：<code>qps / GHz</code></li>
+</ul>
+<blockquote>
+<p>注意：我默认了每物理线程在进行压测时都平分了合适的计算任务（这是根据之前压测进行的频率变化统计得出的粗估计算）</p>
+</blockquote>
+<p>归一化后的收益：</p>
+<ul>
+<li><strong>跨轮次可比</strong>：频率漂移被消除，同一代码不同时间的测量结果稳定</li>
+<li><strong>横向对比可靠</strong>：本机 nginx 对照、后续优化前后对照，均建立在同频率口径上</li>
+<li>实测归一化后 http_server 约为 <strong>54.9 qps&#x2F;GHz</strong>，波动 <em><strong>&lt;2%</strong></em></li>
+</ul>
+<blockquote>
+<p>使用qps&#x2F;MHz归一化方法，是为了消除当前平台的客观问题，得到至少可以信服的结论</p>
+</blockquote>
+<h3 id="日志成本"><a href="#日志成本" class="headerlink" title="日志成本"></a>日志成本</h3><p>访问日志（每请求一行 <code>LOG_*</code> 写盘）是压测中最大的隐性开销：</p>
+<ul>
+<li><code>-L warning</code> 关访问日志：c100 <strong>+38%</strong> &#x2F; c400 +21%</li>
+<li>访问日志整体拖慢 25~38%</li>
+</ul>
+<p>压测一律使用 <code>-L warning</code>，日志成本单独量化，不混入服务能力测量</p>
+<hr>
+<h2 id="优化链条"><a href="#优化链条" class="headerlink" title="优化链条"></a>优化链条</h2><blockquote>
+<p>优化需要对每个改动先测量、后动手、再对照</p>
+</blockquote>
+<p>优化集中在三条路线：<em><strong>系统调用、内存拷贝、堆分配</strong></em></p>
+<h3 id="问题一：warm-路径的系统调用"><a href="#问题一：warm-路径的系统调用" class="headerlink" title="问题一：warm 路径的系统调用"></a>问题一：warm 路径的系统调用</h3><p>静态服务 warm 状态下，文件内容已在缓存，但每次请求仍需<br>open &#x2F; stat &#x2F; 路径规范化等系统调用——路径解析是剩余的热点。</p>
+<p><strong>方法</strong>：路径解析缓存——解析结果（规范化路径 + 过期时间）缓存起来，<br>命中即零系统调用；<code>shared_mutex</code> 支持并发读（读多写少场景）；<br><code>std::map</code> 透明比较器实现 string_view 异构查找，免构造临时 key</p>
+<p><strong>数据</strong>：c100 <strong>+28%</strong> &#x2F; c400 <strong>+38%</strong>——整个优化链中最大单项收益</p>
+<h3 id="问题二：缓存值的拷贝"><a href="#问题二：缓存值的拷贝" class="headerlink" title="问题二：缓存值的拷贝"></a>问题二：缓存值的拷贝</h3><p>缓存命中后，文件内容被复制进响应 body——大文件每次命中都整份拷贝。</p>
+<p><strong>方法</strong>：缓存条目持 <code>shared_ptr&lt;const std::string&gt;</code>，自定义 Beast Body 类型<br><code>shared_string_body</code>——writer 直接指向缓存数据，响应写出与缓存共享一份内存，<br>零拷贝</p>
+<h3 id="问题三：每请求的临时分配"><a href="#问题三：每请求的临时分配" class="headerlink" title="问题三：每请求的临时分配"></a>问题三：每请求的临时分配</h3><p>每次缓存查询构造临时 string key，每请求 2 次堆分配。</p>
+<p><strong>方法</strong>：<code>get()</code> 传引用 + 异构查找，消除临时 key 构造</p>
+<h3 id="关于回归对照的必要性"><a href="#关于回归对照的必要性" class="headerlink" title="关于回归对照的必要性"></a>关于回归对照的必要性</h3><blockquote>
+<p>功能合入后，如何确认性能没有回归？</p>
+</blockquote>
+<p>优化之外，功能特性（gzip 协商、POST 动态 API）合入后同样需要对照验证：</p>
+<ul>
+<li>new vs old（Release）：124k vs 128k</li>
+<li>gzip &#x2F; POST 功能开销 约为 <strong>3%</strong>——协议特性不拖性能</li>
+</ul>
+<p>回归对照的意义：<em><strong>性能是每次改动后重新测定的</strong></em>，根据项目进程动态变化。<br>没有对照的”优化”与没有对照的”无回归”，都只是断言</p>
+<h3 id="优化链小结"><a href="#优化链小结" class="headerlink" title="优化链小结"></a>优化链小结</h3><table>
+<thead>
+<tr>
+<th align="left">优化</th>
+<th align="left">数据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">路径解析缓存（免系统调用）</td>
+<td align="left">c100 +28% &#x2F; c400 +38%</td>
+</tr>
+<tr>
+<td align="left">shared_ptr 零拷贝</td>
+<td align="left">免字符串复制</td>
+</tr>
+<tr>
+<td align="left">缓存 key 免分配</td>
+<td align="left">每请求省 2 次堆分配</td>
+</tr>
+<tr>
+<td align="left">gzip&#x2F;POST 回归对照</td>
+<td align="left">开销 约为 3%</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="最终成绩"><a href="#最终成绩" class="headerlink" title="最终成绩"></a>最终成绩</h2><h3 id="当前平台的偏差声明"><a href="#当前平台的偏差声明" class="headerlink" title="当前平台的偏差声明"></a>当前平台的偏差声明</h3><blockquote>
+<p>成绩单必须先声明测量环境的偏差</p>
+</blockquote>
+<ul>
+<li>平台锁频（~1.9GHz），绝对 QPS 被频率压制，跨轮次绝对值不可比</li>
+<li>2P+8E 混合核，调度影响服务端线程的执行均匀性</li>
+<li>同机压测存在客户端抢占，配比已按 6&#x2F;6 校准，仍非完全隔离</li>
+</ul>
+<p>上述偏差下，所有结论基于 qps&#x2F;MHz 归一化口径，比率有效、绝对值参考</p>
+<h3 id="成绩单"><a href="#成绩单" class="headerlink" title="成绩单"></a>成绩单</h3><blockquote>
+<p>平台：i5-1235U &#x2F; Fedora 44（kernel 7.1.6）<br>目标文件 <code>app/index.html</code>（9KB）；服务端 8 线程、<code>-L warning</code>，wrk 30s</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="left">配置</th>
+<th align="center">QPS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">t6-c100</td>
+<td align="center">~153k</td>
+</tr>
+<tr>
+<td align="left">t6-c400</td>
+<td align="center">~138k</td>
+</tr>
+<tr>
+<td align="left">t6-c1000</td>
+<td align="center">~110k</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xychart-beta</span><br><span class="line">    title &quot;QPS 衰减曲线（t6）&quot;</span><br><span class="line">    x-axis &quot;并发连接数&quot; [100, 400, 500, 600, 800, 1000]</span><br><span class="line">    y-axis &quot;QPS&quot; 0 --&gt; 160000</span><br><span class="line">    line &quot;t6 QPS&quot; [153241, 138316, 130733, 131204, 130530, 109942]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>峰值 <strong>~153k QPS</strong>（t6-c100，延迟 0.62ms）</li>
+<li>nginx 对比（qps&#x2F;MHz 归一化）：约为 nginx 的 <strong>67~73%</strong></li>
+<li>定位：与 Go &#x2F; Node cluster 同级</li>
+<li>高并发衰减：c100 → c1000 回落约 28%，延迟随连接数上升（t6-c1000 平均 11.4ms）</li>
+</ul>
+<h3 id="局限性讨论"><a href="#局限性讨论" class="headerlink" title="局限性讨论"></a>局限性讨论</h3><p>67~73% 的差距来源，即 nginx 的壁垒所在：</p>
+<ul>
+<li><strong>sendfile 大文件零拷贝</strong>（本项目未实现，9KB 小文件场景收益也有限）</li>
+<li><strong>CPU 核心绑定</strong>（P 核独占）</li>
+<li><strong>tcp_nopush &#x2F; 系统级文件句柄配置</strong>等内核侧优化</li>
+</ul>
+<p>未做项均有明确评估（收益场景、实现成本），列入 TODO 按需推进——<br>但是性能工作到此为止，没有精力了</p>
+<hr>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li><strong>压测先于优化</strong>：测量方法决定结论可信度（锁频、抢占、日志、归一化）</li>
+<li><strong>每步有对照</strong>：优化链条与回归验证，数据是唯一裁判</li>
+</ul>
+<hr>
+<h2 id="附录：压测方法论"><a href="#附录：压测方法论" class="headerlink" title="附录：压测方法论"></a>附录：压测方法论</h2><blockquote>
+<p>本附录记录项目压测的完整设计，供复现与扩展</p>
+</blockquote>
+<h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Operating System: Fedora Linux 44 (KDE Plasma)</span><br><span class="line">Kernel: 7.1.6-201.fc44.x86_64</span><br><span class="line">Processors: 12th Gen Intel Core i5-1235U @ 1.3GHz (10 Cores / 12 Threads, 2P+8E, Turbo 4.4GHz)</span><br><span class="line">Memory: 15 GiB</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意 CPU powersave 锁频 ~1.9GHz，绝对值跨轮次不可比</p>
+</blockquote>
+<h3 id="服务端参数"><a href="#服务端参数" class="headerlink" title="服务端参数"></a>服务端参数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./http_server --threads 8 --doc_root ./app/ -L warning</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>压测矩阵用 8 线程服务端</li>
+<li>对照测试（nginx 对比、优化前后）使用 6&#x2F;6 配比：<code>--threads 6</code> + <code>wrk -t6</code></li>
+</ul>
+<h3 id="wrk-参数"><a href="#wrk-参数" class="headerlink" title="wrk 参数"></a>wrk 参数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wrk -t6 -c100 -d30s http://127.0.0.1:8080/index.html</span><br><span class="line">wrk -t6 -c400 -d30s http://127.0.0.1:8080/index.html</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">取值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>-t</code></td>
+<td align="left">4 &#x2F; 6 &#x2F; 8</td>
+</tr>
+<tr>
+<td align="left"><code>-c</code></td>
+<td align="left">100 &#x2F; 400 &#x2F; 500 &#x2F; 600 &#x2F; 800 &#x2F; 1000</td>
+</tr>
+<tr>
+<td align="left"><code>-d</code></td>
+<td align="left">30s</td>
+</tr>
+</tbody></table>
+<p>每组 3 轮取中位数</p>
+<h3 id="CPU-频率采样"><a href="#CPU-频率采样" class="headerlink" title="CPU 频率采样"></a>CPU 频率采样</h3><p>测试期间每秒采样并记录全部逻辑核平均 MHz：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 压测进行中，另一终端执行</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span> grep -m1 MHz /proc/cpuinfo &gt;&gt; freq.log; <span class="built_in">sleep</span> 1; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>归一化计算：<code>qps / (平均 MHz / 1000)</code></p>
+<h3 id="流程规范"><a href="#流程规范" class="headerlink" title="流程规范"></a>流程规范</h3><ol>
+<li>确认 Release 构建与 <code>-L warning</code></li>
+<li>预热（warm 缓存）后开始</li>
+<li>每轮 30s，3 轮取中位数</li>
+<li>记录频率日志，归一化后再跨轮次对比</li>
+<li>输出存档：<code>/docs/stress-test/stress-test-record/stress_test_yyyy_mm_dd.md</code></li>
+</ol>
+<hr>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>iLogIng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://iloging.github.io/My-Projects/http_server/http-server-perf/" title="基于 Boost 的 HTTP 服务器：性能方法论">https://iloging.github.io/My-Projects/http_server/http-server-perf/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC8="><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/my-projects/" rel="tag"># my projects</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/My-Projects/http_server/http-server-eng/" rel="prev" title="基于 Boost 的 HTTP 服务器：项目工程化">
+                  <i class="fa fa-angle-left"></i> 基于 Boost 的 HTTP 服务器：项目工程化
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2025 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></span>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"iLogIng/blog-comments","issue_term":"pathname","theme":"preferred-color-scheme"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>
