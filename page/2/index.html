@@ -69,10 +69,6 @@
   
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.2.1/firebase-app-compat.js" integrity="sha256-d21UgtIcA6c6qwr8nWk6lxs/KrpbWhknQN7qBjWA2Kk=" crossorigin="anonymous" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.2.1/firebase-firestore-compat.js" integrity="sha256-leHatffkFuVGIg7ABaA5BDsqsEUtktL4tftb3OdQfg0=" crossorigin="anonymous" defer></script>
-  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":null,"projectId":null}</script>
-  <script src="/js/third-party/statistics/firestore.js" defer></script>
 
 
 
@@ -344,124 +340,6 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s00_start/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/ML-DL-AI/Agent/learn-claude-code/s00_start/" class="post-title-link" itemprop="url">learn-claude-code s00</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-08-05 18:30:13" itemprop="dateCreated datePublished" datetime="2026-08-05T18:30:13+08:00">2026-08-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/AI-%E6%99%BA%E8%83%BD%E4%BD%93/" itemprop="url" rel="index"><span itemprop="name">AI 智能体</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-item" title="阅读次数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span class="firestore-visitors-count"></span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="learn-claude-code-笔记"><a href="#learn-claude-code-笔记" class="headerlink" title="learn-claude-code 笔记"></a>learn-claude-code 笔记</h1><p>项目路径：<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2Rl">github.com&#x2F;learn-claude-code<i class="fa fa-external-link-alt"></i></span></p>
-<hr>
-<h2 id="README-md"><a href="#README-md" class="headerlink" title="README.md"></a><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2RlL2Jsb2IvbWFpbi9SRUFETUUtemgubWQ=">README.md<i class="fa fa-external-link-alt"></i></span></h2><p><em><strong>Agent &#x3D; LLM + Context + Tools</strong></em></p>
-<p><em><strong>Agent 产品 &#x3D; 模型 + Harness</strong></em></p>
-<blockquote>
-<p><strong>LLM: 已训练的神经网络参数模型函数</strong><br><strong>Agent: 一个通过训练学会了行动的模型，加上让它能在特定环境中工作的基础设施</strong><br><strong>Agency: 感知、推理、行动</strong></p>
-</blockquote>
-<p><strong>Agent不是过程式的流水线工程，Agency能力是通过模型训练产生的</strong></p>
-<p><strong>Harness 是 agent 在特定领域工作所需要的一切：</strong></p>
-<blockquote>
-<p><strong>Harness &#x3D; Tools + Knowledge + Observation + Action Interfaces + Permissions</strong></p>
-</blockquote>
-<ul>
-<li>工具 Tools:          文件读写、Shell、网络、数据库、浏览器</li>
-<li>知识 Knowledge:      产品文档、领域资料、API 规范、风格指南</li>
-<li>检测 Observation:    git diff、错误日志、浏览器状态、传感器数据</li>
-<li>行为 Action:         CLI 命令、API 调用、UI 交互</li>
-<li>许可 Permissions:    沙箱隔离、审批流程、信任边界</li>
-</ul>
-<p><strong>模型决策，harness执行</strong><br><strong>模型推理，harness提供上下文</strong><br><strong>此即: <em>Harness</em> &#x3D;&gt; <em>驾驭工程</em> | 模型驾驶harness执行任务</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/ML-DL-AI/Agent/learn-claude-code/s00_start/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s01_agent_loop/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -511,13 +389,6 @@ mjx-container[display="true"] + br {
     </span>
 
   
-    <span class="post-meta-item" title="阅读次数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span class="firestore-visitors-count"></span>
-    </span>
 </div>
 
         </div>
@@ -542,6 +413,117 @@ mjx-container[display="true"] + br {
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">agent_loop</span>(<span class="params">messages</span>):</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment"># 大模型响应</span></span><br><span class="line">        response = client.messages.create(</span><br><span class="line">            model=MODEL, system=SYSTEM, messages=messages,</span><br><span class="line">            tools=TOOLS, max_tokens=<span class="number">8000</span>,</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># 在模型响应后添加信息</span></span><br><span class="line">        messages.append(&#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;assistant&quot;</span>, <span class="string">&quot;content&quot;</span>: response.content&#125;)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> response.stop_reason != <span class="string">&quot;tool_use&quot;</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        results = [] <span class="comment"># 循环结果</span></span><br><span class="line">        <span class="keyword">for</span> block <span class="keyword">in</span> response.content:</span><br><span class="line">            <span class="comment"># 若受到停止命令</span></span><br><span class="line">            <span class="keyword">if</span> block.<span class="built_in">type</span> == <span class="string">&quot;tool_use&quot;</span>:</span><br><span class="line">                output = run_bash(block.<span class="built_in">input</span>[<span class="string">&quot;command&quot;</span>])</span><br><span class="line">                <span class="comment"># 停止</span></span><br><span class="line">                results.append(&#123;</span><br><span class="line">                    <span class="string">&quot;type&quot;</span>: <span class="string">&quot;tool_result&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;tool_use_id&quot;</span>: block.<span class="built_in">id</span>,</span><br><span class="line">                    <span class="string">&quot;content&quot;</span>: output,</span><br><span class="line">                &#125;)</span><br><span class="line">        <span class="comment"># 将工具调用结果写入消息列表message[]中</span></span><br><span class="line">        messages.append(&#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: results&#125;)</span><br></pre></td></tr></table></figure>
 
 
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s00_start/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/ML-DL-AI/Agent/learn-claude-code/s00_start/" class="post-title-link" itemprop="url">learn-claude-code s00</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-08-05 18:30:13" itemprop="dateCreated datePublished" datetime="2026-08-05T18:30:13+08:00">2026-08-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI-%E6%99%BA%E8%83%BD%E4%BD%93/" itemprop="url" rel="index"><span itemprop="name">AI 智能体</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="learn-claude-code-笔记"><a href="#learn-claude-code-笔记" class="headerlink" title="learn-claude-code 笔记"></a>learn-claude-code 笔记</h1><p>项目路径：<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2Rl">github.com&#x2F;learn-claude-code<i class="fa fa-external-link-alt"></i></span></p>
+<hr>
+<h2 id="README-md"><a href="#README-md" class="headerlink" title="README.md"></a><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2RlL2Jsb2IvbWFpbi9SRUFETUUtemgubWQ=">README.md<i class="fa fa-external-link-alt"></i></span></h2><p><em><strong>Agent &#x3D; LLM + Context + Tools</strong></em></p>
+<p><em><strong>Agent 产品 &#x3D; 模型 + Harness</strong></em></p>
+<blockquote>
+<p><strong>LLM: 已训练的神经网络参数模型函数</strong><br><strong>Agent: 一个通过训练学会了行动的模型，加上让它能在特定环境中工作的基础设施</strong><br><strong>Agency: 感知、推理、行动</strong></p>
+</blockquote>
+<p><strong>Agent不是过程式的流水线工程，Agency能力是通过模型训练产生的</strong></p>
+<p><strong>Harness 是 agent 在特定领域工作所需要的一切：</strong></p>
+<blockquote>
+<p><strong>Harness &#x3D; Tools + Knowledge + Observation + Action Interfaces + Permissions</strong></p>
+</blockquote>
+<ul>
+<li>工具 Tools:          文件读写、Shell、网络、数据库、浏览器</li>
+<li>知识 Knowledge:      产品文档、领域资料、API 规范、风格指南</li>
+<li>检测 Observation:    git diff、错误日志、浏览器状态、传感器数据</li>
+<li>行为 Action:         CLI 命令、API 调用、UI 交互</li>
+<li>许可 Permissions:    沙箱隔离、审批流程、信任边界</li>
+</ul>
+<p><strong>模型决策，harness执行</strong><br><strong>模型推理，harness提供上下文</strong><br><strong>此即: <em>Harness</em> &#x3D;&gt; <em>驾驭工程</em> | 模型驾驶harness执行任务</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/ML-DL-AI/Agent/learn-claude-code/s00_start/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -616,13 +598,6 @@ mjx-container[display="true"] + br {
     </span>
 
   
-    <span class="post-meta-item" title="阅读次数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span class="firestore-visitors-count"></span>
-    </span>
 </div>
 
         </div>
@@ -715,13 +690,6 @@ mjx-container[display="true"] + br {
     </span>
 
   
-    <span class="post-meta-item" title="阅读次数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span class="firestore-visitors-count"></span>
-    </span>
 </div>
 
         </div>
@@ -814,13 +782,6 @@ mjx-container[display="true"] + br {
     </span>
 
   
-    <span class="post-meta-item" title="阅读次数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span class="firestore-visitors-count"></span>
-    </span>
 </div>
 
         </div>
@@ -929,13 +890,6 @@ mjx-container[display="true"] + br {
     </span>
 
   
-    <span class="post-meta-item" title="阅读次数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span class="firestore-visitors-count"></span>
-    </span>
 </div>
 
         </div>
@@ -1093,13 +1047,6 @@ mjx-container[display="true"] + br {
     </span>
 
   
-    <span class="post-meta-item" title="阅读次数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span class="firestore-visitors-count"></span>
-    </span>
 </div>
 
         </div>
