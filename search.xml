@@ -3213,7 +3213,7 @@ graph TD
     end
 
     listener --&gt;|accept| session
-    session --&gt;|async_read → 请求报文| request_handler
+    session --&gt;|async_read -&gt; 请求报文| request_handler
     request_handler --&gt;|路由匹配| router
     router --&gt;|分发| static_service
     router --&gt;|分发| dynamic_api
@@ -3488,7 +3488,7 @@ If-Modified-Since
 If-None-Match 是逗号分隔的 ETag 列表，任一项弱匹配即命中；&quot;*&quot; 是特殊形式，匹配任意实体：
 // src/utils.cppauto inm = req[http::field::if_none_match];if (!inm.empty()) &#123;    if (trim_ows(inm) == &quot;*&quot;) &#123;        return true;    &#125;    // 逗号分隔 ETag 列表，任一项弱匹配即命中    beast::string_view rest = inm;    while (!rest.empty()) &#123;        auto comma = rest.find(&#x27;,&#x27;);        auto item =            trim_ows((comma == beast::string_view::npos) ? rest : rest.substr(0, comma));        if (!item.empty() &amp;&amp; weak_etag_equal(item, etag)) &#123;            return true;        &#125;        ...
 
-If-Modified-Since 与优先级RFC 7232 §3.3 规定：If-None-Match 存在时，服务器必须忽略 If-Modified-Since。实现中先检查 INM，非空则走 ETag 分支并直接返回，IMS 仅在 INM 缺失时生效：
+If-Modified-Since 与优先级RFC 7232 规定：If-None-Match 存在时，服务器必须忽略 If-Modified-Since。实现中先检查 INM，非空则走 ETag 分支并直接返回，IMS 仅在 INM 缺失时生效：
 // src/utils.cppauto ims = req[http::field::if_modified_since];if (!ims.empty()) &#123;    std::time_t since;    if (parse_http_date(ims, since)) &#123;        return last_modified_time &lt;= since;    &#125;&#125;
 
 HTTP 日期解析用 strptime 严格匹配 RFC 1123 格式（%a, %d %b %Y %H:%M:%S GMT）后经 timegm 转时间戳，解析失败视为条件头无效（回 200）

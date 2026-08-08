@@ -2,16 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://iloging.github.io/My-Projects/http_server/http-server-overview/</loc>
-    
-    <lastmod>2026-08-08</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://iloging.github.io/Graphics/Games101/Lecture-03-04/</loc>
+    <loc>https://iloging.github.io/My-Projects/http_server/http-server-protocol/</loc>
     
     <lastmod>2026-08-08</lastmod>
     
@@ -29,7 +20,16 @@
   </url>
   
   <url>
-    <loc>https://iloging.github.io/My-Projects/http_server/http-server-protocol/</loc>
+    <loc>https://iloging.github.io/My-Projects/http_server/http-server-overview/</loc>
+    
+    <lastmod>2026-08-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iloging.github.io/Graphics/Games101/Lecture-03-04/</loc>
     
     <lastmod>2026-08-08</lastmod>
     
