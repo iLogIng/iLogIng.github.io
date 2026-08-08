@@ -29,7 +29,7 @@
 <meta property="og:description" content="基于 Boost 的 HTTP 服务器：框架设计 本文是 http_server 系列的框架篇，对应总览中的”三层架构”部分展开三个核心设计决策：请求处理的解耦、并发模型的选择、缓存的分层演进 http_server">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-08-08T08:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-08T10:50:00.923Z">
+<meta property="article:modified_time" content="2026-08-08T11:01:47.774Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="my projects">
 <meta name="twitter:card" content="summary">
@@ -61,6 +61,8 @@
 <script src="/js/third-party/search/local-search.js" defer></script>
 
 
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
 
 
 
@@ -376,7 +378,7 @@ mjx-container[display="true"] + br {
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-08-08 16:00:00 / 修改时间：18:50:00" itemprop="dateCreated datePublished" datetime="2026-08-08T16:00:00+08:00">2026-08-08</time>
+      <time title="创建时间：2026-08-08 16:00:00 / 修改时间：19:01:47" itemprop="dateCreated datePublished" datetime="2026-08-08T16:00:00+08:00">2026-08-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -520,10 +522,53 @@ mjx-container[display="true"] + br {
 <td align="left">生成内容响应</td>
 </tr>
 </tbody></table>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">    subgraph 网络层</span><br><span class="line">        listener[listener]</span><br><span class="line">        session[session]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph 处理层</span><br><span class="line">        request_handler[request_handler]</span><br><span class="line">        router[router]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph 服务层</span><br><span class="line">        static_service[static_file_service]</span><br><span class="line">        dynamic_api[dynamic_api_service]</span><br><span class="line">        cache[cache]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    listener --&gt;|accept| session</span><br><span class="line">    session --&gt;|async_read → 请求报文| request_handler</span><br><span class="line">    request_handler --&gt;|路由匹配| router</span><br><span class="line">    router --&gt;|分发| static_service</span><br><span class="line">    router --&gt;|分发| dynamic_api</span><br><span class="line">    static_service -.-&gt;|读缓存| cache</span><br><span class="line">    static_service --&gt;|message_generator 响应| session</span><br><span class="line">    dynamic_api --&gt;|message_generator 响应| session</span><br></pre></td></tr></table></figure>
+<pre>
+<code class="mermaid">
+
+graph TD
+    subgraph 网络层
+        listener[listener]
+        session[session]
+    end
+
+    subgraph 处理层
+        request_handler[request_handler]
+        router[router]
+    end
+
+    subgraph 服务层
+        static_service[static_file_service]
+        dynamic_api[dynamic_api_service]
+        cache[cache]
+    end
+
+    listener --&gt;|accept| session
+    session --&gt;|async_read → 请求报文| request_handler
+    request_handler --&gt;|路由匹配| router
+    router --&gt;|分发| static_service
+    router --&gt;|分发| dynamic_api
+    static_service -.-&gt;|读缓存| cache
+    static_service --&gt;|message_generator 响应| session
+    dynamic_api --&gt;|message_generator 响应| session
+</code>
+</pre>
 
 <h3 id="session-状态机"><a href="#session-状态机" class="headerlink" title="session 状态机"></a>session 状态机</h3><p>session 是网络层的核心，其生命周期是一个异步状态机：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">stateDiagram-v2</span><br><span class="line">    [*] --&gt; run: 连接建立</span><br><span class="line">    run --&gt; do_read: strand 派发</span><br><span class="line">    do_read --&gt; on_read: async_read 完成</span><br><span class="line">    on_read --&gt; send_response: 业务返回响应</span><br><span class="line">    send_response --&gt; on_write: async_write 完成</span><br><span class="line">    on_write --&gt; do_read: keep-alive</span><br><span class="line">    on_write --&gt; do_close: 非 keep-alive</span><br><span class="line">    on_read --&gt; do_close: 超时 / EOF / 解析错误</span><br><span class="line">    do_close --&gt; [*]</span><br></pre></td></tr></table></figure>
+<pre>
+<code class="mermaid">
+
+stateDiagram-v2
+    [*] --&gt; run: 连接建立
+    run --&gt; do_read: strand 派发
+    do_read --&gt; on_read: async_read 完成
+    on_read --&gt; send_response: 业务返回响应
+    send_response --&gt; on_write: async_write 完成
+    on_write --&gt; do_read: keep-alive
+    on_write --&gt; do_close: 非 keep-alive
+    on_read --&gt; do_close: 超时 &#x2F; EOF &#x2F; 解析错误
+    do_close --&gt; [*]
+</code>
+</pre>
 
 <p>各状态的实现要点（src&#x2F;server.cpp）：</p>
 <ul>
@@ -575,7 +620,31 @@ mjx-container[display="true"] + br {
 <h2 id="缓存设计演进"><a href="#缓存设计演进" class="headerlink" title="缓存设计演进"></a>缓存设计演进</h2><blockquote>
 <p>缓存并非是一次性设计出来的，而是随项目同步演进</p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">    subgraph 请求路径</span><br><span class="line">        req[请求 target]</span><br><span class="line">        path_cache[路径解析缓存&lt;br/&gt;map + shared_mutex&lt;br/&gt;4096 上限]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph 内容缓存</span><br><span class="line">        lru[LRU 内容缓存&lt;br/&gt;lru_cache 泛型&lt;br/&gt;cached_file 条目]</span><br><span class="line">        gzip[gzip 预压缩版本&lt;br/&gt;cached_file.compressed]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph 响应构造</span><br><span class="line">        body[shared_string_body&lt;br/&gt;零拷贝 writer]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    req --&gt;|路径解析/校验| path_cache</span><br><span class="line">    path_cache --&gt;|full_path| lru</span><br><span class="line">    lru --&gt;|content + ETag/Last-Modified| body</span><br><span class="line">    lru --&gt;|compressed| gzip</span><br><span class="line">    gzip --&gt;|按 Accept-Encoding 选择| body</span><br></pre></td></tr></table></figure>
+<pre>
+<code class="mermaid">
+
+graph TD
+    subgraph 请求路径
+        req[请求 target]
+        path_cache[路径解析缓存&lt;br&#x2F;&gt;map + shared_mutex&lt;br&#x2F;&gt;4096 上限]
+    end
+
+    subgraph 内容缓存
+        lru[LRU 内容缓存&lt;br&#x2F;&gt;lru_cache 泛型&lt;br&#x2F;&gt;cached_file 条目]
+        gzip[gzip 预压缩版本&lt;br&#x2F;&gt;cached_file.compressed]
+    end
+
+    subgraph 响应构造
+        body[shared_string_body&lt;br&#x2F;&gt;零拷贝 writer]
+    end
+
+    req --&gt;|路径解析&#x2F;校验| path_cache
+    path_cache --&gt;|full_path| lru
+    lru --&gt;|content + ETag&#x2F;Last-Modified| body
+    lru --&gt;|compressed| gzip
+    gzip --&gt;|按 Accept-Encoding 选择| body
+</code>
+</pre>
 
 <h3 id="阶段一：无缓"><a href="#阶段一：无缓" class="headerlink" title="阶段一：无缓"></a>阶段一：无缓</h3><p>每请求 open + stat + read 三次系统调用，重复读盘、重复系统调用。<br>warm 路径的系统调用成为明显热点，影响了报文处理效率，是当时最大性能短板，影响处理效能</p>
 <h3 id="阶段二：LRU-内容缓存"><a href="#阶段二：LRU-内容缓存" class="headerlink" title="阶段二：LRU 内容缓存"></a>阶段二：LRU 内容缓存</h3><p>引入泛型 <code>lru_cache</code> 模板：<code>std::list</code> 维护访问顺序 + <code>unordered_map</code> 建立 key 到迭代器的索引，<br>命中时 <code>splice</code> 到队首，容量满时驱逐队尾。线程安全由内部 mutex 保证。</p>

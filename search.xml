@@ -1,6 +1,710 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Games101 计算机图形学概述</title>
+    <url>/Graphics/Games101/Lecture-01/</url>
+    <content><![CDATA[Lecture 01 Overview of Computer Graphics
+计算机图形学概述
+
+Games101
+Fundamentuals of Computer Graphics
+
+
+What is Computer Graphics?合成和操作视觉信息
+
+Why study Computer Graphics?Applications
+电子游戏(Video Games)
+
+光影
+模型
+物理模拟
+画面渲染
+
+
+电影(Movies)
+
+特效
+渲染
+动作捕捉
+
+
+动画(Animations)
+
+模型(毛发、建筑…)
+动作捕捉
+光线追踪
+物理模拟
+
+
+设计(Design)
+
+CAD AutoDesk 等软件技术
+CG技术
+物理仿真
+
+
+可视化(Visualization)
+
+建模
+3D扫描技术
+医学影像、科学影像、物理模拟
+
+
+虚拟现实(Virtual Reality)
+
+交互
+
+
+Digital Illustration
+
+Adobe Photoshop
+
+
+动画仿真模拟(Simulation)
+
+物理模拟
+
+
+GUI(Graphical User Interfaces)
+
+用户图形界面
+
+
+字体(Topography)
+
+The Quick Brown Fox Jumps Over The Lazy Dog.
+
+
+
+Fundamental Intellectual Challenges
+创造真实的虚拟世界并进行交互
+了解物理世界的各个方面
+新的计算方法、显示技术、科学技术
+
+Technical Challenges
+（透视）投影、曲线、曲面的数学
+照明和阴影的物理学
+显示或操作三维形状
+动画以及仿真
+
+
+Course Topics
+该课程分为4个主要部分
+
+
+光栅化(Rasterization)
+曲线和曲面(Curves and Meshes)
+光线追踪(Ray Tracing)
+动画&#x2F;仿真(Animation&#x2F;Simulation)
+
+光栅化
+将三维空间的物体显示在屏幕上即为光栅化
+
+曲线和曲面
+如何在计算机图形学中表示几何图形
+
+光线追踪
+从摄像机向每个像素射出一条光束，计算且渲染受光面
+
+动画&#x2F;仿真
+关键帧 物理系统(质点-弹簧系统)
+
+
+
+该课程内容有以下特点：
+
+不使用OpenGL Vulkan DirectX图形API
+不学习渲染语法
+学习图形学，而非图形API
+在课程之后，可以让个人有能力继续自学计算机图形学
+不学习3D建模软件、不学习物理引擎
+不学习计算机视觉以及深度学习的内容(一切需要计算机猜测的内容)
+
+
+
+
+Course Logistics]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+      <tags>
+        <tag>Graphics</tag>
+        <tag>Games101</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>应用层杂记</title>
+    <url>/Computer-Sci/Network/application-layer/</url>
+    <content><![CDATA[
+基于 《计算机网络：自顶向下方法》
+
+
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>NetWorking</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机网络概观</title>
+    <url>/Computer-Sci/Network/computer-network-overview/</url>
+    <content><![CDATA[
+基于 《计算机网络：自顶向下方法》
+
+
+因特网是一个世界范围内的计算机网络
+
+入网设备 被称为 主机(host) 或 段系统(end system)
+端系统通过
+
+通信链路 (communication link)
+分组交换机 (packet switch)
+
+的网络连接在一起。
+
+通信链路 是一组物理媒介，是信息流的载体。
+
+
+链路 有由其性质决定的 传输速率(transmission rate) 以 bit&#x2F;s (bps) 为度量。
+
+网络中的信息是以信息包的形式被 分组(packet) 流通的，从始端由网络传送至目的端，并在目的端装配复原。
+当今，因特网中有两种常见的交换机：
+
+路由器 (router) 通常用于网络核心中
+链路层交换机 (link-layer switch) 通常用于接入网中
+
+
+
+二者的功能都是向目的端转发分组。
+
+路径 (route &#x2F; path) 从 发送端系统 到 接收端系统 ，一个分组所经历的 一系列通信链路 和 分组交换机
+
+
+端系统 通过 因特网服务商 (Internet Service Provider , IPS) 接入因特网。
+
+端系统，分组交换机和其他英特网组件都要运行多个 协议（protocol） 这些协议控制英特网中信息的接收和发送。
+因特网的主题协议统称为 TCP&#x2F;IP
+
+TCP (Transmission Control Protocol, 传输控制协议)
+IP (Internet Protocol, 网际协议) 定义了在路由器和端系统之间，发送和接收分组的格式。
+
+因特网标准 (Internet Standard) 由 因特网工程任务组 (Internet Engineering Task Fore, IETF) 研发。其标准文档称为 请求评论 (Requst For Comment, RFC)
+涉及多个相互交换数据的应用称为 分布式应用 (distributed application) 。（如：社交媒体、多人游戏、交通信息… …）
+与因特网相连的端系统提供了一个 套接字接口 (Socket interface) 套接字接口规定了运行在一端系统上的程序 请求 因特网基础设施向运行在另一台端系统上的 特定目的程序 交付数据 的方式，是入网设备必须遵守的规则集合。
+协议（protocol）
+因特网广泛使用协议，不同协议用于完成不同的通信任务为完成一项工作，要求两个（或多个） 通信实体 运行相同的协议。
+
+
+协议 定义了在两个（或多个）通信实体之间交换报文的格式和顺序 ，以及报文的 发送&#x2F;接收 或遇到其他事件时应采取的操作。
+
+边缘网络
+端系统身处因特网边缘，故有此称谓。
+
+端系统，因其容纳应用程序，故可称作 主机（host），分为两类：
+
+客户端（client）
+服务器（server）
+
+
+接入网： 将端系统物理连接到 边缘路由器 (Edge router) 的网络。该路由器是端系统接入网络后的第一台路由器。
+
+对于每个 传输器-接收器 对，一比特(1 bit)通过传播电磁波或光脉冲的方式，跨越物理媒介 (physical medium) 进行发送。且对于路径上的每个 传输器-接收器 对而言，不必具有相同类型。物理媒介分为两种类型：
+
+导引型媒介 (guided media)
+非导引型媒介 (unguided media)
+
+
+物理链路的成本与其他网络成本相比是最小的，但是其安装与铺设成本才是其昂贵的原因。
+
+网络核心
+端系统间彼此交换 报文 (message) ，该报文可以 执行某种控制功能 或 承载某些数据。
+
+为了从 源端系统 向 目标端系统 发送一个 报文 ，源将 长报文 划分为较小的数据块，这一划分报文，使其适于网络传送的过程成为 分组 (packet) 。在源于目的之间，每个分组都通过 通信链路 和 分组交换机 (packet switch) 传送，交换主机主要有 路由器 (router) 和 链路层交换机 (link-layer switch) 两类。
+文分组以 等于 该链路最大传输速率的速度通过通信链路。即，若发送一个 *L bit 的分组，链路的传输速率为 R bit ，则分组通过链路的时间为 L&#x2F;R sec
+多数交换机在 输入端 使用 存储转发器 (store-and-forward transmission) 机制。先缓存一个接收的分组后，再将其发出。即，接收-转发 时间延迟为：
+
+d_{end-end} &#x3D; N * L&#x2F;R
+总时间延迟为：L&#x2F;R + (N-2) * L&#x2F;R + L&#x2F;R &#x3D; N * L&#x2F;RP 个分组经过N条链路的时间延迟为 (N + P - 1) * L&#x2F;R
+
+
+
+每台交换机有多条链路与之相连，对于每条相连的链路，该分组交换机具有一个 （输出缓存, output buffer 也称为 输出队列 output queue） 用于存储路由器准备发往某条链路的分组。
+即，一个分组在链路中存在：
+
+转发时延
+排队时延 (queuing delay)在缓存占满后，将出现 分组丢失 (丢包 packet loss) 问题，从到达分组或已排队分组之一选择丢弃。
+
+因特网中所采用的转发方式
+根据网络包中的 源端系统 的 IP地址 ，相同一台 相邻路由器 进行转发，由每台路由器自己维护 转发表 (forwarding table) 进行控制。每个分组包括每台路由器在传输中都不知道某一个分组在网络中的完整路径，路由器仅知道某个分组发往的下一台 路由器&#x2F;交换机（网络节点）。
+路由器的 转发表 (forwarding table) 由 路由选择协议 (routing protocol) 来规范其 自动设置转发表的行为。
+
+以上为 分组交换 (packet switching) 机制
+
+
+频分复用 (Frequency-Division Multiplexing, FDM) 
+链路的频谱由跨越链路创建的所有连接共享。特别的，在连接期间，链路对每条连接专门设定一个 频段 （电话网络中通常是 4Hz 宽）。该频段宽度就是 带宽 (bandwidth) 链路频谱中按带宽分有多个不同的频段。（每条链路持续得到部分带宽）
+
+
+时分复用 (Time-Division Multiplexing, TDM)
+时间被划分为固定时段的 帧 ，每个帧有被划分为固定数量的 时隙 。网络跨越一条链路，创建一条链接，网络在每个帧中为该连接指定一个时隙。
+[帧 是一系列任务的集合] 每条电路得到一个时隙，在 **静默期（silent period）**专用电路处于空闲状态，并不被利用。
+
+
+
+
+段系统经由一个 接入 ISP 与因特网相连，但为使各入网端系统互联互通，则需要 接入ISP 自身互联 组建 网络的网络（因特网）
+因特网网络结构的构成发展
+
+网络结构 1
+使用单一的 全球传输ISP(供应商) 互联所有的 接入ISP(客户)
+
+
+网络结构 2 两层结构
+多个公司建立并运营各自的全球传输LSP，相互竞争各自争取接入ISP。且多个全球传输ISP之间，必须互联。
+
+
+网络结构 3 等级化网络结构（两层客户端-供应端关系）
+任何给定的区域有其自身的 区域ISP(reginal ISP) 。每个区域ISP都与 第一层ISP(tier-1 ISP) 相连。（第一层ISP位于该等级结构的顶部）
+
+
+网络结构 4
+在等级话网络结构3上增加， 存在点(Point of Presence, PoP) 、 多宿(multi-home) 、 对等(peer to peer) 、 英特网交换点(Internet Exchange Point, IXP) 构成的一个生态系统
+PoP
+存在于等级结构的 所有层次 中,底层（接入ISP）除外。PoP是 供应商网络 中的一台或一组路由器（在相同位置）群组。其中， 客户ISP 与 供应商ISP 连接，从第三方电信供应商租用高速链路并将其路由器之一直接与PoP的一台路由器相连
+
+
+多宿
+除第一层ISP，其他任何ISP都可以选择多宿，与 多个供应商ISP 相连，以保障其与其它网络的连接
+
+
+对等
+不与上层供应商产生通信流量，而是与 平级ISP 相连，将两个平级ISP的网络相连，跨网传输不需要向上层供应商ISP产生路由成本。平级ISP间传输，无流量结算。
+
+
+IXP
+是一个汇合点，多个ISP可以在此处一起对等
+
+
+
+
+网络结构 5
+在网络结构4的顶部增加 内容供应商网络(content provider network) 构建而成
+
+
+
+
+网络时延在分组从一台主机经历通信链路传输到另一台主机的过程中，其必定在每个节点都会受到集中不同类型的时延制约。
+
+total modal delay
+节点处理时延(nodal processing delay)
+排队时延(queuing delay)
+是最复杂的成分，受某时刻的网络环境影响
+分组大小，到达顺序，相对位置等都会产生影响
+在表征排队时延时，通常使用统计量进行度量
+
+
+传输时延(transmission delay)
+节点向链路发送整个分组的时间
+
+
+传播时延(propagation delay)
+分组在两个节点间链路中传播的时间，受制于传播媒介的物理性质
+
+
+…
+
+
+
+
+协议栈OSI网络分层(7层)
+
+应用层
+表示层
+会话层
+传输层
+网络层
+数据链路层
+物理层
+
+目前常使用的是 5层 协议栈（TCP&#x2F;IP协议簇）
+
+应用层
+网络应用程序和应用层协议所在之处，位于应用层的消息分组成为 报文(message)
+
+
+运输层
+英特网中的运输层在程序端点之间传送应用层报文，位于运输层的分组称为 报文段(segment)
+
+
+网络层
+英特网的网络层负责将称为 数据报(datagram) 的网络层分组从一台主机传输到另一端主机
+
+
+链路层
+为了将分组从一个节点移动到路径上的下一个节点，网络层必须依靠 链路层的服务
+链路层提供的服务取决于应用于该链路的特定的链路层协议
+链路层的分组称为 帧(frame)
+
+
+物理层
+将 帧 中的一个个 bit 从一个节点移动到下一个节点
+
+
+
+在各个层中，使用上一层传来的分组，加上该层的 首部 ，即， 首部字段 + 有效载荷字段(来自上一层的分组)
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>NetWorking</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Games101 向量与线性代数</title>
+    <url>/Graphics/Games101/Lecture-02/</url>
+    <content><![CDATA[Review of Linear Algebra
+向量与线性代数 Vector &amp; Linear Algebra
+
+计算机图形学依赖于:
+
+线性代数(Vector Matrix …)(对图形进行操作)
+基础数学（解数学方程）
+基础物理光学、力学
+信号处理、数值分析
+
+
+
+线性代数向量(Vector)
+具有方向和长度的量不关心具体的起始点
+
+向量的基本操作：
+
+向量加减法
+向量乘法（点积、叉积）
+点积(Dot Product)
+向量夹角
+向量投影（向量分解）
+计算向量两点间的间距（镜面反射）
+确定向量的方向
+判定前后（正负）
+
+
+叉积(Cross Product)
+判定左右（右手&#x2F;左手螺旋定则的内外）
+
+
+
+
+定义坐标系
+点乘分解向量
+
+
+
+矩阵(Matrix)
+对对象进行变换
+
+矩阵的基本操作：
+
+矩阵乘法（无交换律、结合律简化计算）
+矩阵与向量的乘法 
+矩阵的转置
+将Dot&#x2F;Cross Product转换为矩阵计算
+矩阵的变换(Transformation)
+
+]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+      <tags>
+        <tag>Graphics</tag>
+        <tag>Games101</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Games101 变换</title>
+    <url>/Graphics/Games101/Lecture-03-04/</url>
+    <content><![CDATA[Transformation
+矩阵的变换 Transformation
+
+
+Lecture 03变换
+
+
+
+
+为什么要学习变换？变换可以分为两类：
+
+模型变换(Modeling)
+旋转 rotation
+缩放 scale
+切变 shear
+
+
+视角变换(Viewing)
+3D转换为2D的投影 projection
+
+
+
+
+2D变换旋转 rotation在2D变换中，将物体绕原点（或某一个点）进行旋转（默认向逆时针方向进行旋转
+
+实质上是变换向量空间
+
+2D旋转矩阵：
+Unknown environment 'bmatrix'
+缩放 scale在2D变换中，向量缩放则是通过左乘一个包含了向各个线性无关方向进行伸缩变换系数的对角矩阵。
+由此，也可以对向量进行对称（镜像）
+切变 shear在2D变换中，物体的某一部分相对于另一部分在某一方向发生变化。如，在平面直角坐标系中，正方形变换为菱形。
+矩阵变换（线性变换）原向量 ：
+Unknown environment 'bmatrix'
+变换矩阵 ：
+Unknown environment 'bmatrix'
+变换后的向量 ：
+Unknown environment 'cases'
+
+齐次坐标 Homogeneous Coordinates在处理平移时无法表示为以上所述的形式，而是：
+Unknown environment 'cases'
+在包含平移后公式形式变为：
+Unknown environment 'cases'
+
+若要将平移与上述三种变换进行统一的变换，于是引入了齐次坐标
+
+可以在2D坐标/点上增加一个维度，变为：
+
+2D point: 
+2D vector: 
+因为向量具有平移不变性
+
+
+
+变换矩阵，变为：
+Unknown environment 'bmatrix'
+并且增加的一个维度可以对对象进行分辨（v向量 p点）：
+
+  
+  
+  
+
+对以上定义进行扩充：
+ 为2D点 ， 
+
+  （ 与  的中点）
+
+仿射变换 Affine Transformations
+Unknown environment 'cases'
+使用齐次坐标表示：
+切变与平移：
+Unknown environment 'bmatrix'
+缩放 ：
+Unknown environment 'bmatrix'
+旋转 ：
+Unknown environment 'bmatrix'
+平移 ：
+Unknown environment 'bmatrix'
+逆变换 Inverse Transform变换矩阵  的逆变换为 
+
+合成变换 Composing transforms
+复杂的变换可以通过一系列简单的变换得到
+变换的结果与一系列变换的顺序有关
+ 因为旋转是以坐标轴原点进行变换的
+
+
+
+对一个点  顺序进行  变换：
+
+
+
+将连续的简单矩阵变换变为复杂的矩阵变换即： 
+
+变换也可以进行分解
+如：想让图形以一个确定点进行旋转，则可以将该点先移动到原点位置，然后进行旋转，最后再将该点移至原来的位置
+
+3D 变换
+3D point: 
+3D vector: 
+
+ 为3D点（ ），即 
+3D坐标中使用齐次坐标描述矩阵
+
+先表示线性变换再表示平移
+
+Unknown environment 'bmatrix'
+
+
+Transformation Cont.
+Lecture 04变换深入
+
+3D Transformations
+3D point: 
+3D vector: 
+
+ 为3D点（ ），即 
+3D坐标中使用齐次坐标描述矩阵
+
+先表示线性变换再表示平移
+
+Unknown environment 'bmatrix'
+缩放 Scale
+Unknown environment 'bmatrix'
+旋转 Rotate
+
+绕x轴进行旋转 ：
+
+Unknown environment 'bmatrix'
+
+绕y轴进行旋转 ：
+
+Unknown environment 'bmatrix'
+
+由于循环对称性 xyzxyzxyz…
+各轴有以下关系：
+
+  
+  
+  
+
+
+
+绕z轴进行旋转 ：
+
+Unknown environment 'bmatrix'
+
+在3D空间中进行任意的旋转
+即，将旋转分解为分别绕x y z三个轴的旋转的合成
+
+
+
+罗德里格斯旋转公式：
+
+ 该公式给出了一个旋转矩阵，定义了一个旋转轴 （方向）与旋转角度 
+
+
+公式推导
+罗德里格斯旋转公式
+wiki
+在公式推导过程中的核心逻辑为：罗德里格斯公式的本质就是将三维旋转分解为平行分量的保留和垂直分量的二维旋转，然后用向量加法重新组合。
+对该公式的理解：取一旋转轴 （ 为旋转轴方向上的单位向量），绕该旋转轴有一旋转角 。为辅助公式的推导，令旋转轴  的一个法平面为s。
+*step1计算出  与  在  轴法向平面 s 上的投影
+step2将法平面上的两个投影围成一个直角三角形，其中 $\mathbf{v}{rot}的投影作为斜边，可以清晰地以该斜边为半径，在平面上做出一个圆形。将向量\mathbf{v}绕\mathbf{n}轴旋转到向量\mathbf{v}{rot}$ 的运动，拆分成两段向量，即上述直角三角形产生的两个直角边。
+step3使用公式，将 $\mathbf{v}{rot}分解出的两个向量用\mathbf{v}分解出的两个向量代替。最后，使用\mathbf{v}表示\mathbf{v}{rot}$，即得到罗德里格公式。
+
+
+切变 Shear
+Unknown environment 'bmatrix'
+平移 Translation
+Unknown environment 'bmatrix'
+
+观测变换 Viewing Transformations视图/相机变换 View/Camera transformation
+模型变换 model transformation 搭建场景
+视图变换 view transformation 变换摄像头
+投影变换 projection thransformation 将3D投影至2D
+以上变换成为MPV变换(Model View Projection)
+
+
+
+定义相机：
+
+位置 Position 
+朝向 Look-at/gaze direction 
+向上方向 Up direction 
+
+将相机放在标准位置——坐标轴原点——上。y轴为上，z轴负方向朝向物体。
+
+先将相机移动至原点
+
+Unknown environment 'bmatrix'
+
+ 旋转至与  对齐
+ 旋转至与  对齐
+  得到 
+
+
+对于进行以上的变换，难以求出，可以先求其逆变换，即求将各个坐标轴变换至各个相机方向的变换矩阵。
+
+：
+Unknown environment 'bmatrix'
+
+由于旋转矩阵是正交矩阵，其逆与其转置相等。
+
+ ：
+Unknown environment 'bmatrix'
+
+在进行视图变换的同时，相机与物体应用同样的变换，保证相对位置的不变即模型/视图变换
+
+投影变换 Projection transformation正交投影 Orthographic projection
+由物体直接竖直投影至画布上
+
+
+设定相机位置
+丢弃Z轴信息
+移动并缩放将投影图形限制在一个   矩形中（人为约定的限制）
+
+在图形学中，我们将一个显示空间：  （左右 上下 远近）变换为一个   立方体空间
+
+注意，在右手系中，表示远近的  中由于摄像头朝向  方向，越远  越小
+
+
+：
+Unknown environment 'bmatrix'
+
+摄像机归中
+
+：
+Unknown environment 'bmatrix'
+
+缩放至   区间
+
+透视投影 Perspective projection
+（视锥中的）物体通过各顶点与视点（相机原点）的连线投影至画布上（与画布的焦点）
+是最常使用的投影，遵循近大远小的视觉原理
+
+
+将相机与画布间的距离记为 
+将相机与物体间的距离记为 
+将物体在空间中的位置记为 
+将物体在画布上的位置记为 
+
+（根据相似三角形）对  有：
+
+在齐次坐标系下：
+$$(x, y, z, 1) \Rightarrow (nx/z, ny/z, unknown, 1) \equiv (nx, ny, unknown, z)$$
+$$M_{persp \to ortho}(x, y, z, 1) = (nx, ny, unknown, z)$$
+此时，至少可知 ：
+Unknown environment 'bmatrix'
+在近平面上任意点不发生变化
+使用  来代替 ：
+
+
+对于  的第三行为 ，有：
+
+
+在远平面上任意点的Z坐标不发生变化
+取远平面的中心点：
+
+
+
+
+联立上述两式可得出：
+
+：
+Unknown environment 'bmatrix'
+
+
+在近平面  与远平面  之间的点，近的更近 被拉伸在远平面  之外的（远处）点，远的更远 被压缩这就是透视畸变 现象
+
+]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+      <tags>
+        <tag>Graphics</tag>
+        <tag>Games101</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SFML-cloth-simulation</title>
     <url>/Graphics/sfml-cloth-simulation/</url>
     <content><![CDATA[SFML cloth simulation
@@ -121,18 +825,857 @@ return  这时  就是P到AB的垂段
       </tags>
   </entry>
   <entry>
-    <title>应用层杂记</title>
-    <url>/Computer-Sci/Network/application-layer/</url>
-    <content><![CDATA[
-基于 《计算机网络：自顶向下方法》
+    <title>Games101 光栅化</title>
+    <url>/Graphics/Games101/Lecture-05/</url>
+    <content><![CDATA[Rasterization
+着色
+
+
+光栅化 Raster Images
+
+&lt;–! more –&gt;
+
+
+三角形的光栅化
+
+在上一节课中讨论到了透视投影，可以将近平面作为显示器（显示平面），定义宽 width和高 height。
+即，定义了一个视场 field-of-view(fovY)与宽高比 aspect ratio (width / height) (包括可视角度，在此处，表示为相机到上下边界的开口大小，即视场）
+
+以上两个值直接定义了视锥
+
+
+令：
+视角为fovY
+令摄像机到近平面的距离为 
+近平面上边界坐标为 
+有：
+
+
+
+
+MVP
+
+Model Transformation (placing objects)
+View Transformation (placing camera)
+Projection Transformation
+正交投影 (  规范立方体)
+透视投影
+
+
+
+
+接下来，将以上透视规则投影至屏幕(近平面)上
+
+在图形学中，将*屏幕(screen)抽象为一个二维数组*，每个元素即为屏幕对应位置的像素**，数组的大小即为屏幕的分辨率
+
+
+
+Raster即为光栅，光栅化即为Rasterization
+Raster在德语中即表示屏幕，屏幕即为一种光栅化设备
+Rasterize意为光栅化，即，在屏幕上绘制图像
+
+
+
+Pixel意为像素，即Picture element
+
+
+screen space意为屏幕空间，在屏幕中定义的一个坐标系，比如，取屏幕左上角为原点，向下为Y，向右为X。可以使用坐标 (x,y) 对各个像素进行访问。像素索引在 (0,0) ~ (width-1,height-1) 区间内像素的实际位置(中心)处于 (x+0.5,y+0.5) 处(物理位置)屏幕对于像素的显示范围为 (0,0) ~ (width,height)
+
+
+从规范立方体到屏幕
+
+与Z无关
+转换至XY平面中：   到  
+视口变换矩阵 Viewport transform matrix (屏幕；近面)
+将   变换为屏幕空间
+
+
+
+Mviewport
+
+
+
+
+
+
+
+
+
+
+width/2
+0
+0
+width/2
+
+
+0
+height/2
+0
+heigth/2
+
+
+0
+0
+1
+0
+
+
+0
+0
+0
+1
+
+
+
+X Y 为标准立方体空间下的坐标 [-1,1] ;X’ Y’ 为屏幕空间坐标
+
+
+X’ = Xwidth/2 + width/2*
+Y’ = Yheigth/2 + height/2*
+深度值保留，以便于后续处理
+
+
+
+
+将多边形，拆解为一个个像素，以投射到屏幕，此即光栅化
+
+为什么要以三角形为基础进行光栅化？
+
+三角形为最基础的多边形
+其他多边形都可以拆解为三角形
+
+
+三角形的特性
+三个点一定确定一个平面，即，三角形内部一定是一个平面
+三角形的内外定义清晰
+当给定三角形的三个顶点的属性后，三角形内部平面的各个位置可以进行渐变式的填充（可以进行插值）
+可以便捷的判断一个像素与该三角形的空间关系
+
+
+
+
+可以通过采样的方法进行光栅化
+
+
+采样：给定一个连续函数，在该函数上取离散的各个定点即，函数的离散化
+
+为了判断某像素是否在三角形内可以使用采样的思维，定义一个函数：
+inside(tri,x,y)
+
+1 (x,y) in
+0 (x,y) out
+
+for(int x = 0; x &lt; xmax; ++x)    for(int y = 0; y &lt; ymax; ++y)        image[x][y] = inside(tri, x+0.5, y+0.5);
+
+
+关于inside函数，考虑前述课程中向量的叉积
+
+
+如，对于三角形 p1 p2 p3 另外一个像素 q然后使用叉积，每次取三个点（px py q，顺序取用三次不同的组合，考虑三角形上的所有顶点的二二组合），使用叉积判断q与向量间的左右关系（叉乘值全为正/负时才能证明q在三角形p1 p2 p3内，边界情况为q在三角形边界）
+只需要在三角形所存在的区域（三角形的包围和）内选取各个像素进行判定就可以对三角形进行光栅化（循环处理），而不需要对屏幕空间中的所有点进行判定处理
+
+
+在光栅化图形学中，由于采样不足而产生像素锯齿，需要抗锯齿技术对产生图形进行处理，以产生较高质量的图形。
+
+]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+      <tags>
+        <tag>Graphics</tag>
+        <tag>Games101</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Games101 着色</title>
+    <url>/Graphics/Games101/Lecture-07-09/</url>
+    <content><![CDATA[Shading
+着色
+
+
+(Illumination, Shading and Graphics Pipline)
+
+
+
+到目前为止所学的内容Lecture 01-06
+
+在空间中定位物体和相机（坐标）
+计算物体与相机间的位置关系
+将物体投影至平面
+采样三角形覆盖区域
+
+
+
+
+
+shading 着色: 对不同物体应用不同材质
+
+最基础的着色模型：Blinn-Phong Reflectance Model(Blinn-Phong 反射模型)
+
+高光，环境光，漫反射
+漫反射计算在一个shading point着色点射向相机的反射光线
+
+输入：
+
+Viewer direction, v 观测方向
+Surface normal, n 平面法线方向
+Light direction, l (for each of many lights) 光照方向
+Surface parameters (color, shininess…) 表面属性对于以上方向都定义为单位向量
+
+
+着色是局部的，仅看被着色物体，仅展现在该物体的表面属性下产生的着色结果，不会产生阴影
+
+光反射能量定律
+
+光照在平面的能量由Lambert’s cosine Law指出  平面接收到的能量与该平面法线方向和光照方向的夹角的余弦成正比
+
+
+光传播能量定律点光源对于光源产生的能量都集中在一个球壳上，由于在一定时刻发出的光能是一定的，由于能量守恒，离点光源的距离越远，该球壳上单位面积的光强越小（ ）
+
+即，光线在传播中的能量与传播距离的平方成反比
+
+
+
+得出以下方程：
+
+
+漫反射光线 = 漫反射系数 * (到达该着色平面的光线能量) * 物体表面该点反射的能量(该值大于等于0)
+
+
+漫反射的效果与观察方向毫无关系，因为漫反射向四周散射的光线的信息都是一样的
+光源位置不变，物体位置不变，则l与n的方向不变，那么从不同方向看向同一点，其亮度相同
+
+高光
+高光处类似镜面反射高光与观察方向有关
+
+
+在Blinn-Phong模型中当观察方向  接近镜面方向时，法线方向  与半程向量  很接近（半程向量 : Undefined control sequence \dfrac）这是由于，镜面反射其反射角与入射角相等， 在  与  的角平分线上
+
+有以下方程关系：
+
+
+镜面反射光线 = 镜面反射系数 * （到达该着色平面的光线能量） * 物体表面该点镜面反射的能量(该值大于0)其中的指数  可以控制高光区的大小，高光区的可视角度，
+在该模型上未考虑镜面所吸收的能量，Blinn-Phong模型是一个经验模型，对该情况有所简化
+
+
+环境光照
+认为所有着色点接收到的环境光的大小都是相同的有以下方程描述：
+
+
+
+环境光照 = 环境光系数 * 环境光光照强度
+环境光是一个常数，与观测角度，光源位置无关，保证了所有地方都不为黑色是全局光照的简化
+
+Blinn-Phong反射模型 = 环境光照(Ambient) + 漫反射光(Diffuse) + 镜面反射光(Specular)
+
+
+
+
+着色频率 Shading Frepuencies
+着色频率，即是应用于每个面的着色量
+
+有以下三种方式：
+
+
+Flat shading 三角平面着色
+
+
+三角形面是平坦的，仅一个法向
+对于平滑表面不友好
+
+
+Gouraud shading 顶点插值着色
+
+
+所有的顶点具有其法向
+使用三角形的三个顶点，对该三角形平面进行插值计算
+
+
+Phong shading 逐个像素的插值着色
+
+
+对三角形内的每个像素进行一次插值着色
+Blinn-Phong着色模型与Phong shading不是相同的内容，但是是同一个人
+
+
+
+由于插值的存在，对于面数越多的对象，可以用越简单的着色频率展现不差于其他复杂着色频率的效果
+
+逐个顶点的法线
+
+对于一个球体，其顶点的法线，是从球心到顶点的方向
+对于某个顶点的法线，可以视作是对其相关联的三角形面法线和的平均 (根据三角形的面积进行加权平均)
+
+
+Graphics (Real-time Rendering) Pipline 图形管线
+将前面课程所述的内容进行整合，就可以称为图形管线或实时渲染管线
+
+
+Inputs: 三维空间中的点
+
+
+Vertex Processing
+Vertex Stream
+顶点在屏幕上的位置
+
+
+Triangle Processing
+Triangle Stream
+三角形在屏幕上的位置
+
+
+Rasterization
+Fragment Stream
+将三角形离散化，光栅化(像素化)
+
+
+Fragment Processing
+Shaded Fragments
+将各个离散像素进行着色
+
+
+Framebuffer Operation
+
+
+Display
+输出图像
+
+
+
+
+shader即是操作顶点与像素进行着色的工具，如GLSLshader的代码是交由可编程硬件的，对于各个像素点通用的代码，对于每个像素执行一遍
+
+
+Textrue mapping
+纹理映射
+
+
+定义任何一个点的基本属性
+
+
+任何一个三维图形的表面都是二维图形
+
+
+纹理是一张三维物体表面相对应的二维图是着色时应用于该顶点的属性
+
+对于三角形的每个顶点都有一个在纹理贴图上的坐标对应，通常会使用**uv, (u,v)**坐标来指示纹理贴图的坐标，（u[0,1], v[0,1]）
+在三角形内部的各个像素也需要使用插值进行纹理的附加
+
+Barycentric coordinate 重心坐标可用于在三角形内根据顶点属性进行插值
+
+重心坐标是定义在三角形上的：在三角形ABC所形成的平面内任何一点  都可以表示成三个顶点A B C的线性组合
+
+       该式得出三角形所在平面上的任意一个点，当  都大于0时，表示在三角形内的点
+该点的坐标可以由其产生的三个三角形的面积比得到，与各个顶点对底的三角形占主三角形的面积比例，就是线性组合中，该点所需的系数
+
+如此，就可以将三角形的三个顶点的属性作为输入，对三角形内部的各个像素进行插值处理
+
+       其中， 可以是附加在三角形顶点上的任意属性但是，重心坐标在投影下应用不能保证效果不变即，若想对三维空间下的属性进行插值，就需要取用三维空间中的坐标，而不能在投影后的三角形中进行插值，三维空间中的属性在三维空间中做插值，不能在投影到屏幕后再插值（需要逆变换）
+
+Applying Textures
+应用贴图
+
+屏幕上的任意一个采样点，都与一个贴图坐标相对应，可以得知该位置插值后得到的对应的uv坐标可以在纹理贴图中查询该**(u,v)**的值（texcolor = texture.sample(u,v)），随时使用该纹理属性
+会产生以下问题：
+Texture Magnification
+
+纹理放大
+
+
+在处理贴图时，若目标区域超过uv纹理的清晰度（像素大小），会产生明显的像素点
+
+纹理上的像素称为： texel 纹理元素
+
+以上的问题是由于多个pixel被映射到同一个*texel上
+Bilinear interpolation 双线性插值
+类似于重心坐标的思想，将pixel映射到uv贴图的坐标位置处的点，与周围四个texel的中心围成的矩形，计算该点在此平面上的浮点偏移坐标 (s,t) (即，两个相邻texel之间的距离为1.00)
+定义一个称为线性插值的操作：
+
+可以对两对组成平行线的texel中心进行以上插值，待求的pixel映射点在这两条平行线上相对应的插值点的连线上，再对这两点应用以上插值公式，将pixel映射点插入该公式
+如下：
+
+
+
+该映射点的属性考虑到周围四点的属性，以达到平滑过渡到效果，相较于Nearest更优
+
+
+
+纹理过大会产生锯齿与摩尔纹
+
+
+
+在近处，一个pixel与texel呈现一/多对一的情况;在远处，一个pixel覆盖多个texel由此，若纹理过大/过于精细，最极端情况会导致所有的pixel都覆盖多个texel可以对纹理采取与反走样技术类似的方式，将一个pixel作为多个texel的采样点进行卷积处理(类似于MSAA超采样抗锯齿)
+
+
+实际上仍然是texel变化过快，进行采样的pixel无法真正的考虑到材质的变化
+
+在此处，我们考虑是否可以避免pixel向texel进行类似采样的处理的出现，直接得知该处的平均值
+这是一个范围查询问题(Range Query)
+
+对应的有点查询问题(Point Query)
+
+此处，引入Mipmap进行范围查询
+
+允许 快速的、不准确的（近似的）、方形的 范围查询
+
+可以先将高品质纹理处理为多级的低分辨率的纹理，在需要时使用
+
+Level 0 为原始图像此时需要的存储为原来图像的4/3倍，仅需要额外的1/3的存储空间
+
+处理时，可以考虑周边的pixel所对应的texel的位置，以估计该pixel概括了多少texel从而选择不同品质的uv贴图
+若我们在处理Mipmap进行分层时根据，各层为上层的一半（1/4面积），可以看出  为选择贴图品质的依据
+经过以上处理，仍会产生选用的各个不同品质的纹理在同一个表面过度不均匀的问题，可以分别在选用的两层中进行Bilinear interpolation，最后在层与层之间进行插值，即三线性插值(Trilinear filtering)
+但是，在远处会出现Overblur的问题，导致远处贴图过于模糊
+Anisotropic Filtering 各向异性过滤可以部分缓解该问题，保留远处的部分细节（即，在不同方向表现不同，具有对不同的方向性的支持）
+
+Ripmap 收敛到原图存储的4倍，增加了额外的3倍空间（但是仅仅占用更高的显存，几乎不对计算性能造成大影响）可以处理轴向压缩的区域(长条形区域)但是，其仅解决了对于矩形区域的查询，但是对于长形的不规则区域的支持极为有限
+
+其他方法：
+
+EWA Filtering
+
+
+纹理的应用在现代GPU中，可以理解为texture = memory + range query(filtering) 即，内存中的一块数据
+
+Environment Map 环境光映射
+Cube Map 立方体映射  (描述来自不同方向的环境光)
+Bump/Normal Map 凹凸/法线贴图 可以在保证简单的几何形体的情况下，可以在贴图上定义几何形体表面的凹凸关系，可以给出表面细节的各种复杂的法线或相对高度设定，表现精细化的形体
+Displacement Map 位移贴图  与凹凸贴图类似，定义了贴图表面的起伏信息，位移贴图实际上会将原实体的各个顶点进行真正的移动(凹凸贴图并不会更改原实体的形体)，但是需要使实体中定义的顶点比贴图的顶点定义更加细节
+
+可以混合环境光遮蔽的功能
+]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+      <tags>
+        <tag>Graphics</tag>
+        <tag>Games101</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Games101 光线追踪</title>
+    <url>/Graphics/Games101/Lecture-13/</url>
+    <content><![CDATA[Ray Tracing
+
+
 
 
 ]]></content>
       <categories>
-        <category>计算机网络</category>
+        <category>计算机图形学</category>
       </categories>
       <tags>
-        <tag>NetWorking</tag>
+        <tag>Graphics</tag>
+        <tag>Games101</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Games101 几何</title>
+    <url>/Graphics/Games101/Lecture-10-12/</url>
+    <content><![CDATA[Geometry
+几何
+
+
+Introduction to Geometry
+曲线/面
+复杂单体
+液体
+布料
+复杂组合
+毛发
+微观物体
+
+在图形学中有两种几何：
+
+implicit geometry 隐式几何
+explicit geometry 显式几何
+
+
+
+implicit geometry 隐式几何
+利用方程进行定义
+
+并不直接指明各个点在什么面上，而是记录各个点相互间满足的几何关系，以此进行面的分类，并不给出实际的点如：
+
+     可以用于表示一个球上的各个顶点
+即，定义一个   表示一个表面的各个点
+
+
+
+隐式表示各个点，利于判断点与该区域之间的关系（内/外），但是并不直观
+explicit geometry 显式几何
+利用集合或参数映射(二维映射为三维)到方式进行定义
+
+
+如：
+
+对于显式的表面，难以判断点与平面的关系
+
+需要根据需求选择表示方法
+在计算机图形学中较多的应用了隐式的表示方法
+
+Constructive Solid Geometry (CSG) (implicit)通过基本几何的布尔运算定义一个模型
+
+交 并 差
+
+Distance Functions (implicit)通过描述物体间的距离函数（最小距离）
+Fractals (implicit)
+
+分形
+应用不多
+
+Point Cloud 点云
+点的列表
+
+理论上可以表示任意种类的几何图形，有利于表示大数据集，通常会变成多边形的面，难以在未经采样区绘制（扫描结果一般为点云）
+Polygon Mesh
+存储顶点和面（通常是三角形或四边形）
+
+易于处理/采样，适配，使用更加复杂的数据结构
+
+The Wavefront Object File (.obj) Format
+是一种文本文件，详细的列出了顶点，法线方向，纹理坐标，以及他们的连接方式
+.obj格式文件介绍
+
+Curves 曲线Bezier Curves 贝塞尔曲线使用一系列控制点定义曲线，曲线不一定经过路径上的定义点
+de Casteljau Algorithm
+
+考虑三个点下的贝塞尔曲线计算（二次贝塞尔曲线）三个顶点依次分别为 b0 b1 b2 起点为b0终点为b2
+
+
+将绘制曲线转化为找一个点的问题以上的三个顶点产生了两个线段：b0-&gt;b1 b1-&gt;b2线段b0-&gt;b1上取一点p1使b0-&gt;p1=t p1-&gt;b1=(1-t)；线段b1-&gt;b2上取一点p2使b1-&gt;p2=t p2-&gt;b2=(1-t)；再在p1-&gt;p2上取一点p3使p1-&gt;p3=t p3-&gt;p2=(1-t)
+
+以上过程产生的p3运动中的路径即为这三个顶点产生的贝塞尔曲线
+
+使用的的方法类似于线性插值，将多个线性插值进行组合*p1(t) = (1-t)b0 + tb1**p3(t) = (1-t)p1 + tp2*以上式子进行逐层展开
+
+给出n个控制点，可以得到n阶的贝塞尔曲线：*b^n(t) = b0^n(t) = b0B0^n(t) + … b1*B1^n(t)**贝塞尔曲线由多个控制点线性组合而成Bi^n(t) = C(n,i)t^i(1-t)^(n-i) 二次多项式
+b(0) = b0 , b(n) = bn
+贝塞尔曲线在仿射变换下有一个良好的性质：可以直接对不同的顶点进行仿射变换，可以对变换后的顶点做贝塞尔曲线，得到的曲线与进行仿射变换前的顶点先做贝塞尔曲线再进行仿射变换的结果一致，不需要记录曲线上的每个点，但是对于投影则无该性质
+贝塞尔曲线具有凸包性质，即，贝塞尔曲线在定义点形成的凸包内（最小凸多边形内）
+Piecewise Bezier Curves
+逐段的贝塞尔曲线
+
+习惯于使用四个控制点定义一个贝塞尔曲线（三次贝塞尔曲线）
+
+此时，上一段的第三个控制点、终点与下一段的第二个控制点，这三个控制点共线且产生的两个线段等长时产生一个光滑的连接，即，两端曲线的组合具有连续性
+
+
+ 连续：上一段终点为下一段起点 连续： 连续的基础上，两端线段在连接点处的导数相同
+
+
+Surface 曲面Bezier Surface 贝塞尔曲面
+类似于在纹理中应用的双线性插值
+
+
+一般由4 * 4即16个控制点进行表示，控制扫描线与扫描线的路径
+
+几何处理/操作
+
+Mesh subdivision 网格细分
+Mesh simplification 网格采样
+Mesh regularization 网格正规化/标准化
+
+
+Subdivision 细分
+首先，引入更多的三角形
+再调整三角形的位置（使模型更加光滑）
+
+Loop Subdivision Loop细分
+并不是循环细分，并且仅用于三角形面
+
+
+将各个三角形根据其各边中点，将其分为四个较小的三角形此时顶点分为两类，顶点、边上插入点
+
+先产生新顶点，更新新顶点的坐标，再根据周围旧顶点的坐标更新坐标
+Catmull-Clark Subdivision
+适用于一般情况
+
+
+将边分为两种：quad face与non-quad face；将度不等于4的点称为奇异点
+
+在处理时，取每一个边与面的中点，且连接边上中点与面上中点会引入更多的奇异点（原有的奇异点不改变，新奇异点为非四边形面中点），这也仅限于第一次Catmull-Clark，在这之后，原有模型中将不存在非四边形面，不再新增奇异点
+
+根据一系列加权规则进行平均将模型平滑化
+
+Simplification 简化
+可联系MipMap进行理解
+
+Edge Collapsing 边坍缩
+Quadric Error Metrics 二次误差度量
+
+]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+      <tags>
+        <tag>Graphics</tag>
+        <tag>Games101</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Games101 阴影</title>
+    <url>/Graphics/Games101/Lecture-shadow/</url>
+    <content><![CDATA[Shadow
+阴影
+
+
+Shadow Mapping 阴影映射
+本质上是一种图像空间的算法，在生成阴影时不需要知道场景的几何信息, 会产生走样现象
+
+当某个顶点不在阴影里，则它在光与摄像机下
+
+经典的Shadow Mapping仅能处理点光源, 产生的是一种硬阴影
+
+
+先从光源看向场景，得到深度图
+再从摄像机看向场景，将看到的顶点投影回光源深度图，若深度更深，则此处的光线被遮挡
+
+
+
+
+软阴影（光源有一定大小）：本影与伴影共同影响
+
+]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+      <tags>
+        <tag>Graphics</tag>
+        <tag>Games101</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Games101 反走样与深度缓冲</title>
+    <url>/Graphics/Games101/Lecture-06/</url>
+    <content><![CDATA[Rasterization
+着色
+
+
+
+图像保真与深度缓冲Antialiasing and Z-Buffering
+
+&lt;–! more –&gt;
+反走样 Antialiasing采样理论 Sampling theory
+采样在图形学中无处不在
+
+
+Sampling Artifacts(Errors/Mistakes/inaccuracies) in Computer Graphics
+
+
+图形产生走样的原因在于信号(函数)的变化太快(频率很高)，而采样的变化太慢了
+
+
+进行反走样处理的一种思想：在采样前进行模糊（过滤/滤波）类似于，先将原图片模糊化，再进行采样一定是先滤波再采样
+
+频域 Frequency Domain
+通过调整 、 两函数中  的系数，可以调整相应的周期函数的频率
+
+
+详见傅里叶级数展开，傅里叶变换
+
+
+在采样时，采样频率与信号频率的频率差越大，信息失真越严重走样，即两个不同频率的信号在采样后，产生的结果无法区分，产生走样
+
+滤波 filter
+滤波，即是在采样后除去某些频率成分
+
+
+傅里叶变换可以将一个函数从实域变换到频域
+
+
+高通滤波：滤波后只让高频信号通过可以提取图像内的物体边界，即物体的边界突变
+
+
+低通滤波：滤波后只让低频信号通过可以将图像模糊化，即去除了物体边界突变
+
+
+  滤波 = 卷积 = 品均
+
+
+实域上对两个信号进行卷积，是两个信号频域的乘积
+
+采样，实际上是重复频域上的内容
+降低走样
+
+提高采样率
+反走样
+先模糊，后采样（先低通滤波，再采样）
+使用一个过滤器对图像进行卷积操作模糊化图像信息(知识近似了图像的覆盖区域)
+
+
+
+MSAA(Multi Sample Antialiasing)
+
+模糊
+采样
+
+
+还有另外两种抗锯齿方案：
+***FXAA(Fast Approximate AA)***TAA(Temporal AA)
+
+
+可见性/遮挡 Visibility/occulusion
+画家算法由远及近进行图形的覆盖
+
+深度缓冲 Z-Buffer
+
+记录当前每个样本最小的深度值
+对于深度信息，需要一个额外的缓存空间
+帧缓冲存储颜色值
+深度缓冲(Z-Buffer)存储深度
+
+
+
+
+深度缓冲中各元素初始化值为最远值维护逐个像素当前能看到的最浅深度Z-Buffer无法处理透明物体的深度
+
+for(each triangle T){    for(each sample (x,y,z) in T)    {        // 找出画面中该点深度最浅的像素信息        if (z &lt; zbuffer[x,y])        {            // 更新 帧缓存 深度缓存            framebuffer[x,y] = rgb            zbuffer[x,y] = z        }        else            ;    }}
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+      <tags>
+        <tag>Graphics</tag>
+        <tag>Games101</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基于 Boost 的 HTTP 服务器：项目工程化</title>
+    <url>/My-Projects/http_server/http-server-eng/</url>
+    <content><![CDATA[基于 Boost 的 HTTP 服务器：项目工程化
+测试、CI、容器、部署——工程化的目的就是可重复的验证
+改动可重复验证、构建可重复验证、部署可复现
+
+
+
+
+140 个测试的体系分层设计：单元 + 集成
+测试分几层？为什么不能只有一个测试文件？
+
+测试分两层，动机各不相同：
+
+
+
+层
+目标
+覆盖
+定位
+
+
+
+单元
+logger &#x2F; utils &#x2F; router &#x2F; config &#x2F; dynamic_api
+模块逻辑
+逻辑对错
+
+
+集成
+test_integration
+系统行为
+端到端正确
+
+
+单元测试：编译期直接链接模块源码，不经过网络——utils 的 Range 解析、ETag 弱比较、router 的精确&#x2F;前缀匹配、config 的三级优先级、dynamic_api 的 Allow 头构造，均可单测断言。优点：快、准、可隔离——失败即定位到模块
+集成测试：真实进程端到端——真实网络栈、真实线程模型、真实报文读写。“用客户端的眼睛验证服务器”
+CMake 组织与自动化# test/CMakeLists.txtadd_executable(test_integration test_integration.cpp)target_compile_definitions(test_integration PRIVATE    SERVER_BINARY=&quot;$&#123;CMAKE_BINARY_DIR&#125;/src/http_server&quot;    DOC_ROOT=&quot;$&#123;PROJECT_SOURCE_DIR&#125;/app&quot;)...include(GoogleTest)gtest_discover_tests(test_integration)
+
+
+gtest_discover_tests 自动发现用例并注册到 ctest
+SERVER_BINARY &#x2F; DOC_ROOT 编译定义注入——测试不硬编码路径，跨环境可用
+project_warnings &#x2F; project_defs 与主程序共享编译纪律
+
+集成测试：fork 真实服务器进程
+测试怎么启动服务器？——不能进程内调用，要 fork 真实进程
+
+SetUpTestSuite 中 fork + execl 拉起真实服务器：
+// test/test_integration.cppserver_pid_ = fork();if (server_pid_ == 0) &#123;    execl(bin_path.c_str(), bin_path.c_str(),          &quot;--port&quot;, port_str.c_str(),          // TEST_PORT = 19876          &quot;--doc_root&quot;, doc_root_str.c_str(),          &quot;--threads&quot;, &quot;2&quot;,          &quot;--timeout_seconds&quot;, &quot;10&quot;,          &quot;--cache_ttl_seconds&quot;, &quot;1&quot;,          static_cast&lt;char*&gt;(nullptr));    _exit(127);&#125;
+
+三个关键设计：
+
+就绪探测：fork 是异步的，服务器监听就绪前无法连接——try_connect 轮询（50 次 * 100ms）等待就绪，避免竞态
+测试专用配置：独立端口 19876、TTL 1s——测试不被默认配置绑死，也能覆盖”缓存过期”这类时序场景
+收尾即验证：TearDownTestSuite 发 SIGTERM——服务器走优雅关闭路径退出（未正常退出则兜底 SIGKILL + waitpid）。收尾本身就在验证优雅关闭
+
+为什么 fork 而不是进程内调用：进程内调用会共享地址空间——测试与服务器同进程，无法覆盖并发、套接字、解析器在真实线程模型下的行为。fork 真实进程，测试即是独立客户端
+测试即文档：304 条件请求、206 Range、gzip 协商、405&#x2F;OPTIONS、HEAD 无 body——协议篇讲的每个语义，集成测试里都有用例落点
+
+工程细节路径穿越防护：双重校验
+请求 GET /../../etc/passwd 会发生什么？
+
+第一重：轻量检查（utils.cpp）
+// src/utils.cppis_safe_path(beast::string_view path)&#123;    if(path.empty() ||       path[0] != &#x27;/&#x27; ||       path.find(&quot;..&quot;) != beast::string_view::npos)    &#123;        return false;    &#125;    return true;&#125;
+
+非空、/ 开头、不含 ..——零系统调用，挡住绝大部分恶意输入。该检查与路径解析缓存协同：恶意请求在缓存命中路径即被拒绝
+第二重：weakly_canonical 规范化后的保障（utils.cpp）
+// src/utils.cppnormalized_full_path = fs::weakly_canonical(full_path);
+
+符号链接、/a/./b 这类路径别名在规范化后现形——校验规范化结果仍在 doc_root 内，语义级绕过被拦截
+为什么双重：轻量检查挡 99% 恶意输入（快速路径、零开销），保证了速度与正确性
+CI 流水线GitHub Actions，双构建矩阵：
+
+
+
+配置
+内容
+
+
+
+触发
+push &#x2F; PR main + 手动 workflow_dispatch
+
+
+产物
+Debug &#x2F; Release * g++，fail-fast: false
+
+
+环境
+ubuntu-24.04
+
+
+设计要点：
+
+fail-fast: false：两种构建配置都必须出结果——Debug 挂掉不影响 Release 结论
+GTest 源码编译安装：Ubuntu 的 libgtest-dev 仅含源码，需先 cmake 构建安装，find_package(GTest CONFIG) 才能找到
+ccache 缓存：按 build_type + sha 作 key，命中跳过重编译
+防 OOM：CMAKE_BUILD_PARALLEL_LEVEL=2——Actions 环境内存有限，并行编译数不设限会内存耗尽
+ctest 自动发现：gtest_discover_tests 注册的用例一键启动
+
+Docker 多阶段构建# 构建阶段：编译依赖 + Release 构建FROM ubuntu:24.04 AS builder...RUN cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF \    &amp;&amp; cmake --build . --parallel $(nproc)# 运行阶段：仅运行时库FROM ubuntu:24.04...COPY --from=builder /src/build/src/http_server /usr/local/bin/http_serverRUN useradd -m -s /bin/bash http_server_user \    &amp;&amp; chown -R http_server_user:http_server_user /srvUSER http_server_user
+
+
+镜像约 99MB（运行阶段只装运行时库，编译工具不进镜像）
+非 root 用户运行——容器逃逸风险收窄
+APT_MIRROR 构建参数——国内网络可切清华源，绕过不稳定代理
+
+公网验证：协议与网络环境问题
+本地 curl 正常，公网验证暴露的是环境问题
+
+用 cloudflared 临时隧道将本机容器暴露为公网 HTTPS URL，实测（移动宽带 + IPv4 edge）：根路径 200、404 透传、连续 10 次全 200、100 并发全 200
+两个排查经验：
+
+530（边缘连不上隧道）：运营商拦截 cloudflared 的 7844 端口&#x2F;IPv6——加 --edge-ip-version 4 --protocol http2 强制 IPv4 + TCP 443 绕过
+502（隧道通但够不到服务）：origin 写 localhost 被解析成 ::1，容器只监听 IPv4——显式写 http://127.0.0.1:8080
+
+
+这两个问题都是协议&#x2F;网络环境问题，不是服务器代码问题——但只有真实公网验证才会暴露
+
+SELinux 平台适配开发平台 Fedora 默认 SELinux enforcing，容器运行需正确的容器标签适配
+
+小结工程化的闭环：改动 -&gt; 140 测试 -&gt; 双配置矩阵 -&gt; 容器镜像 -&gt; 公网实测
+每一环都是可重复的验证：测试可重复（ctest）、构建可重复（CI workflow）、部署可复现（多阶段镜像 + 实测记录）。工程化的价值不仅仅在于工具本身，而在于任何一次改动都能走完这条链，结论不依赖”当时的手感”，而是一套可测试，能复现的项目流程
+
+END]]></content>
+      <categories>
+        <category>我的项目</category>
+      </categories>
+      <tags>
+        <tag>my projects</tag>
       </tags>
   </entry>
   <entry>
@@ -593,221 +2136,6 @@ API 接口文档
       </tags>
   </entry>
   <entry>
-    <title>计算机网络概观</title>
-    <url>/Computer-Sci/Network/computer-network-overview/</url>
-    <content><![CDATA[
-基于 《计算机网络：自顶向下方法》
-
-
-因特网是一个世界范围内的计算机网络
-
-入网设备 被称为 主机(host) 或 段系统(end system)
-端系统通过
-
-通信链路 (communication link)
-分组交换机 (packet switch)
-
-的网络连接在一起。
-
-通信链路 是一组物理媒介，是信息流的载体。
-
-
-链路 有由其性质决定的 传输速率(transmission rate) 以 bit&#x2F;s (bps) 为度量。
-
-网络中的信息是以信息包的形式被 分组(packet) 流通的，从始端由网络传送至目的端，并在目的端装配复原。
-当今，因特网中有两种常见的交换机：
-
-路由器 (router) 通常用于网络核心中
-链路层交换机 (link-layer switch) 通常用于接入网中
-
-
-
-二者的功能都是向目的端转发分组。
-
-路径 (route &#x2F; path) 从 发送端系统 到 接收端系统 ，一个分组所经历的 一系列通信链路 和 分组交换机
-
-
-端系统 通过 因特网服务商 (Internet Service Provider , IPS) 接入因特网。
-
-端系统，分组交换机和其他英特网组件都要运行多个 协议（protocol） 这些协议控制英特网中信息的接收和发送。
-因特网的主题协议统称为 TCP&#x2F;IP
-
-TCP (Transmission Control Protocol, 传输控制协议)
-IP (Internet Protocol, 网际协议) 定义了在路由器和端系统之间，发送和接收分组的格式。
-
-因特网标准 (Internet Standard) 由 因特网工程任务组 (Internet Engineering Task Fore, IETF) 研发。其标准文档称为 请求评论 (Requst For Comment, RFC)
-涉及多个相互交换数据的应用称为 分布式应用 (distributed application) 。（如：社交媒体、多人游戏、交通信息… …）
-与因特网相连的端系统提供了一个 套接字接口 (Socket interface) 套接字接口规定了运行在一端系统上的程序 请求 因特网基础设施向运行在另一台端系统上的 特定目的程序 交付数据 的方式，是入网设备必须遵守的规则集合。
-协议（protocol）
-因特网广泛使用协议，不同协议用于完成不同的通信任务为完成一项工作，要求两个（或多个） 通信实体 运行相同的协议。
-
-
-协议 定义了在两个（或多个）通信实体之间交换报文的格式和顺序 ，以及报文的 发送&#x2F;接收 或遇到其他事件时应采取的操作。
-
-边缘网络
-端系统身处因特网边缘，故有此称谓。
-
-端系统，因其容纳应用程序，故可称作 主机（host），分为两类：
-
-客户端（client）
-服务器（server）
-
-
-接入网： 将端系统物理连接到 边缘路由器 (Edge router) 的网络。该路由器是端系统接入网络后的第一台路由器。
-
-对于每个 传输器-接收器 对，一比特(1 bit)通过传播电磁波或光脉冲的方式，跨越物理媒介 (physical medium) 进行发送。且对于路径上的每个 传输器-接收器 对而言，不必具有相同类型。物理媒介分为两种类型：
-
-导引型媒介 (guided media)
-非导引型媒介 (unguided media)
-
-
-物理链路的成本与其他网络成本相比是最小的，但是其安装与铺设成本才是其昂贵的原因。
-
-网络核心
-端系统间彼此交换 报文 (message) ，该报文可以 执行某种控制功能 或 承载某些数据。
-
-为了从 源端系统 向 目标端系统 发送一个 报文 ，源将 长报文 划分为较小的数据块，这一划分报文，使其适于网络传送的过程成为 分组 (packet) 。在源于目的之间，每个分组都通过 通信链路 和 分组交换机 (packet switch) 传送，交换主机主要有 路由器 (router) 和 链路层交换机 (link-layer switch) 两类。
-文分组以 等于 该链路最大传输速率的速度通过通信链路。即，若发送一个 *L bit 的分组，链路的传输速率为 R bit ，则分组通过链路的时间为 L&#x2F;R sec
-多数交换机在 输入端 使用 存储转发器 (store-and-forward transmission) 机制。先缓存一个接收的分组后，再将其发出。即，接收-转发 时间延迟为：
-
-d_{end-end} &#x3D; N * L&#x2F;R
-总时间延迟为：L&#x2F;R + (N-2) * L&#x2F;R + L&#x2F;R &#x3D; N * L&#x2F;RP 个分组经过N条链路的时间延迟为 (N + P - 1) * L&#x2F;R
-
-
-
-每台交换机有多条链路与之相连，对于每条相连的链路，该分组交换机具有一个 （输出缓存, output buffer 也称为 输出队列 output queue） 用于存储路由器准备发往某条链路的分组。
-即，一个分组在链路中存在：
-
-转发时延
-排队时延 (queuing delay)在缓存占满后，将出现 分组丢失 (丢包 packet loss) 问题，从到达分组或已排队分组之一选择丢弃。
-
-因特网中所采用的转发方式
-根据网络包中的 源端系统 的 IP地址 ，相同一台 相邻路由器 进行转发，由每台路由器自己维护 转发表 (forwarding table) 进行控制。每个分组包括每台路由器在传输中都不知道某一个分组在网络中的完整路径，路由器仅知道某个分组发往的下一台 路由器&#x2F;交换机（网络节点）。
-路由器的 转发表 (forwarding table) 由 路由选择协议 (routing protocol) 来规范其 自动设置转发表的行为。
-
-以上为 分组交换 (packet switching) 机制
-
-
-频分复用 (Frequency-Division Multiplexing, FDM) 
-链路的频谱由跨越链路创建的所有连接共享。特别的，在连接期间，链路对每条连接专门设定一个 频段 （电话网络中通常是 4Hz 宽）。该频段宽度就是 带宽 (bandwidth) 链路频谱中按带宽分有多个不同的频段。（每条链路持续得到部分带宽）
-
-
-时分复用 (Time-Division Multiplexing, TDM)
-时间被划分为固定时段的 帧 ，每个帧有被划分为固定数量的 时隙 。网络跨越一条链路，创建一条链接，网络在每个帧中为该连接指定一个时隙。
-[帧 是一系列任务的集合] 每条电路得到一个时隙，在 **静默期（silent period）**专用电路处于空闲状态，并不被利用。
-
-
-
-
-段系统经由一个 接入 ISP 与因特网相连，但为使各入网端系统互联互通，则需要 接入ISP 自身互联 组建 网络的网络（因特网）
-因特网网络结构的构成发展
-
-网络结构 1
-使用单一的 全球传输ISP(供应商) 互联所有的 接入ISP(客户)
-
-
-网络结构 2 两层结构
-多个公司建立并运营各自的全球传输LSP，相互竞争各自争取接入ISP。且多个全球传输ISP之间，必须互联。
-
-
-网络结构 3 等级化网络结构（两层客户端-供应端关系）
-任何给定的区域有其自身的 区域ISP(reginal ISP) 。每个区域ISP都与 第一层ISP(tier-1 ISP) 相连。（第一层ISP位于该等级结构的顶部）
-
-
-网络结构 4
-在等级话网络结构3上增加， 存在点(Point of Presence, PoP) 、 多宿(multi-home) 、 对等(peer to peer) 、 英特网交换点(Internet Exchange Point, IXP) 构成的一个生态系统
-PoP
-存在于等级结构的 所有层次 中,底层（接入ISP）除外。PoP是 供应商网络 中的一台或一组路由器（在相同位置）群组。其中， 客户ISP 与 供应商ISP 连接，从第三方电信供应商租用高速链路并将其路由器之一直接与PoP的一台路由器相连
-
-
-多宿
-除第一层ISP，其他任何ISP都可以选择多宿，与 多个供应商ISP 相连，以保障其与其它网络的连接
-
-
-对等
-不与上层供应商产生通信流量，而是与 平级ISP 相连，将两个平级ISP的网络相连，跨网传输不需要向上层供应商ISP产生路由成本。平级ISP间传输，无流量结算。
-
-
-IXP
-是一个汇合点，多个ISP可以在此处一起对等
-
-
-
-
-网络结构 5
-在网络结构4的顶部增加 内容供应商网络(content provider network) 构建而成
-
-
-
-
-网络时延在分组从一台主机经历通信链路传输到另一台主机的过程中，其必定在每个节点都会受到集中不同类型的时延制约。
-
-total modal delay
-节点处理时延(nodal processing delay)
-排队时延(queuing delay)
-是最复杂的成分，受某时刻的网络环境影响
-分组大小，到达顺序，相对位置等都会产生影响
-在表征排队时延时，通常使用统计量进行度量
-
-
-传输时延(transmission delay)
-节点向链路发送整个分组的时间
-
-
-传播时延(propagation delay)
-分组在两个节点间链路中传播的时间，受制于传播媒介的物理性质
-
-
-…
-
-
-
-
-协议栈OSI网络分层(7层)
-
-应用层
-表示层
-会话层
-传输层
-网络层
-数据链路层
-物理层
-
-目前常使用的是 5层 协议栈（TCP&#x2F;IP协议簇）
-
-应用层
-网络应用程序和应用层协议所在之处，位于应用层的消息分组成为 报文(message)
-
-
-运输层
-英特网中的运输层在程序端点之间传送应用层报文，位于运输层的分组称为 报文段(segment)
-
-
-网络层
-英特网的网络层负责将称为 数据报(datagram) 的网络层分组从一台主机传输到另一端主机
-
-
-链路层
-为了将分组从一个节点移动到路径上的下一个节点，网络层必须依靠 链路层的服务
-链路层提供的服务取决于应用于该链路的特定的链路层协议
-链路层的分组称为 帧(frame)
-
-
-物理层
-将 帧 中的一个个 bit 从一个节点移动到下一个节点
-
-
-
-在各个层中，使用上一层传来的分组，加上该层的 首部 ，即， 首部字段 + 有效载荷字段(来自上一层的分组)
-]]></content>
-      <categories>
-        <category>计算机网络</category>
-      </categories>
-      <tags>
-        <tag>NetWorking</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>opencode 使用指南</title>
     <url>/ML-DL-AI/Agent/opencode/</url>
     <content><![CDATA[OpenCode 全面使用指南OpenCode 是一个开源的 AI 编程代理（AI Coding Agent），提供终端 TUI、桌面应用和 IDE 扩展三种形态，支持 75+ 家 LLM 提供商和本地模型。以下指南基于官方文档（opencode.ai&#x2F;docs）整理。
@@ -1158,1334 +2486,6 @@ TUI 体验：tui.json 可开 attention（通知+音效）、调滚动速度；�
       </tags>
   </entry>
   <entry>
-    <title>Games101 计算机图形学概述</title>
-    <url>/Graphics/Games101/Lecture-01/</url>
-    <content><![CDATA[Lecture 01 Overview of Computer Graphics
-计算机图形学概述
-
-Games101
-Fundamentuals of Computer Graphics
-
-
-What is Computer Graphics?合成和操作视觉信息
-
-Why study Computer Graphics?Applications
-电子游戏(Video Games)
-
-光影
-模型
-物理模拟
-画面渲染
-
-
-电影(Movies)
-
-特效
-渲染
-动作捕捉
-
-
-动画(Animations)
-
-模型(毛发、建筑…)
-动作捕捉
-光线追踪
-物理模拟
-
-
-设计(Design)
-
-CAD AutoDesk 等软件技术
-CG技术
-物理仿真
-
-
-可视化(Visualization)
-
-建模
-3D扫描技术
-医学影像、科学影像、物理模拟
-
-
-虚拟现实(Virtual Reality)
-
-交互
-
-
-Digital Illustration
-
-Adobe Photoshop
-
-
-动画仿真模拟(Simulation)
-
-物理模拟
-
-
-GUI(Graphical User Interfaces)
-
-用户图形界面
-
-
-字体(Topography)
-
-The Quick Brown Fox Jumps Over The Lazy Dog.
-
-
-
-Fundamental Intellectual Challenges
-创造真实的虚拟世界并进行交互
-了解物理世界的各个方面
-新的计算方法、显示技术、科学技术
-
-Technical Challenges
-（透视）投影、曲线、曲面的数学
-照明和阴影的物理学
-显示或操作三维形状
-动画以及仿真
-
-
-Course Topics
-该课程分为4个主要部分
-
-
-光栅化(Rasterization)
-曲线和曲面(Curves and Meshes)
-光线追踪(Ray Tracing)
-动画&#x2F;仿真(Animation&#x2F;Simulation)
-
-光栅化
-将三维空间的物体显示在屏幕上即为光栅化
-
-曲线和曲面
-如何在计算机图形学中表示几何图形
-
-光线追踪
-从摄像机向每个像素射出一条光束，计算且渲染受光面
-
-动画&#x2F;仿真
-关键帧 物理系统(质点-弹簧系统)
-
-
-
-该课程内容有以下特点：
-
-不使用OpenGL Vulkan DirectX图形API
-不学习渲染语法
-学习图形学，而非图形API
-在课程之后，可以让个人有能力继续自学计算机图形学
-不学习3D建模软件、不学习物理引擎
-不学习计算机视觉以及深度学习的内容(一切需要计算机猜测的内容)
-
-
-
-
-Course Logistics]]></content>
-      <categories>
-        <category>计算机图形学</category>
-      </categories>
-      <tags>
-        <tag>Graphics</tag>
-        <tag>Games101</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Games101 向量与线性代数</title>
-    <url>/Graphics/Games101/Lecture-02/</url>
-    <content><![CDATA[Review of Linear Algebra
-向量与线性代数 Vector &amp; Linear Algebra
-
-计算机图形学依赖于:
-
-线性代数(Vector Matrix …)(对图形进行操作)
-基础数学（解数学方程）
-基础物理光学、力学
-信号处理、数值分析
-
-
-
-线性代数向量(Vector)
-具有方向和长度的量不关心具体的起始点
-
-向量的基本操作：
-
-向量加减法
-向量乘法（点积、叉积）
-点积(Dot Product)
-向量夹角
-向量投影（向量分解）
-计算向量两点间的间距（镜面反射）
-确定向量的方向
-判定前后（正负）
-
-
-叉积(Cross Product)
-判定左右（右手&#x2F;左手螺旋定则的内外）
-
-
-
-
-定义坐标系
-点乘分解向量
-
-
-
-矩阵(Matrix)
-对对象进行变换
-
-矩阵的基本操作：
-
-矩阵乘法（无交换律、结合律简化计算）
-矩阵与向量的乘法 
-矩阵的转置
-将Dot&#x2F;Cross Product转换为矩阵计算
-矩阵的变换(Transformation)
-
-]]></content>
-      <categories>
-        <category>计算机图形学</category>
-      </categories>
-      <tags>
-        <tag>Graphics</tag>
-        <tag>Games101</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Games101 变换</title>
-    <url>/Graphics/Games101/Lecture-03-04/</url>
-    <content><![CDATA[Transformation
-矩阵的变换 Transformation
-
-
-Lecture 03变换
-
-
-
-
-为什么要学习变换？变换可以分为两类：
-
-模型变换(Modeling)
-旋转 rotation
-缩放 scale
-切变 shear
-
-
-视角变换(Viewing)
-3D转换为2D的投影 projection
-
-
-
-
-2D变换旋转 rotation在2D变换中，将物体绕原点（或某一个点）进行旋转（默认向逆时针方向进行旋转
-
-实质上是变换向量空间
-
-2D旋转矩阵：
-Unknown environment 'bmatrix'
-缩放 scale在2D变换中，向量缩放则是通过左乘一个包含了向各个线性无关方向进行伸缩变换系数的对角矩阵。
-由此，也可以对向量进行对称（镜像）
-切变 shear在2D变换中，物体的某一部分相对于另一部分在某一方向发生变化。如，在平面直角坐标系中，正方形变换为菱形。
-矩阵变换（线性变换）原向量 ：
-Unknown environment 'bmatrix'
-变换矩阵 ：
-Unknown environment 'bmatrix'
-变换后的向量 ：
-Unknown environment 'cases'
-
-齐次坐标 Homogeneous Coordinates在处理平移时无法表示为以上所述的形式，而是：
-Unknown environment 'cases'
-在包含平移后公式形式变为：
-Unknown environment 'cases'
-
-若要将平移与上述三种变换进行统一的变换，于是引入了齐次坐标
-
-可以在2D坐标/点上增加一个维度，变为：
-
-2D point: 
-2D vector: 
-因为向量具有平移不变性
-
-
-
-变换矩阵，变为：
-Unknown environment 'bmatrix'
-并且增加的一个维度可以对对象进行分辨（v向量 p点）：
-
-  
-  
-  
-
-对以上定义进行扩充：
- 为2D点 ， 
-
-  （ 与  的中点）
-
-仿射变换 Affine Transformations
-Unknown environment 'cases'
-使用齐次坐标表示：
-切变与平移：
-Unknown environment 'bmatrix'
-缩放 ：
-Unknown environment 'bmatrix'
-旋转 ：
-Unknown environment 'bmatrix'
-平移 ：
-Unknown environment 'bmatrix'
-逆变换 Inverse Transform变换矩阵  的逆变换为 
-
-合成变换 Composing transforms
-复杂的变换可以通过一系列简单的变换得到
-变换的结果与一系列变换的顺序有关
- 因为旋转是以坐标轴原点进行变换的
-
-
-
-对一个点  顺序进行  变换：
-
-
-
-将连续的简单矩阵变换变为复杂的矩阵变换即： 
-
-变换也可以进行分解
-如：想让图形以一个确定点进行旋转，则可以将该点先移动到原点位置，然后进行旋转，最后再将该点移至原来的位置
-
-3D 变换
-3D point: 
-3D vector: 
-
- 为3D点（ ），即 
-3D坐标中使用齐次坐标描述矩阵
-
-先表示线性变换再表示平移
-
-Unknown environment 'bmatrix'
-
-
-Transformation Cont.
-Lecture 04变换深入
-
-3D Transformations
-3D point: 
-3D vector: 
-
- 为3D点（ ），即 
-3D坐标中使用齐次坐标描述矩阵
-
-先表示线性变换再表示平移
-
-Unknown environment 'bmatrix'
-缩放 Scale
-Unknown environment 'bmatrix'
-旋转 Rotate
-
-绕x轴进行旋转 ：
-
-Unknown environment 'bmatrix'
-
-绕y轴进行旋转 ：
-
-Unknown environment 'bmatrix'
-
-由于循环对称性 xyzxyzxyz…
-各轴有以下关系：
-
-  
-  
-  
-
-
-
-绕z轴进行旋转 ：
-
-Unknown environment 'bmatrix'
-
-在3D空间中进行任意的旋转
-即，将旋转分解为分别绕x y z三个轴的旋转的合成
-
-
-
-罗德里格斯旋转公式：
-
- 该公式给出了一个旋转矩阵，定义了一个旋转轴 （方向）与旋转角度 
-
-
-公式推导
-罗德里格斯旋转公式
-wiki
-在公式推导过程中的核心逻辑为：罗德里格斯公式的本质就是将三维旋转分解为平行分量的保留和垂直分量的二维旋转，然后用向量加法重新组合。
-对该公式的理解：取一旋转轴 （ 为旋转轴方向上的单位向量），绕该旋转轴有一旋转角 。为辅助公式的推导，令旋转轴  的一个法平面为s。
-*step1计算出  与  在  轴法向平面 s 上的投影
-step2将法平面上的两个投影围成一个直角三角形，其中 $\mathbf{v}{rot}的投影作为斜边，可以清晰地以该斜边为半径，在平面上做出一个圆形。将向量\mathbf{v}绕\mathbf{n}轴旋转到向量\mathbf{v}{rot}$ 的运动，拆分成两段向量，即上述直角三角形产生的两个直角边。
-step3使用公式，将 $\mathbf{v}{rot}分解出的两个向量用\mathbf{v}分解出的两个向量代替。最后，使用\mathbf{v}表示\mathbf{v}{rot}$，即得到罗德里格公式。
-
-
-切变 Shear
-Unknown environment 'bmatrix'
-平移 Translation
-Unknown environment 'bmatrix'
-
-观测变换 Viewing Transformations视图/相机变换 View/Camera transformation
-模型变换 model transformation 搭建场景
-视图变换 view transformation 变换摄像头
-投影变换 projection thransformation 将3D投影至2D
-以上变换成为MPV变换(Model View Projection)
-
-
-
-定义相机：
-
-位置 Position 
-朝向 Look-at/gaze direction 
-向上方向 Up direction 
-
-将相机放在标准位置——坐标轴原点——上。y轴为上，z轴负方向朝向物体。
-
-先将相机移动至原点
-
-Unknown environment 'bmatrix'
-
- 旋转至与  对齐
- 旋转至与  对齐
-  得到 
-
-
-对于进行以上的变换，难以求出，可以先求其逆变换，即求将各个坐标轴变换至各个相机方向的变换矩阵。
-
-：
-Unknown environment 'bmatrix'
-
-由于旋转矩阵是正交矩阵，其逆与其转置相等。
-
- ：
-Unknown environment 'bmatrix'
-
-在进行视图变换的同时，相机与物体应用同样的变换，保证相对位置的不变即模型/视图变换
-
-投影变换 Projection transformation正交投影 Orthographic projection
-由物体直接竖直投影至画布上
-
-
-设定相机位置
-丢弃Z轴信息
-移动并缩放将投影图形限制在一个   矩形中（人为约定的限制）
-
-在图形学中，我们将一个显示空间：  （左右 上下 远近）变换为一个   立方体空间
-
-注意，在右手系中，表示远近的  中由于摄像头朝向  方向，越远  越小
-
-
-：
-Unknown environment 'bmatrix'
-
-摄像机归中
-
-：
-Unknown environment 'bmatrix'
-
-缩放至   区间
-
-透视投影 Perspective projection
-（视锥中的）物体通过各顶点与视点（相机原点）的连线投影至画布上（与画布的焦点）
-是最常使用的投影，遵循近大远小的视觉原理
-
-
-将相机与画布间的距离记为 
-将相机与物体间的距离记为 
-将物体在空间中的位置记为 
-将物体在画布上的位置记为 
-
-（根据相似三角形）对  有：
-
-在齐次坐标系下：
-$$(x, y, z, 1) \Rightarrow (nx/z, ny/z, unknown, 1) \equiv (nx, ny, unknown, z)$$
-$$M_{persp \to ortho}(x, y, z, 1) = (nx, ny, unknown, z)$$
-此时，至少可知 ：
-Unknown environment 'bmatrix'
-在近平面上任意点不发生变化
-使用  来代替 ：
-
-
-对于  的第三行为 ，有：
-
-
-在远平面上任意点的Z坐标不发生变化
-取远平面的中心点：
-
-
-
-
-联立上述两式可得出：
-
-：
-Unknown environment 'bmatrix'
-
-
-在近平面  与远平面  之间的点，近的更近 被拉伸在远平面  之外的（远处）点，远的更远 被压缩这就是透视畸变 现象
-
-]]></content>
-      <categories>
-        <category>计算机图形学</category>
-      </categories>
-      <tags>
-        <tag>Graphics</tag>
-        <tag>Games101</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Games101 反走样与深度缓冲</title>
-    <url>/Graphics/Games101/Lecture-06/</url>
-    <content><![CDATA[Rasterization
-着色
-
-
-
-图像保真与深度缓冲Antialiasing and Z-Buffering
-
-&lt;–! more –&gt;
-反走样 Antialiasing采样理论 Sampling theory
-采样在图形学中无处不在
-
-
-Sampling Artifacts(Errors/Mistakes/inaccuracies) in Computer Graphics
-
-
-图形产生走样的原因在于信号(函数)的变化太快(频率很高)，而采样的变化太慢了
-
-
-进行反走样处理的一种思想：在采样前进行模糊（过滤/滤波）类似于，先将原图片模糊化，再进行采样一定是先滤波再采样
-
-频域 Frequency Domain
-通过调整 、 两函数中  的系数，可以调整相应的周期函数的频率
-
-
-详见傅里叶级数展开，傅里叶变换
-
-
-在采样时，采样频率与信号频率的频率差越大，信息失真越严重走样，即两个不同频率的信号在采样后，产生的结果无法区分，产生走样
-
-滤波 filter
-滤波，即是在采样后除去某些频率成分
-
-
-傅里叶变换可以将一个函数从实域变换到频域
-
-
-高通滤波：滤波后只让高频信号通过可以提取图像内的物体边界，即物体的边界突变
-
-
-低通滤波：滤波后只让低频信号通过可以将图像模糊化，即去除了物体边界突变
-
-
-  滤波 = 卷积 = 品均
-
-
-实域上对两个信号进行卷积，是两个信号频域的乘积
-
-采样，实际上是重复频域上的内容
-降低走样
-
-提高采样率
-反走样
-先模糊，后采样（先低通滤波，再采样）
-使用一个过滤器对图像进行卷积操作模糊化图像信息(知识近似了图像的覆盖区域)
-
-
-
-MSAA(Multi Sample Antialiasing)
-
-模糊
-采样
-
-
-还有另外两种抗锯齿方案：
-***FXAA(Fast Approximate AA)***TAA(Temporal AA)
-
-
-可见性/遮挡 Visibility/occulusion
-画家算法由远及近进行图形的覆盖
-
-深度缓冲 Z-Buffer
-
-记录当前每个样本最小的深度值
-对于深度信息，需要一个额外的缓存空间
-帧缓冲存储颜色值
-深度缓冲(Z-Buffer)存储深度
-
-
-
-
-深度缓冲中各元素初始化值为最远值维护逐个像素当前能看到的最浅深度Z-Buffer无法处理透明物体的深度
-
-for(each triangle T){    for(each sample (x,y,z) in T)    {        // 找出画面中该点深度最浅的像素信息        if (z &lt; zbuffer[x,y])        {            // 更新 帧缓存 深度缓存            framebuffer[x,y] = rgb            zbuffer[x,y] = z        }        else            ;    }}
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>计算机图形学</category>
-      </categories>
-      <tags>
-        <tag>Graphics</tag>
-        <tag>Games101</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Games101 着色</title>
-    <url>/Graphics/Games101/Lecture-07-09/</url>
-    <content><![CDATA[Shading
-着色
-
-
-(Illumination, Shading and Graphics Pipline)
-
-
-
-到目前为止所学的内容Lecture 01-06
-
-在空间中定位物体和相机（坐标）
-计算物体与相机间的位置关系
-将物体投影至平面
-采样三角形覆盖区域
-
-
-
-
-
-shading 着色: 对不同物体应用不同材质
-
-最基础的着色模型：Blinn-Phong Reflectance Model(Blinn-Phong 反射模型)
-
-高光，环境光，漫反射
-漫反射计算在一个shading point着色点射向相机的反射光线
-
-输入：
-
-Viewer direction, v 观测方向
-Surface normal, n 平面法线方向
-Light direction, l (for each of many lights) 光照方向
-Surface parameters (color, shininess…) 表面属性对于以上方向都定义为单位向量
-
-
-着色是局部的，仅看被着色物体，仅展现在该物体的表面属性下产生的着色结果，不会产生阴影
-
-光反射能量定律
-
-光照在平面的能量由Lambert’s cosine Law指出  平面接收到的能量与该平面法线方向和光照方向的夹角的余弦成正比
-
-
-光传播能量定律点光源对于光源产生的能量都集中在一个球壳上，由于在一定时刻发出的光能是一定的，由于能量守恒，离点光源的距离越远，该球壳上单位面积的光强越小（ ）
-
-即，光线在传播中的能量与传播距离的平方成反比
-
-
-
-得出以下方程：
-
-
-漫反射光线 = 漫反射系数 * (到达该着色平面的光线能量) * 物体表面该点反射的能量(该值大于等于0)
-
-
-漫反射的效果与观察方向毫无关系，因为漫反射向四周散射的光线的信息都是一样的
-光源位置不变，物体位置不变，则l与n的方向不变，那么从不同方向看向同一点，其亮度相同
-
-高光
-高光处类似镜面反射高光与观察方向有关
-
-
-在Blinn-Phong模型中当观察方向  接近镜面方向时，法线方向  与半程向量  很接近（半程向量 : Undefined control sequence \dfrac）这是由于，镜面反射其反射角与入射角相等， 在  与  的角平分线上
-
-有以下方程关系：
-
-
-镜面反射光线 = 镜面反射系数 * （到达该着色平面的光线能量） * 物体表面该点镜面反射的能量(该值大于0)其中的指数  可以控制高光区的大小，高光区的可视角度，
-在该模型上未考虑镜面所吸收的能量，Blinn-Phong模型是一个经验模型，对该情况有所简化
-
-
-环境光照
-认为所有着色点接收到的环境光的大小都是相同的有以下方程描述：
-
-
-
-环境光照 = 环境光系数 * 环境光光照强度
-环境光是一个常数，与观测角度，光源位置无关，保证了所有地方都不为黑色是全局光照的简化
-
-Blinn-Phong反射模型 = 环境光照(Ambient) + 漫反射光(Diffuse) + 镜面反射光(Specular)
-
-
-
-
-着色频率 Shading Frepuencies
-着色频率，即是应用于每个面的着色量
-
-有以下三种方式：
-
-
-Flat shading 三角平面着色
-
-
-三角形面是平坦的，仅一个法向
-对于平滑表面不友好
-
-
-Gouraud shading 顶点插值着色
-
-
-所有的顶点具有其法向
-使用三角形的三个顶点，对该三角形平面进行插值计算
-
-
-Phong shading 逐个像素的插值着色
-
-
-对三角形内的每个像素进行一次插值着色
-Blinn-Phong着色模型与Phong shading不是相同的内容，但是是同一个人
-
-
-
-由于插值的存在，对于面数越多的对象，可以用越简单的着色频率展现不差于其他复杂着色频率的效果
-
-逐个顶点的法线
-
-对于一个球体，其顶点的法线，是从球心到顶点的方向
-对于某个顶点的法线，可以视作是对其相关联的三角形面法线和的平均 (根据三角形的面积进行加权平均)
-
-
-Graphics (Real-time Rendering) Pipline 图形管线
-将前面课程所述的内容进行整合，就可以称为图形管线或实时渲染管线
-
-
-Inputs: 三维空间中的点
-
-
-Vertex Processing
-Vertex Stream
-顶点在屏幕上的位置
-
-
-Triangle Processing
-Triangle Stream
-三角形在屏幕上的位置
-
-
-Rasterization
-Fragment Stream
-将三角形离散化，光栅化(像素化)
-
-
-Fragment Processing
-Shaded Fragments
-将各个离散像素进行着色
-
-
-Framebuffer Operation
-
-
-Display
-输出图像
-
-
-
-
-shader即是操作顶点与像素进行着色的工具，如GLSLshader的代码是交由可编程硬件的，对于各个像素点通用的代码，对于每个像素执行一遍
-
-
-Textrue mapping
-纹理映射
-
-
-定义任何一个点的基本属性
-
-
-任何一个三维图形的表面都是二维图形
-
-
-纹理是一张三维物体表面相对应的二维图是着色时应用于该顶点的属性
-
-对于三角形的每个顶点都有一个在纹理贴图上的坐标对应，通常会使用**uv, (u,v)**坐标来指示纹理贴图的坐标，（u[0,1], v[0,1]）
-在三角形内部的各个像素也需要使用插值进行纹理的附加
-
-Barycentric coordinate 重心坐标可用于在三角形内根据顶点属性进行插值
-
-重心坐标是定义在三角形上的：在三角形ABC所形成的平面内任何一点  都可以表示成三个顶点A B C的线性组合
-
-       该式得出三角形所在平面上的任意一个点，当  都大于0时，表示在三角形内的点
-该点的坐标可以由其产生的三个三角形的面积比得到，与各个顶点对底的三角形占主三角形的面积比例，就是线性组合中，该点所需的系数
-
-如此，就可以将三角形的三个顶点的属性作为输入，对三角形内部的各个像素进行插值处理
-
-       其中， 可以是附加在三角形顶点上的任意属性但是，重心坐标在投影下应用不能保证效果不变即，若想对三维空间下的属性进行插值，就需要取用三维空间中的坐标，而不能在投影后的三角形中进行插值，三维空间中的属性在三维空间中做插值，不能在投影到屏幕后再插值（需要逆变换）
-
-Applying Textures
-应用贴图
-
-屏幕上的任意一个采样点，都与一个贴图坐标相对应，可以得知该位置插值后得到的对应的uv坐标可以在纹理贴图中查询该**(u,v)**的值（texcolor = texture.sample(u,v)），随时使用该纹理属性
-会产生以下问题：
-Texture Magnification
-
-纹理放大
-
-
-在处理贴图时，若目标区域超过uv纹理的清晰度（像素大小），会产生明显的像素点
-
-纹理上的像素称为： texel 纹理元素
-
-以上的问题是由于多个pixel被映射到同一个*texel上
-Bilinear interpolation 双线性插值
-类似于重心坐标的思想，将pixel映射到uv贴图的坐标位置处的点，与周围四个texel的中心围成的矩形，计算该点在此平面上的浮点偏移坐标 (s,t) (即，两个相邻texel之间的距离为1.00)
-定义一个称为线性插值的操作：
-
-可以对两对组成平行线的texel中心进行以上插值，待求的pixel映射点在这两条平行线上相对应的插值点的连线上，再对这两点应用以上插值公式，将pixel映射点插入该公式
-如下：
-
-
-
-该映射点的属性考虑到周围四点的属性，以达到平滑过渡到效果，相较于Nearest更优
-
-
-
-纹理过大会产生锯齿与摩尔纹
-
-
-
-在近处，一个pixel与texel呈现一/多对一的情况;在远处，一个pixel覆盖多个texel由此，若纹理过大/过于精细，最极端情况会导致所有的pixel都覆盖多个texel可以对纹理采取与反走样技术类似的方式，将一个pixel作为多个texel的采样点进行卷积处理(类似于MSAA超采样抗锯齿)
-
-
-实际上仍然是texel变化过快，进行采样的pixel无法真正的考虑到材质的变化
-
-在此处，我们考虑是否可以避免pixel向texel进行类似采样的处理的出现，直接得知该处的平均值
-这是一个范围查询问题(Range Query)
-
-对应的有点查询问题(Point Query)
-
-此处，引入Mipmap进行范围查询
-
-允许 快速的、不准确的（近似的）、方形的 范围查询
-
-可以先将高品质纹理处理为多级的低分辨率的纹理，在需要时使用
-
-Level 0 为原始图像此时需要的存储为原来图像的4/3倍，仅需要额外的1/3的存储空间
-
-处理时，可以考虑周边的pixel所对应的texel的位置，以估计该pixel概括了多少texel从而选择不同品质的uv贴图
-若我们在处理Mipmap进行分层时根据，各层为上层的一半（1/4面积），可以看出  为选择贴图品质的依据
-经过以上处理，仍会产生选用的各个不同品质的纹理在同一个表面过度不均匀的问题，可以分别在选用的两层中进行Bilinear interpolation，最后在层与层之间进行插值，即三线性插值(Trilinear filtering)
-但是，在远处会出现Overblur的问题，导致远处贴图过于模糊
-Anisotropic Filtering 各向异性过滤可以部分缓解该问题，保留远处的部分细节（即，在不同方向表现不同，具有对不同的方向性的支持）
-
-Ripmap 收敛到原图存储的4倍，增加了额外的3倍空间（但是仅仅占用更高的显存，几乎不对计算性能造成大影响）可以处理轴向压缩的区域(长条形区域)但是，其仅解决了对于矩形区域的查询，但是对于长形的不规则区域的支持极为有限
-
-其他方法：
-
-EWA Filtering
-
-
-纹理的应用在现代GPU中，可以理解为texture = memory + range query(filtering) 即，内存中的一块数据
-
-Environment Map 环境光映射
-Cube Map 立方体映射  (描述来自不同方向的环境光)
-Bump/Normal Map 凹凸/法线贴图 可以在保证简单的几何形体的情况下，可以在贴图上定义几何形体表面的凹凸关系，可以给出表面细节的各种复杂的法线或相对高度设定，表现精细化的形体
-Displacement Map 位移贴图  与凹凸贴图类似，定义了贴图表面的起伏信息，位移贴图实际上会将原实体的各个顶点进行真正的移动(凹凸贴图并不会更改原实体的形体)，但是需要使实体中定义的顶点比贴图的顶点定义更加细节
-
-可以混合环境光遮蔽的功能
-]]></content>
-      <categories>
-        <category>计算机图形学</category>
-      </categories>
-      <tags>
-        <tag>Graphics</tag>
-        <tag>Games101</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Games101 光栅化</title>
-    <url>/Graphics/Games101/Lecture-05/</url>
-    <content><![CDATA[Rasterization
-着色
-
-
-光栅化 Raster Images
-
-&lt;–! more –&gt;
-
-
-三角形的光栅化
-
-在上一节课中讨论到了透视投影，可以将近平面作为显示器（显示平面），定义宽 width和高 height。
-即，定义了一个视场 field-of-view(fovY)与宽高比 aspect ratio (width / height) (包括可视角度，在此处，表示为相机到上下边界的开口大小，即视场）
-
-以上两个值直接定义了视锥
-
-
-令：
-视角为fovY
-令摄像机到近平面的距离为 
-近平面上边界坐标为 
-有：
-
-
-
-
-MVP
-
-Model Transformation (placing objects)
-View Transformation (placing camera)
-Projection Transformation
-正交投影 (  规范立方体)
-透视投影
-
-
-
-
-接下来，将以上透视规则投影至屏幕(近平面)上
-
-在图形学中，将*屏幕(screen)抽象为一个二维数组*，每个元素即为屏幕对应位置的像素**，数组的大小即为屏幕的分辨率
-
-
-
-Raster即为光栅，光栅化即为Rasterization
-Raster在德语中即表示屏幕，屏幕即为一种光栅化设备
-Rasterize意为光栅化，即，在屏幕上绘制图像
-
-
-
-Pixel意为像素，即Picture element
-
-
-screen space意为屏幕空间，在屏幕中定义的一个坐标系，比如，取屏幕左上角为原点，向下为Y，向右为X。可以使用坐标 (x,y) 对各个像素进行访问。像素索引在 (0,0) ~ (width-1,height-1) 区间内像素的实际位置(中心)处于 (x+0.5,y+0.5) 处(物理位置)屏幕对于像素的显示范围为 (0,0) ~ (width,height)
-
-
-从规范立方体到屏幕
-
-与Z无关
-转换至XY平面中：   到  
-视口变换矩阵 Viewport transform matrix (屏幕；近面)
-将   变换为屏幕空间
-
-
-
-Mviewport
-
-
-
-
-
-
-
-
-
-
-width/2
-0
-0
-width/2
-
-
-0
-height/2
-0
-heigth/2
-
-
-0
-0
-1
-0
-
-
-0
-0
-0
-1
-
-
-
-X Y 为标准立方体空间下的坐标 [-1,1] ;X’ Y’ 为屏幕空间坐标
-
-
-X’ = Xwidth/2 + width/2*
-Y’ = Yheigth/2 + height/2*
-深度值保留，以便于后续处理
-
-
-
-
-将多边形，拆解为一个个像素，以投射到屏幕，此即光栅化
-
-为什么要以三角形为基础进行光栅化？
-
-三角形为最基础的多边形
-其他多边形都可以拆解为三角形
-
-
-三角形的特性
-三个点一定确定一个平面，即，三角形内部一定是一个平面
-三角形的内外定义清晰
-当给定三角形的三个顶点的属性后，三角形内部平面的各个位置可以进行渐变式的填充（可以进行插值）
-可以便捷的判断一个像素与该三角形的空间关系
-
-
-
-
-可以通过采样的方法进行光栅化
-
-
-采样：给定一个连续函数，在该函数上取离散的各个定点即，函数的离散化
-
-为了判断某像素是否在三角形内可以使用采样的思维，定义一个函数：
-inside(tri,x,y)
-
-1 (x,y) in
-0 (x,y) out
-
-for(int x = 0; x &lt; xmax; ++x)    for(int y = 0; y &lt; ymax; ++y)        image[x][y] = inside(tri, x+0.5, y+0.5);
-
-
-关于inside函数，考虑前述课程中向量的叉积
-
-
-如，对于三角形 p1 p2 p3 另外一个像素 q然后使用叉积，每次取三个点（px py q，顺序取用三次不同的组合，考虑三角形上的所有顶点的二二组合），使用叉积判断q与向量间的左右关系（叉乘值全为正/负时才能证明q在三角形p1 p2 p3内，边界情况为q在三角形边界）
-只需要在三角形所存在的区域（三角形的包围和）内选取各个像素进行判定就可以对三角形进行光栅化（循环处理），而不需要对屏幕空间中的所有点进行判定处理
-
-
-在光栅化图形学中，由于采样不足而产生像素锯齿，需要抗锯齿技术对产生图形进行处理，以产生较高质量的图形。
-
-]]></content>
-      <categories>
-        <category>计算机图形学</category>
-      </categories>
-      <tags>
-        <tag>Graphics</tag>
-        <tag>Games101</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Games101 几何</title>
-    <url>/Graphics/Games101/Lecture-10-12/</url>
-    <content><![CDATA[Geometry
-几何
-
-
-Introduction to Geometry
-曲线/面
-复杂单体
-液体
-布料
-复杂组合
-毛发
-微观物体
-
-在图形学中有两种几何：
-
-implicit geometry 隐式几何
-explicit geometry 显式几何
-
-
-
-implicit geometry 隐式几何
-利用方程进行定义
-
-并不直接指明各个点在什么面上，而是记录各个点相互间满足的几何关系，以此进行面的分类，并不给出实际的点如：
-
-     可以用于表示一个球上的各个顶点
-即，定义一个   表示一个表面的各个点
-
-
-
-隐式表示各个点，利于判断点与该区域之间的关系（内/外），但是并不直观
-explicit geometry 显式几何
-利用集合或参数映射(二维映射为三维)到方式进行定义
-
-
-如：
-
-对于显式的表面，难以判断点与平面的关系
-
-需要根据需求选择表示方法
-在计算机图形学中较多的应用了隐式的表示方法
-
-Constructive Solid Geometry (CSG) (implicit)通过基本几何的布尔运算定义一个模型
-
-交 并 差
-
-Distance Functions (implicit)通过描述物体间的距离函数（最小距离）
-Fractals (implicit)
-
-分形
-应用不多
-
-Point Cloud 点云
-点的列表
-
-理论上可以表示任意种类的几何图形，有利于表示大数据集，通常会变成多边形的面，难以在未经采样区绘制（扫描结果一般为点云）
-Polygon Mesh
-存储顶点和面（通常是三角形或四边形）
-
-易于处理/采样，适配，使用更加复杂的数据结构
-
-The Wavefront Object File (.obj) Format
-是一种文本文件，详细的列出了顶点，法线方向，纹理坐标，以及他们的连接方式
-.obj格式文件介绍
-
-Curves 曲线Bezier Curves 贝塞尔曲线使用一系列控制点定义曲线，曲线不一定经过路径上的定义点
-de Casteljau Algorithm
-
-考虑三个点下的贝塞尔曲线计算（二次贝塞尔曲线）三个顶点依次分别为 b0 b1 b2 起点为b0终点为b2
-
-
-将绘制曲线转化为找一个点的问题以上的三个顶点产生了两个线段：b0-&gt;b1 b1-&gt;b2线段b0-&gt;b1上取一点p1使b0-&gt;p1=t p1-&gt;b1=(1-t)；线段b1-&gt;b2上取一点p2使b1-&gt;p2=t p2-&gt;b2=(1-t)；再在p1-&gt;p2上取一点p3使p1-&gt;p3=t p3-&gt;p2=(1-t)
-
-以上过程产生的p3运动中的路径即为这三个顶点产生的贝塞尔曲线
-
-使用的的方法类似于线性插值，将多个线性插值进行组合*p1(t) = (1-t)b0 + tb1**p3(t) = (1-t)p1 + tp2*以上式子进行逐层展开
-
-给出n个控制点，可以得到n阶的贝塞尔曲线：*b^n(t) = b0^n(t) = b0B0^n(t) + … b1*B1^n(t)**贝塞尔曲线由多个控制点线性组合而成Bi^n(t) = C(n,i)t^i(1-t)^(n-i) 二次多项式
-b(0) = b0 , b(n) = bn
-贝塞尔曲线在仿射变换下有一个良好的性质：可以直接对不同的顶点进行仿射变换，可以对变换后的顶点做贝塞尔曲线，得到的曲线与进行仿射变换前的顶点先做贝塞尔曲线再进行仿射变换的结果一致，不需要记录曲线上的每个点，但是对于投影则无该性质
-贝塞尔曲线具有凸包性质，即，贝塞尔曲线在定义点形成的凸包内（最小凸多边形内）
-Piecewise Bezier Curves
-逐段的贝塞尔曲线
-
-习惯于使用四个控制点定义一个贝塞尔曲线（三次贝塞尔曲线）
-
-此时，上一段的第三个控制点、终点与下一段的第二个控制点，这三个控制点共线且产生的两个线段等长时产生一个光滑的连接，即，两端曲线的组合具有连续性
-
-
- 连续：上一段终点为下一段起点 连续： 连续的基础上，两端线段在连接点处的导数相同
-
-
-Surface 曲面Bezier Surface 贝塞尔曲面
-类似于在纹理中应用的双线性插值
-
-
-一般由4 * 4即16个控制点进行表示，控制扫描线与扫描线的路径
-
-几何处理/操作
-
-Mesh subdivision 网格细分
-Mesh simplification 网格采样
-Mesh regularization 网格正规化/标准化
-
-
-Subdivision 细分
-首先，引入更多的三角形
-再调整三角形的位置（使模型更加光滑）
-
-Loop Subdivision Loop细分
-并不是循环细分，并且仅用于三角形面
-
-
-将各个三角形根据其各边中点，将其分为四个较小的三角形此时顶点分为两类，顶点、边上插入点
-
-先产生新顶点，更新新顶点的坐标，再根据周围旧顶点的坐标更新坐标
-Catmull-Clark Subdivision
-适用于一般情况
-
-
-将边分为两种：quad face与non-quad face；将度不等于4的点称为奇异点
-
-在处理时，取每一个边与面的中点，且连接边上中点与面上中点会引入更多的奇异点（原有的奇异点不改变，新奇异点为非四边形面中点），这也仅限于第一次Catmull-Clark，在这之后，原有模型中将不存在非四边形面，不再新增奇异点
-
-根据一系列加权规则进行平均将模型平滑化
-
-Simplification 简化
-可联系MipMap进行理解
-
-Edge Collapsing 边坍缩
-Quadric Error Metrics 二次误差度量
-
-]]></content>
-      <categories>
-        <category>计算机图形学</category>
-      </categories>
-      <tags>
-        <tag>Graphics</tag>
-        <tag>Games101</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Games101 阴影</title>
-    <url>/Graphics/Games101/Lecture-shadow/</url>
-    <content><![CDATA[Shadow
-阴影
-
-
-Shadow Mapping 阴影映射
-本质上是一种图像空间的算法，在生成阴影时不需要知道场景的几何信息, 会产生走样现象
-
-当某个顶点不在阴影里，则它在光与摄像机下
-
-经典的Shadow Mapping仅能处理点光源, 产生的是一种硬阴影
-
-
-先从光源看向场景，得到深度图
-再从摄像机看向场景，将看到的顶点投影回光源深度图，若深度更深，则此处的光线被遮挡
-
-
-
-
-软阴影（光源有一定大小）：本影与伴影共同影响
-
-]]></content>
-      <categories>
-        <category>计算机图形学</category>
-      </categories>
-      <tags>
-        <tag>Graphics</tag>
-        <tag>Games101</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基于 Boost 的 HTTP 服务器：项目工程化</title>
-    <url>/My-Projects/http_server/http-server-eng/</url>
-    <content><![CDATA[基于 Boost 的 HTTP 服务器：项目工程化
-测试、CI、容器、部署——工程化的目的就是可重复的验证
-改动可重复验证、构建可重复验证、部署可复现
-
-
-
-
-140 个测试的体系分层设计：单元 + 集成
-测试分几层？为什么不能只有一个测试文件？
-
-测试分两层，动机各不相同：
-
-
-
-层
-目标
-覆盖
-定位
-
-
-
-单元
-logger &#x2F; utils &#x2F; router &#x2F; config &#x2F; dynamic_api
-模块逻辑
-逻辑对错
-
-
-集成
-test_integration
-系统行为
-端到端正确
-
-
-单元测试：编译期直接链接模块源码，不经过网络——utils 的 Range 解析、ETag 弱比较、router 的精确&#x2F;前缀匹配、config 的三级优先级、dynamic_api 的 Allow 头构造，均可单测断言。优点：快、准、可隔离——失败即定位到模块
-集成测试：真实进程端到端——真实网络栈、真实线程模型、真实报文读写。“用客户端的眼睛验证服务器”
-CMake 组织与自动化# test/CMakeLists.txtadd_executable(test_integration test_integration.cpp)target_compile_definitions(test_integration PRIVATE    SERVER_BINARY=&quot;$&#123;CMAKE_BINARY_DIR&#125;/src/http_server&quot;    DOC_ROOT=&quot;$&#123;PROJECT_SOURCE_DIR&#125;/app&quot;)...include(GoogleTest)gtest_discover_tests(test_integration)
-
-
-gtest_discover_tests 自动发现用例并注册到 ctest
-SERVER_BINARY &#x2F; DOC_ROOT 编译定义注入——测试不硬编码路径，跨环境可用
-project_warnings &#x2F; project_defs 与主程序共享编译纪律
-
-集成测试：fork 真实服务器进程
-测试怎么启动服务器？——不能进程内调用，要 fork 真实进程
-
-SetUpTestSuite 中 fork + execl 拉起真实服务器：
-// test/test_integration.cppserver_pid_ = fork();if (server_pid_ == 0) &#123;    execl(bin_path.c_str(), bin_path.c_str(),          &quot;--port&quot;, port_str.c_str(),          // TEST_PORT = 19876          &quot;--doc_root&quot;, doc_root_str.c_str(),          &quot;--threads&quot;, &quot;2&quot;,          &quot;--timeout_seconds&quot;, &quot;10&quot;,          &quot;--cache_ttl_seconds&quot;, &quot;1&quot;,          static_cast&lt;char*&gt;(nullptr));    _exit(127);&#125;
-
-三个关键设计：
-
-就绪探测：fork 是异步的，服务器监听就绪前无法连接——try_connect 轮询（50 次 * 100ms）等待就绪，避免竞态
-测试专用配置：独立端口 19876、TTL 1s——测试不被默认配置绑死，也能覆盖”缓存过期”这类时序场景
-收尾即验证：TearDownTestSuite 发 SIGTERM——服务器走优雅关闭路径退出（未正常退出则兜底 SIGKILL + waitpid）。收尾本身就在验证优雅关闭
-
-为什么 fork 而不是进程内调用：进程内调用会共享地址空间——测试与服务器同进程，无法覆盖并发、套接字、解析器在真实线程模型下的行为。fork 真实进程，测试即是独立客户端
-测试即文档：304 条件请求、206 Range、gzip 协商、405&#x2F;OPTIONS、HEAD 无 body——协议篇讲的每个语义，集成测试里都有用例落点
-
-工程细节路径穿越防护：双重校验
-请求 GET /../../etc/passwd 会发生什么？
-
-第一重：轻量检查（utils.cpp）
-// src/utils.cppis_safe_path(beast::string_view path)&#123;    if(path.empty() ||       path[0] != &#x27;/&#x27; ||       path.find(&quot;..&quot;) != beast::string_view::npos)    &#123;        return false;    &#125;    return true;&#125;
-
-非空、/ 开头、不含 ..——零系统调用，挡住绝大部分恶意输入。该检查与路径解析缓存协同：恶意请求在缓存命中路径即被拒绝
-第二重：weakly_canonical 规范化后的保障（utils.cpp）
-// src/utils.cppnormalized_full_path = fs::weakly_canonical(full_path);
-
-符号链接、/a/./b 这类路径别名在规范化后现形——校验规范化结果仍在 doc_root 内，语义级绕过被拦截
-为什么双重：轻量检查挡 99% 恶意输入（快速路径、零开销），保证了速度与正确性
-CI 流水线GitHub Actions，双构建矩阵：
-
-
-
-配置
-内容
-
-
-
-触发
-push &#x2F; PR main + 手动 workflow_dispatch
-
-
-产物
-Debug &#x2F; Release * g++，fail-fast: false
-
-
-环境
-ubuntu-24.04
-
-
-设计要点：
-
-fail-fast: false：两种构建配置都必须出结果——Debug 挂掉不影响 Release 结论
-GTest 源码编译安装：Ubuntu 的 libgtest-dev 仅含源码，需先 cmake 构建安装，find_package(GTest CONFIG) 才能找到
-ccache 缓存：按 build_type + sha 作 key，命中跳过重编译
-防 OOM：CMAKE_BUILD_PARALLEL_LEVEL=2——Actions 环境内存有限，并行编译数不设限会内存耗尽
-ctest 自动发现：gtest_discover_tests 注册的用例一键启动
-
-Docker 多阶段构建# 构建阶段：编译依赖 + Release 构建FROM ubuntu:24.04 AS builder...RUN cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF \    &amp;&amp; cmake --build . --parallel $(nproc)# 运行阶段：仅运行时库FROM ubuntu:24.04...COPY --from=builder /src/build/src/http_server /usr/local/bin/http_serverRUN useradd -m -s /bin/bash http_server_user \    &amp;&amp; chown -R http_server_user:http_server_user /srvUSER http_server_user
-
-
-镜像约 99MB（运行阶段只装运行时库，编译工具不进镜像）
-非 root 用户运行——容器逃逸风险收窄
-APT_MIRROR 构建参数——国内网络可切清华源，绕过不稳定代理
-
-公网验证：协议与网络环境问题
-本地 curl 正常，公网验证暴露的是环境问题
-
-用 cloudflared 临时隧道将本机容器暴露为公网 HTTPS URL，实测（移动宽带 + IPv4 edge）：根路径 200、404 透传、连续 10 次全 200、100 并发全 200
-两个排查经验：
-
-530（边缘连不上隧道）：运营商拦截 cloudflared 的 7844 端口&#x2F;IPv6——加 --edge-ip-version 4 --protocol http2 强制 IPv4 + TCP 443 绕过
-502（隧道通但够不到服务）：origin 写 localhost 被解析成 ::1，容器只监听 IPv4——显式写 http://127.0.0.1:8080
-
-
-这两个问题都是协议&#x2F;网络环境问题，不是服务器代码问题——但只有真实公网验证才会暴露
-
-SELinux 平台适配开发平台 Fedora 默认 SELinux enforcing，容器运行需正确的容器标签适配
-
-小结工程化的闭环：改动 -&gt; 140 测试 -&gt; 双配置矩阵 -&gt; 容器镜像 -&gt; 公网实测
-每一环都是可重复的验证：测试可重复（ctest）、构建可重复（CI workflow）、部署可复现（多阶段镜像 + 实测记录）。工程化的价值不仅仅在于工具本身，而在于任何一次改动都能走完这条链，结论不依赖”当时的手感”，而是一套可测试，能复现的项目流程
-
-END]]></content>
-      <categories>
-        <category>我的项目</category>
-      </categories>
-      <tags>
-        <tag>my projects</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Games101 光线追踪</title>
-    <url>/Graphics/Games101/Lecture-13/</url>
-    <content><![CDATA[Ray Tracing
-
-
-
-
-]]></content>
-      <categories>
-        <category>计算机图形学</category>
-      </categories>
-      <tags>
-        <tag>Graphics</tag>
-        <tag>Games101</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基于 Boost 的 HTTP 服务器：框架设计</title>
     <url>/My-Projects/http_server/http-server-frm-desng/</url>
     <content><![CDATA[基于 Boost 的 HTTP 服务器：框架设计
@@ -2597,10 +2597,53 @@ static_file_service &#x2F; dynamic_api_service &#x2F; cache
 生成内容响应
 
 
-graph TD    subgraph 网络层        listener[listener]        session[session]    end    subgraph 处理层        request_handler[request_handler]        router[router]    end    subgraph 服务层        static_service[static_file_service]        dynamic_api[dynamic_api_service]        cache[cache]    end    listener --&gt;|accept| session    session --&gt;|async_read → 请求报文| request_handler    request_handler --&gt;|路由匹配| router    router --&gt;|分发| static_service    router --&gt;|分发| dynamic_api    static_service -.-&gt;|读缓存| cache    static_service --&gt;|message_generator 响应| session    dynamic_api --&gt;|message_generator 响应| session
+
+
+
+graph TD
+    subgraph 网络层
+        listener[listener]
+        session[session]
+    end
+
+    subgraph 处理层
+        request_handler[request_handler]
+        router[router]
+    end
+
+    subgraph 服务层
+        static_service[static_file_service]
+        dynamic_api[dynamic_api_service]
+        cache[cache]
+    end
+
+    listener --&gt;|accept| session
+    session --&gt;|async_read → 请求报文| request_handler
+    request_handler --&gt;|路由匹配| router
+    router --&gt;|分发| static_service
+    router --&gt;|分发| dynamic_api
+    static_service -.-&gt;|读缓存| cache
+    static_service --&gt;|message_generator 响应| session
+    dynamic_api --&gt;|message_generator 响应| session
+
+
 
 session 状态机session 是网络层的核心，其生命周期是一个异步状态机：
-stateDiagram-v2    [*] --&gt; run: 连接建立    run --&gt; do_read: strand 派发    do_read --&gt; on_read: async_read 完成    on_read --&gt; send_response: 业务返回响应    send_response --&gt; on_write: async_write 完成    on_write --&gt; do_read: keep-alive    on_write --&gt; do_close: 非 keep-alive    on_read --&gt; do_close: 超时 / EOF / 解析错误    do_close --&gt; [*]
+
+
+
+stateDiagram-v2
+    [*] --&gt; run: 连接建立
+    run --&gt; do_read: strand 派发
+    do_read --&gt; on_read: async_read 完成
+    on_read --&gt; send_response: 业务返回响应
+    send_response --&gt; on_write: async_write 完成
+    on_write --&gt; do_read: keep-alive
+    on_write --&gt; do_close: 非 keep-alive
+    on_read --&gt; do_close: 超时 &#x2F; EOF &#x2F; 解析错误
+    do_close --&gt; [*]
+
+
 
 各状态的实现要点（src&#x2F;server.cpp）：
 
@@ -2652,7 +2695,31 @@ force_timer_ 30s 限时：超时强制 io.stop()
 缓存设计演进
 缓存并非是一次性设计出来的，而是随项目同步演进
 
-graph TD    subgraph 请求路径        req[请求 target]        path_cache[路径解析缓存&lt;br/&gt;map + shared_mutex&lt;br/&gt;4096 上限]    end    subgraph 内容缓存        lru[LRU 内容缓存&lt;br/&gt;lru_cache 泛型&lt;br/&gt;cached_file 条目]        gzip[gzip 预压缩版本&lt;br/&gt;cached_file.compressed]    end    subgraph 响应构造        body[shared_string_body&lt;br/&gt;零拷贝 writer]    end    req --&gt;|路径解析/校验| path_cache    path_cache --&gt;|full_path| lru    lru --&gt;|content + ETag/Last-Modified| body    lru --&gt;|compressed| gzip    gzip --&gt;|按 Accept-Encoding 选择| body
+
+
+
+graph TD
+    subgraph 请求路径
+        req[请求 target]
+        path_cache[路径解析缓存&lt;br&#x2F;&gt;map + shared_mutex&lt;br&#x2F;&gt;4096 上限]
+    end
+
+    subgraph 内容缓存
+        lru[LRU 内容缓存&lt;br&#x2F;&gt;lru_cache 泛型&lt;br&#x2F;&gt;cached_file 条目]
+        gzip[gzip 预压缩版本&lt;br&#x2F;&gt;cached_file.compressed]
+    end
+
+    subgraph 响应构造
+        body[shared_string_body&lt;br&#x2F;&gt;零拷贝 writer]
+    end
+
+    req --&gt;|路径解析&#x2F;校验| path_cache
+    path_cache --&gt;|full_path| lru
+    lru --&gt;|content + ETag&#x2F;Last-Modified| body
+    lru --&gt;|compressed| gzip
+    gzip --&gt;|按 Accept-Encoding 选择| body
+
+
 
 阶段一：无缓每请求 open + stat + read 三次系统调用，重复读盘、重复系统调用。warm 路径的系统调用成为明显热点，影响了报文处理效率，是当时最大性能短板，影响处理效能
 阶段二：LRU 内容缓存引入泛型 lru_cache 模板：std::list 维护访问顺序 + unordered_map 建立 key 到迭代器的索引，命中时 splice 到队首，容量满时驱逐队尾。线程安全由内部 mutex 保证。
@@ -2960,7 +3027,36 @@ utils
 轻量检查 + weakly_canonical 双重校验
 
 
-三层架构graph TD    subgraph 网络层        listener[listener]        session[session]    end    subgraph 处理层        request_handler[request_handler]        router[router]    end    subgraph 服务层        static_service[static_file_service]        dynamic_api[dynamic_api_service]        cache[cache]    end    listener --&gt;|accept| session    session --&gt;|async_read → 请求报文| request_handler    request_handler --&gt;|路由匹配| router    router --&gt;|分发| static_service    router --&gt;|分发| dynamic_api    static_service -.-&gt;|读缓存| cache    static_service --&gt;|message_generator 响应| session    dynamic_api --&gt;|message_generator 响应| session
+三层架构
+
+
+graph TD
+    subgraph 网络层
+        listener[listener]
+        session[session]
+    end
+
+    subgraph 处理层
+        request_handler[request_handler]
+        router[router]
+    end
+
+    subgraph 服务层
+        static_service[static_file_service]
+        dynamic_api[dynamic_api_service]
+        cache[cache]
+    end
+
+    listener --&gt;|accept| session
+    session --&gt;|async_read → 请求报文| request_handler
+    request_handler --&gt;|路由匹配| router
+    router --&gt;|分发| static_service
+    router --&gt;|分发| dynamic_api
+    static_service -.-&gt;|读缓存| cache
+    static_service --&gt;|message_generator 响应| session
+    dynamic_api --&gt;|message_generator 响应| session
+
+
 
 项目压测
 平台：i5-1235U（10 核 12 线程）&#x2F; Fedora 44（kernel 7.1.6）目标文件 /app/index.html（9KB）；服务端 8 线程、关访问日志，wrk 30s
@@ -3003,191 +3099,6 @@ HTTP 协议细节：304 条件请求、Range 断点续传、gzip 协商、405&#x
 性能方法论：压测方案设计、优化链条、最终成绩
 项目工程化：基于 gtest 的测试体系、路径穿越防护、CI &#x2F; Docker &#x2F; 公网验证
 
-
-
-END]]></content>
-      <categories>
-        <category>我的项目</category>
-      </categories>
-      <tags>
-        <tag>my projects</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基于 Boost 的 HTTP 服务器：HTTP 协议细节</title>
-    <url>/My-Projects/http_server/http-server-protocol/</url>
-    <content><![CDATA[基于 Boost 的 HTTP 服务器：HTTP 协议细节
-本文是 http_server 系列的协议篇，对应总览中的功能地图展开四个核心协议特性的语义与实现：304 条件请求、Range 断点续传、gzip 协商、405&#x2F;OPTIONS
-http_server
-
-
-
-
-条件请求：ETag 与 304请求条件头的语义
-客户端已有缓存，如何避免重复传输？条件请求：服务端校验缓存是否仍然有效，有效则回 304，无效才回 200
-
-条件请求的核心是验证器：服务端为资源生成验证器（ETag &#x2F; Last-Modified），客户端在条件头中带回，服务端比较后决定响应。
-本项目使用两个条件头（参考 RFC 7232）：
-
-
-
-条件头
-携带的验证器
-命中条件
-
-
-
-If-None-Match
-ETag 列表
-任一 ETag 弱匹配当前资源
-
-
-If-Modified-Since
-时间戳
-资源 Last-Modified 不晚于该时间
-
-
-弱比较与列表匹配ETag 比较分强比较与弱比较。弱比较忽略 W/ 弱验证器前缀后比较字符串：
-// src/utils.cpp// RFC 7232 弱比较: 忽略 W/ 前缀后字符串相等boolweak_etag_equal(boost::beast::string_view a, boost::beast::string_view b)&#123;    return strip_weak_prefix(a) == strip_weak_prefix(b);&#125;
-
-If-None-Match 是逗号分隔的 ETag 列表，任一项弱匹配即命中；&quot;*&quot; 是特殊形式，匹配任意实体：
-// src/utils.cppauto inm = req[http::field::if_none_match];if (!inm.empty()) &#123;    if (trim_ows(inm) == &quot;*&quot;) &#123;        return true;    &#125;    // 逗号分隔 ETag 列表，任一项弱匹配即命中    beast::string_view rest = inm;    while (!rest.empty()) &#123;        auto comma = rest.find(&#x27;,&#x27;);        auto item =            trim_ows((comma == beast::string_view::npos) ? rest : rest.substr(0, comma));        if (!item.empty() &amp;&amp; weak_etag_equal(item, etag)) &#123;            return true;        &#125;        ...
-
-If-Modified-Since 与优先级RFC 7232 §3.3 规定：If-None-Match 存在时，服务器必须忽略 If-Modified-Since。实现中先检查 INM，非空则走 ETag 分支并直接返回，IMS 仅在 INM 缺失时生效：
-// src/utils.cppauto ims = req[http::field::if_modified_since];if (!ims.empty()) &#123;    std::time_t since;    if (parse_http_date(ims, since)) &#123;        return last_modified_time &lt;= since;    &#125;&#125;
-
-HTTP 日期解析用 strptime 严格匹配 RFC 1123 格式（%a, %d %b %Y %H:%M:%S GMT）后经 timegm 转时间戳，解析失败视为条件头无效（回 200）
-304 响应与 ETag 生成304 的语义是”资源未变化”——不允许携带 body，仅回验证器头：
-// src/utils.cppserver_utils::make_not_modified(...)&#123;    // 304 不允许携带 body，仅回 ETag/Last-Modified 头    http::response&lt;http::string_body&gt; res&#123;http::status::not_modified, req.version()&#125;;    res.set(http::field::etag, etag);    res.set(http::field::last_modified, last_modified);    res.content_length(0);    ...
-
-ETag 由文件 mtime 与 size 组合生成——内容变化（mtime 或 size 变）必然导致 ETag 变化：
-// src/utils.cppstd::stringmake_etag(std::time_t mtime, std::size_t size)&#123;    return &quot;\&quot;&quot; + std::to_string(mtime) + &quot;-&quot; + std::to_string(size) + &quot;\&quot;&quot;;&#125;
-
-冷请求拒绝 bug
-条件请求的判定最初只存在于缓存命中路径，存在什么漏洞？
-
-修复提交前，is_not_modified 只在 build_content_response（缓存命中路径）被调用；对于冷缓存路径（首次请求 &#x2F; 缓存淘汰后）直接返回 200，条件请求被静默忽略——客户端永远拿不到 304
-修复方法：handle_GET_request 与 handle_HEAD_request 的未命中分支，在读取文件后同样先做条件判定：
-// src/static_file_service.cppconst std::string etag = server_utils::make_etag(mtime_t, size);const std::string last_modified = server_utils::to_http_date(mtime_t);// 条件请求 冷缓存路径同样生效if(server_utils::is_not_modified(req, etag, mtime_t)) &#123;    return server_utils::make_not_modified(req, etag, last_modified);&#125;
-
-
-条件请求是 HTTP 语义，必须独立于缓存状态生效——缓存只影响服务端读取方式，不影响对客户端条件的判定
-
-
-Range 断点续传：206&#x2F;416Range 头的三种形态
-客户端请求资源的一部分（断点续传 &#x2F; 分段下载），服务端如何回应？
-
-单段 Range 区间有三种形态（RFC 7233）：
-
-
-
-形态
-含义
-示例
-
-
-
-a-b
-闭区间 [a, b]
-bytes=0-99
-
-
-a-
-开区间，从 a 到结尾
-bytes=100-
-
-
--b
-后缀区间，最后 b 字节
-bytes=-500
-
-
-解析：单段校验与整头合法性parse_single_range 解析单个区间并做语法校验——&quot;-&quot;（空两端）、a &gt; b、非数字、无 - 均为语法非法：
-// src/utils.cppif (left.empty() &amp;&amp; right.empty()) &#123;    return false;                                         // &quot;-&quot;&#125;if (left.empty()) &#123;                                       // -b 后缀区间    ...&#125; else if (right.empty()) &#123;                               // a- 开区间    ...&#125; else &#123;                                                  // a-b    if (a &gt; b) return false;                              // 语法非法&#125;
-
-parse_range_header 负责整头：校验 bytes= 前缀（忽略大小写）、按 , 分割多段、任一段非法则整头非法：
-// src/utils.cpp// 按 &#x27;,&#x27; 分割，每段委托 parse_single_range...// 任一段非法 -&gt; 整头非法if (!parse_single_range(seg, range)) &#123;    return false;&#125;
-
-求解与决策汇聚resolve_range 将区间规格求解为实际字节偏移，边界收敛到文件范围：
-// src/utils.cppif (start &gt;= total_size) &#123;    return false;                          // a 超出文件 -&gt; 416&#125;std::size_t end = range.end.has_value()    ? std::min(range.end.value(), total_size - 1)   // 闭区间截断到文件尾    : total_size - 1;length = end - start + 1;
-
-决策汇聚在 apply_range（static_file_service.cpp）——三种结果：
-// 解析 Range 头并求解// 无头/非法/多区间 -&gt; 200；不可满足 -&gt; 416if (server_utils::parse_range_header(...) &amp;&amp; ranges.size() == 1) &#123;    if (server_utils::resolve_range(ranges[0], total, res.start, res.length)) &#123;        res.status = http::status::partial_content;      // 206        ...    &#125; else &#123;        res.status = http::status::range_not_satisfiable; // 416        res.content_range = &quot;bytes */&quot; + std::to_string(total);    &#125;&#125;
-
-flowchart TD    A[Range 头] --&gt; B&#123;parse_range_header&#125;    B -- 无头 / 语法非法 / 多区间 --&gt; C[200 全量响应]    B -- 合法单段 --&gt; D&#123;resolve_range&#125;    D -- start &gt;= total --&gt; E[416&lt;br/&gt;Content-Range: bytes */total]    D -- 可满足 --&gt; F[206&lt;br/&gt;Content-Range: bytes s-e/total&lt;br/&gt;shared_slice_body 切片]
-
-
-多区间回 200 的依据：RFC 7233 允许服务器忽略无法满足的 Range 头
-
-零拷贝切片206 响应的 body 是缓存内容的一个区间。自定义 shared_slice_body：
-value_type 持有缓存 shared_ptr + offset + length，writer 直接构造
-指向 data() + offset 的 const_buffer——切片不复制任何字节：
-// includes/static_file_service.hppreturn &#123;    &#123;const_buffers_type&#123;body_.data-&gt;data() + body_.offset, body_.length&#125;, false&#125;&#125;;
-
-
-gzip 内容协商通过选择进行协商，而非压缩
-压缩是 CPU 密集操作，每个请求实时压缩会怎样？高并发下 CPU 成为瓶颈——预压缩：读盘时压一次，请求时挑选版本
-
-读盘阶段按 MIME 判断是否可压缩文本，压缩一次存入缓存条目 compressed；请求阶段按 Accept-Encoding 挑选已有版本。将协商从”压缩”变为”选择”
-容器格式：gzip 15+16zlib 的 deflateInit2 通过 windowBits 决定输出容器格式：
-// src/utils.cppif (deflateInit2(&amp;strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED,        15 + 16, 8, Z_DEFAULT_STRATEGY) != Z_OK) &#123;    return false;&#125;
-
-
-
-
-windowBits
-容器
-头部
-
-
-
-15
-zlib 容器
-zlib 头（2 字节）
-
-
-15 + 16
-gzip 容器
-gzip 头尾
-
-
-响应头标 Content-Encoding: gzip 而数据若是 zlib 容器，客户端解压直接失败——容器格式必须与响应头声明一致，这是协商实现中最典型的坑
-协商流程Accept-Encoding 用 Beast 的 token_list 解析，存在 gzip 即选压缩版本：
-// src/static_file_service.cppif (compressed &amp;&amp;    server_utils::should_compress(server_utils::mime_type(full_path))) &#123;    http::token_list encodings&#123;req[http::field::accept_encoding]&#125;;    if (encodings.exists(&quot;gzip&quot;)) &#123;        http::response&lt;shared_string_body&gt; res&#123;http::status::ok, req.version()&#125;;        res.set(http::field::content_encoding, &quot;gzip&quot;);        res.content_length(compressed-&gt;size());   // 压缩后长度        res.body() = compressed;
-
-注意 Content-Length 是压缩后字节数（compressed-&gt;size()），而非原始大小，若填写为原始大小，会导致客户端等待阻塞（未接受到期望的字节流大小），导致连接超时
-Range 不压缩
-Range 请求能返回压缩切片吗？
-
-不能。压缩后字节偏移不再对应文件原始字节——Range 语义基于原始资源（RFC 7233），所以 206 分支先于 gzip 协商判断，Range 请求一律返回原始字节切片：
-flowchart TD    A[请求到达] --&gt; B&#123;合法 Range?&#125;    B -- 是 --&gt; R[206 切片响应&lt;br/&gt;基于原始字节]    B -- 否 --&gt; C&#123;MIME 可压缩?&#125;    C -- 否 --&gt; P[200 明文响应]    C -- 是 --&gt; D&#123;压缩版本存在?&#125;    D -- 否 --&gt; P    D -- 是 --&gt; E&#123;Accept-Encoding 含 gzip?&#125;    E -- 是 --&gt; G[200 压缩响应&lt;br/&gt;Content-Encoding: gzip]    E -- 否 --&gt; P
-
-Vary 与 HEAD 长度一致性
-Vary: Accept-Encoding：304 &#x2F; 206 &#x2F; 200 全路径回 Vary——中间缓存按请求头区分缓存版本，防止压缩版与明文版串用
-HEAD 长度一致性：HEAD 命中缓存时报告 compressed-&gt;size()，与 GET 压缩响应一致；未命中不读文件内容（compressed_size = 0）——注释明确”压缩长度与 GET 缓存命中后一致”。HEAD 的 Content-Length 必须等于 GET 的 body 长度，否则客户端断流
-
-
-动态 API：405&#x2F;OPTIONS端点注册表dynamic_api_service 以 base_path 挂载，端点完全自由注册：注册表 endpoints_[path][method]，无内置处理器——
-// src/dynamic_api_service.cppdynamic_api_service&amp;dynamic_api_service::add_endpoint(http::verb method, std::string path, Handler handler)&#123;    endpoints_[std::move(path)][method] = std::move(handler);    return *this;                                     // 链式注册&#125;
-
-handle_request 的判定顺序：OPTIONS 全局支持 -&gt; 路径不存在 404 -&gt; 方法未注册 405 + Allow -&gt; 调用端点处理器
-405 + AllowRFC 7231：路径存在但方法未注册，回 405，且必须带 Allow 头——Allow 列出该路径当前支持的完整方法集，客户端据此改派请求：
-// src/dynamic_api_service.cppauto handler_it = it-&gt;second.find(req.method());if (handler_it == it-&gt;second.end()) &#123;    // RFC 7231 路径存在但方法未注册 -&gt; 405 + Allow    return make_method_not_allowed(req, it-&gt;second);&#125;
-
-OPTIONS 动态 AllowOPTIONS 全局支持：无论路径是否注册，均回 200 + Allow。Allow 由注册表动态计算——注册 GET 的路径自动附加 HEAD（GET 隐含 HEAD 的语义），未注册路径的 Allow 为空集：
-// src/dynamic_api_service.cppstd::stringdynamic_api_service::build_allow_header(const method_handlers&amp; methods)&#123;    // GET 隐含 HEAD    if (methods.count(http::verb::get)) &#123;        append(http::verb::get);        append(http::verb::head);    &#125;    ...
-
-Allow 输出按固定方法序（GET&#x2F;HEAD&#x2F;POST&#x2F;PUT&#x2F;DELETE&#x2F;PATCH）排列，（该服务器仅支持 GET&#x2F;HEAD&#x2F;POST）保证同一路径多次查询的 Allow 头稳定可比较
-实现细节：纯路径匹配handle_request 先剥离 query &#x2F; fragment 再查注册表：
-// src/dynamic_api_service.cpp// 剥离 query/fragment，端点按纯路径匹配auto path = server_utils::target_path(req.target());
-
-/api/hello?name=x 与 /api/hello 命中同一端点——query 属于请求参数而非路径标识
-
-小结
-304：条件请求独立于缓存状态生效（项目中的304冷请求bug问题）
-206：Range 基于原始字节，多区间&#x2F;非法可忽略返回 200
-gzip：协商是选择，容器格式必须与声明一致，不需要每对象压缩
-405：方法未注册必须回 Allow，OPTIONS 从注册表动态计算
 
 
 END]]></content>
@@ -3372,7 +3283,16 @@ t6-c1000
 ~110k
 
 
-xychart-beta    title &quot;QPS 衰减曲线（t6）&quot;    x-axis &quot;并发连接数&quot; [100, 400, 500, 600, 800, 1000]    y-axis &quot;QPS&quot; 0 --&gt; 160000    line &quot;t6 QPS&quot; [153241, 138316, 130733, 131204, 130530, 109942]
+
+
+
+xychart-beta
+    title &quot;QPS 衰减曲线（t6）&quot;
+    x-axis &quot;并发连接数&quot; [100, 400, 500, 600, 800, 1000]
+    y-axis &quot;QPS&quot; 0 --&gt; 160000
+    line &quot;t6 QPS&quot; [153241, 138316, 130733, 131204, 130530, 109942]
+
+
 
 
 峰值 ~153k QPS（t6-c100，延迟 0.62ms）
@@ -3440,6 +3360,215 @@ CPU 频率采样测试期间每秒采样并记录全部逻辑核平均 MHz：
 每轮 30s，3 轮取中位数
 记录频率日志，归一化后再跨轮次对比
 输出存档：/docs/stress-test/stress-test-record/stress_test_yyyy_mm_dd.md
+
+
+END]]></content>
+      <categories>
+        <category>我的项目</category>
+      </categories>
+      <tags>
+        <tag>my projects</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基于 Boost 的 HTTP 服务器：HTTP 协议细节</title>
+    <url>/My-Projects/http_server/http-server-protocol/</url>
+    <content><![CDATA[基于 Boost 的 HTTP 服务器：HTTP 协议细节
+本文是 http_server 系列的协议篇，对应总览中的功能地图展开四个核心协议特性的语义与实现：304 条件请求、Range 断点续传、gzip 协商、405&#x2F;OPTIONS
+http_server
+
+
+
+
+条件请求：ETag 与 304请求条件头的语义
+客户端已有缓存，如何避免重复传输？条件请求：服务端校验缓存是否仍然有效，有效则回 304，无效才回 200
+
+条件请求的核心是验证器：服务端为资源生成验证器（ETag &#x2F; Last-Modified），客户端在条件头中带回，服务端比较后决定响应。
+本项目使用两个条件头（参考 RFC 7232）：
+
+
+
+条件头
+携带的验证器
+命中条件
+
+
+
+If-None-Match
+ETag 列表
+任一 ETag 弱匹配当前资源
+
+
+If-Modified-Since
+时间戳
+资源 Last-Modified 不晚于该时间
+
+
+弱比较与列表匹配ETag 比较分强比较与弱比较。弱比较忽略 W/ 弱验证器前缀后比较字符串：
+// src/utils.cpp// RFC 7232 弱比较: 忽略 W/ 前缀后字符串相等boolweak_etag_equal(boost::beast::string_view a, boost::beast::string_view b)&#123;    return strip_weak_prefix(a) == strip_weak_prefix(b);&#125;
+
+If-None-Match 是逗号分隔的 ETag 列表，任一项弱匹配即命中；&quot;*&quot; 是特殊形式，匹配任意实体：
+// src/utils.cppauto inm = req[http::field::if_none_match];if (!inm.empty()) &#123;    if (trim_ows(inm) == &quot;*&quot;) &#123;        return true;    &#125;    // 逗号分隔 ETag 列表，任一项弱匹配即命中    beast::string_view rest = inm;    while (!rest.empty()) &#123;        auto comma = rest.find(&#x27;,&#x27;);        auto item =            trim_ows((comma == beast::string_view::npos) ? rest : rest.substr(0, comma));        if (!item.empty() &amp;&amp; weak_etag_equal(item, etag)) &#123;            return true;        &#125;        ...
+
+If-Modified-Since 与优先级RFC 7232 §3.3 规定：If-None-Match 存在时，服务器必须忽略 If-Modified-Since。实现中先检查 INM，非空则走 ETag 分支并直接返回，IMS 仅在 INM 缺失时生效：
+// src/utils.cppauto ims = req[http::field::if_modified_since];if (!ims.empty()) &#123;    std::time_t since;    if (parse_http_date(ims, since)) &#123;        return last_modified_time &lt;= since;    &#125;&#125;
+
+HTTP 日期解析用 strptime 严格匹配 RFC 1123 格式（%a, %d %b %Y %H:%M:%S GMT）后经 timegm 转时间戳，解析失败视为条件头无效（回 200）
+304 响应与 ETag 生成304 的语义是”资源未变化”——不允许携带 body，仅回验证器头：
+// src/utils.cppserver_utils::make_not_modified(...)&#123;    // 304 不允许携带 body，仅回 ETag/Last-Modified 头    http::response&lt;http::string_body&gt; res&#123;http::status::not_modified, req.version()&#125;;    res.set(http::field::etag, etag);    res.set(http::field::last_modified, last_modified);    res.content_length(0);    ...
+
+ETag 由文件 mtime 与 size 组合生成——内容变化（mtime 或 size 变）必然导致 ETag 变化：
+// src/utils.cppstd::stringmake_etag(std::time_t mtime, std::size_t size)&#123;    return &quot;\&quot;&quot; + std::to_string(mtime) + &quot;-&quot; + std::to_string(size) + &quot;\&quot;&quot;;&#125;
+
+冷请求拒绝 bug
+条件请求的判定最初只存在于缓存命中路径，存在什么漏洞？
+
+修复提交前，is_not_modified 只在 build_content_response（缓存命中路径）被调用；对于冷缓存路径（首次请求 &#x2F; 缓存淘汰后）直接返回 200，条件请求被静默忽略——客户端永远拿不到 304
+修复方法：handle_GET_request 与 handle_HEAD_request 的未命中分支，在读取文件后同样先做条件判定：
+// src/static_file_service.cppconst std::string etag = server_utils::make_etag(mtime_t, size);const std::string last_modified = server_utils::to_http_date(mtime_t);// 条件请求 冷缓存路径同样生效if(server_utils::is_not_modified(req, etag, mtime_t)) &#123;    return server_utils::make_not_modified(req, etag, last_modified);&#125;
+
+
+条件请求是 HTTP 语义，必须独立于缓存状态生效——缓存只影响服务端读取方式，不影响对客户端条件的判定
+
+
+Range 断点续传：206&#x2F;416Range 头的三种形态
+客户端请求资源的一部分（断点续传 &#x2F; 分段下载），服务端如何回应？
+
+单段 Range 区间有三种形态（RFC 7233）：
+
+
+
+形态
+含义
+示例
+
+
+
+a-b
+闭区间 [a, b]
+bytes=0-99
+
+
+a-
+开区间，从 a 到结尾
+bytes=100-
+
+
+-b
+后缀区间，最后 b 字节
+bytes=-500
+
+
+解析：单段校验与整头合法性parse_single_range 解析单个区间并做语法校验——&quot;-&quot;（空两端）、a &gt; b、非数字、无 - 均为语法非法：
+// src/utils.cppif (left.empty() &amp;&amp; right.empty()) &#123;    return false;                                         // &quot;-&quot;&#125;if (left.empty()) &#123;                                       // -b 后缀区间    ...&#125; else if (right.empty()) &#123;                               // a- 开区间    ...&#125; else &#123;                                                  // a-b    if (a &gt; b) return false;                              // 语法非法&#125;
+
+parse_range_header 负责整头：校验 bytes= 前缀（忽略大小写）、按 , 分割多段、任一段非法则整头非法：
+// src/utils.cpp// 按 &#x27;,&#x27; 分割，每段委托 parse_single_range...// 任一段非法 -&gt; 整头非法if (!parse_single_range(seg, range)) &#123;    return false;&#125;
+
+求解与决策汇聚resolve_range 将区间规格求解为实际字节偏移，边界收敛到文件范围：
+// src/utils.cppif (start &gt;= total_size) &#123;    return false;                          // a 超出文件 -&gt; 416&#125;std::size_t end = range.end.has_value()    ? std::min(range.end.value(), total_size - 1)   // 闭区间截断到文件尾    : total_size - 1;length = end - start + 1;
+
+决策汇聚在 apply_range（static_file_service.cpp）——三种结果：
+// 解析 Range 头并求解// 无头/非法/多区间 -&gt; 200；不可满足 -&gt; 416if (server_utils::parse_range_header(...) &amp;&amp; ranges.size() == 1) &#123;    if (server_utils::resolve_range(ranges[0], total, res.start, res.length)) &#123;        res.status = http::status::partial_content;      // 206        ...    &#125; else &#123;        res.status = http::status::range_not_satisfiable; // 416        res.content_range = &quot;bytes */&quot; + std::to_string(total);    &#125;&#125;
+
+
+
+
+flowchart TD
+    A[Range 头] --&gt; B{parse_range_header}
+    B -- 无头 &#x2F; 语法非法 &#x2F; 多区间 --&gt; C[200 全量响应]
+    B -- 合法单段 --&gt; D{resolve_range}
+    D -- start &gt;&#x3D; total --&gt; E[416&lt;br&#x2F;&gt;Content-Range: bytes *&#x2F;total]
+    D -- 可满足 --&gt; F[206&lt;br&#x2F;&gt;Content-Range: bytes s-e&#x2F;total&lt;br&#x2F;&gt;shared_slice_body 切片]
+
+
+
+
+多区间回 200 的依据：RFC 7233 允许服务器忽略无法满足的 Range 头
+
+零拷贝切片206 响应的 body 是缓存内容的一个区间。自定义 shared_slice_body：
+value_type 持有缓存 shared_ptr + offset + length，writer 直接构造
+指向 data() + offset 的 const_buffer——切片不复制任何字节：
+// includes/static_file_service.hppreturn &#123;    &#123;const_buffers_type&#123;body_.data-&gt;data() + body_.offset, body_.length&#125;, false&#125;&#125;;
+
+
+gzip 内容协商通过选择进行协商，而非压缩
+压缩是 CPU 密集操作，每个请求实时压缩会怎样？高并发下 CPU 成为瓶颈——预压缩：读盘时压一次，请求时挑选版本
+
+读盘阶段按 MIME 判断是否可压缩文本，压缩一次存入缓存条目 compressed；请求阶段按 Accept-Encoding 挑选已有版本。将协商从”压缩”变为”选择”
+容器格式：gzip 15+16zlib 的 deflateInit2 通过 windowBits 决定输出容器格式：
+// src/utils.cppif (deflateInit2(&amp;strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED,        15 + 16, 8, Z_DEFAULT_STRATEGY) != Z_OK) &#123;    return false;&#125;
+
+
+
+
+windowBits
+容器
+头部
+
+
+
+15
+zlib 容器
+zlib 头（2 字节）
+
+
+15 + 16
+gzip 容器
+gzip 头尾
+
+
+响应头标 Content-Encoding: gzip 而数据若是 zlib 容器，客户端解压直接失败——容器格式必须与响应头声明一致，这是协商实现中最典型的坑
+协商流程Accept-Encoding 用 Beast 的 token_list 解析，存在 gzip 即选压缩版本：
+// src/static_file_service.cppif (compressed &amp;&amp;    server_utils::should_compress(server_utils::mime_type(full_path))) &#123;    http::token_list encodings&#123;req[http::field::accept_encoding]&#125;;    if (encodings.exists(&quot;gzip&quot;)) &#123;        http::response&lt;shared_string_body&gt; res&#123;http::status::ok, req.version()&#125;;        res.set(http::field::content_encoding, &quot;gzip&quot;);        res.content_length(compressed-&gt;size());   // 压缩后长度        res.body() = compressed;
+
+注意 Content-Length 是压缩后字节数（compressed-&gt;size()），而非原始大小，若填写为原始大小，会导致客户端等待阻塞（未接受到期望的字节流大小），导致连接超时
+Range 不压缩
+Range 请求能返回压缩切片吗？
+
+不能。压缩后字节偏移不再对应文件原始字节——Range 语义基于原始资源（RFC 7233），所以 206 分支先于 gzip 协商判断，Range 请求一律返回原始字节切片：
+
+
+
+flowchart TD
+    A[请求到达] --&gt; B{合法 Range?}
+    B -- 是 --&gt; R[206 切片响应&lt;br&#x2F;&gt;基于原始字节]
+    B -- 否 --&gt; C{MIME 可压缩?}
+    C -- 否 --&gt; P[200 明文响应]
+    C -- 是 --&gt; D{压缩版本存在?}
+    D -- 否 --&gt; P
+    D -- 是 --&gt; E{Accept-Encoding 含 gzip?}
+    E -- 是 --&gt; G[200 压缩响应&lt;br&#x2F;&gt;Content-Encoding: gzip]
+    E -- 否 --&gt; P
+
+
+
+Vary 与 HEAD 长度一致性
+Vary: Accept-Encoding：304 &#x2F; 206 &#x2F; 200 全路径回 Vary——中间缓存按请求头区分缓存版本，防止压缩版与明文版串用
+HEAD 长度一致性：HEAD 命中缓存时报告 compressed-&gt;size()，与 GET 压缩响应一致；未命中不读文件内容（compressed_size = 0）——注释明确”压缩长度与 GET 缓存命中后一致”。HEAD 的 Content-Length 必须等于 GET 的 body 长度，否则客户端断流
+
+
+动态 API：405&#x2F;OPTIONS端点注册表dynamic_api_service 以 base_path 挂载，端点完全自由注册：注册表 endpoints_[path][method]，无内置处理器——
+// src/dynamic_api_service.cppdynamic_api_service&amp;dynamic_api_service::add_endpoint(http::verb method, std::string path, Handler handler)&#123;    endpoints_[std::move(path)][method] = std::move(handler);    return *this;                                     // 链式注册&#125;
+
+handle_request 的判定顺序：OPTIONS 全局支持 -&gt; 路径不存在 404 -&gt; 方法未注册 405 + Allow -&gt; 调用端点处理器
+405 + AllowRFC 7231：路径存在但方法未注册，回 405，且必须带 Allow 头——Allow 列出该路径当前支持的完整方法集，客户端据此改派请求：
+// src/dynamic_api_service.cppauto handler_it = it-&gt;second.find(req.method());if (handler_it == it-&gt;second.end()) &#123;    // RFC 7231 路径存在但方法未注册 -&gt; 405 + Allow    return make_method_not_allowed(req, it-&gt;second);&#125;
+
+OPTIONS 动态 AllowOPTIONS 全局支持：无论路径是否注册，均回 200 + Allow。Allow 由注册表动态计算——注册 GET 的路径自动附加 HEAD（GET 隐含 HEAD 的语义），未注册路径的 Allow 为空集：
+// src/dynamic_api_service.cppstd::stringdynamic_api_service::build_allow_header(const method_handlers&amp; methods)&#123;    // GET 隐含 HEAD    if (methods.count(http::verb::get)) &#123;        append(http::verb::get);        append(http::verb::head);    &#125;    ...
+
+Allow 输出按固定方法序（GET&#x2F;HEAD&#x2F;POST&#x2F;PUT&#x2F;DELETE&#x2F;PATCH）排列，（该服务器仅支持 GET&#x2F;HEAD&#x2F;POST）保证同一路径多次查询的 Allow 头稳定可比较
+实现细节：纯路径匹配handle_request 先剥离 query &#x2F; fragment 再查注册表：
+// src/dynamic_api_service.cpp// 剥离 query/fragment，端点按纯路径匹配auto path = server_utils::target_path(req.target());
+
+/api/hello?name=x 与 /api/hello 命中同一端点——query 属于请求参数而非路径标识
+
+小结
+304：条件请求独立于缓存状态生效（项目中的304冷请求bug问题）
+206：Range 基于原始字节，多区间&#x2F;非法可忽略返回 200
+gzip：协商是选择，容器格式必须与声明一致，不需要每对象压缩
+405：方法未注册必须回 Allow，OPTIONS 从注册表动态计算
 
 
 END]]></content>
@@ -3721,176 +3850,6 @@ docker run --rm -p 8080:8080 my-http-server:v2# docker 镜像创建并启动名�
       <tags>
         <tag>container</tag>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C内联汇编</title>
-    <url>/Tech-Stack/languages/C-asm/</url>
-    <content><![CDATA[C内联汇编在 C 语言中，内联汇编通常使用编译器扩展来实现。最常用的是 GCC 的扩展内联汇编（用于 Linux 内核、xv6、OSTEP 实验等），这里重点汇总它的语法。MSVC 的内联汇编语法不同（__asm {} 块），简单提及但不展开。
-
-
-
-一、GCC 基本内联汇编asm(&quot;assembly code&quot;);
-
-
-编译器直接将字符串中的汇编指令插入生成的汇编文件。
-无法与 C 变量交互，通常只用于简单的指令（如 nop、cli、sti）。
-通常配合 volatile 防止被优化删除：asm volatile (&quot;nop&quot;);
-
-
-二、GCC 扩展内联汇编完整语法结构：
-asm [volatile] (    assembler template    : output operands          /* 可选 */    : input operands           /* 可选 */    : clobbers                 /* 可选 */    : goto labels              /* 极少使用，用于跳转 */);
-
-各部分通过冒号 : 分隔。如果某一部分为空但后面的部分有内容，前面的冒号不能省略（除非它之后的部分全部省略）。
-1. 汇编模板
-多行指令用 ; 或 \n\t 分隔，字符串自动拼接。
-引用操作数：%0、%1、%2…按出现的顺序编号。
-引用寄存器名称时需要两个 %%（如 %%eax），以免与操作数占位符混淆。
-示例：asm(&quot;movl %0, %%eax&quot; :: &quot;r&quot;(x));
-
-2. 输出操作数: &quot;约束&quot; (C变量)
-
-约束前缀 = 表示只写，+ 表示可读写。
-C 变量前面通常不带 &amp;（地址），除非使用 &quot;m&quot; 内存操作数。
-示例：int out;asm(&quot;movl %%eax, %0&quot; : &quot;=r&quot;(out));
-
-3. 输入操作数: &quot;约束&quot; (C变量)
-
-没有前缀 = 或 +，只读。
-示例：int a = 5, b = 3, sum;asm(&quot;addl %1, %0&quot; : &quot;=r&quot;(sum) : &quot;r&quot;(a), &quot;0&quot;(b));  // &quot;0&quot; 表示与第0个操作数用同一个寄存器
-
-4. 破坏列表 (clobbers)声明汇编代码会修改的寄存器或内存，通知编译器重新加载相关值。
-
-寄存器破坏：直接写寄存器名，如 &quot;eax&quot;、&quot;rsi&quot;。
-内存破坏：用 &quot;memory&quot;，告诉编译器内存可能被更改，会阻断优化。
-条件码破坏：在 x86 上 &quot;cc&quot; 表示条件码寄存器被修改。
-示例：asm volatile(&quot;cli&quot; ::: &quot;memory&quot;);
-
-
-三、常用约束符
-
-
-约束
-含义（x86）
-示例
-
-
-
-r
-通用寄存器
-&quot;r&quot;(x)
-
-
-m
-内存操作数
-&quot;m&quot;(var)
-
-
-i
-立即整数
-&quot;i&quot;(42)
-
-
-g
-寄存器、内存或立即数均可
-&quot;g&quot;(x)
-
-
-a
-eax&#x2F;ax&#x2F;al 寄存器
-&quot;a&quot;(val)
-
-
-b
-ebx&#x2F;bx&#x2F;bl
-&quot;b&quot;(val)
-
-
-c
-ecx&#x2F;cx&#x2F;cl
-&quot;c&quot;(count)
-
-
-d
-edx&#x2F;dx&#x2F;dl
-&quot;d&quot;(data)
-
-
-D
-edi&#x2F;di
-&quot;D&quot;(ptr)
-
-
-S
-esi&#x2F;si
-&quot;S&quot;(ptr)
-
-
-=r
-只写输出到寄存器
-&quot;=r&quot;(out)
-
-
-+r
-可读写寄存器
-&quot;+r&quot;(var)
-
-
-=&amp;r
-早期破坏（earlyclobber），输出在输入被用完之前写入
-&quot;=&amp;r&quot;(result)
-
-
-
-四、常见修饰符
-= 输出只写。
-+ 操作数可读可写。
-&amp; 表示操作数在指令执行前就被修改（早期破坏），避免与输入分配同一寄存器。
-% 在模板中引用操作数，如 %0；如果与寄存器名连用，如 %%eax。
-volatile：放在 asm 后，禁止编译器删除或移动该汇编块（即使它看起来没有输出）。
-有输出操作数时一般不需要，但通常加上以防优化。
-
-
-
-
-五、具体示例1. 加法（使用寄存器）int add(int a, int b) &#123;    int res;    asm(&quot;addl %1, %0&quot; : &quot;=r&quot;(res) : &quot;r&quot;(a), &quot;0&quot;(b));    return res;&#125;
-
-2. 读取 x86 TSC（时间戳计数器）uint64_t rdtsc(void) &#123;    uint32_t lo, hi;    asm volatile(&quot;rdtsc&quot; : &quot;=a&quot;(lo), &quot;=d&quot;(hi));    return ((uint64_t)hi &lt;&lt; 32) | lo;&#125;
-
-3. 写入 I&#x2F;O 端口 (x86)static inline void outb(uint16_t port, uint8_t val) &#123;    asm volatile(&quot;outb %0, %1&quot; : : &quot;a&quot;(val), &quot;Nd&quot;(port));&#125;
-
-4. 屏障（防止重排序）#define barrier() asm volatile(&quot;&quot; ::: &quot;memory&quot;)
-
-5. 用于 xv6 中切换进程上下文（示例框架）void swtch(struct context *old, struct context *new) &#123;    // 保存old，恢复new，内联汇编完成寄存器保存/恢复    asm volatile(        &quot;movl 4(%0), %%esp\n\t&quot;   // 假设context结构体保存了esp        ...        : : &quot;r&quot;(old), &quot;r&quot;(new) : &quot;memory&quot;    );&#125;
-
-
-六、RISC-V 内联汇编xv6 的实验可能使用 RISC-V，其语法相同，只是指令和寄存器名不同，约束与 x86 类似。
-
-寄存器约束：&quot;r&quot; 表示通用寄存器。
-示例：读取 CSR 寄存器static inline uint64_t r_mhartid() &#123;    uint64_t x;    asm volatile(&quot;csrr %0, mhartid&quot; : &quot;=r&quot;(x));    return x;&#125;
-写 CSR：static inline void w_mstatus(uint64_t x) &#123;    asm volatile(&quot;csrw mstatus, %0&quot; : : &quot;r&quot;(x));&#125;
-
-
-七、MSVC 内联汇编__asm &#123;    mov eax, var    add eax, 5    mov result, eax&#125;
-
-只能用于 32 位 x86，不支持 x64，不支持 ARM。
-不支持 GCC 扩展的约束语法，直接访问变量名，编译器自动分配。
-
-
-八、关键注意事项
-破坏列表不能省略：如果你修改了寄存器或内存，必须告知编译器，否则可能导致难以调试的运行时错误。
-避免直接硬编码寄存器：尽量使用约束让编译器分配，除非有特殊要求（如系统调用使用特定寄存器）。
-volatile 和 &quot;memory&quot;：当汇编指令有副作用且无输出操作数时，必须加 volatile；如果修改了内存位置，要加 &quot;memory&quot;。
-内联汇编中的 C 标签：支持跳转到 C 标签（asm goto），用于内核中的某些错误处理，但较复杂。
-可移植性：内联汇编与架构强相关，因此通常用 #ifdef 包裹不同架构的实现。
-
-]]></content>
-      <categories>
-        <category>编程语言</category>
-      </categories>
-      <tags>
-        <tag>asm</tag>
-        <tag>C</tag>
       </tags>
   </entry>
   <entry>
@@ -4318,6 +4277,176 @@ $ hexo d
       </tags>
   </entry>
   <entry>
+    <title>C内联汇编</title>
+    <url>/Tech-Stack/languages/C-asm/</url>
+    <content><![CDATA[C内联汇编在 C 语言中，内联汇编通常使用编译器扩展来实现。最常用的是 GCC 的扩展内联汇编（用于 Linux 内核、xv6、OSTEP 实验等），这里重点汇总它的语法。MSVC 的内联汇编语法不同（__asm {} 块），简单提及但不展开。
+
+
+
+一、GCC 基本内联汇编asm(&quot;assembly code&quot;);
+
+
+编译器直接将字符串中的汇编指令插入生成的汇编文件。
+无法与 C 变量交互，通常只用于简单的指令（如 nop、cli、sti）。
+通常配合 volatile 防止被优化删除：asm volatile (&quot;nop&quot;);
+
+
+二、GCC 扩展内联汇编完整语法结构：
+asm [volatile] (    assembler template    : output operands          /* 可选 */    : input operands           /* 可选 */    : clobbers                 /* 可选 */    : goto labels              /* 极少使用，用于跳转 */);
+
+各部分通过冒号 : 分隔。如果某一部分为空但后面的部分有内容，前面的冒号不能省略（除非它之后的部分全部省略）。
+1. 汇编模板
+多行指令用 ; 或 \n\t 分隔，字符串自动拼接。
+引用操作数：%0、%1、%2…按出现的顺序编号。
+引用寄存器名称时需要两个 %%（如 %%eax），以免与操作数占位符混淆。
+示例：asm(&quot;movl %0, %%eax&quot; :: &quot;r&quot;(x));
+
+2. 输出操作数: &quot;约束&quot; (C变量)
+
+约束前缀 = 表示只写，+ 表示可读写。
+C 变量前面通常不带 &amp;（地址），除非使用 &quot;m&quot; 内存操作数。
+示例：int out;asm(&quot;movl %%eax, %0&quot; : &quot;=r&quot;(out));
+
+3. 输入操作数: &quot;约束&quot; (C变量)
+
+没有前缀 = 或 +，只读。
+示例：int a = 5, b = 3, sum;asm(&quot;addl %1, %0&quot; : &quot;=r&quot;(sum) : &quot;r&quot;(a), &quot;0&quot;(b));  // &quot;0&quot; 表示与第0个操作数用同一个寄存器
+
+4. 破坏列表 (clobbers)声明汇编代码会修改的寄存器或内存，通知编译器重新加载相关值。
+
+寄存器破坏：直接写寄存器名，如 &quot;eax&quot;、&quot;rsi&quot;。
+内存破坏：用 &quot;memory&quot;，告诉编译器内存可能被更改，会阻断优化。
+条件码破坏：在 x86 上 &quot;cc&quot; 表示条件码寄存器被修改。
+示例：asm volatile(&quot;cli&quot; ::: &quot;memory&quot;);
+
+
+三、常用约束符
+
+
+约束
+含义（x86）
+示例
+
+
+
+r
+通用寄存器
+&quot;r&quot;(x)
+
+
+m
+内存操作数
+&quot;m&quot;(var)
+
+
+i
+立即整数
+&quot;i&quot;(42)
+
+
+g
+寄存器、内存或立即数均可
+&quot;g&quot;(x)
+
+
+a
+eax&#x2F;ax&#x2F;al 寄存器
+&quot;a&quot;(val)
+
+
+b
+ebx&#x2F;bx&#x2F;bl
+&quot;b&quot;(val)
+
+
+c
+ecx&#x2F;cx&#x2F;cl
+&quot;c&quot;(count)
+
+
+d
+edx&#x2F;dx&#x2F;dl
+&quot;d&quot;(data)
+
+
+D
+edi&#x2F;di
+&quot;D&quot;(ptr)
+
+
+S
+esi&#x2F;si
+&quot;S&quot;(ptr)
+
+
+=r
+只写输出到寄存器
+&quot;=r&quot;(out)
+
+
++r
+可读写寄存器
+&quot;+r&quot;(var)
+
+
+=&amp;r
+早期破坏（earlyclobber），输出在输入被用完之前写入
+&quot;=&amp;r&quot;(result)
+
+
+
+四、常见修饰符
+= 输出只写。
++ 操作数可读可写。
+&amp; 表示操作数在指令执行前就被修改（早期破坏），避免与输入分配同一寄存器。
+% 在模板中引用操作数，如 %0；如果与寄存器名连用，如 %%eax。
+volatile：放在 asm 后，禁止编译器删除或移动该汇编块（即使它看起来没有输出）。
+有输出操作数时一般不需要，但通常加上以防优化。
+
+
+
+
+五、具体示例1. 加法（使用寄存器）int add(int a, int b) &#123;    int res;    asm(&quot;addl %1, %0&quot; : &quot;=r&quot;(res) : &quot;r&quot;(a), &quot;0&quot;(b));    return res;&#125;
+
+2. 读取 x86 TSC（时间戳计数器）uint64_t rdtsc(void) &#123;    uint32_t lo, hi;    asm volatile(&quot;rdtsc&quot; : &quot;=a&quot;(lo), &quot;=d&quot;(hi));    return ((uint64_t)hi &lt;&lt; 32) | lo;&#125;
+
+3. 写入 I&#x2F;O 端口 (x86)static inline void outb(uint16_t port, uint8_t val) &#123;    asm volatile(&quot;outb %0, %1&quot; : : &quot;a&quot;(val), &quot;Nd&quot;(port));&#125;
+
+4. 屏障（防止重排序）#define barrier() asm volatile(&quot;&quot; ::: &quot;memory&quot;)
+
+5. 用于 xv6 中切换进程上下文（示例框架）void swtch(struct context *old, struct context *new) &#123;    // 保存old，恢复new，内联汇编完成寄存器保存/恢复    asm volatile(        &quot;movl 4(%0), %%esp\n\t&quot;   // 假设context结构体保存了esp        ...        : : &quot;r&quot;(old), &quot;r&quot;(new) : &quot;memory&quot;    );&#125;
+
+
+六、RISC-V 内联汇编xv6 的实验可能使用 RISC-V，其语法相同，只是指令和寄存器名不同，约束与 x86 类似。
+
+寄存器约束：&quot;r&quot; 表示通用寄存器。
+示例：读取 CSR 寄存器static inline uint64_t r_mhartid() &#123;    uint64_t x;    asm volatile(&quot;csrr %0, mhartid&quot; : &quot;=r&quot;(x));    return x;&#125;
+写 CSR：static inline void w_mstatus(uint64_t x) &#123;    asm volatile(&quot;csrw mstatus, %0&quot; : : &quot;r&quot;(x));&#125;
+
+
+七、MSVC 内联汇编__asm &#123;    mov eax, var    add eax, 5    mov result, eax&#125;
+
+只能用于 32 位 x86，不支持 x64，不支持 ARM。
+不支持 GCC 扩展的约束语法，直接访问变量名，编译器自动分配。
+
+
+八、关键注意事项
+破坏列表不能省略：如果你修改了寄存器或内存，必须告知编译器，否则可能导致难以调试的运行时错误。
+避免直接硬编码寄存器：尽量使用约束让编译器分配，除非有特殊要求（如系统调用使用特定寄存器）。
+volatile 和 &quot;memory&quot;：当汇编指令有副作用且无输出操作数时，必须加 volatile；如果修改了内存位置，要加 &quot;memory&quot;。
+内联汇编中的 C 标签：支持跳转到 C 标签（asm goto），用于内核中的某些错误处理，但较复杂。
+可移植性：内联汇编与架构强相关，因此通常用 #ifdef 包裹不同架构的实现。
+
+]]></content>
+      <categories>
+        <category>编程语言</category>
+      </categories>
+      <tags>
+        <tag>asm</tag>
+        <tag>C</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaScript特性</title>
     <url>/Tech-Stack/languages/javascript-async-model/</url>
     <content><![CDATA[关于JavaScript特性与异步模型执行上下文JS在第一次执行时会根据web引擎创建 全局上下文 在该上下文中运行JS脚本，在 调用函数时 从内存堆中提取函数 创建该函数的函数执行上下文 再将程序的执行转入 该函数上下文中 函数执行后再 返回全局上下文（这与C&#x2F;C++的函数栈帧不同，反倒与thread机制类似，即进行上下文的保存和转换， 据此可推知： JS所实现的单线程异步是以此为基础实现的）
@@ -4583,6 +4712,719 @@ gcc -fPIC -c foo.c -o foo.ogcc -fPIC -c bar.c -o bar.ogcc -shared -o libfoo.so f
       <tags>
         <tag>tool</tag>
         <tag>gcc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git-note</title>
+    <url>/Tech-Stack/tools/git-note/</url>
+    <content><![CDATA[GIT NOTE
+参考资料：
+
+官方文档
+教学笔记
+教学网站
+
+
+
+
+命令速查表
+
+
+命令
+功能
+命令格式
+实例
+
+
+
+init
+初始化仓库
+git init
+git init
+
+
+clone
+克隆远程库到本地
+git clone &lt;url&gt;
+git clone git@github.com:iLogIng/Repo-name.git
+
+
+add
+将文件加入暂存区
+git add &lt;file&gt;
+git add README.md
+
+
+add
+将全部修改加入暂存区
+git add .
+git add .
+
+
+commit
+提交暂存区内容
+git commit -m &quot;&lt;描述&gt;&quot;
+git commit -m &quot;Add the README.md file into git Repo&quot;
+
+
+status
+查看仓库当前状态
+git status
+git status
+
+
+diff
+查看未提交的修改
+git diff
+git diff
+
+
+diff
+对比工作区与版本库
+git diff HEAD -- &lt;file&gt;
+git diff HEAD -- README.md
+
+
+log
+查看提交日志
+git log
+git log
+
+
+log
+图形化查看所有分支的提交历史
+git log --oneline --graph --all
+git log --oneline --graph --all
+
+
+reset
+回退到指定版本的已提交状态
+git reset --hard &lt;commit_id&gt;
+git reset --hard HEAD^
+
+
+reset
+撤销暂存区的修改
+git reset HEAD &lt;file&gt;
+git reset HEAD README.md
+
+
+reflog
+查看所有提交日志，找回历史
+git reflog
+git reflog
+
+
+checkout
+丢弃工作区的修改
+git checkout -- &lt;file&gt;
+git checkout -- README.md
+
+
+branch
+查看本地分支
+git branch
+git branch
+
+
+branch
+查看本地与远程的全部分支
+git branch -a
+git branch -a
+
+
+branch
+创建分支
+git branch &lt;name&gt;
+git branch feature/login
+
+
+switch
+切换分支
+git switch &lt;name&gt;
+git switch main
+
+
+switch
+创建并切换分支
+git switch -c &lt;name&gt;
+git switch -c feature/add-header
+
+
+checkout
+创建并切换分支（传统写法）
+git checkout -b &lt;name&gt;
+git checkout -b feature/add-header
+
+
+merge
+将分支合并到当前分支
+git merge &lt;name&gt;
+git merge feature/login
+
+
+branch
+删除已合并的本地分支
+git branch -d &lt;name&gt;
+git branch -d feature/login
+
+
+push
+删除远程分支
+git push origin --delete &lt;name&gt;
+git push origin --delete feature/login
+
+
+stash
+暂存工作区未提交的修改
+git stash
+git stash
+
+
+stash
+查看暂存列表
+git stash list
+git stash list
+
+
+stash
+恢复最近一次暂存
+git stash pop
+git stash pop
+
+
+stash
+丢弃某次暂存
+git stash drop
+git stash drop
+
+
+fetch
+拉取远程更新，不自动合并
+git fetch &lt;remote&gt;
+git fetch origin
+
+
+pull
+拉取并合并远程更新
+git pull &lt;remote&gt; &lt;branch&gt;
+git pull origin main
+
+
+push
+推送本地提交到远程
+git push &lt;remote&gt; &lt;branch&gt;
+git push origin main
+
+
+remote
+查看远程仓库信息
+git remote -v
+git remote -v
+
+
+remote
+添加远程库
+git remote add origin &lt;url&gt;
+git remote add origin git@github.com:iLogIng/RepoName.git
+
+
+remote
+删除远程库绑定
+git remote rm &lt;name&gt;
+git remote rm origin
+
+
+tag
+打轻量标签
+git tag &lt;tag&gt;
+git tag v1.0.0
+
+
+tag
+打附注标签
+git tag -a &lt;tag&gt; -m &quot;&lt;描述&gt;&quot;
+git tag -a v1.0.0 -m &quot;release v1.0.0&quot;
+
+
+push
+推送标签到远程
+git push origin &lt;tag&gt;
+git push origin v1.0.0
+
+
+config
+设置提交者姓名
+git config --global user.name &lt;name&gt;
+git config --global user.name &quot;iLogIng&quot;
+
+
+config
+设置提交者邮箱
+git config --global user.email &lt;email&gt;
+git config --global user.email &quot;email@example.com&quot;
+
+
+
+基础版本控制
+以下操作均在测试仓库 test-dir/ 中进行：
+
+mkdir test-dir
+
+1. 添加仓库使用 git init 初始化仓库，此时文件夹 test-dir/ 已绑定到一个 Git Repo：
+./test-dir $: git init
+
+2. 将文件添加到版本库
+使用 git add [filename] 将文件加入版本库
+使用 git commit -m “describe” 将已添加的文件提交到仓库，提交描述为 “describe”
+
+./test-dir $: git add README.md./test-dir $: git commit -m &quot;Add the README.md file into git Repo&quot;
+
+
+commit 相当于为仓库添加一个版本快照，并对快照进行管理
+
+3. 查看仓库状态使用 git status 查看仓库当前状态：
+./test-dir $: git status
+
+使用 git diff 查看已修改但未提交的内容：
+./test-dir $: git diff
+
+4. 切换快照版本使用 git log 查看从最近到最远的提交日志，使用 git reset --hard commit_id 回到指定版本的已提交状态：
+./test-dir $: git log./test-dir $: git reset --hard commit_id
+
+
+–soft：回到上个版本的未提交状态
+–mixed：回退到上个版本的已添加未提交状态
+commit_id 可以是快照 id，也可以是 HEAD^（上个版本）、HEAD^^（向上第 2 个版本）、HEAD~N（向上第 N 个版本）；也支持填写部分 commit_id，由系统自动匹配
+使用 git reflog 查看从近到远的所有提交日志，可以找回过去的提交内容
+
+5. 管理项目分支项目管理与协作中，分支是最核心的工具，配合远程同步、暂存、标签等命令完成协作流程。
+查看分支
+git branch          # 查看本地分支，当前分支前带 *git branch -a       # 查看本地与远程的全部分支
+
+创建与切换分支
+git branch feature/login           # 创建分支git switch feature/login           # 切换分支（推荐）git switch -c feature/add-header   # 创建并切换分支（推荐）git checkout -b feature/add-header # 创建并切换分支（传统写法）
+
+合并分支
+# 先切换到目标分支，再合并git switch maingit merge feature/logingit branch -d feature/login            # 删除已合并的本地分支git push origin --delete feature/login # 删除远程分支
+
+暂存工作区修改（stash）
+需要切换分支前，可先将未提交的修改暂存起来：
+git stash          # 暂存工作区未提交的修改git stash list     # 查看暂存列表git stash pop      # 恢复最近一次暂存git stash drop     # 丢弃某次暂存
+
+与远程仓库同步
+git fetch origin      # 拉取远程更新，不自动合并git pull origin main  # 拉取并合并（等价于 fetch + merge）git push origin main  # 推送本地提交到远程git remote -v         # 查看远程仓库信息
+
+标签（tag）
+git tag v1.0.0                 # 打轻量标签git tag -a v1.0.0 -m &quot;版本描述&quot; # 打附注标签git push origin v1.0.0         # 推送标签到远程
+
+查看提交历史
+git log --oneline --graph --all   # 图形化查看所有分支的提交历史
+
+
+工作区和暂存区工作区工作区就是工作文件夹。
+暂存区工作区中名为 .git 的隐藏目录不是工作区，而是 Git 的版本库。
+
+git add filenames 实际上是将 filenames 加入暂存区
+git commit -m “describe” 实际上是将暂存区的内容提交到当前分支
+
+管理修改Git 管理的是修改而非文件。可以使用 git diff HEAD -- filename 对比当前工作区与版本库中的内容：
+git diff HEAD -- filename
+
+撤销修改丢弃工作区的更改，恢复到最近一次 commit 或 add 时的状态：
+git checkout -- file
+
+撤销暂存区的修改：
+git reset HEAD filename
+
+
+远程仓库
+Git 仓库与 GitHub 仓库之间的传输通过 SSH 加密，需要先进行设置。
+
+1. 创建 SSH Key在用户主目录下查看是否存在 .ssh 目录，若存在且目录下有 id_rsa 与 id_rsa.pub 文件，可直接从第 2 步开始；否则创建 SSH Key：
+ssh-keygen -t rsa -C &quot;email@example.com&quot;
+
+将 email@example.com 换为自己的邮箱地址。
+
+id_rsa 是私钥
+id_rsa.pub 是公钥
+
+2. 在 GitHub 中添加 SSH 密钥在 Account &#x2F; SSH and GPG keys 中，点击 New SSH key，填入 id_rsa.pub 文件中的公钥内容。
+添加远程库若本地已创建 Git 仓库，又想在 GitHub 上创建仓库并保持远程同步，可以添加远程库：
+
+先在 GitHub 上通过 Create a new repo 创建一个仓库
+再在本地仓库中运行：
+
+git remote add origin git@github.com:iLogIng/RepoName.git
+
+
+添加后远程库的名字为 origin，可以进行更名
+将本地库的所有内容推送到远程库：
+
+git push -u origin master
+
+第一次推送时远程库为空，需要加上 -u 选项。之后只要本地做了提交，就可以直接推送最新修改：
+git push origin master
+
+删除远程库：若添加时地址写错或想删除远程库，先使用 git remote -v 查看远程库信息，再使用 git remote rm &lt;name&gt; 删除，例如：
+git remote -vgit remote rm origin
+
+
+此处的删除只是解除了本地与远程的绑定关系，并不会物理删除远程库；真正删除远程库需要在 GitHub 网页上操作。
+
+从远程库克隆使用以下命令在本地克隆一个远程库：
+git clone git@github.com:iLogIng/Repo-name.git
+
+
+提交信息规范在团队协作或开源项目中，规范的 Git 提交信息能极大提升代码库的可读性与可追溯性，便于自动生成 CHANGELOG 和版本管理。目前最主流的规范是 Conventional Commits（基于 Angular 规范），格式如下：
+&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;&lt;BLANK LINE&gt;&lt;body&gt;&lt;BLANK LINE&gt;&lt;footer&gt;
+
+1. 常用类型（type）
+
+
+类型
+说明
+
+
+
+feat
+新功能（feature）
+
+
+fix
+修复 bug
+
+
+docs
+文档变更
+
+
+style
+代码格式（不影响代码运行的变动，如空格、缩进等）
+
+
+refactor
+重构（既不是新功能也不是修复 bug）
+
+
+perf
+性能优化
+
+
+test
+增加或修改测试
+
+
+chore
+构建过程、辅助工具或依赖库的变动（如修改构建脚本、升级依赖）
+
+
+revert
+回滚某个提交
+
+
+2. 作用域（scope）
+可选，表示本次修改影响的范围（如模块、文件名、组件名）
+例如：feat(allocator): add boundary tag coalesce
+若修改涉及多个模块，可以省略 (scope)
+
+3. 主题（subject）
+必须使用祈使句（动词开头，如 add、fix、update），不使用过去式
+首字母小写，结尾不加句号
+长度尽量控制在 50 字符以内，简洁概括改动
+
+4. 正文（body）
+可选，用于详细描述修改的原因、如何修改、影响范围等
+每行不超过 72 字符
+与主题之间空一行
+
+5. 脚注（footer）
+可选，通常用于说明 Breaking Changes 或关联 Issue &#x2F; PR
+格式：BREAKING CHANGE: &lt;description&gt;Closes #123, #456
+
+
+基本工作流参考确认分支
+git branchgit status
+
+拉取最新代码
+git pull
+
+创建 &#x2F; 切换分支
+git branch feature/login         # 创建分支git switch feature/login         # 切换分支git switch -c feature/add-header # 创建并切换分支
+
+个人提交
+git add .git commit -m &quot;feat: 添加页面头部组件&quot;
+
+修复 Bug
+# 若某个分支存在 Bug，先切换分支并拉取分支最新代码git switch maingit pull                         # 确保最新git switch -c hotfix/fix-typo    # 创建修复分支# 修复 Bug 并提交git add .git commit -m &quot;fix: 修正首页文字错别字&quot;
+
+分支合并
+# 切回主分支 main 合并修复git switch maingit merge hotfix/fix-typogit push origin maingit branch -d hotfix/fix-typo    # 删除已合并的热修复分支
+
+切回开发分支并最终合并
+# 继续开发之前的头部功能（切回 feature 分支）git switch feature/add-header# 开发完毕，最终合并到主分支 maingit switch maingit pull                         # 再次确保最新（避免别人先合了代码）git merge feature/add-header# 若没有冲突，推送到远程并删除本地功能分支git push origin maingit branch -d feature/add-header
+]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>github action-note</title>
+    <url>/Tech-Stack/tools/gitaction-note/</url>
+    <content><![CDATA[github action ci&#x2F;cd
+每次修改都要小而精、经过可靠的测试，并随时可以上线流水线(pipline)、YAML配置文件、运行时等，都是工具
+
+
+CI&#x2F;CD
+CI&#x2F;CD 持续集成和持续部署continuous integration and continuous deployment
+
+是持续验证变更并保持软件处于一种可以安全、可靠发布的状态是一种可重复的，确保每次都能执行相同检查的软件发布过程
+CI
+每次推送代码，自动进行测试，并与其余代码库进行验证
+
+
+Code Commit
+开发者编写代码并推送至仓库
+
+
+Continuous Integration
+更改被自动拉取并融合
+
+
+Build
+安装依赖，编译程序，构建项目
+
+
+Test
+自动化测试确保代码质量
+反馈 2. Continuous Integration 阶段
+
+
+
+CD
+在通过测试后，代码将始终处于随时可以发布的状态，可以随时部署
+
+
+Package
+项目被打包为应用（如 docker image、.jar …）
+
+
+Deploy to Staging
+自动部署到环境中
+
+
+Deploy to Production
+自动部署到生产环境
+
+
+Monitor
+由系统监控应用程序的性能和故障
+
+
+
+
+Github ActionPipline 本质上只是一份自动化的核验清单，可能指示安装依赖、运行测试、部署程序等流水线过程，就是一种 顺序的 执行清单
+1. 构建 CI&#x2F;CD 配置目录在项目根目录下，创建 .github 文件夹
+并在其中添加 workflow 文件夹
+.github/workflow
+
+这是 Github Action 的指定路径
+2. 创建 .yml CI&#x2F;CD 工作流配置文件
+YAML 只是一种以结构化格式编写配置的方法
+
+在 &lt;project-root-path&gt;/.github/workflow/ 下，创建 &lt;name&gt;.yml 文件，其中  可以是任何你想到的名字，但是一定是 .yml 格式的文件后缀
+&lt;project-root-path&gt;/.github/workflow$ touch ci.yml
+
+3. 编写 .ymal CI 流水线name: CII Pipline   # 标签，确定了在 GitHub Actions 选项卡中显示的名称on:         # 何时运行工作流，用于指定哪些事件应该触发工作流，在指定事件之一发生  push:                     # 推送    branches:   [main]      # 分支名称  pull_request:             # 拉取请求    branches:   [main]      # 分支名称jobs:       # 任务块，是Github Action中的主要工作单元，每个人无负责一项特定的工作，并在独立的虚拟机上运行  test:     # 测试任务    runs-on: ubuntu-latest          # 虚拟机环境    steps:                          # 执行步骤，是具体命令，在虚拟机环境下执行      - name: Check out the Code    # 名称，用于可读的日志输出        uses: actions/checkout@v4   # 用法，可以使用一个已经存在的 Action 复用社区资源，类似于一种自动化组建      - name: Set up xxx        uses: actions/setup-node@v4        with:                       # 向预构建的 Action 传递选项          node-version: &#x27;22&#x27;      - name: Install dependencies        run: npm ci                 # 直接在虚拟机上执行命令      - name: Run Test        run: npm test
+
+4. 推送工作流至主分支git add .github/workflow/&lt;name&gt;.ymlgit commit -m &quot;ci/cd: &lt;info&gt;&quot;git push
+
+接着，可以在项目仓库中的 Action 标签下监控CI&#x2F;CD产物
+5. 监控 Github Action 日志检查 Github Action 日志状态，及时进行修复
+
+完成 CI&#x2F;CD 工作流
+
+
+CI&#x2F;CD 实践
+实践仓库：http-server — 基于 Boost.Asio &#x2F; Boost.Beast 的 C++ HTTP 服务器
+
+目标文件
+
+
+文件
+说明
+
+
+
+.github/workflows/http-server-ci.yml
+CI 流水线：CMake 构建（Debug + Release 矩阵）、GTest 单元测试 + 集成测试、ccache 编译缓存
+
+
+技术栈要点
+语言：C++17, CMake 3.15+
+依赖：Boost 1.83（system, thread, filesystem, log, program_options, json）
+测试：Google Test + ctest（57 用例）
+CI 环境：ubuntu-24.04, actions/checkout@v6, actions/cache@v5 (ccache)
+
+]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>CI/CD</tag>
+        <tag>gitaction</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>make-note</title>
+    <url>/Tech-Stack/tools/make-note/</url>
+    <content><![CDATA[Makefile
+在Linux环境下，常常使用make程序自动化变异大型源码。项目提供一个Makefile文件，make以此为基础进行程序的编译和链接。make并不限定为构建C&#x2F;C++项目服务，还可以用于任何文件的组织与处理，但主要用于Unix&#x2F;Linux环境的自动化开发。
+
+GNU make
+
+Makefile简单模板CC = gccINC_DIR = ./includeSRC_DIR = ./srcCFLAGS = -g -Wall -Werror -I$(INC_DIR)LINK = -lraylib -lmINCS = $(INC_DIR)/rlphysics.h $(wildcard $(INC_DIR)/rlphysics/*.h)SRCS = $(SRC_DIR)/*cTARGET = example$(TARGET): $(INCS) $(SRCS) example.c	$(CC) $^ $(CFLAGS) $(LINK) -o $@.PHONY: cleanclean:	rm $(TARGET)
+
+
+Makefile基础在Linux环境下，输入make命令，程序在当前目录下查找一个名为Makefile的文件，然后，根据该文件定的规则，自动化的执行任意命令。
+规则Makefile文件由若干条规则(Rule)构成，每一条规则指出一个目标文件(Target)，若干依赖文件(prerequisites)，以及生成目标文件的命令。规则如下：
+# 目标文件: 依赖文件1 依赖文件2 ...     # 命令m.txt: a.txt b.txt    cat a.txt b.txt &gt; m.txt
+以上规则使用cat命令将文件a.txt b.txt合并写入m.txt
+
+!注意：在Makefile的规则中，命令必须以Tab开头，不能是空格
+
+
+
+Makefile定义了一系列规则，每个规则在满足依赖文件的前提下执行命令，就能创建一个目标文件。
+
+make使用依赖文件的创建和修改时间来判断是否应该更新一个目标文件。
+
+对于像以下情况依赖的Makefile编写
+x.txt: m.txt c.txt    cat m.txt c.txt &gt; x.txtm.txt: a.txt b.txt    cat a.txt b.txt &gt; m.txt
+我们可以发现，在产生m.txt文件时依赖了m.txt c.txt两个文件，但是m.txt的生成依赖a.txt b.txt两个文件，当依赖的是一个需要生成的文件，则需要先执行生成该依赖的规则。
+伪目标对于中间的生成文件，可以安全的进行删除。可以使用clean规则进行中间生成产物的删除。
+clean:    rm -f m.txt    rm -f x.txt
+clean规则没有依赖文件，要执行clean，必须用命令make clean在执行clean时，并没有创建一个名为clean的文件。若手动创建一个clean文件，该clean规则就不会执行。若希望make不将clean视为文件，可以添加一个标识：
+.PHONY: cleanclean:    rm -f m.txt    rm -f x.txt
+此时，clean不被视为一个文件，而是伪目标(Phony Target)。
+
+大型项目通常会提供clean install等，约定俗成的目标名称。一般并不需要用.PHONY标识clean等约定俗成的伪目标名称。
+
+执行多条命令一个规则可以有多条命令，如：
+cd:    pwd    cd ..    pwd
+make cd可以执行以上定义的cd规则。针对每条命令都是创建一个独立的shell环境，同时也不对执行目录进行改变。可以将多条命令以;进行分隔。同时也可以在行后使用\将一行语句拆成多行。
+cd:    pwd; \    cd ..; \    pwd
+还可以使用&amp;&amp;执行多条命令，在执行时，当某条命令失败，后续命令不会继续执行。
+控制打印默认情况下，make会打印出它执行的每一条命令。如果不想打印某一条命令，可以在命令前加上@，表示命令执行时，不打印该命令。
+no_output:    @echo &#x27;not display&#x27;    echo &#x27;will display&#x27;
+
+控制错误make在执行命令时，会检查每一条命令的返回值，如果返回错误(非0值)，就会中断执行。但是，有时候我们想忽略错误，继续执行命令，可以在需要忽略错误的命令前加上-:
+ignore_error:    -rm zzz.txt    @echo &#x27;ok&#x27;
+
+
+编写Makefile就是编写一系列规则，来告诉make如何执行这些规则，最终生成我们期望的目标文件
+
+
+编译C程序C&#x2F;C++程序的编译过程main.cpp    源文件|   预处理器main.i      被预处理修改了的源文件|   编译器main.s      汇编程序|   汇编器main.o      可重定向的目标文件|   链接器main        可执行文件
+以上过程可简化为以下处理步骤：
+
+将每个.c或.cpp文件编译为.o文件
+将所有.o文件链接为最终的可执行文件
+
+
+使用隐式规则在添加越来越多的.c .cpp .h .hpp文件时，就需要编写更多的规则来生成.o文件由于make最初就是为了编译C程序而设计，为了免去重复创建编译.o文件的不ize,make内置了隐式规则(Implicit Rule)，即，遇到一个.o文件时，若没有找到对应的规则，就自动应用一个隐式规则：
+xyz.o: xyz.c    gcc -c -o xyz.o xyz.c
+对于C程序员来说，使用隐式规则有一个潜在的问题，那就是无法跟踪.h文件的修改。
+
+针对C C++ ASM Fortran等程序，make内置了一系列隐式规则，可以通过官方手册进行查看。
+
+
+使用变量当我们在Makefile中重复写很多文件名时，会增加程序的复杂度，当需要改名时，费时费力。在Makefile中可以使用变量来解决重复问题。以一下Makefile为例：
+world: hello.o main.o    gcc -o world hello.o main.oclean:    rm -f *.o world
+在以上文件中world重复出现了3次，可以定义一个变量来进行替换。
+TARGET = world$(TARGET): hello.o main.o    gcc -o $(TARGET) hello.o main.oclean:    rm -f *.o $(TARGET)
+变量定义使用变量名=值或变量名:=值，通常变量名全大写。引用变量使用$(变量名)。以上内容中，hello.o main.o列表也重复出现，可以使用变量进行替换：
+OBJS = hello.o main.oTARGET = world$(TARGET): $(OBJS)    gcc -o $(TARGET) $(OBJS)clean:    rm -f *.o $(TARGET)
+
+从编译过程可以看出：每个.o文件都是由对应的.c文件编译而成的，因此，可以让make先获取.c文件列表，再进行替换，得到.o文件列表。
+OBJS = $(patsubst %.c,%.o,$(wildcard * .c))TARGET = world$(TARGET): $(OBJS)    gcc -o $(TARGET) $(OBJS)clean:    rm -f *.o $(TARGET)
+在以上的内容中，wildcard为列出当前目录下所有.c文件的函数，函数patsubst``进行模式替换。 这样，在每添加一个.c文件后，都不需要修改Makefile，变量OBJS&#96;都会自动更新。
+自动变量在Makefile中，经常可以看到$@ $&lt;这样的变量，这种变量被称为 自动变量(Automatic AVariable)
+
+$@ 当前规则的目标名 在app: main.o规则中，$@就是app
+$&lt; 第一个依赖项名   在app: main.o util.o规则中，$&lt;就是main.o
+$^ 所有依赖项列表   在app: main.o util.o规则中，$^就是main.o util.o
+
+# Makefile contentmain: main.cpp hello.o [...]    g++ -o main main.cpp hello.o
+在以上的Makefile文件中的自动变量的释义：$@: main$&lt;: main.cpp$^: main.cpp hello.o […]
+
+例子在 PPMStream 中的 makefile 构建文件
+项目结构
+.├── include│   ├── math│   │   ├── Mat.hpp│   │   └── Vec.hpp│   ├── stream│   │   ├── PPMBuffer.hpp│   │   └── PPMStream.hpp│   └── utils│       ├── Point.hpp│       └── RGB.hpp├── main.cpp├── makefile├── src└── tests
+
+构建文件
+CXX = g++CXX_FLAGES = -Wall -gSRC_PATH = ./srcINCLUDE_PATH = includeINCLUDE_SUBDIRS = math stream utilsINCLUDES = -I$(INCLUDE_PATH) $(addprefix -I$(INCLUDE_PATH)/, $(INCLUDE_SUBDIRS))HEADERS = $(wildcard $(INCLUDE_PATH)/*/*.hpp)SOURCE = main.cppTARGET = main# = = = = = =outprint:	@echo $(INCLUDES)$(TARGET): $(SOURCE) $(HEADERS)	$(CXX) $(CXX_FLAGES) $(INCLUDES) $&lt; -o $@.PHONY:	cleanclean:	rm $(TARGET)
+
+
+最佳实践建议
+使用变量：避免硬编码路径和参数
+目录分离：区分源码、构建和二进制目录
+伪目标声明：标记不生成文件的目标
+错误处理：在命令前添加-忽略错误
+清晰的注释：解释复杂规则和变量
+依赖管理：自动生成头文件依赖
+分层Makefile：大型项目使用子目录Makefile
+跨平台支持：处理不同OS的差异
+
+
+]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>makefile</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nvim配置文件</title>
+    <url>/Tech-Stack/tools/vim-config/</url>
+    <content><![CDATA[-- nvim 主题vim.cmd.colorscheme(&quot;torte&quot;)--[[--  安装lazy.nvim--]]local lazypath = vim.fn.stdpath(&quot;data&quot;) .. &quot;/lazy/lazy.nvim&quot;if not vim.loop.fs_stat(lazypath) then  vim.fn.system(&#123;    &quot;git&quot;,    &quot;clone&quot;,    &quot;--filter=blob:none&quot;,    &quot;https://github.com/folke/lazy.nvim.git&quot;,    &quot;--branch=stable&quot;,    lazypath,  &#125;)endvim.opt.rtp:prepend(lazypath)--[[--  基础配置--]]vim.opt.compatible = false      -- 不使用vi兼容vim.syntax = true               -- 启用语法高亮vim.o.number = true             -- 显示行号vim.o.relativenumber = true     -- 显示相对行号vim.o.cursorline = true         -- 高亮显示当前行vim.opt.signcolumn = &#x27;yes&#x27;      -- 始终显示标记列vim.o.title = true              -- 终端标题显示当前文件vim.opt.scrolloff = 3           -- 光标上下保留3行缓冲vim.o.ignorecase = true         -- 搜索时忽略大小写vim.o.smartcase = true          -- 如果包含大小写则开启精确匹配vim.o.hlsearch = true           -- 高亮所有搜索结果vim.o.incsearch = true          -- 边输入边高亮匹配vim.o.expandtab = true          -- 将Tab转换为空格vim.opt.tabstop = 4             -- Tab显示为4个空格宽度vim.opt.shiftwidth = 4          -- 自动缩进使用4vim.opt.softtabstop = 4         -- 在编辑时Tab键当作4个空格vim.o.autoindent = true         -- 自动缩进vim.o.smartindent = true        -- 智能缩进vim.opt.backspace = &#123;&#x27;indent&#x27;, &#x27;eol&#x27;, &#x27;start&#x27;&#125;          -- 允许退格键删除：缩进、换行vim.o.wildmenu = true           -- 命令模式补全时显示菜单vim.opt.wildmode = &#x27;longest:full,full&#x27;                  -- 补全模式：最长匹配，然后列表vim.opt.updatetime = 300        -- 减少更新延迟vim.opt.mouse = &#x27;a&#x27;             -- 启用鼠标支持vim.opt.encoding = &#x27;utf-8&#x27;      -- 内部使用UIF-8编码vim.opt.fileencodings = &#x27;utf-8,gbk&#x27;                     -- 尝试解码的文件编码列表vim.opt.clipboard = &#x27;unnamedplus&#x27;                       -- 启用系统剪贴板支持vim.opt.laststatus = 2          -- 始终显示状态栏vim.opt.statusline =[[%f %m%=[%&#123;&amp;fileencoding?&amp;fileencoding:&amp;encoding&#125;] [%Y] %l:%c %p%%]]--[[--  插件管理--]]-- 增强语法高亮：Markdown、Makefile、LaTeXrequire(&quot;lazy&quot;).setup(&#123;    &#123;      &quot;nvim-treesitter/nvim-treesitter&quot;,      build = &quot;:TSUpdate&quot;,      opts = &#123;        -- 只安装这几种语言的解析器        ensure_installed = &#123;          &quot;markdown&quot;,       -- Markdown 基础语法          &quot;markdown_inline&quot;,-- Markdown 内联元素（如粗体、代码）更精细的高亮          &quot;make&quot;,           -- Makefile          &quot;latex&quot;,          -- LaTeX / BibTeX        &#125;,        highlight = &#123;          enable = true,                -- 启用 Tree-sitter 高亮          additional_vim_regex_highlighting = false, -- 关闭 Vim 正则高亮避免冲突        &#125;,      &#125;,      config = function(_, opts)        -- 标准 setup 调用        require(&quot;nvim-treesitter.configs&quot;).setup(opts)      end,    &#125;,&#125;)
+]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>vim</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>xv6-catalog</title>
+    <url>/Computer-Sci/OS/xv6-labs/xv6-catalog/</url>
+    <content><![CDATA[
+关于编写 C&#x2F;Linux 实验（流程设计）：
+
+建立一个自己的项目目录
+阅读各个实验子项的 README.md 文档
+阅读 man page 分析各个程序的功能实现
+设计程序流程
+编写程序
+
+
+CATALOG
+
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
       </tags>
   </entry>
   <entry>
@@ -5640,695 +6482,6 @@ LODS
       </tags>
   </entry>
   <entry>
-    <title>github action-note</title>
-    <url>/Tech-Stack/tools/gitaction-note/</url>
-    <content><![CDATA[github action ci&#x2F;cd
-每次修改都要小而精、经过可靠的测试，并随时可以上线流水线(pipline)、YAML配置文件、运行时等，都是工具
-
-
-CI&#x2F;CD
-CI&#x2F;CD 持续集成和持续部署continuous integration and continuous deployment
-
-是持续验证变更并保持软件处于一种可以安全、可靠发布的状态是一种可重复的，确保每次都能执行相同检查的软件发布过程
-CI
-每次推送代码，自动进行测试，并与其余代码库进行验证
-
-
-Code Commit
-开发者编写代码并推送至仓库
-
-
-Continuous Integration
-更改被自动拉取并融合
-
-
-Build
-安装依赖，编译程序，构建项目
-
-
-Test
-自动化测试确保代码质量
-反馈 2. Continuous Integration 阶段
-
-
-
-CD
-在通过测试后，代码将始终处于随时可以发布的状态，可以随时部署
-
-
-Package
-项目被打包为应用（如 docker image、.jar …）
-
-
-Deploy to Staging
-自动部署到环境中
-
-
-Deploy to Production
-自动部署到生产环境
-
-
-Monitor
-由系统监控应用程序的性能和故障
-
-
-
-
-Github ActionPipline 本质上只是一份自动化的核验清单，可能指示安装依赖、运行测试、部署程序等流水线过程，就是一种 顺序的 执行清单
-1. 构建 CI&#x2F;CD 配置目录在项目根目录下，创建 .github 文件夹
-并在其中添加 workflow 文件夹
-.github/workflow
-
-这是 Github Action 的指定路径
-2. 创建 .yml CI&#x2F;CD 工作流配置文件
-YAML 只是一种以结构化格式编写配置的方法
-
-在 &lt;project-root-path&gt;/.github/workflow/ 下，创建 &lt;name&gt;.yml 文件，其中  可以是任何你想到的名字，但是一定是 .yml 格式的文件后缀
-&lt;project-root-path&gt;/.github/workflow$ touch ci.yml
-
-3. 编写 .ymal CI 流水线name: CII Pipline   # 标签，确定了在 GitHub Actions 选项卡中显示的名称on:         # 何时运行工作流，用于指定哪些事件应该触发工作流，在指定事件之一发生  push:                     # 推送    branches:   [main]      # 分支名称  pull_request:             # 拉取请求    branches:   [main]      # 分支名称jobs:       # 任务块，是Github Action中的主要工作单元，每个人无负责一项特定的工作，并在独立的虚拟机上运行  test:     # 测试任务    runs-on: ubuntu-latest          # 虚拟机环境    steps:                          # 执行步骤，是具体命令，在虚拟机环境下执行      - name: Check out the Code    # 名称，用于可读的日志输出        uses: actions/checkout@v4   # 用法，可以使用一个已经存在的 Action 复用社区资源，类似于一种自动化组建      - name: Set up xxx        uses: actions/setup-node@v4        with:                       # 向预构建的 Action 传递选项          node-version: &#x27;22&#x27;      - name: Install dependencies        run: npm ci                 # 直接在虚拟机上执行命令      - name: Run Test        run: npm test
-
-4. 推送工作流至主分支git add .github/workflow/&lt;name&gt;.ymlgit commit -m &quot;ci/cd: &lt;info&gt;&quot;git push
-
-接着，可以在项目仓库中的 Action 标签下监控CI&#x2F;CD产物
-5. 监控 Github Action 日志检查 Github Action 日志状态，及时进行修复
-
-完成 CI&#x2F;CD 工作流
-
-
-CI&#x2F;CD 实践
-实践仓库：http-server — 基于 Boost.Asio &#x2F; Boost.Beast 的 C++ HTTP 服务器
-
-目标文件
-
-
-文件
-说明
-
-
-
-.github/workflows/http-server-ci.yml
-CI 流水线：CMake 构建（Debug + Release 矩阵）、GTest 单元测试 + 集成测试、ccache 编译缓存
-
-
-技术栈要点
-语言：C++17, CMake 3.15+
-依赖：Boost 1.83（system, thread, filesystem, log, program_options, json）
-测试：Google Test + ctest（57 用例）
-CI 环境：ubuntu-24.04, actions/checkout@v6, actions/cache@v5 (ccache)
-
-]]></content>
-      <categories>
-        <category>开发工具</category>
-      </categories>
-      <tags>
-        <tag>CI/CD</tag>
-        <tag>gitaction</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git-note</title>
-    <url>/Tech-Stack/tools/git-note/</url>
-    <content><![CDATA[GIT NOTE
-参考资料：
-
-官方文档
-教学笔记
-教学网站
-
-
-
-
-命令速查表
-
-
-命令
-功能
-命令格式
-实例
-
-
-
-init
-初始化仓库
-git init
-git init
-
-
-clone
-克隆远程库到本地
-git clone &lt;url&gt;
-git clone git@github.com:iLogIng/Repo-name.git
-
-
-add
-将文件加入暂存区
-git add &lt;file&gt;
-git add README.md
-
-
-add
-将全部修改加入暂存区
-git add .
-git add .
-
-
-commit
-提交暂存区内容
-git commit -m &quot;&lt;描述&gt;&quot;
-git commit -m &quot;Add the README.md file into git Repo&quot;
-
-
-status
-查看仓库当前状态
-git status
-git status
-
-
-diff
-查看未提交的修改
-git diff
-git diff
-
-
-diff
-对比工作区与版本库
-git diff HEAD -- &lt;file&gt;
-git diff HEAD -- README.md
-
-
-log
-查看提交日志
-git log
-git log
-
-
-log
-图形化查看所有分支的提交历史
-git log --oneline --graph --all
-git log --oneline --graph --all
-
-
-reset
-回退到指定版本的已提交状态
-git reset --hard &lt;commit_id&gt;
-git reset --hard HEAD^
-
-
-reset
-撤销暂存区的修改
-git reset HEAD &lt;file&gt;
-git reset HEAD README.md
-
-
-reflog
-查看所有提交日志，找回历史
-git reflog
-git reflog
-
-
-checkout
-丢弃工作区的修改
-git checkout -- &lt;file&gt;
-git checkout -- README.md
-
-
-branch
-查看本地分支
-git branch
-git branch
-
-
-branch
-查看本地与远程的全部分支
-git branch -a
-git branch -a
-
-
-branch
-创建分支
-git branch &lt;name&gt;
-git branch feature/login
-
-
-switch
-切换分支
-git switch &lt;name&gt;
-git switch main
-
-
-switch
-创建并切换分支
-git switch -c &lt;name&gt;
-git switch -c feature/add-header
-
-
-checkout
-创建并切换分支（传统写法）
-git checkout -b &lt;name&gt;
-git checkout -b feature/add-header
-
-
-merge
-将分支合并到当前分支
-git merge &lt;name&gt;
-git merge feature/login
-
-
-branch
-删除已合并的本地分支
-git branch -d &lt;name&gt;
-git branch -d feature/login
-
-
-push
-删除远程分支
-git push origin --delete &lt;name&gt;
-git push origin --delete feature/login
-
-
-stash
-暂存工作区未提交的修改
-git stash
-git stash
-
-
-stash
-查看暂存列表
-git stash list
-git stash list
-
-
-stash
-恢复最近一次暂存
-git stash pop
-git stash pop
-
-
-stash
-丢弃某次暂存
-git stash drop
-git stash drop
-
-
-fetch
-拉取远程更新，不自动合并
-git fetch &lt;remote&gt;
-git fetch origin
-
-
-pull
-拉取并合并远程更新
-git pull &lt;remote&gt; &lt;branch&gt;
-git pull origin main
-
-
-push
-推送本地提交到远程
-git push &lt;remote&gt; &lt;branch&gt;
-git push origin main
-
-
-remote
-查看远程仓库信息
-git remote -v
-git remote -v
-
-
-remote
-添加远程库
-git remote add origin &lt;url&gt;
-git remote add origin git@github.com:iLogIng/RepoName.git
-
-
-remote
-删除远程库绑定
-git remote rm &lt;name&gt;
-git remote rm origin
-
-
-tag
-打轻量标签
-git tag &lt;tag&gt;
-git tag v1.0.0
-
-
-tag
-打附注标签
-git tag -a &lt;tag&gt; -m &quot;&lt;描述&gt;&quot;
-git tag -a v1.0.0 -m &quot;release v1.0.0&quot;
-
-
-push
-推送标签到远程
-git push origin &lt;tag&gt;
-git push origin v1.0.0
-
-
-config
-设置提交者姓名
-git config --global user.name &lt;name&gt;
-git config --global user.name &quot;iLogIng&quot;
-
-
-config
-设置提交者邮箱
-git config --global user.email &lt;email&gt;
-git config --global user.email &quot;email@example.com&quot;
-
-
-
-基础版本控制
-以下操作均在测试仓库 test-dir/ 中进行：
-
-mkdir test-dir
-
-1. 添加仓库使用 git init 初始化仓库，此时文件夹 test-dir/ 已绑定到一个 Git Repo：
-./test-dir $: git init
-
-2. 将文件添加到版本库
-使用 git add [filename] 将文件加入版本库
-使用 git commit -m “describe” 将已添加的文件提交到仓库，提交描述为 “describe”
-
-./test-dir $: git add README.md./test-dir $: git commit -m &quot;Add the README.md file into git Repo&quot;
-
-
-commit 相当于为仓库添加一个版本快照，并对快照进行管理
-
-3. 查看仓库状态使用 git status 查看仓库当前状态：
-./test-dir $: git status
-
-使用 git diff 查看已修改但未提交的内容：
-./test-dir $: git diff
-
-4. 切换快照版本使用 git log 查看从最近到最远的提交日志，使用 git reset --hard commit_id 回到指定版本的已提交状态：
-./test-dir $: git log./test-dir $: git reset --hard commit_id
-
-
-–soft：回到上个版本的未提交状态
-–mixed：回退到上个版本的已添加未提交状态
-commit_id 可以是快照 id，也可以是 HEAD^（上个版本）、HEAD^^（向上第 2 个版本）、HEAD~N（向上第 N 个版本）；也支持填写部分 commit_id，由系统自动匹配
-使用 git reflog 查看从近到远的所有提交日志，可以找回过去的提交内容
-
-5. 管理项目分支项目管理与协作中，分支是最核心的工具，配合远程同步、暂存、标签等命令完成协作流程。
-查看分支
-git branch          # 查看本地分支，当前分支前带 *git branch -a       # 查看本地与远程的全部分支
-
-创建与切换分支
-git branch feature/login           # 创建分支git switch feature/login           # 切换分支（推荐）git switch -c feature/add-header   # 创建并切换分支（推荐）git checkout -b feature/add-header # 创建并切换分支（传统写法）
-
-合并分支
-# 先切换到目标分支，再合并git switch maingit merge feature/logingit branch -d feature/login            # 删除已合并的本地分支git push origin --delete feature/login # 删除远程分支
-
-暂存工作区修改（stash）
-需要切换分支前，可先将未提交的修改暂存起来：
-git stash          # 暂存工作区未提交的修改git stash list     # 查看暂存列表git stash pop      # 恢复最近一次暂存git stash drop     # 丢弃某次暂存
-
-与远程仓库同步
-git fetch origin      # 拉取远程更新，不自动合并git pull origin main  # 拉取并合并（等价于 fetch + merge）git push origin main  # 推送本地提交到远程git remote -v         # 查看远程仓库信息
-
-标签（tag）
-git tag v1.0.0                 # 打轻量标签git tag -a v1.0.0 -m &quot;版本描述&quot; # 打附注标签git push origin v1.0.0         # 推送标签到远程
-
-查看提交历史
-git log --oneline --graph --all   # 图形化查看所有分支的提交历史
-
-
-工作区和暂存区工作区工作区就是工作文件夹。
-暂存区工作区中名为 .git 的隐藏目录不是工作区，而是 Git 的版本库。
-
-git add filenames 实际上是将 filenames 加入暂存区
-git commit -m “describe” 实际上是将暂存区的内容提交到当前分支
-
-管理修改Git 管理的是修改而非文件。可以使用 git diff HEAD -- filename 对比当前工作区与版本库中的内容：
-git diff HEAD -- filename
-
-撤销修改丢弃工作区的更改，恢复到最近一次 commit 或 add 时的状态：
-git checkout -- file
-
-撤销暂存区的修改：
-git reset HEAD filename
-
-
-远程仓库
-Git 仓库与 GitHub 仓库之间的传输通过 SSH 加密，需要先进行设置。
-
-1. 创建 SSH Key在用户主目录下查看是否存在 .ssh 目录，若存在且目录下有 id_rsa 与 id_rsa.pub 文件，可直接从第 2 步开始；否则创建 SSH Key：
-ssh-keygen -t rsa -C &quot;email@example.com&quot;
-
-将 email@example.com 换为自己的邮箱地址。
-
-id_rsa 是私钥
-id_rsa.pub 是公钥
-
-2. 在 GitHub 中添加 SSH 密钥在 Account &#x2F; SSH and GPG keys 中，点击 New SSH key，填入 id_rsa.pub 文件中的公钥内容。
-添加远程库若本地已创建 Git 仓库，又想在 GitHub 上创建仓库并保持远程同步，可以添加远程库：
-
-先在 GitHub 上通过 Create a new repo 创建一个仓库
-再在本地仓库中运行：
-
-git remote add origin git@github.com:iLogIng/RepoName.git
-
-
-添加后远程库的名字为 origin，可以进行更名
-将本地库的所有内容推送到远程库：
-
-git push -u origin master
-
-第一次推送时远程库为空，需要加上 -u 选项。之后只要本地做了提交，就可以直接推送最新修改：
-git push origin master
-
-删除远程库：若添加时地址写错或想删除远程库，先使用 git remote -v 查看远程库信息，再使用 git remote rm &lt;name&gt; 删除，例如：
-git remote -vgit remote rm origin
-
-
-此处的删除只是解除了本地与远程的绑定关系，并不会物理删除远程库；真正删除远程库需要在 GitHub 网页上操作。
-
-从远程库克隆使用以下命令在本地克隆一个远程库：
-git clone git@github.com:iLogIng/Repo-name.git
-
-
-提交信息规范在团队协作或开源项目中，规范的 Git 提交信息能极大提升代码库的可读性与可追溯性，便于自动生成 CHANGELOG 和版本管理。目前最主流的规范是 Conventional Commits（基于 Angular 规范），格式如下：
-&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;&lt;BLANK LINE&gt;&lt;body&gt;&lt;BLANK LINE&gt;&lt;footer&gt;
-
-1. 常用类型（type）
-
-
-类型
-说明
-
-
-
-feat
-新功能（feature）
-
-
-fix
-修复 bug
-
-
-docs
-文档变更
-
-
-style
-代码格式（不影响代码运行的变动，如空格、缩进等）
-
-
-refactor
-重构（既不是新功能也不是修复 bug）
-
-
-perf
-性能优化
-
-
-test
-增加或修改测试
-
-
-chore
-构建过程、辅助工具或依赖库的变动（如修改构建脚本、升级依赖）
-
-
-revert
-回滚某个提交
-
-
-2. 作用域（scope）
-可选，表示本次修改影响的范围（如模块、文件名、组件名）
-例如：feat(allocator): add boundary tag coalesce
-若修改涉及多个模块，可以省略 (scope)
-
-3. 主题（subject）
-必须使用祈使句（动词开头，如 add、fix、update），不使用过去式
-首字母小写，结尾不加句号
-长度尽量控制在 50 字符以内，简洁概括改动
-
-4. 正文（body）
-可选，用于详细描述修改的原因、如何修改、影响范围等
-每行不超过 72 字符
-与主题之间空一行
-
-5. 脚注（footer）
-可选，通常用于说明 Breaking Changes 或关联 Issue &#x2F; PR
-格式：BREAKING CHANGE: &lt;description&gt;Closes #123, #456
-
-
-基本工作流参考确认分支
-git branchgit status
-
-拉取最新代码
-git pull
-
-创建 &#x2F; 切换分支
-git branch feature/login         # 创建分支git switch feature/login         # 切换分支git switch -c feature/add-header # 创建并切换分支
-
-个人提交
-git add .git commit -m &quot;feat: 添加页面头部组件&quot;
-
-修复 Bug
-# 若某个分支存在 Bug，先切换分支并拉取分支最新代码git switch maingit pull                         # 确保最新git switch -c hotfix/fix-typo    # 创建修复分支# 修复 Bug 并提交git add .git commit -m &quot;fix: 修正首页文字错别字&quot;
-
-分支合并
-# 切回主分支 main 合并修复git switch maingit merge hotfix/fix-typogit push origin maingit branch -d hotfix/fix-typo    # 删除已合并的热修复分支
-
-切回开发分支并最终合并
-# 继续开发之前的头部功能（切回 feature 分支）git switch feature/add-header# 开发完毕，最终合并到主分支 maingit switch maingit pull                         # 再次确保最新（避免别人先合了代码）git merge feature/add-header# 若没有冲突，推送到远程并删除本地功能分支git push origin maingit branch -d feature/add-header
-]]></content>
-      <categories>
-        <category>开发工具</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nvim配置文件</title>
-    <url>/Tech-Stack/tools/vim-config/</url>
-    <content><![CDATA[-- nvim 主题vim.cmd.colorscheme(&quot;torte&quot;)--[[--  安装lazy.nvim--]]local lazypath = vim.fn.stdpath(&quot;data&quot;) .. &quot;/lazy/lazy.nvim&quot;if not vim.loop.fs_stat(lazypath) then  vim.fn.system(&#123;    &quot;git&quot;,    &quot;clone&quot;,    &quot;--filter=blob:none&quot;,    &quot;https://github.com/folke/lazy.nvim.git&quot;,    &quot;--branch=stable&quot;,    lazypath,  &#125;)endvim.opt.rtp:prepend(lazypath)--[[--  基础配置--]]vim.opt.compatible = false      -- 不使用vi兼容vim.syntax = true               -- 启用语法高亮vim.o.number = true             -- 显示行号vim.o.relativenumber = true     -- 显示相对行号vim.o.cursorline = true         -- 高亮显示当前行vim.opt.signcolumn = &#x27;yes&#x27;      -- 始终显示标记列vim.o.title = true              -- 终端标题显示当前文件vim.opt.scrolloff = 3           -- 光标上下保留3行缓冲vim.o.ignorecase = true         -- 搜索时忽略大小写vim.o.smartcase = true          -- 如果包含大小写则开启精确匹配vim.o.hlsearch = true           -- 高亮所有搜索结果vim.o.incsearch = true          -- 边输入边高亮匹配vim.o.expandtab = true          -- 将Tab转换为空格vim.opt.tabstop = 4             -- Tab显示为4个空格宽度vim.opt.shiftwidth = 4          -- 自动缩进使用4vim.opt.softtabstop = 4         -- 在编辑时Tab键当作4个空格vim.o.autoindent = true         -- 自动缩进vim.o.smartindent = true        -- 智能缩进vim.opt.backspace = &#123;&#x27;indent&#x27;, &#x27;eol&#x27;, &#x27;start&#x27;&#125;          -- 允许退格键删除：缩进、换行vim.o.wildmenu = true           -- 命令模式补全时显示菜单vim.opt.wildmode = &#x27;longest:full,full&#x27;                  -- 补全模式：最长匹配，然后列表vim.opt.updatetime = 300        -- 减少更新延迟vim.opt.mouse = &#x27;a&#x27;             -- 启用鼠标支持vim.opt.encoding = &#x27;utf-8&#x27;      -- 内部使用UIF-8编码vim.opt.fileencodings = &#x27;utf-8,gbk&#x27;                     -- 尝试解码的文件编码列表vim.opt.clipboard = &#x27;unnamedplus&#x27;                       -- 启用系统剪贴板支持vim.opt.laststatus = 2          -- 始终显示状态栏vim.opt.statusline =[[%f %m%=[%&#123;&amp;fileencoding?&amp;fileencoding:&amp;encoding&#125;] [%Y] %l:%c %p%%]]--[[--  插件管理--]]-- 增强语法高亮：Markdown、Makefile、LaTeXrequire(&quot;lazy&quot;).setup(&#123;    &#123;      &quot;nvim-treesitter/nvim-treesitter&quot;,      build = &quot;:TSUpdate&quot;,      opts = &#123;        -- 只安装这几种语言的解析器        ensure_installed = &#123;          &quot;markdown&quot;,       -- Markdown 基础语法          &quot;markdown_inline&quot;,-- Markdown 内联元素（如粗体、代码）更精细的高亮          &quot;make&quot;,           -- Makefile          &quot;latex&quot;,          -- LaTeX / BibTeX        &#125;,        highlight = &#123;          enable = true,                -- 启用 Tree-sitter 高亮          additional_vim_regex_highlighting = false, -- 关闭 Vim 正则高亮避免冲突        &#125;,      &#125;,      config = function(_, opts)        -- 标准 setup 调用        require(&quot;nvim-treesitter.configs&quot;).setup(opts)      end,    &#125;,&#125;)
-]]></content>
-      <categories>
-        <category>开发工具</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>vim</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>make-note</title>
-    <url>/Tech-Stack/tools/make-note/</url>
-    <content><![CDATA[Makefile
-在Linux环境下，常常使用make程序自动化变异大型源码。项目提供一个Makefile文件，make以此为基础进行程序的编译和链接。make并不限定为构建C&#x2F;C++项目服务，还可以用于任何文件的组织与处理，但主要用于Unix&#x2F;Linux环境的自动化开发。
-
-GNU make
-
-Makefile简单模板CC = gccINC_DIR = ./includeSRC_DIR = ./srcCFLAGS = -g -Wall -Werror -I$(INC_DIR)LINK = -lraylib -lmINCS = $(INC_DIR)/rlphysics.h $(wildcard $(INC_DIR)/rlphysics/*.h)SRCS = $(SRC_DIR)/*cTARGET = example$(TARGET): $(INCS) $(SRCS) example.c	$(CC) $^ $(CFLAGS) $(LINK) -o $@.PHONY: cleanclean:	rm $(TARGET)
-
-
-Makefile基础在Linux环境下，输入make命令，程序在当前目录下查找一个名为Makefile的文件，然后，根据该文件定的规则，自动化的执行任意命令。
-规则Makefile文件由若干条规则(Rule)构成，每一条规则指出一个目标文件(Target)，若干依赖文件(prerequisites)，以及生成目标文件的命令。规则如下：
-# 目标文件: 依赖文件1 依赖文件2 ...     # 命令m.txt: a.txt b.txt    cat a.txt b.txt &gt; m.txt
-以上规则使用cat命令将文件a.txt b.txt合并写入m.txt
-
-!注意：在Makefile的规则中，命令必须以Tab开头，不能是空格
-
-
-
-Makefile定义了一系列规则，每个规则在满足依赖文件的前提下执行命令，就能创建一个目标文件。
-
-make使用依赖文件的创建和修改时间来判断是否应该更新一个目标文件。
-
-对于像以下情况依赖的Makefile编写
-x.txt: m.txt c.txt    cat m.txt c.txt &gt; x.txtm.txt: a.txt b.txt    cat a.txt b.txt &gt; m.txt
-我们可以发现，在产生m.txt文件时依赖了m.txt c.txt两个文件，但是m.txt的生成依赖a.txt b.txt两个文件，当依赖的是一个需要生成的文件，则需要先执行生成该依赖的规则。
-伪目标对于中间的生成文件，可以安全的进行删除。可以使用clean规则进行中间生成产物的删除。
-clean:    rm -f m.txt    rm -f x.txt
-clean规则没有依赖文件，要执行clean，必须用命令make clean在执行clean时，并没有创建一个名为clean的文件。若手动创建一个clean文件，该clean规则就不会执行。若希望make不将clean视为文件，可以添加一个标识：
-.PHONY: cleanclean:    rm -f m.txt    rm -f x.txt
-此时，clean不被视为一个文件，而是伪目标(Phony Target)。
-
-大型项目通常会提供clean install等，约定俗成的目标名称。一般并不需要用.PHONY标识clean等约定俗成的伪目标名称。
-
-执行多条命令一个规则可以有多条命令，如：
-cd:    pwd    cd ..    pwd
-make cd可以执行以上定义的cd规则。针对每条命令都是创建一个独立的shell环境，同时也不对执行目录进行改变。可以将多条命令以;进行分隔。同时也可以在行后使用\将一行语句拆成多行。
-cd:    pwd; \    cd ..; \    pwd
-还可以使用&amp;&amp;执行多条命令，在执行时，当某条命令失败，后续命令不会继续执行。
-控制打印默认情况下，make会打印出它执行的每一条命令。如果不想打印某一条命令，可以在命令前加上@，表示命令执行时，不打印该命令。
-no_output:    @echo &#x27;not display&#x27;    echo &#x27;will display&#x27;
-
-控制错误make在执行命令时，会检查每一条命令的返回值，如果返回错误(非0值)，就会中断执行。但是，有时候我们想忽略错误，继续执行命令，可以在需要忽略错误的命令前加上-:
-ignore_error:    -rm zzz.txt    @echo &#x27;ok&#x27;
-
-
-编写Makefile就是编写一系列规则，来告诉make如何执行这些规则，最终生成我们期望的目标文件
-
-
-编译C程序C&#x2F;C++程序的编译过程main.cpp    源文件|   预处理器main.i      被预处理修改了的源文件|   编译器main.s      汇编程序|   汇编器main.o      可重定向的目标文件|   链接器main        可执行文件
-以上过程可简化为以下处理步骤：
-
-将每个.c或.cpp文件编译为.o文件
-将所有.o文件链接为最终的可执行文件
-
-
-使用隐式规则在添加越来越多的.c .cpp .h .hpp文件时，就需要编写更多的规则来生成.o文件由于make最初就是为了编译C程序而设计，为了免去重复创建编译.o文件的不ize,make内置了隐式规则(Implicit Rule)，即，遇到一个.o文件时，若没有找到对应的规则，就自动应用一个隐式规则：
-xyz.o: xyz.c    gcc -c -o xyz.o xyz.c
-对于C程序员来说，使用隐式规则有一个潜在的问题，那就是无法跟踪.h文件的修改。
-
-针对C C++ ASM Fortran等程序，make内置了一系列隐式规则，可以通过官方手册进行查看。
-
-
-使用变量当我们在Makefile中重复写很多文件名时，会增加程序的复杂度，当需要改名时，费时费力。在Makefile中可以使用变量来解决重复问题。以一下Makefile为例：
-world: hello.o main.o    gcc -o world hello.o main.oclean:    rm -f *.o world
-在以上文件中world重复出现了3次，可以定义一个变量来进行替换。
-TARGET = world$(TARGET): hello.o main.o    gcc -o $(TARGET) hello.o main.oclean:    rm -f *.o $(TARGET)
-变量定义使用变量名=值或变量名:=值，通常变量名全大写。引用变量使用$(变量名)。以上内容中，hello.o main.o列表也重复出现，可以使用变量进行替换：
-OBJS = hello.o main.oTARGET = world$(TARGET): $(OBJS)    gcc -o $(TARGET) $(OBJS)clean:    rm -f *.o $(TARGET)
-
-从编译过程可以看出：每个.o文件都是由对应的.c文件编译而成的，因此，可以让make先获取.c文件列表，再进行替换，得到.o文件列表。
-OBJS = $(patsubst %.c,%.o,$(wildcard * .c))TARGET = world$(TARGET): $(OBJS)    gcc -o $(TARGET) $(OBJS)clean:    rm -f *.o $(TARGET)
-在以上的内容中，wildcard为列出当前目录下所有.c文件的函数，函数patsubst``进行模式替换。 这样，在每添加一个.c文件后，都不需要修改Makefile，变量OBJS&#96;都会自动更新。
-自动变量在Makefile中，经常可以看到$@ $&lt;这样的变量，这种变量被称为 自动变量(Automatic AVariable)
-
-$@ 当前规则的目标名 在app: main.o规则中，$@就是app
-$&lt; 第一个依赖项名   在app: main.o util.o规则中，$&lt;就是main.o
-$^ 所有依赖项列表   在app: main.o util.o规则中，$^就是main.o util.o
-
-# Makefile contentmain: main.cpp hello.o [...]    g++ -o main main.cpp hello.o
-在以上的Makefile文件中的自动变量的释义：$@: main$&lt;: main.cpp$^: main.cpp hello.o […]
-
-例子在 PPMStream 中的 makefile 构建文件
-项目结构
-.├── include│   ├── math│   │   ├── Mat.hpp│   │   └── Vec.hpp│   ├── stream│   │   ├── PPMBuffer.hpp│   │   └── PPMStream.hpp│   └── utils│       ├── Point.hpp│       └── RGB.hpp├── main.cpp├── makefile├── src└── tests
-
-构建文件
-CXX = g++CXX_FLAGES = -Wall -gSRC_PATH = ./srcINCLUDE_PATH = includeINCLUDE_SUBDIRS = math stream utilsINCLUDES = -I$(INCLUDE_PATH) $(addprefix -I$(INCLUDE_PATH)/, $(INCLUDE_SUBDIRS))HEADERS = $(wildcard $(INCLUDE_PATH)/*/*.hpp)SOURCE = main.cppTARGET = main# = = = = = =outprint:	@echo $(INCLUDES)$(TARGET): $(SOURCE) $(HEADERS)	$(CXX) $(CXX_FLAGES) $(INCLUDES) $&lt; -o $@.PHONY:	cleanclean:	rm $(TARGET)
-
-
-最佳实践建议
-使用变量：避免硬编码路径和参数
-目录分离：区分源码、构建和二进制目录
-伪目标声明：标记不生成文件的目标
-错误处理：在命令前添加-忽略错误
-清晰的注释：解释复杂规则和变量
-依赖管理：自动生成头文件依赖
-分层Makefile：大型项目使用子目录Makefile
-跨平台支持：处理不同OS的差异
-
-
-]]></content>
-      <categories>
-        <category>开发工具</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>makefile</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ai-agent-book Chapter-1</title>
     <url>/ML-DL-AI/Agent/ai-agent-book/chapter-1/</url>
     <content><![CDATA[Chapter 1github.com&#x2F;ai-agent-book&#x2F;chapter1
@@ -6460,30 +6613,6 @@ s20 Comprehensive Agent
       </categories>
       <tags>
         <tag>AI Agent</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>xv6-catalog</title>
-    <url>/Computer-Sci/OS/xv6-labs/xv6-catalog/</url>
-    <content><![CDATA[
-关于编写 C&#x2F;Linux 实验（流程设计）：
-
-建立一个自己的项目目录
-阅读各个实验子项的 README.md 文档
-阅读 man page 分析各个程序的功能实现
-设计程序流程
-编写程序
-
-
-CATALOG
-
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
       </tags>
   </entry>
   <entry>
@@ -7210,7 +7339,18 @@ Computing with Lists 使用列表计算编写，检索列表中是否存在目�
 安全的字符串相等判定
 递归判断列表内是否存在 “Flatt” 元素
 
-graph TD    a[all-string?]    b[safe-string=?]    c[contains-flatt?]    a --&gt; b --&gt; c
+
+
+
+graph TD
+
+    a[all-string?]
+    b[safe-string&#x3D;?]
+    c[contains-flatt?]
+
+    a --&gt; b --&gt; c
+
+
 
 
 自指数据定义的设计 Designing With Self-Referential Data Definitions设计方法
@@ -7999,100 +8139,6 @@ Reduce：通过 Getter 迭代计数 “1” 的出现次数，输出 key count
       </tags>
   </entry>
   <entry>
-    <title>concurrency-pzip</title>
-    <url>/Computer-Sci/OS/xv6-labs/concurrency-pzip/concurrency-pzip/</url>
-    <content><![CDATA[pzip程序设计实验目标
-熟悉 Linux pthreads。
-学习如何并行化程序。
-学习如何为高性能编程。
-
-程序要求
-参考 initial-utilities&#x2F;wzip (wunzip) 游程压缩 原理，编写 pzip 程序
-考虑使用 mmap 调用，将文件映射至内存中进行处理
-
-
-
-合适例程
-get_nprocs()
-
-get_nproces_conf()
-
-read()
-
-fread()
-
-mmap()
-
-
-调用方式prompt&gt; ./pzip file &gt; file.z
-
-程序流程
-并行化配置
-
-使用 get_nprocs() 例程，获得逻辑线程总数，表征可用线程
-
-
-并行化处理
-
-文件读取
-
-使用 struct stat 获得文件列表中各个文件的大小
-调用 mmap 分配文件总大小空间，将文件内容写入该缓存
-将所有文件读入同一个缓冲区
-
-
-文件压缩
-
-将 mmap 的总体缓冲进行均分分片处理
-针对各片建立mmap并行进行压缩
-子线程
-task 处理压缩内存映射
-
-
-主线程
-将各片的缓冲进行合并，将各片的头、尾进行对比，合并相同字符信息
-合并各线程缓存 merge_zip_buf()
-
-
-
-
-
-
-
-
-文件输出
-
-默认输出至 stdout
-
-
-尾后处理
-
-释放线程资源
-munmap 释放虚拟页映射缓冲
-
-
-
-高性能编程理解
-通过 mmap 建立内存-文件映射，减少IO操作，转换为内存操作
-通过编写 thread_pool 统一管理任务线程
-
-
-Source Codethread_pool.h#ifndef THREAD_POOL_H#define THREAD_POOL_H#include &lt;pthread.h&gt;/* 任务结点 */typedef struct task_node_t &#123;    void *(*task)(void *);    void *args;    struct task_node_t *next;&#125; task_node_t;/* 线程池类型 */typedef struct &#123;    pthread_mutex_t mutex;                  /* 互斥量：保护 thread_pool_t 结构内部字段 */    pthread_cond_t cond_taskq;              /* 条件变量：队列非空，shutdown时唤起 */    pthread_t *threads;                     /* 工作线程组 */    int num_threads;                        /* 线程数量 */    int shutdown;                           /* 0/1 关闭标识 */    task_node_t *head;                      /* 任务队列，队头 */    task_node_t *tail;                      /* 任务队列，队尾 */&#125; thread_pool_t;/* 为 thread_pool 分配空间 */thread_pool_t *thread_pool_create(int num_threads);/* 为 thread_pool 添加任务 */int thread_pool_add_task(void *(*task)(void *), void *args, thread_pool_t *pool);/* 释放 thread_pool 的空间 */void thread_pool_destroy(thread_pool_t *pool);/* 将 thread_pool 中所有线程合并 */void thread_pool_join_all(thread_pool_t *pool);#endif
-
-thread_pool.c#include &quot;thread_pool.h&quot;#include &lt;stdlib.h&gt;static task_node_t *thread_pool_task_node_create(void *(*task)(void *), void *args)&#123;    if (task == NULL) &#123;        return NULL;    &#125;    task_node_t *node = malloc(sizeof(task_node_t));    if (node == NULL) &#123;        return NULL;    &#125;    node-&gt;next = NULL;    node-&gt;task = task;    node-&gt;args = args;    return node;&#125;/* 将任务入队 */static void thread_pool_push_taskq(task_node_t *task_node, thread_pool_t *pool)&#123;    if (task_node == NULL || pool == NULL) &#123;        return;    &#125;    if (pool-&gt;tail == NULL) &#123;        pool-&gt;tail = pool-&gt;head = task_node;    &#125;    else &#123;        pool-&gt;tail-&gt;next = task_node;        pool-&gt;tail = task_node;    &#125;&#125;/* 将任务出队 */static task_node_t *thread_pool_pop_taskq(thread_pool_t *pool)&#123;    if (pool == NULL) &#123;        return NULL;    &#125;    task_node_t *task = pool-&gt;head;    pool-&gt;head = task-&gt;next;    if (pool-&gt;head == NULL) &#123;        pool-&gt;tail = NULL;    &#125;    return task;&#125;/* 任务工作者 */static void *task_worker(void *arg)&#123;    thread_pool_t *pool = (thread_pool_t *) arg;    while (1)    &#123;        pthread_mutex_lock(&amp;pool-&gt;mutex);        /* 无任务，池未关闭 */        while (pool-&gt;head == NULL &amp;&amp; !pool-&gt;shutdown)        &#123;            /* 得到至少一份任务 pool-&gt;head != NULL */            pthread_cond_wait(&amp;pool-&gt;cond_taskq, &amp;pool-&gt;mutex);        &#125;        /* 池已关闭，无任务 */        if (pool-&gt;shutdown &amp;&amp; pool-&gt;head == NULL) &#123;            pthread_mutex_unlock(&amp;pool-&gt;mutex);            break;        &#125;        /* 任务出队 */        task_node_t *task = thread_pool_pop_taskq(pool);        pthread_mutex_unlock(&amp;pool-&gt;mutex);        if (task != NULL) &#123;            task-&gt;task(task-&gt;args);        &#125;        free(task);    &#125;        return NULL;&#125;static int thread_pool_init(int num_threads, thread_pool_t *pool)&#123;    pool-&gt;num_threads = num_threads;    pool-&gt;head = pool-&gt;tail = NULL;    pool-&gt;shutdown = 0;    pthread_mutex_init(&amp;pool-&gt;mutex, NULL);    pthread_cond_init(&amp;pool-&gt;cond_taskq, NULL);    pool-&gt;threads = (pthread_t *)malloc(sizeof(pthread_t) * num_threads);    if (pool-&gt;threads == NULL) &#123;        return -1;    &#125;    return 0;&#125;thread_pool_t *thread_pool_create(int num_threads)&#123;    if (num_threads == 0) &#123;        return NULL;    &#125;        thread_pool_t *pool = malloc(sizeof(thread_pool_t));    if (pool == NULL) &#123;        return NULL;    &#125;    if (thread_pool_init(num_threads, pool) != 0) &#123;        free(pool);        return NULL;    &#125;    for (int i = 0; i &lt; num_threads; ++i)    &#123;        if (pthread_create(&amp;pool-&gt;threads[i], NULL, task_worker, (void *)pool) != 0) &#123;            pool-&gt;num_threads = i;            thread_pool_join_all(pool);            pthread_mutex_destroy(&amp;pool-&gt;mutex);            pthread_cond_destroy(&amp;pool-&gt;cond_taskq);            free(pool-&gt;threads);            free(pool);            return NULL;        &#125;    &#125;    return pool;&#125;/* 为 thread_pool 添加任务 */int thread_pool_add_task(void *(*task)(void *), void *args, thread_pool_t *pool)&#123;    if (pool == NULL || task == NULL) &#123;        return -1;    &#125;    task_node_t *task_node = thread_pool_task_node_create(task, args);    if (task_node == NULL) &#123;        return -1;    &#125;    pthread_mutex_lock(&amp;pool-&gt;mutex);    if (pool-&gt;shutdown) &#123;        pthread_mutex_unlock(&amp;pool-&gt;mutex);        free(task_node);        return -1;    &#125;    thread_pool_push_taskq(task_node, pool);    /* 唤醒一个等待线程 */    pthread_cond_signal(&amp;pool-&gt;cond_taskq);    pthread_mutex_unlock(&amp;pool-&gt;mutex);    return 0;&#125;/* 释放 thread_pool 的空间 */void thread_pool_destroy(thread_pool_t *pool)&#123;    if (pool == NULL) &#123;        return;    &#125;        pthread_mutex_lock(&amp;pool-&gt;mutex);    pool-&gt;shutdown = 1;    pthread_cond_broadcast(&amp;pool-&gt;cond_taskq);    pthread_mutex_unlock(&amp;pool-&gt;mutex);    thread_pool_join_all(pool);    free(pool-&gt;threads);    pthread_mutex_destroy(&amp;pool-&gt;mutex);    pthread_cond_destroy(&amp;pool-&gt;cond_taskq);    free(pool);&#125;/* 将 thread_pool 中所有线程合并 */void thread_pool_join_all(thread_pool_t *pool)&#123;    if (pool == NULL) &#123;        return;    &#125;    pool-&gt;shutdown = 1;    pthread_cond_broadcast(&amp;pool-&gt;cond_taskq);    for (int i = 0; i &lt; pool-&gt;num_threads; ++i) &#123;        pthread_join(pool-&gt;threads[i], NULL);    &#125;&#125;
-
-pzip.c#define _POSIX_C_SOURCE 200809L#include &lt;stdio.h&gt;#include &lt;unistd.h&gt;#include &lt;stdlib.h&gt;#include &lt;sys/stat.h&gt;#include &lt;sys/sysinfo.h&gt;#include &lt;sys/mman.h&gt;#include &lt;pthread.h&gt;#include &lt;string.h&gt;#include &lt;fcntl.h&gt;#include &quot;thread_pool.h&quot;// 压缩单元typedef struct &#123;    int count;    char ch;&#125; zip_elem;// 压缩缓存typedef struct &#123;    char *map_addr;             // 内存映射缓冲    off_t map_size;             // 内存映射空间    off_t elem_count;           // 内存元素数量&#125; map_buf;// 构建压缩缓存map_buf *map_buf_create(off_t map_size, int prot, int flags);// 销毁压缩缓存void map_buf_destroy(map_buf *mbuf);// 合并缓存void merge_zip_buf(map_buf *merge_buf, int len, map_buf **list);typedef struct &#123;    map_buf *zip_map;    off_t offset;    off_t length;    map_buf *main_map;&#125; task_arg;// 并行压缩任务void *task(void *arg)&#123;    task_arg *targ = (task_arg *)arg;    char *src = targ-&gt;main_map-&gt;map_addr + targ-&gt;offset;    size_t srclen = targ-&gt;length;    map_buf *zip_map = targ-&gt;zip_map;    size_t i = 0;    off_t elem_count = 0;    char *dst = zip_map-&gt;map_addr;    // 逐拷贝元素进行拷贝    while (i &lt; srclen) &#123;        int cnt = 0;        char ch = src[i];        while (i &lt; srclen &amp;&amp; src[i] == ch) &#123;            ++i;            ++cnt;        &#125;        memcpy(dst, &amp;cnt, sizeof(int));        dst += sizeof(int);        memcpy(dst, &amp;ch, sizeof(char));        dst += sizeof(char);        ++elem_count;    &#125;    zip_map-&gt;elem_count = elem_count;    return NULL;&#125;int main(int argc, char **argv)&#123;    const int file_count = argc - 1;    char **file_list = argv + 1;    if (file_count == 0) &#123;        fprintf(stderr, &quot;pzip: file1 [file2 ...]\n&quot;);        exit(1);    &#125;    const int threads = get_nprocs();    // 计算文件列表中所有的文件大小总和    off_t total_size = 0;    struct stat st;    for (int i = 0; i &lt; file_count; ++i) &#123;        if (stat(file_list[i], &amp;st) != 0) &#123;            fprintf(stderr, &quot;pzip: cannot stat %s\n&quot;, file_list[i]);            exit(1);        &#125;        total_size += st.st_size;    &#125;    if (total_size == 0) &#123;        return 0;    &#125;    // 将文件列表中的所有文件读入mmap缓冲    map_buf *main_map = map_buf_create(total_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS);    if (main_map == NULL) &#123;        fprintf(stderr, &quot;pzip: fail to mmap\n&quot;);        exit(1);    &#125;    // 被拷贝字节大小    off_t copied = 0;    for (int i = 0; i &lt; file_count; ++i) &#123;        if (file_list[i] == NULL) &#123;            continue;        &#125;        int fd = open(file_list[i], O_RDONLY);        if (fd &lt; 0) &#123;            fprintf(stderr, &quot;pzip: cannot open %s\n&quot;, file_list[i]);            continue;        &#125;        if (fstat(fd, &amp;st) != 0) &#123;            fprintf(stderr, &quot;pzip: cannot fstat %s\n&quot;, file_list[i]);            close(fd);            continue;        &#125;        if (st.st_size == 0) &#123;            close(fd);            continue;        &#125;        // 建立该文件的内存映射        char *file_map = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);        if (file_map == MAP_FAILED) &#123;            fprintf(stderr, &quot;pzip: cannot mmap %s\n&quot;, file_list[i]);            close(fd);            continue;        &#125;        // 合并文件        memcpy(main_map-&gt;map_addr + copied, file_map, st.st_size);        copied += st.st_size;        munmap(file_map, st.st_size);        close(fd);    &#125;    main_map-&gt;elem_count = copied;    // 资源分片    off_t piece_size = total_size / threads + 1;    map_buf **zip_bufs = malloc(sizeof(map_buf*) * threads);    task_arg *targs = malloc(sizeof(task_arg) * threads);   // 多线程任务参数    if (zip_bufs == NULL || targs == NULL) &#123;        fprintf(stderr, &quot;pzip: malloc failed\n&quot;);        exit(1);    &#125;    for (int i = 0; i &lt; threads; ++i) &#123;        // 最坏情况每个字符都不同，输出为输入的 5 倍 sizeof(int) + sizeof(char)        zip_bufs[i] = map_buf_create(piece_size * 5, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS);        if (zip_bufs[i] == NULL) &#123;            fprintf(stderr, &quot;pzip: fail to create zip buffer\n&quot;);            exit(1);        &#125;        // 多线程任务参数        targs[i].zip_map = zip_bufs[i];        targs[i].offset = i * piece_size;        if (targs[i].offset &gt;= total_size) &#123;            targs[i].offset = total_size;            targs[i].length = 0;        &#125; else if (targs[i].offset + piece_size &gt; total_size) &#123;            targs[i].length = total_size - targs[i].offset;        &#125; else &#123;            targs[i].length = piece_size;        &#125;        targs[i].main_map = main_map;    &#125;    // 并行压缩    thread_pool_t *thread_pool = thread_pool_create(threads);    if (thread_pool == NULL) &#123;        fprintf(stderr, &quot;pzip: fail to create thread pool\n&quot;);        exit(1);    &#125;    for (int i = 0; i &lt; threads; ++i) &#123;        if (targs[i].length &gt; 0) &#123;            thread_pool_add_task(task, &amp;targs[i], thread_pool);        &#125;    &#125;    // 线程收束，资源回收    thread_pool_destroy(thread_pool);    // 缓冲合并    const off_t sig_elem_size = sizeof(int) + sizeof(char);    off_t total_compressed = 0;    for (int i = 0; i &lt; threads; ++i) &#123;        total_compressed += zip_bufs[i]-&gt;elem_count * sig_elem_size;    &#125;    if (total_compressed == 0) &#123;        total_compressed = sig_elem_size;    &#125;    map_buf *merge_buf = map_buf_create(total_compressed, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS);    if (merge_buf == NULL) &#123;        fprintf(stderr, &quot;pzip: fail to create merge buffer\n&quot;);        exit(1);    &#125;    merge_zip_buf(merge_buf, threads, zip_bufs);    // 输出到 stdout    fwrite(merge_buf-&gt;map_addr, merge_buf-&gt;elem_count * sig_elem_size, 1, stdout);    // 资源回收    free(targs);    for (int i = 0; i &lt; threads; ++i) &#123;        map_buf_destroy(zip_bufs[i]);    &#125;    free(zip_bufs);    map_buf_destroy(merge_buf);    map_buf_destroy(main_map);    return 0;&#125;map_buf *map_buf_create(off_t map_size, int prot, int flags)&#123;    map_buf *mbuf = malloc(sizeof(map_buf));    if (mbuf == NULL) &#123;        return NULL;    &#125;    mbuf-&gt;map_addr = mmap(NULL, map_size, prot, flags, -1, 0);    if (mbuf-&gt;map_addr == MAP_FAILED) &#123;        free(mbuf);        return NULL;    &#125;    mbuf-&gt;map_size = map_size;    mbuf-&gt;elem_count = 0;    return mbuf;&#125;void map_buf_destroy(map_buf *mbuf)&#123;    if (mbuf == NULL) &#123;        return;    &#125;    if (mbuf-&gt;map_addr != MAP_FAILED) &#123;        munmap(mbuf-&gt;map_addr, mbuf-&gt;map_size);    &#125;    free(mbuf);&#125;void merge_zip_buf(map_buf *merge_buf, int len, map_buf **list)&#123;    const off_t sig_elem_size = sizeof(int) + sizeof(char);    off_t total_compressed = 0;    for (int i = 0; i &lt; len; ++i) &#123;        total_compressed += list[i]-&gt;elem_count * sig_elem_size;    &#125;    // 按需扩大合并缓冲区    if (total_compressed &gt; merge_buf-&gt;map_size) &#123;        munmap(merge_buf-&gt;map_addr, merge_buf-&gt;map_size);        merge_buf-&gt;map_addr = mmap(NULL, total_compressed,            PROT_READ | PROT_WRITE,            MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);        if (merge_buf-&gt;map_addr == MAP_FAILED) &#123;            fprintf(stderr, &quot;merge_zip_buf: mmap failed\n&quot;);            exit(1);        &#125;        merge_buf-&gt;map_size = total_compressed;    &#125;    // 合并    off_t write_offset = 0;    off_t total_elems = 0;    for (int i = 0; i &lt; len; ++i) &#123;        off_t cur_size = list[i]-&gt;elem_count * sig_elem_size;        if (cur_size == 0) &#123;            continue;        &#125;        // 检查与前一个分片的边界：前一片的最后一个元素和当前片的第一个元素        if (i &gt; 0 &amp;&amp; write_offset &gt;= sig_elem_size) &#123;            int pre_count;            char pre_ch;            memcpy(&amp;pre_count, merge_buf-&gt;map_addr + write_offset - sig_elem_size, sizeof(int));            memcpy(&amp;pre_ch, merge_buf-&gt;map_addr + write_offset - sig_elem_size + sizeof(int), sizeof(char));            int cur_count;            char cur_ch;            memcpy(&amp;cur_count, list[i]-&gt;map_addr, sizeof(int));            memcpy(&amp;cur_ch, list[i]-&gt;map_addr + sizeof(int), sizeof(char));            // 处理前后单元合并            if (cur_ch == pre_ch) &#123;                cur_count += pre_count;                memcpy(list[i]-&gt;map_addr, &amp;cur_count, sizeof(int));                write_offset -= sig_elem_size;                total_elems--;            &#125;        &#125;        // 并入merge_buf        memcpy(merge_buf-&gt;map_addr + write_offset, list[i]-&gt;map_addr, cur_size);        write_offset += cur_size;        total_elems += list[i]-&gt;elem_count;    &#125;    // 更新元素计数    merge_buf-&gt;elem_count = total_elems;&#125;
-
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>concurrency-webserver</title>
     <url>/Computer-Sci/OS/xv6-labs/concurrency-webserver/concurrency-webserver/</url>
     <content><![CDATA[wserver 程序解析
@@ -8217,251 +8263,90 @@ SFF_buffer.hSFF_buffer.c
       </tags>
   </entry>
   <entry>
-    <title>initial-kv</title>
-    <url>/Computer-Sci/OS/xv6-labs/initial-kv/initial-kv/</url>
-    <content><![CDATA[kv程序设计程序要求命令设计
-put：
+    <title>concurrency-pzip</title>
+    <url>/Computer-Sci/OS/xv6-labs/concurrency-pzip/concurrency-pzip/</url>
+    <content><![CDATA[pzip程序设计实验目标
+熟悉 Linux pthreads。
+学习如何并行化程序。
+学习如何为高性能编程。
 
-格式: p,key,value
-
-
-其中 key 是 整数 ，value 是 任意字符串
-
-
-get：
-
-格式: g,key
-
-
-其中 key 是整数。
-键存在：系统应打印出key,value \n
-键不存在：单独一行打印错误消息，格式为 K not found，其中 K 是键的实际整数值
+程序要求
+参考 initial-utilities&#x2F;wzip (wunzip) 游程压缩 原理，编写 pzip 程序
+考虑使用 mmap 调用，将文件映射至内存中进行处理
 
 
 
+合适例程
+get_nprocs()
 
-delete：
+get_nproces_conf()
 
-格式：d,key
+read()
 
+fread()
 
-功能：
-删除相应的键值对（不打印任何内容）
-删除失败（并打印 K not found，其中 K 是键的实际值，即某个整数）。
-
-
-
-
-clear：
-
-格式: c
+mmap()
 
 
-功能：从数据库中移除所有键值对。
-
-
-all：
-
-格式: a
-
-
-功能：任意顺序打印数据库中的所有键值对，每行一个键值对 key,value
-
-
-
-合适的例程
-文件操作
-
-fopen
-fwrite
-fread
-getline
-fprintf
-
-
-字符串处理
-
-strsep(char** line, char** delim)
-char** token &#x3D; strsep(char** line, char** delim)按 delim 分割 *line
-
-返回 顺序第一个delim前的 token
-*line 指向 顺序第一个delim后的 token
-相当于 原 *line &#x3D; token append 后*line
-
-
-
-stoi
-
-
-
-
+调用方式prompt&gt; ./pzip file &gt; file.z
 
 程序流程
-命令行校验
+并行化配置
 
-命令解析
+使用 get_nprocs() 例程，获得逻辑线程总数，表征可用线程
 
-循环处理
 
+并行化处理
 
-字符串解析
+文件读取
 
+使用 struct stat 获得文件列表中各个文件的大小
+调用 mmap 分配文件总大小空间，将文件内容写入该缓存
+将所有文件读入同一个缓冲区
 
-命令操作
 
-标准输出
+文件压缩
 
-printf()
+将 mmap 的总体缓冲进行均分分片处理
+针对各片建立mmap并行进行压缩
+子线程
+task 处理压缩内存映射
 
 
-持久化处理
+主线程
+将各片的缓冲进行合并，将各片的头、尾进行对比，合并相同字符信息
+合并各线程缓存 merge_zip_buf()
 
-文件操作 ABI格式 key,value
 
 
-fopen()
-fwrite()
-fread()
 
 
-错误&#x2F;异常处理
 
-使用 fprintf(err, ...) 进行提示
 
 
-错误命令
-非程序命令：
-bad command
-不影响剩余的命令解析
+文件输出
 
+默认输出至 stdout
 
-意外错误：
-打印相应的异常&#x2F;错误信息
 
+尾后处理
 
+释放线程资源
+munmap 释放虚拟页映射缓冲
 
 
 
+高性能编程理解
+通过 mmap 建立内存-文件映射，减少IO操作，转换为内存操作
+通过编写 thread_pool 统一管理任务线程
 
 
+Source Codethread_pool.h#ifndef THREAD_POOL_H#define THREAD_POOL_H#include &lt;pthread.h&gt;/* 任务结点 */typedef struct task_node_t &#123;    void *(*task)(void *);    void *args;    struct task_node_t *next;&#125; task_node_t;/* 线程池类型 */typedef struct &#123;    pthread_mutex_t mutex;                  /* 互斥量：保护 thread_pool_t 结构内部字段 */    pthread_cond_t cond_taskq;              /* 条件变量：队列非空，shutdown时唤起 */    pthread_t *threads;                     /* 工作线程组 */    int num_threads;                        /* 线程数量 */    int shutdown;                           /* 0/1 关闭标识 */    task_node_t *head;                      /* 任务队列，队头 */    task_node_t *tail;                      /* 任务队列，队尾 */&#125; thread_pool_t;/* 为 thread_pool 分配空间 */thread_pool_t *thread_pool_create(int num_threads);/* 为 thread_pool 添加任务 */int thread_pool_add_task(void *(*task)(void *), void *args, thread_pool_t *pool);/* 释放 thread_pool 的空间 */void thread_pool_destroy(thread_pool_t *pool);/* 将 thread_pool 中所有线程合并 */void thread_pool_join_all(thread_pool_t *pool);#endif
 
+thread_pool.c#include &quot;thread_pool.h&quot;#include &lt;stdlib.h&gt;static task_node_t *thread_pool_task_node_create(void *(*task)(void *), void *args)&#123;    if (task == NULL) &#123;        return NULL;    &#125;    task_node_t *node = malloc(sizeof(task_node_t));    if (node == NULL) &#123;        return NULL;    &#125;    node-&gt;next = NULL;    node-&gt;task = task;    node-&gt;args = args;    return node;&#125;/* 将任务入队 */static void thread_pool_push_taskq(task_node_t *task_node, thread_pool_t *pool)&#123;    if (task_node == NULL || pool == NULL) &#123;        return;    &#125;    if (pool-&gt;tail == NULL) &#123;        pool-&gt;tail = pool-&gt;head = task_node;    &#125;    else &#123;        pool-&gt;tail-&gt;next = task_node;        pool-&gt;tail = task_node;    &#125;&#125;/* 将任务出队 */static task_node_t *thread_pool_pop_taskq(thread_pool_t *pool)&#123;    if (pool == NULL) &#123;        return NULL;    &#125;    task_node_t *task = pool-&gt;head;    pool-&gt;head = task-&gt;next;    if (pool-&gt;head == NULL) &#123;        pool-&gt;tail = NULL;    &#125;    return task;&#125;/* 任务工作者 */static void *task_worker(void *arg)&#123;    thread_pool_t *pool = (thread_pool_t *) arg;    while (1)    &#123;        pthread_mutex_lock(&amp;pool-&gt;mutex);        /* 无任务，池未关闭 */        while (pool-&gt;head == NULL &amp;&amp; !pool-&gt;shutdown)        &#123;            /* 得到至少一份任务 pool-&gt;head != NULL */            pthread_cond_wait(&amp;pool-&gt;cond_taskq, &amp;pool-&gt;mutex);        &#125;        /* 池已关闭，无任务 */        if (pool-&gt;shutdown &amp;&amp; pool-&gt;head == NULL) &#123;            pthread_mutex_unlock(&amp;pool-&gt;mutex);            break;        &#125;        /* 任务出队 */        task_node_t *task = thread_pool_pop_taskq(pool);        pthread_mutex_unlock(&amp;pool-&gt;mutex);        if (task != NULL) &#123;            task-&gt;task(task-&gt;args);        &#125;        free(task);    &#125;        return NULL;&#125;static int thread_pool_init(int num_threads, thread_pool_t *pool)&#123;    pool-&gt;num_threads = num_threads;    pool-&gt;head = pool-&gt;tail = NULL;    pool-&gt;shutdown = 0;    pthread_mutex_init(&amp;pool-&gt;mutex, NULL);    pthread_cond_init(&amp;pool-&gt;cond_taskq, NULL);    pool-&gt;threads = (pthread_t *)malloc(sizeof(pthread_t) * num_threads);    if (pool-&gt;threads == NULL) &#123;        return -1;    &#125;    return 0;&#125;thread_pool_t *thread_pool_create(int num_threads)&#123;    if (num_threads == 0) &#123;        return NULL;    &#125;        thread_pool_t *pool = malloc(sizeof(thread_pool_t));    if (pool == NULL) &#123;        return NULL;    &#125;    if (thread_pool_init(num_threads, pool) != 0) &#123;        free(pool);        return NULL;    &#125;    for (int i = 0; i &lt; num_threads; ++i)    &#123;        if (pthread_create(&amp;pool-&gt;threads[i], NULL, task_worker, (void *)pool) != 0) &#123;            pool-&gt;num_threads = i;            thread_pool_join_all(pool);            pthread_mutex_destroy(&amp;pool-&gt;mutex);            pthread_cond_destroy(&amp;pool-&gt;cond_taskq);            free(pool-&gt;threads);            free(pool);            return NULL;        &#125;    &#125;    return pool;&#125;/* 为 thread_pool 添加任务 */int thread_pool_add_task(void *(*task)(void *), void *args, thread_pool_t *pool)&#123;    if (pool == NULL || task == NULL) &#123;        return -1;    &#125;    task_node_t *task_node = thread_pool_task_node_create(task, args);    if (task_node == NULL) &#123;        return -1;    &#125;    pthread_mutex_lock(&amp;pool-&gt;mutex);    if (pool-&gt;shutdown) &#123;        pthread_mutex_unlock(&amp;pool-&gt;mutex);        free(task_node);        return -1;    &#125;    thread_pool_push_taskq(task_node, pool);    /* 唤醒一个等待线程 */    pthread_cond_signal(&amp;pool-&gt;cond_taskq);    pthread_mutex_unlock(&amp;pool-&gt;mutex);    return 0;&#125;/* 释放 thread_pool 的空间 */void thread_pool_destroy(thread_pool_t *pool)&#123;    if (pool == NULL) &#123;        return;    &#125;        pthread_mutex_lock(&amp;pool-&gt;mutex);    pool-&gt;shutdown = 1;    pthread_cond_broadcast(&amp;pool-&gt;cond_taskq);    pthread_mutex_unlock(&amp;pool-&gt;mutex);    thread_pool_join_all(pool);    free(pool-&gt;threads);    pthread_mutex_destroy(&amp;pool-&gt;mutex);    pthread_cond_destroy(&amp;pool-&gt;cond_taskq);    free(pool);&#125;/* 将 thread_pool 中所有线程合并 */void thread_pool_join_all(thread_pool_t *pool)&#123;    if (pool == NULL) &#123;        return;    &#125;    pool-&gt;shutdown = 1;    pthread_cond_broadcast(&amp;pool-&gt;cond_taskq);    for (int i = 0; i &lt; pool-&gt;num_threads; ++i) &#123;        pthread_join(pool-&gt;threads[i], NULL);    &#125;&#125;
 
-graph TD    A[数据操作命令]    B[主程序]    subgraph E[数据流操作]        C[字符串解析]        D[文件操作]    end    F[异常处理]    F -.- E    F -.- A    C --&gt; A    D -- 命令行解析 --&gt; A    A --&gt; B
+pzip.c#define _POSIX_C_SOURCE 200809L#include &lt;stdio.h&gt;#include &lt;unistd.h&gt;#include &lt;stdlib.h&gt;#include &lt;sys/stat.h&gt;#include &lt;sys/sysinfo.h&gt;#include &lt;sys/mman.h&gt;#include &lt;pthread.h&gt;#include &lt;string.h&gt;#include &lt;fcntl.h&gt;#include &quot;thread_pool.h&quot;// 压缩单元typedef struct &#123;    int count;    char ch;&#125; zip_elem;// 压缩缓存typedef struct &#123;    char *map_addr;             // 内存映射缓冲    off_t map_size;             // 内存映射空间    off_t elem_count;           // 内存元素数量&#125; map_buf;// 构建压缩缓存map_buf *map_buf_create(off_t map_size, int prot, int flags);// 销毁压缩缓存void map_buf_destroy(map_buf *mbuf);// 合并缓存void merge_zip_buf(map_buf *merge_buf, int len, map_buf **list);typedef struct &#123;    map_buf *zip_map;    off_t offset;    off_t length;    map_buf *main_map;&#125; task_arg;// 并行压缩任务void *task(void *arg)&#123;    task_arg *targ = (task_arg *)arg;    char *src = targ-&gt;main_map-&gt;map_addr + targ-&gt;offset;    size_t srclen = targ-&gt;length;    map_buf *zip_map = targ-&gt;zip_map;    size_t i = 0;    off_t elem_count = 0;    char *dst = zip_map-&gt;map_addr;    // 逐拷贝元素进行拷贝    while (i &lt; srclen) &#123;        int cnt = 0;        char ch = src[i];        while (i &lt; srclen &amp;&amp; src[i] == ch) &#123;            ++i;            ++cnt;        &#125;        memcpy(dst, &amp;cnt, sizeof(int));        dst += sizeof(int);        memcpy(dst, &amp;ch, sizeof(char));        dst += sizeof(char);        ++elem_count;    &#125;    zip_map-&gt;elem_count = elem_count;    return NULL;&#125;int main(int argc, char **argv)&#123;    const int file_count = argc - 1;    char **file_list = argv + 1;    if (file_count == 0) &#123;        fprintf(stderr, &quot;pzip: file1 [file2 ...]\n&quot;);        exit(1);    &#125;    const int threads = get_nprocs();    // 计算文件列表中所有的文件大小总和    off_t total_size = 0;    struct stat st;    for (int i = 0; i &lt; file_count; ++i) &#123;        if (stat(file_list[i], &amp;st) != 0) &#123;            fprintf(stderr, &quot;pzip: cannot stat %s\n&quot;, file_list[i]);            exit(1);        &#125;        total_size += st.st_size;    &#125;    if (total_size == 0) &#123;        return 0;    &#125;    // 将文件列表中的所有文件读入mmap缓冲    map_buf *main_map = map_buf_create(total_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS);    if (main_map == NULL) &#123;        fprintf(stderr, &quot;pzip: fail to mmap\n&quot;);        exit(1);    &#125;    // 被拷贝字节大小    off_t copied = 0;    for (int i = 0; i &lt; file_count; ++i) &#123;        if (file_list[i] == NULL) &#123;            continue;        &#125;        int fd = open(file_list[i], O_RDONLY);        if (fd &lt; 0) &#123;            fprintf(stderr, &quot;pzip: cannot open %s\n&quot;, file_list[i]);            continue;        &#125;        if (fstat(fd, &amp;st) != 0) &#123;            fprintf(stderr, &quot;pzip: cannot fstat %s\n&quot;, file_list[i]);            close(fd);            continue;        &#125;        if (st.st_size == 0) &#123;            close(fd);            continue;        &#125;        // 建立该文件的内存映射        char *file_map = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);        if (file_map == MAP_FAILED) &#123;            fprintf(stderr, &quot;pzip: cannot mmap %s\n&quot;, file_list[i]);            close(fd);            continue;        &#125;        // 合并文件        memcpy(main_map-&gt;map_addr + copied, file_map, st.st_size);        copied += st.st_size;        munmap(file_map, st.st_size);        close(fd);    &#125;    main_map-&gt;elem_count = copied;    // 资源分片    off_t piece_size = total_size / threads + 1;    map_buf **zip_bufs = malloc(sizeof(map_buf*) * threads);    task_arg *targs = malloc(sizeof(task_arg) * threads);   // 多线程任务参数    if (zip_bufs == NULL || targs == NULL) &#123;        fprintf(stderr, &quot;pzip: malloc failed\n&quot;);        exit(1);    &#125;    for (int i = 0; i &lt; threads; ++i) &#123;        // 最坏情况每个字符都不同，输出为输入的 5 倍 sizeof(int) + sizeof(char)        zip_bufs[i] = map_buf_create(piece_size * 5, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS);        if (zip_bufs[i] == NULL) &#123;            fprintf(stderr, &quot;pzip: fail to create zip buffer\n&quot;);            exit(1);        &#125;        // 多线程任务参数        targs[i].zip_map = zip_bufs[i];        targs[i].offset = i * piece_size;        if (targs[i].offset &gt;= total_size) &#123;            targs[i].offset = total_size;            targs[i].length = 0;        &#125; else if (targs[i].offset + piece_size &gt; total_size) &#123;            targs[i].length = total_size - targs[i].offset;        &#125; else &#123;            targs[i].length = piece_size;        &#125;        targs[i].main_map = main_map;    &#125;    // 并行压缩    thread_pool_t *thread_pool = thread_pool_create(threads);    if (thread_pool == NULL) &#123;        fprintf(stderr, &quot;pzip: fail to create thread pool\n&quot;);        exit(1);    &#125;    for (int i = 0; i &lt; threads; ++i) &#123;        if (targs[i].length &gt; 0) &#123;            thread_pool_add_task(task, &amp;targs[i], thread_pool);        &#125;    &#125;    // 线程收束，资源回收    thread_pool_destroy(thread_pool);    // 缓冲合并    const off_t sig_elem_size = sizeof(int) + sizeof(char);    off_t total_compressed = 0;    for (int i = 0; i &lt; threads; ++i) &#123;        total_compressed += zip_bufs[i]-&gt;elem_count * sig_elem_size;    &#125;    if (total_compressed == 0) &#123;        total_compressed = sig_elem_size;    &#125;    map_buf *merge_buf = map_buf_create(total_compressed, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS);    if (merge_buf == NULL) &#123;        fprintf(stderr, &quot;pzip: fail to create merge buffer\n&quot;);        exit(1);    &#125;    merge_zip_buf(merge_buf, threads, zip_bufs);    // 输出到 stdout    fwrite(merge_buf-&gt;map_addr, merge_buf-&gt;elem_count * sig_elem_size, 1, stdout);    // 资源回收    free(targs);    for (int i = 0; i &lt; threads; ++i) &#123;        map_buf_destroy(zip_bufs[i]);    &#125;    free(zip_bufs);    map_buf_destroy(merge_buf);    map_buf_destroy(main_map);    return 0;&#125;map_buf *map_buf_create(off_t map_size, int prot, int flags)&#123;    map_buf *mbuf = malloc(sizeof(map_buf));    if (mbuf == NULL) &#123;        return NULL;    &#125;    mbuf-&gt;map_addr = mmap(NULL, map_size, prot, flags, -1, 0);    if (mbuf-&gt;map_addr == MAP_FAILED) &#123;        free(mbuf);        return NULL;    &#125;    mbuf-&gt;map_size = map_size;    mbuf-&gt;elem_count = 0;    return mbuf;&#125;void map_buf_destroy(map_buf *mbuf)&#123;    if (mbuf == NULL) &#123;        return;    &#125;    if (mbuf-&gt;map_addr != MAP_FAILED) &#123;        munmap(mbuf-&gt;map_addr, mbuf-&gt;map_size);    &#125;    free(mbuf);&#125;void merge_zip_buf(map_buf *merge_buf, int len, map_buf **list)&#123;    const off_t sig_elem_size = sizeof(int) + sizeof(char);    off_t total_compressed = 0;    for (int i = 0; i &lt; len; ++i) &#123;        total_compressed += list[i]-&gt;elem_count * sig_elem_size;    &#125;    // 按需扩大合并缓冲区    if (total_compressed &gt; merge_buf-&gt;map_size) &#123;        munmap(merge_buf-&gt;map_addr, merge_buf-&gt;map_size);        merge_buf-&gt;map_addr = mmap(NULL, total_compressed,            PROT_READ | PROT_WRITE,            MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);        if (merge_buf-&gt;map_addr == MAP_FAILED) &#123;            fprintf(stderr, &quot;merge_zip_buf: mmap failed\n&quot;);            exit(1);        &#125;        merge_buf-&gt;map_size = total_compressed;    &#125;    // 合并    off_t write_offset = 0;    off_t total_elems = 0;    for (int i = 0; i &lt; len; ++i) &#123;        off_t cur_size = list[i]-&gt;elem_count * sig_elem_size;        if (cur_size == 0) &#123;            continue;        &#125;        // 检查与前一个分片的边界：前一片的最后一个元素和当前片的第一个元素        if (i &gt; 0 &amp;&amp; write_offset &gt;= sig_elem_size) &#123;            int pre_count;            char pre_ch;            memcpy(&amp;pre_count, merge_buf-&gt;map_addr + write_offset - sig_elem_size, sizeof(int));            memcpy(&amp;pre_ch, merge_buf-&gt;map_addr + write_offset - sig_elem_size + sizeof(int), sizeof(char));            int cur_count;            char cur_ch;            memcpy(&amp;cur_count, list[i]-&gt;map_addr, sizeof(int));            memcpy(&amp;cur_ch, list[i]-&gt;map_addr + sizeof(int), sizeof(char));            // 处理前后单元合并            if (cur_ch == pre_ch) &#123;                cur_count += pre_count;                memcpy(list[i]-&gt;map_addr, &amp;cur_count, sizeof(int));                write_offset -= sig_elem_size;                total_elems--;            &#125;        &#125;        // 并入merge_buf        memcpy(merge_buf-&gt;map_addr + write_offset, list[i]-&gt;map_addr, cur_size);        write_offset += cur_size;        total_elems += list[i]-&gt;elem_count;    &#125;    // 更新元素计数    merge_buf-&gt;elem_count = total_elems;&#125;
 
-
-kv.cutil.cutil.h
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>initial-reverse</title>
-    <url>/Computer-Sci/OS/xv6-labs/initial-reverse/initial-reverse/</url>
-    <content><![CDATA[reverse
-reverse 程序的功能分别是进行文件的压缩(wzip)与解压缩(wunzip)使用 游程编码(REL) 进行压缩
-
-prompt&gt; ./reverseprompt&gt; ./reverse input.txtprompt&gt; ./reverse input.txt output.txt
-
-依赖例程
-fopen()
-
-fgets()
-
-fclose()
-
-getline()
-
-printf()
-
-fwrite()
-
-fread()
-
-perror()
-
-strerror()
-
-
-实验需求
-输入与输出相同： 如果输入文件和输出文件是同一个文件
-
-打印错误消息 “Input and output file must differ” 并以返回码 1 退出。
-
-
-字符串长度： 你不能对一行的长度做任何假设。因此，你可能需要读取非常长的输入行…
-
-文件长度： 你不能对文件的长度做任何假设，即文件可能非常长。
-
-无效文件： 如果用户指定了输入文件或输出文件，但当你尝试打开该文件（例如 input.txt）时因某种原因失败，应打印以下精确的错误消息：error: cannot open file &#39;input.txt&#39;，然后以返回码 1 退出（即调用 exit(1);）。
-
-传递给程序的参数过多： 如果用户运行 reverse 时参数过多，打印 usage: reverse &lt;input&gt; &lt;output&gt; 并以返回码 1 退出。
-
-如何打印错误消息： 发生任何错误时，应使用 fprintf() 将错误打印到屏幕上，并将错误消息发送到 stderr（标准错误）而不是 stdout（标准输出）。在 C 代码中通过以下方式实现：fprintf(stderr, &quot;whatever the error message is\n&quot;);
-
-
-要退出，调用 exit(1)。你传递给 exit() 的数字（本例中为 1）可供用户查看程序是返回了错误（即返回非零值）还是正常退出（即返回了 0）。
-对于读取输入文件，以下例程会让你的工作变得轻松：fopen()、getline() 和 fclose()。
-对于打印（到屏幕或到文件），使用 fprintf()。注意，通过将 stdout 传递给 fprintf() 可以很容易地写入标准输出；通过传入 fopen 返回的 FILE * 也可以很容易地写入文件，例如：fp=fopen(...); fprintf(fp, ...);。
-
-
-流程分析reverse
-使用 fprintf(stderr, ...) 进行错误信息的反馈
-
-
-命令行参数
-
-./reverse
-./reverse input.txt
-./reverse intput.txt output.txt
-当 input.txt &#x3D;&#x3D; output.txt 时打印错误信息
-Input and output file must differ
-
-
-
-
-传参过多
-打印错误信息
-usage: reverse &lt;input&gt; &lt;output&gt;
-
-
-
-
-
-
-文件探查
-
-文件不存在
-打印错误信息
-error: cannot open file &#39;input.txt&#39;
-
-
-然后以返回码 1 退出 exit(1)
-
-
-
-
-文件处理
-
-不对读入的字符串与文件长度做出假设
-需要进行动态扩容
-或者直接使用 getline() 例程处理
-
-
-将指定输入文件中的数据并将其反转
-将文件中的各行按照与输入流相反的顺序打印
-
-
-
-
-文件关闭
-
-
-reverse.c
 ]]></content>
       <categories>
         <category>操作系统</category>
@@ -8668,6 +8553,470 @@ Makefile 构建CC = gccINCDIR_AXC = -I.LIBDIR_AXC = -LLINK = -lpthread -lc -lmDE
 所有 .h 和 .c 文件一并编译为单一可执行文件 psort，链接 pthread、libc、libm。
 
 Record.hpsort.cpsort.hpsort_utils.cpsort_utils.htest_utils.h
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>initial-kv</title>
+    <url>/Computer-Sci/OS/xv6-labs/initial-kv/initial-kv/</url>
+    <content><![CDATA[kv程序设计程序要求命令设计
+put：
+
+格式: p,key,value
+
+
+其中 key 是 整数 ，value 是 任意字符串
+
+
+get：
+
+格式: g,key
+
+
+其中 key 是整数。
+键存在：系统应打印出key,value \n
+键不存在：单独一行打印错误消息，格式为 K not found，其中 K 是键的实际整数值
+
+
+
+
+delete：
+
+格式：d,key
+
+
+功能：
+删除相应的键值对（不打印任何内容）
+删除失败（并打印 K not found，其中 K 是键的实际值，即某个整数）。
+
+
+
+
+clear：
+
+格式: c
+
+
+功能：从数据库中移除所有键值对。
+
+
+all：
+
+格式: a
+
+
+功能：任意顺序打印数据库中的所有键值对，每行一个键值对 key,value
+
+
+
+合适的例程
+文件操作
+
+fopen
+fwrite
+fread
+getline
+fprintf
+
+
+字符串处理
+
+strsep(char** line, char** delim)
+char** token &#x3D; strsep(char** line, char** delim)按 delim 分割 *line
+
+返回 顺序第一个delim前的 token
+*line 指向 顺序第一个delim后的 token
+相当于 原 *line &#x3D; token append 后*line
+
+
+
+stoi
+
+
+
+
+
+程序流程
+命令行校验
+
+命令解析
+
+循环处理
+
+
+字符串解析
+
+
+命令操作
+
+标准输出
+
+printf()
+
+
+持久化处理
+
+文件操作 ABI格式 key,value
+
+
+fopen()
+fwrite()
+fread()
+
+
+错误&#x2F;异常处理
+
+使用 fprintf(err, ...) 进行提示
+
+
+错误命令
+非程序命令：
+bad command
+不影响剩余的命令解析
+
+
+意外错误：
+打印相应的异常&#x2F;错误信息
+
+
+
+
+
+
+
+
+
+
+
+
+graph TD
+    A[数据操作命令]
+    B[主程序]
+
+    subgraph E[数据流操作]
+        C[字符串解析]
+        D[文件操作]
+    end
+
+    F[异常处理]
+    F -.- E
+    F -.- A
+
+    C --&gt; A
+    D -- 命令行解析 --&gt; A
+    A --&gt; B
+
+
+
+
+kv.cutil.cutil.h
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>initial-ultilities</title>
+    <url>/Computer-Sci/OS/xv6-labs/initial-ultilities/initial-ultilities/</url>
+    <content><![CDATA[wcat
+wcat 程序的功能是读取用户指定的文件并打印文件内容
+
+prompt&gt; ./wcat main.c#include &lt;stdio.h&gt;...
+
+依赖例程
+fopen()
+
+fgets()
+
+fclose()
+
+printf()
+
+perror()
+
+strerror()
+
+
+实验需求
+你的程序 wcat 可以在命令行上使用一个或多个文件调用；
+它应该依次打印出每个文件。
+
+
+在所有非错误情况下，wcat 应以状态码 0 退出
+通常通过从 main() 返回 0（或调用 exit(0)）。
+
+
+如果命令行上没有指定任何文件，wcat 应直接退出并返回 0。
+注意，这与普通 UNIX cat 的行为略有不同（如果你愿意，可以找出不同之处）。
+
+
+如果程序尝试 fopen() 一个文件并失败，应打印精确的消息 “wcat: cannot open file”（后跟换行符）并以状态码 1 退出。如果命令行上指定了多个文件，应依次打印文件直到文件列表结束或遇到打开文件错误（此时打印错误消息并退出 wcat）。
+
+流程分析
+打开文件
+使用 fopen()
+
+
+未指定文件
+直接退出，返回0
+
+
+指定文件
+指定多个文件
+依次打印文件列表，直到 打开失败
+
+
+打开失败
+打印精确消息 “wcat: cannot open file\n”
+以状态码 1 退出
+
+
+打开成功：向下进行
+
+
+
+
+读取文件内容
+使用 fgets()
+
+
+可以打开多个文件，按照 **argv 的传参顺序进行提取
+需要 (buffer_ptr, buffer_size, FILE*)
+
+
+
+
+输出文件内容
+使用 printf()
+
+
+关闭文件
+使用 fclose()
+
+
+
+wcat.c
+
+
+
+wgrep
+wgrep 程序的功能是在行中查找用户指定的搜索词
+
+prompt&gt; ./wgrep foo bar.txtthis line has foo in it...
+
+依赖例程
+fopen()
+
+fgets()
+
+fclose()
+
+getline()
+
+printf()
+
+perror()
+
+strerror()
+
+
+实验需求
+你的程序 wgrep 总是接收一个搜索词和零个或多个要 grep 的文件（因此可能不止一个文件）。它应逐行检查搜索词是否存在于该行中；如果是，则应打印该行，如果不是，则应跳过该行。
+
+匹配区分大小写。因此，如果搜索 foo，包含 Foo 的行将不匹配。
+
+行可以任意长（也就是说，你可能会在遇到换行符 \n 之前看到很多很多字符）。wgrep 即使在非常长的行上也应正常工作。为此，你可能想查阅 getline() 库调用（而不是 fgets()），或者自己实现。
+
+如果 wgrep 没有收到任何命令行参数，应打印 “wgrep: searchterm [file …]”（后跟换行符）并以状态 1 退出。
+
+如果 wgrep 遇到无法打开的文件，应打印 “wgrep: cannot open file”（后跟换行符）并以状态 1 退出。
+
+在所有其他情况下，wgrep 应以返回码 0 退出。
+
+如果指定了搜索词但没有指定文件，wgrep 应正常工作，但不是从文件读取，wgrep 应从标准输入读取。这样做很容易，因为文件流 stdin 已经打开；你可以使用 fgets()（或类似例程）从中读取。
+
+为简单起见，如果传入的搜索字符串是空字符串，wgrep 可以选择不匹配任何行或匹配所有行，两者都可以接受。
+
+
+流程分析
+打开文件
+使用 fopen()
+
+
+未指定参数
+输出回显
+状态码 1 退出
+
+
+未指定文件
+从标准输入中读取
+getline(&amp;line, &amp;size, stdin)
+
+
+指定文件
+指定多个文件
+依次打印文件列表，直到 打开失败
+
+
+打开失败
+打印精确消息 “wgrep: cannot open file\n”
+以状态码 1 退出
+
+
+打开成功：向下进行
+
+
+
+
+读取文件内容
+使用 fgets()
+
+
+可以打开多个文件，按照 **argv 的传参顺序进行提取
+严格按行读取
+
+
+输出匹配文件行
+使用 printf()
+
+
+匹配区分大小写
+
+
+关闭文件
+使用 fclose()
+
+
+
+wgrep.c
+
+wzip 与 wunzip
+wzip-wunzip 程序的功能分别是进行文件的压缩(wzip)与解压缩(wunzip)使用 游程编码(REL) 进行压缩
+
+prompt&gt; ./wzip file.txt &gt; file.zprompt&gt; ./wunzip file.z
+
+依赖例程
+fopen()
+
+fgets()
+
+fclose()
+
+getline()
+
+printf()
+
+fwrite()
+
+fread()
+
+perror()
+
+strerror()
+
+
+实验需求
+正确调用应通过命令行向程序传递一个或多个文件
+
+如果没有指定文件，程序应以返回码 1 退出
+对于 wzip
+打印 “wzip: file1 [file2 …]”（后跟换行符）
+
+
+对于 wunzip
+打印 “wunzip: file1 [file2 …]”（后跟换行符）。
+
+
+
+
+压缩文件的格式必须与上述描述完全一致（每个游程为一个 4 字节整数后跟一个字符）。
+
+请注意，如果多个文件传递给 wzip，它们将被压缩为 一个 压缩输出，解压时也将变成 单个 未压缩的文本流（因此，最初有多个文件输入到 wzip 的信息将会丢失）。wunzip 也是如此。
+
+
+流程分析wzip
+探查文件
+
+使用 fopen()
+
+
+无指定文件
+打印 “wzip: file1 [file2 …]”（后跟换行符）
+返回码 1 退出
+
+
+
+
+压缩文件
+
+游程码为 4字节 整数 + 一个字符
+
+
+多文件同时压缩为一个文件
+注意，需要将所有文件预先读入同一个缓冲区，这样可以让前后文件相连，总体压缩
+
+
+
+
+将压缩文件打印至标准输出
+
+使用 fwrite()
+
+
+fwrite(&amp;src, sizeof(src), n, FILE*)
+注意使用四字节存储游程，直接使用原数据类型指针，作为源指针&amp;src
+
+
+
+
+
+wzip.c
+wunzip
+探查文件
+
+使用 fopen()
+
+
+读取压缩文件
+
+使用 fread()
+
+
+无指定文件
+打印 “wunzip: file1 [file2 …]”（后跟换行符）。
+返回码 1 退出
+
+
+
+
+文件解压缩
+
+游程码为 4字节 整数 + 一个字符
+
+
+压缩为一个文件的多文件不进行分割
+
+
+将解压的文件打印至标准输出
+
+printf()
+
+
+在使用 fread() 函数读后，需要使用 feof() 函数，探查是否已经读到文件结尾，此时可以退出读循环
+
+
+
+wunzip.c
 ]]></content>
       <categories>
         <category>操作系统</category>
@@ -9429,307 +9778,6 @@ set_wait_callback()
       </tags>
   </entry>
   <entry>
-    <title>initial-ultilities</title>
-    <url>/Computer-Sci/OS/xv6-labs/initial-ultilities/initial-ultilities/</url>
-    <content><![CDATA[wcat
-wcat 程序的功能是读取用户指定的文件并打印文件内容
-
-prompt&gt; ./wcat main.c#include &lt;stdio.h&gt;...
-
-依赖例程
-fopen()
-
-fgets()
-
-fclose()
-
-printf()
-
-perror()
-
-strerror()
-
-
-实验需求
-你的程序 wcat 可以在命令行上使用一个或多个文件调用；
-它应该依次打印出每个文件。
-
-
-在所有非错误情况下，wcat 应以状态码 0 退出
-通常通过从 main() 返回 0（或调用 exit(0)）。
-
-
-如果命令行上没有指定任何文件，wcat 应直接退出并返回 0。
-注意，这与普通 UNIX cat 的行为略有不同（如果你愿意，可以找出不同之处）。
-
-
-如果程序尝试 fopen() 一个文件并失败，应打印精确的消息 “wcat: cannot open file”（后跟换行符）并以状态码 1 退出。如果命令行上指定了多个文件，应依次打印文件直到文件列表结束或遇到打开文件错误（此时打印错误消息并退出 wcat）。
-
-流程分析
-打开文件
-使用 fopen()
-
-
-未指定文件
-直接退出，返回0
-
-
-指定文件
-指定多个文件
-依次打印文件列表，直到 打开失败
-
-
-打开失败
-打印精确消息 “wcat: cannot open file\n”
-以状态码 1 退出
-
-
-打开成功：向下进行
-
-
-
-
-读取文件内容
-使用 fgets()
-
-
-可以打开多个文件，按照 **argv 的传参顺序进行提取
-需要 (buffer_ptr, buffer_size, FILE*)
-
-
-
-
-输出文件内容
-使用 printf()
-
-
-关闭文件
-使用 fclose()
-
-
-
-wcat.c
-
-
-
-wgrep
-wgrep 程序的功能是在行中查找用户指定的搜索词
-
-prompt&gt; ./wgrep foo bar.txtthis line has foo in it...
-
-依赖例程
-fopen()
-
-fgets()
-
-fclose()
-
-getline()
-
-printf()
-
-perror()
-
-strerror()
-
-
-实验需求
-你的程序 wgrep 总是接收一个搜索词和零个或多个要 grep 的文件（因此可能不止一个文件）。它应逐行检查搜索词是否存在于该行中；如果是，则应打印该行，如果不是，则应跳过该行。
-
-匹配区分大小写。因此，如果搜索 foo，包含 Foo 的行将不匹配。
-
-行可以任意长（也就是说，你可能会在遇到换行符 \n 之前看到很多很多字符）。wgrep 即使在非常长的行上也应正常工作。为此，你可能想查阅 getline() 库调用（而不是 fgets()），或者自己实现。
-
-如果 wgrep 没有收到任何命令行参数，应打印 “wgrep: searchterm [file …]”（后跟换行符）并以状态 1 退出。
-
-如果 wgrep 遇到无法打开的文件，应打印 “wgrep: cannot open file”（后跟换行符）并以状态 1 退出。
-
-在所有其他情况下，wgrep 应以返回码 0 退出。
-
-如果指定了搜索词但没有指定文件，wgrep 应正常工作，但不是从文件读取，wgrep 应从标准输入读取。这样做很容易，因为文件流 stdin 已经打开；你可以使用 fgets()（或类似例程）从中读取。
-
-为简单起见，如果传入的搜索字符串是空字符串，wgrep 可以选择不匹配任何行或匹配所有行，两者都可以接受。
-
-
-流程分析
-打开文件
-使用 fopen()
-
-
-未指定参数
-输出回显
-状态码 1 退出
-
-
-未指定文件
-从标准输入中读取
-getline(&amp;line, &amp;size, stdin)
-
-
-指定文件
-指定多个文件
-依次打印文件列表，直到 打开失败
-
-
-打开失败
-打印精确消息 “wgrep: cannot open file\n”
-以状态码 1 退出
-
-
-打开成功：向下进行
-
-
-
-
-读取文件内容
-使用 fgets()
-
-
-可以打开多个文件，按照 **argv 的传参顺序进行提取
-严格按行读取
-
-
-输出匹配文件行
-使用 printf()
-
-
-匹配区分大小写
-
-
-关闭文件
-使用 fclose()
-
-
-
-wgrep.c
-
-wzip 与 wunzip
-wzip-wunzip 程序的功能分别是进行文件的压缩(wzip)与解压缩(wunzip)使用 游程编码(REL) 进行压缩
-
-prompt&gt; ./wzip file.txt &gt; file.zprompt&gt; ./wunzip file.z
-
-依赖例程
-fopen()
-
-fgets()
-
-fclose()
-
-getline()
-
-printf()
-
-fwrite()
-
-fread()
-
-perror()
-
-strerror()
-
-
-实验需求
-正确调用应通过命令行向程序传递一个或多个文件
-
-如果没有指定文件，程序应以返回码 1 退出
-对于 wzip
-打印 “wzip: file1 [file2 …]”（后跟换行符）
-
-
-对于 wunzip
-打印 “wunzip: file1 [file2 …]”（后跟换行符）。
-
-
-
-
-压缩文件的格式必须与上述描述完全一致（每个游程为一个 4 字节整数后跟一个字符）。
-
-请注意，如果多个文件传递给 wzip，它们将被压缩为 一个 压缩输出，解压时也将变成 单个 未压缩的文本流（因此，最初有多个文件输入到 wzip 的信息将会丢失）。wunzip 也是如此。
-
-
-流程分析wzip
-探查文件
-
-使用 fopen()
-
-
-无指定文件
-打印 “wzip: file1 [file2 …]”（后跟换行符）
-返回码 1 退出
-
-
-
-
-压缩文件
-
-游程码为 4字节 整数 + 一个字符
-
-
-多文件同时压缩为一个文件
-注意，需要将所有文件预先读入同一个缓冲区，这样可以让前后文件相连，总体压缩
-
-
-
-
-将压缩文件打印至标准输出
-
-使用 fwrite()
-
-
-fwrite(&amp;src, sizeof(src), n, FILE*)
-注意使用四字节存储游程，直接使用原数据类型指针，作为源指针&amp;src
-
-
-
-
-
-wzip.c
-wunzip
-探查文件
-
-使用 fopen()
-
-
-读取压缩文件
-
-使用 fread()
-
-
-无指定文件
-打印 “wunzip: file1 [file2 …]”（后跟换行符）。
-返回码 1 退出
-
-
-
-
-文件解压缩
-
-游程码为 4字节 整数 + 一个字符
-
-
-压缩为一个文件的多文件不进行分割
-
-
-将解压的文件打印至标准输出
-
-printf()
-
-
-在使用 fread() 函数读后，需要使用 feof() 函数，探查是否已经读到文件结尾，此时可以退出读循环
-
-
-
-wunzip.c
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>process-shell</title>
     <url>/Computer-Sci/OS/xv6-labs/process-shell/process-shell/</url>
     <content><![CDATA[wish 程序设计设计目标
@@ -9948,19 +9996,6 @@ waitpid();
       </tags>
   </entry>
   <entry>
-    <title>initial xv6</title>
-    <url>/Computer-Sci/OS/xv6-labs/xv6-riscv/initial-xv6/</url>
-    <content><![CDATA[initial xv6]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-        <tag>xv6-kernel</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>xv6 项目安装</title>
     <url>/Computer-Sci/OS/xv6-labs/xv6-riscv/install-xv6/</url>
     <content><![CDATA[xv6 项目安装
@@ -9999,6 +10034,131 @@ riscv64-linux-gnu-gcc
         <tag>xv6-project</tag>
         <tag>Operating System</tag>
         <tag>xv6-kernel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>initial xv6</title>
+    <url>/Computer-Sci/OS/xv6-labs/xv6-riscv/initial-xv6/</url>
+    <content><![CDATA[initial xv6]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+        <tag>xv6-kernel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>initial-reverse</title>
+    <url>/Computer-Sci/OS/xv6-labs/initial-reverse/initial-reverse/</url>
+    <content><![CDATA[reverse
+reverse 程序的功能分别是进行文件的压缩(wzip)与解压缩(wunzip)使用 游程编码(REL) 进行压缩
+
+prompt&gt; ./reverseprompt&gt; ./reverse input.txtprompt&gt; ./reverse input.txt output.txt
+
+依赖例程
+fopen()
+
+fgets()
+
+fclose()
+
+getline()
+
+printf()
+
+fwrite()
+
+fread()
+
+perror()
+
+strerror()
+
+
+实验需求
+输入与输出相同： 如果输入文件和输出文件是同一个文件
+
+打印错误消息 “Input and output file must differ” 并以返回码 1 退出。
+
+
+字符串长度： 你不能对一行的长度做任何假设。因此，你可能需要读取非常长的输入行…
+
+文件长度： 你不能对文件的长度做任何假设，即文件可能非常长。
+
+无效文件： 如果用户指定了输入文件或输出文件，但当你尝试打开该文件（例如 input.txt）时因某种原因失败，应打印以下精确的错误消息：error: cannot open file &#39;input.txt&#39;，然后以返回码 1 退出（即调用 exit(1);）。
+
+传递给程序的参数过多： 如果用户运行 reverse 时参数过多，打印 usage: reverse &lt;input&gt; &lt;output&gt; 并以返回码 1 退出。
+
+如何打印错误消息： 发生任何错误时，应使用 fprintf() 将错误打印到屏幕上，并将错误消息发送到 stderr（标准错误）而不是 stdout（标准输出）。在 C 代码中通过以下方式实现：fprintf(stderr, &quot;whatever the error message is\n&quot;);
+
+
+要退出，调用 exit(1)。你传递给 exit() 的数字（本例中为 1）可供用户查看程序是返回了错误（即返回非零值）还是正常退出（即返回了 0）。
+对于读取输入文件，以下例程会让你的工作变得轻松：fopen()、getline() 和 fclose()。
+对于打印（到屏幕或到文件），使用 fprintf()。注意，通过将 stdout 传递给 fprintf() 可以很容易地写入标准输出；通过传入 fopen 返回的 FILE * 也可以很容易地写入文件，例如：fp=fopen(...); fprintf(fp, ...);。
+
+
+流程分析reverse
+使用 fprintf(stderr, ...) 进行错误信息的反馈
+
+
+命令行参数
+
+./reverse
+./reverse input.txt
+./reverse intput.txt output.txt
+当 input.txt &#x3D;&#x3D; output.txt 时打印错误信息
+Input and output file must differ
+
+
+
+
+传参过多
+打印错误信息
+usage: reverse &lt;input&gt; &lt;output&gt;
+
+
+
+
+
+
+文件探查
+
+文件不存在
+打印错误信息
+error: cannot open file &#39;input.txt&#39;
+
+
+然后以返回码 1 退出 exit(1)
+
+
+
+
+文件处理
+
+不对读入的字符串与文件长度做出假设
+需要进行动态扩容
+或者直接使用 getline() 例程处理
+
+
+将指定输入文件中的数据并将其反转
+将文件中的各行按照与输入流相反的顺序打印
+
+
+
+
+文件关闭
+
+
+reverse.c
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
       </tags>
   </entry>
   <entry>
