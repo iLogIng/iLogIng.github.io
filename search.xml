@@ -2758,7 +2758,7 @@ graph TD
     end
 
     listener --&gt;|accept| session
-    session --&gt;|async_read → 请求报文| request_handler
+    session --&gt;|async_read-&gt;请求报文| request_handler
     request_handler --&gt;|路由匹配| router
     router --&gt;|分发| static_service
     router --&gt;|分发| dynamic_api
