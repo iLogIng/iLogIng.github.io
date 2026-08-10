@@ -10786,6 +10786,8 @@ user&#x2F;
 “加一个工具, 只加一个 handler” — 循环不用动, 新工具注册进 dispatch map 就行。Harness 层: 工具分发 — 扩展模型能触达的边界。
 
 对于 s01_agent_loop 的TOOLS目前只有bash，若要使用基于bash的操作工具，LLM需要进行分析，产生token消耗，浪费token
+
+
 工具分发
 Agent Loop 不需要改变，只需要增加分发映射
 
@@ -10817,6 +10819,137 @@ PreToolUse hooks：钩子可以返回消息、修改输入、阻止执行
 该教学版省略了 Zod（用 JSON Schema）、省略了 validateInput（用安全函数）、保留了权限检查和钩子概念
 
 CC的StreamingToolExecutor让工具在模型还在生成时就启动，不必等待模型响应完毕CC的每个工具都有一个maxResultSizeChars字段。超过该值就落盘，LLM看到的是：文件预览+文件路径。对于ReadFile设定为Infinity，确保模型读文件的输出又被当成文件落盘，导致文件正反馈洪流
+
+END]]></content>
+      <categories>
+        <category>AI 智能体</category>
+      </categories>
+      <tags>
+        <tag>AI Agent</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>learn-claude-code s03</title>
+    <url>/ML-DL-AI/Agent/learn-claude-code/s03_permission/</url>
+    <content><![CDATA[Permission 执行前做权限判断
+“工具执行前先做权限判断” — 权限管线决定哪些操作需要审批。Harness 层: 权限 — 在工具执行前加一道门。
+
+安全不能靠LLM进行限定，而是需要在代码层面（工具层面）进行控制，即，在工具执行之前做判断
+
+
+check_permission在stop_reason()（LLM响应状态）与TOOL_HANDLERS（工具集选择）之间，插入权限判断
+
+
+
+flowchart TD
+    A[LLM_stop_reason]
+    subgraph B[check_permission]
+        door1[闸门1：拒绝列表]
+        door2[闸门2：规则匹配]
+        door3[闸门3：用户审批]
+    end
+    C[check_permission]
+    T[TOOL_HANDLERS]
+    tr[tool_result]
+    A -- 是 --&gt; B
+    C -- 通过 --&gt; T --&gt; tr
+    C -- 拒绝 --&gt; tr
+
+
+
+
+check_permission
+
+拒绝列表：永远禁止的操作。命中后不执行
+规则匹配：取决于上下文操作。交给闸门3
+用户审批：闸门2命中后，暂停等用户确认。让用户决定允许或拒绝
+没有命中一条：直接执行TOOL_HANDLERS
+
+
+工作原理
+
+
+flowchart TD
+    door1[闸门1：拒绝列表（阻止 deny）]
+    door2[闸门2：规则匹配]
+    door3[闸门3：用户审批（询问 ask；允许 allow）]
+
+    工具调用进入 --&gt; door1 --&gt; door2 -- 命中 --&gt; door3
+
+
+
+
+
+闸门 1：一张硬拒绝表，先查，命中就返回阻止信息。（目前仅使用字符串匹配，是不可靠的安全机制）
+闸门 2：规则匹配——描述”什么时候需要问用户”。每条规则指定工具和检查条件。
+闸门 3：规则命中后，暂停等用户输入。
+
+
+关于 Claude Code目前进度下，在 Agent Loop 中直接硬编码了 check_permission() ，若需要针对每次工具的执行进行前后功能扩展，会导致循环膨胀,
+对于CC的生产版本中的验证阶段，不仅仅限于上述的三道闸门，而是经过多个阶段的，分布在以下逻辑中的：
+
+Zod schema 验证— 参数类型检查
+validateInput()— 工具级语义验证
+backfillObservableInput()— 补全遗留字段
+PreToolUse hooks— 钩子可以返回 allow&#x2F;deny&#x2F;ask
+resolveHookPermissionDecision()— 协调钩子+管线决策
+hasPermissionsToUseToolInner()— 多层规则检查：
+整个工具被 deny rule 禁用 → deny
+整个工具被 ask rule 标记 → ask
+tool.checkPermissions() 工具自己的判断
+工具自己返回 deny → deny
+requiresUserInteraction() → ask
+内容相关的 ask 规则 → ask（不可绕过）
+安全检查违规 → ask（不可绕过）
+bypassPermissions 模式 → allow
+整个工具被 allow rule 放行 → allow
+passthrough → 转为 ask
+
+
+
+CC 没有单一的 deny list。权限规则来自 8 个来源：
+
+
+
+来源
+配置位置
+
+
+
+userSettings
+~&#x2F;.claude&#x2F;settings.json，用户设置
+
+
+projectSettings
+.claude&#x2F;settings.json，项目配置
+
+
+localSettings
+settings.local.json，本地配置
+
+
+flagSettings
+Feature flags，标志配置
+
+
+policySettings
+企业管理策略
+
+
+cliArg
+–allowedTools &#x2F; –deniedTools，命令行参数
+
+
+command
+内联命令
+
+
+session
+会话内临时授权
+
+
+每条规则格式：&#123; toolName: &quot;Bash&quot;, ruleBehavior: &quot;deny&quot;, ruleContent: &quot;npm publish:*&quot; &#125;。多个来源的规则合并，高优先级来源覆盖低优先级（从低到高：user &lt; project &lt; local &lt; flag &lt; policy，加上 cliArg、command、session）。
+CC中的子Agent的permissionMode字段被设置为bubble，将权限弹窗冒泡到Agent的终端，而不是在子Agent中静默拒绝
 
 END]]></content>
       <categories>

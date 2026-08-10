@@ -21,25 +21,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":100,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="Volador235 的博客：技术学习与个人生活">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Volador235&#39;s blog">
-<meta property="og:url" content="https://iloging.github.io/categories/%E6%88%91%E7%9A%84%E9%A1%B9%E7%9B%AE/index.html">
+    <meta name="description" content="Permission 执行前做权限判断 “工具执行前先做权限判断” — 权限管线决定哪些操作需要审批。Harness 层: 权限 — 在工具执行前加一道门。  安全不能靠LLM进行限定，而是需要在代码层面（工具层面）进行控制，即，在工具执行之前做判断">
+<meta property="og:type" content="article">
+<meta property="og:title" content="learn-claude-code s03">
+<meta property="og:url" content="https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s03_permission/index.html">
 <meta property="og:site_name" content="Volador235&#39;s blog">
-<meta property="og:description" content="Volador235 的博客：技术学习与个人生活">
+<meta property="og:description" content="Permission 执行前做权限判断 “工具执行前先做权限判断” — 权限管线决定哪些操作需要审批。Harness 层: 权限 — 在工具执行前加一道门。  安全不能靠LLM进行限定，而是需要在代码层面（工具层面）进行控制，即，在工具执行之前做判断">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-10T15:26:54.000Z">
+<meta property="article:modified_time" content="2026-08-10T16:21:01.182Z">
 <meta property="article:author" content="iLogIng">
-<meta property="article:tag" content="blog, 操作系统, OS, xv6, AI, Agent, 编程笔记, program, note, tool, iLogIng">
+<meta property="article:tag" content="AI Agent">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://iloging.github.io/categories/%E6%88%91%E7%9A%84%E9%A1%B9%E7%9B%AE/">
+<link rel="canonical" href="https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s03_permission/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"categories/我的项目/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s03_permission/","path":"ML-DL-AI/Agent/learn-claude-code/s03_permission/","title":"learn-claude-code s03"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>分类: 我的项目 | Volador235's blog</title>
+<title>learn-claude-code s03 | Volador235's blog</title>
   
 
 
@@ -262,7 +264,7 @@ mjx-container[display="true"] + br {
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -275,6 +277,7 @@ mjx-container[display="true"] + br {
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Permission-%E6%89%A7%E8%A1%8C%E5%89%8D%E5%81%9A%E6%9D%83%E9%99%90%E5%88%A4%E6%96%AD"><span class="nav-number">1.</span> <span class="nav-text">Permission 执行前做权限判断</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#check-permission"><span class="nav-number">1.1.</span> <span class="nav-text">check_permission</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-Claude-Code"><span class="nav-number">1.3.</span> <span class="nav-text">关于 Claude Code</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#END"><span class="nav-number">1.4.</span> <span class="nav-text">END</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -324,131 +327,251 @@ mjx-container[display="true"] + br {
 
     </div>
 
-    <div class="main-inner category posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">我的项目
-          <small>分类</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s03_permission/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="learn-claude-code s03 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          learn-claude-code s03<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmcvTVktTk9URS90cmVlL21hc3Rlci9NTC1ETC1BSS9BZ2VudC9sZWFybi1jbGF1ZGUtY29kZS9zMDNfcGVybWlzc2lvbi5tZA==" title="编辑"><i class="fa fa-pen-nib"></i></span>
         </h1>
-      </div>
 
-      
-    <div class="collection-year">
-      <span class="collection-header">2026</span>
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-08-10 23:26:54" itemprop="dateCreated datePublished" datetime="2026-08-10T23:26:54+08:00">2026-08-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-11 00:21:01" itemprop="dateModified" datetime="2026-08-11T00:21:01+08:00">2026-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI-%E6%99%BA%E8%83%BD%E4%BD%93/" itemprop="url" rel="index"><span itemprop="name">AI 智能体</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Permission-执行前做权限判断"><a href="#Permission-执行前做权限判断" class="headerlink" title="Permission 执行前做权限判断"></a>Permission 执行前做权限判断</h1><blockquote>
+<p>“工具执行前先做权限判断” — 权限管线决定哪些操作需要审批。<br>Harness 层: 权限 — 在工具执行前加一道门。</p>
+</blockquote>
+<p><em><strong>安全不能靠LLM进行限定，而是需要在代码层面（工具层面）进行控制，即，在工具执行之前做判断</strong></em></p>
+<span id="more"></span>
+
+<h2 id="check-permission"><a href="#check-permission" class="headerlink" title="check_permission"></a>check_permission</h2><p>在<code>stop_reason()</code>（LLM响应状态）与<code>TOOL_HANDLERS</code>（工具集选择）之间，插入<strong>权限判断</strong></p>
+<pre>
+<code class="mermaid">
+
+flowchart TD
+    A[LLM_stop_reason]
+    subgraph B[check_permission]
+        door1[闸门1：拒绝列表]
+        door2[闸门2：规则匹配]
+        door3[闸门3：用户审批]
+    end
+    C[check_permission]
+    T[TOOL_HANDLERS]
+    tr[tool_result]
+    A -- 是 --&gt; B
+    C -- 通过 --&gt; T --&gt; tr
+    C -- 拒绝 --&gt; tr
+
+</code>
+</pre>
+
+<p><strong>check_permission</strong></p>
+<ol>
+<li>拒绝列表：永远禁止的操作。命中后不执行</li>
+<li>规则匹配：取决于上下文操作。交给<em>闸门3</em></li>
+<li>用户审批：闸门2命中后，暂停等用户确认。让用户决定允许或拒绝</li>
+<li>没有命中一条：直接执行<code>TOOL_HANDLERS</code></li>
+</ol>
+<hr>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><pre>
+<code class="mermaid">
+
+flowchart TD
+    door1[闸门1：拒绝列表（阻止 deny）]
+    door2[闸门2：规则匹配]
+    door3[闸门3：用户审批（询问 ask；允许 allow）]
+
+    工具调用进入 --&gt; door1 --&gt; door2 -- 命中 --&gt; door3
+
+</code>
+</pre>
+
+<ol>
+<li><strong>闸门 1</strong>：一张硬拒绝表，先查，命中就返回阻止信息。（目前仅使用字符串匹配，是不可靠的安全机制）</li>
+<li><strong>闸门 2</strong>：规则匹配——描述”什么时候需要问用户”。每条规则指定工具和检查条件。</li>
+<li><strong>闸门 3</strong>：规则命中后，暂停等用户输入。</li>
+</ol>
+<hr>
+<h2 id="关于-Claude-Code"><a href="#关于-Claude-Code" class="headerlink" title="关于 Claude Code"></a>关于 Claude Code</h2><p>目前进度下，在 <strong>Agent Loop</strong> 中直接硬编码了 <code>check_permission()</code> ，<br>若需要针对每次工具的执行进行前后功能扩展，会导致循环膨胀,</p>
+<p>对于CC的生产版本中的验证阶段，不仅仅限于上述的三道闸门，而是经过多个阶段的，<br>分布在以下逻辑中的：</p>
+<ol>
+<li>Zod schema 验证— 参数类型检查</li>
+<li>validateInput()— 工具级语义验证</li>
+<li>backfillObservableInput()— 补全遗留字段</li>
+<li>PreToolUse hooks— 钩子可以返回 allow&#x2F;deny&#x2F;ask</li>
+<li>resolveHookPermissionDecision()— 协调钩子+管线决策</li>
+<li>hasPermissionsToUseToolInner()— 多层规则检查：<ul>
+<li>整个工具被 deny rule 禁用 → deny</li>
+<li>整个工具被 ask rule 标记 → ask</li>
+<li>tool.checkPermissions() 工具自己的判断</li>
+<li>工具自己返回 deny → deny</li>
+<li>requiresUserInteraction() → ask</li>
+<li>内容相关的 ask 规则 → ask（不可绕过）</li>
+<li>安全检查违规 → ask（不可绕过）</li>
+<li>bypassPermissions 模式 → allow</li>
+<li>整个工具被 allow rule 放行 → allow</li>
+<li>passthrough → 转为 ask</li>
+</ul>
+</li>
+</ol>
+<p>CC 没有单一的 deny list。权限规则来自 <strong>8 个来源</strong>：</p>
+<table>
+<thead>
+<tr>
+<th align="left">来源</th>
+<th align="left">配置位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">userSettings</td>
+<td align="left">~&#x2F;.claude&#x2F;settings.json，用户设置</td>
+</tr>
+<tr>
+<td align="left">projectSettings</td>
+<td align="left">.claude&#x2F;settings.json，项目配置</td>
+</tr>
+<tr>
+<td align="left">localSettings</td>
+<td align="left">settings.local.json，本地配置</td>
+</tr>
+<tr>
+<td align="left">flagSettings</td>
+<td align="left">Feature flags，标志配置</td>
+</tr>
+<tr>
+<td align="left">policySettings</td>
+<td align="left">企业管理策略</td>
+</tr>
+<tr>
+<td align="left">cliArg</td>
+<td align="left">–allowedTools &#x2F; –deniedTools，命令行参数</td>
+</tr>
+<tr>
+<td align="left">command</td>
+<td align="left">内联命令</td>
+</tr>
+<tr>
+<td align="left">session</td>
+<td align="left">会话内临时授权</td>
+</tr>
+</tbody></table>
+<p>每条规则格式：<code>&#123; toolName: &quot;Bash&quot;, ruleBehavior: &quot;deny&quot;, ruleContent: &quot;npm publish:*&quot; &#125;</code>。<br>多个来源的规则合并，高优先级来源覆盖低优先级<br>（从低到高：user &lt; project &lt; local &lt; flag &lt; policy，加上 cliArg、command、session）。</p>
+<p>CC中的子Agent的<code>permissionMode</code>字段被设置为<code>bubble</code>，将权限弹窗<strong>冒泡到Agent的终端</strong>，而不是在子Agent中静默拒绝</p>
+<hr>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-08-08T20:00:00+08:00"
-              content="2026-08-08">
-          08-08
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/My-Projects/http_server/http-server-perf/" itemprop="url">
-            <span itemprop="name">基于 Boost 的 HTTP 服务器：性能方法论</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          
 
-      
-    </header>
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>iLogIng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s03_permission/" title="learn-claude-code s03">https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s03_permission/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC8="><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/AI-Agent/" rel="tag"># AI Agent</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/ML-DL-AI/Agent/learn-claude-code/s02_tool_use/" rel="prev" title="learn-claude-code s02">
+                  <i class="fa fa-angle-left"></i> learn-claude-code s02
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-08-08T18:00:00+08:00"
-              content="2026-08-08">
-          08-08
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/My-Projects/http_server/http-server-eng/" itemprop="url">
-            <span itemprop="name">基于 Boost 的 HTTP 服务器：项目工程化</span>
-          </a>
-      </div>
 
-      
-    </header>
-  </article>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-08-08T18:00:00+08:00"
-              content="2026-08-08">
-          08-08
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/My-Projects/http_server/http-server-protocol/" itemprop="url">
-            <span itemprop="name">基于 Boost 的 HTTP 服务器：HTTP 协议细节</span>
-          </a>
-      </div>
 
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-08-08T16:00:00+08:00"
-              content="2026-08-08">
-          08-08
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/My-Projects/http_server/http-server-frm-desng/" itemprop="url">
-            <span itemprop="name">基于 Boost 的 HTTP 服务器：框架设计</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-08-06T22:45:07+08:00"
-              content="2026-08-06">
-          08-06
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/My-Projects/http_server/http-server-overview/" itemprop="url">
-            <span itemprop="name">基于 Boost 的静态 HTTP 服务器</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-    </div>
-  </div>
-  
-  
-  
-
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 

@@ -21,15 +21,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":100,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="s02_tool_use “加一个工具, 只加一个 handler” — 循环不用动, 新工具注册进 dispatch map 就行。Harness 层: 工具分发 — 扩展模型能触达的边界。  对于 s01_agent_loop 的TOOLS目前只有bash，若要使用基于bash的操作工具，LLM需要进行分析，产生token消耗，浪费token 工具分发 Agent Loop 不需要改变，只需要">
+    <meta name="description" content="s02_tool_use “加一个工具, 只加一个 handler” — 循环不用动, 新工具注册进 dispatch map 就行。Harness 层: 工具分发 — 扩展模型能触达的边界。  对于 s01_agent_loop 的TOOLS目前只有bash，若要使用基于bash的操作工具，LLM需要进行分析，产生token消耗，浪费token">
 <meta property="og:type" content="article">
 <meta property="og:title" content="learn-claude-code s02">
 <meta property="og:url" content="https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s02_tool_use/index.html">
 <meta property="og:site_name" content="Volador235&#39;s blog">
-<meta property="og:description" content="s02_tool_use “加一个工具, 只加一个 handler” — 循环不用动, 新工具注册进 dispatch map 就行。Harness 层: 工具分发 — 扩展模型能触达的边界。  对于 s01_agent_loop 的TOOLS目前只有bash，若要使用基于bash的操作工具，LLM需要进行分析，产生token消耗，浪费token 工具分发 Agent Loop 不需要改变，只需要">
+<meta property="og:description" content="s02_tool_use “加一个工具, 只加一个 handler” — 循环不用动, 新工具注册进 dispatch map 就行。Harness 层: 工具分发 — 扩展模型能触达的边界。  对于 s01_agent_loop 的TOOLS目前只有bash，若要使用基于bash的操作工具，LLM需要进行分析，产生token消耗，浪费token">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-08-10T13:16:54.000Z">
-<meta property="article:modified_time" content="2026-08-10T14:39:58.150Z">
+<meta property="article:modified_time" content="2026-08-10T16:12:54.482Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="AI Agent">
 <meta name="twitter:card" content="summary">
@@ -292,7 +292,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">56</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -366,9 +366,15 @@ mjx-container[display="true"] + br {
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-08-10 21:16:54 / 修改时间：22:39:58" itemprop="dateCreated datePublished" datetime="2026-08-10T21:16:54+08:00">2026-08-10</time>
+      <time title="创建时间：2026-08-10 21:16:54" itemprop="dateCreated datePublished" datetime="2026-08-10T21:16:54+08:00">2026-08-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-11 00:12:54" itemprop="dateModified" datetime="2026-08-11T00:12:54+08:00">2026-08-11</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -400,6 +406,8 @@ mjx-container[display="true"] + br {
 <p>“加一个工具, 只加一个 handler” — 循环不用动, 新工具注册进 dispatch map 就行。<br>Harness 层: 工具分发 — 扩展模型能触达的边界。</p>
 </blockquote>
 <p>对于 <code>s01_agent_loop</code> 的<code>TOOLS</code>目前只有<code>bash</code>，若要使用基于bash的操作工具，LLM需要进行分析，产生token消耗，浪费token</p>
+<span id="more"></span>
+
 <h2 id="工具分发"><a href="#工具分发" class="headerlink" title="工具分发"></a>工具分发</h2><blockquote>
 <p>Agent Loop 不需要改变，只需要增加分发映射</p>
 </blockquote>
@@ -470,6 +478,9 @@ mjx-container[display="true"] + br {
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/ML-DL-AI/Agent/learn-claude-code/s03_permission/" rel="next" title="learn-claude-code s03">
+                  learn-claude-code s03 <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>
