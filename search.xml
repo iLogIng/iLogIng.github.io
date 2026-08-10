@@ -6401,7 +6401,7 @@ CATALOG
   <entry>
     <title>ai-agent-book Chapter-1</title>
     <url>/ML-DL-AI/Agent/ai-agent-book/chapter-1/</url>
-    <content><![CDATA[Chapter 1github.com&#x2F;ai-agent-book&#x2F;chapter1
+    <content><![CDATA[AI Agent 入门github.com&#x2F;ai-agent-book&#x2F;chapter1
 
 
 
@@ -6704,12 +6704,25 @@ s20 Comprehensive Agent
 
 message[] &#x3D;&gt; 大语言模型 LLM &#x3D;&#x3D;判断&lt;是否需要工具&gt;&#x3D;&#x3D;&gt; stop_reason signal
 
+
+消息列表的格式是：
+&#123;    &quot;role&quot;: &quot;assistant&quot;,    &quot;content&quot;: response.content&#125;, &#123;    &quot;role&quot;: &quot;user&quot;,    &quot;content&quot;: results&#125;
+
+response.content 实际上是LLM的响应
+results 实际上是客户端命令行工具的运行结果
+
+
 stop_reason &#x3D;&#x3D; “toll_use” ? run_bash(command){message.append(tool_result); continue loop} : return result
 
-
 一个 while True 循环：模型调用工具 -&gt; 执行 -&gt; feedback 反馈 -&gt; loop
-def agent_loop(messages):    while True:        # 大模型响应        response = client.messages.create(            model=MODEL, system=SYSTEM, messages=messages,            tools=TOOLS, max_tokens=8000,        )        # 在模型响应后添加信息        messages.append(&#123;&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: response.content&#125;)        if response.stop_reason != &quot;tool_use&quot;:            return        results = [] # 循环结果        for block in response.content:            # 若受到停止命令            if block.type == &quot;tool_use&quot;:                output = run_bash(block.input[&quot;command&quot;])                # 停止                results.append(&#123;                    &quot;type&quot;: &quot;tool_result&quot;,                    &quot;tool_use_id&quot;: block.id,                    &quot;content&quot;: output,                &#125;)        # 将工具调用结果写入消息列表message[]中        messages.append(&#123;&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: results&#125;)
+import osimport subprocessfrom anthropic import Anthropicfrom anthropic.types import ToolParamfrom dotenv import load_dotenvload_dotenv(override=True)client = Anthropic(                                                                     \    base_url    =   os.getenv(&quot;ANTHROPIC_BASE_URL&quot;),                                    \    api_key     =   os.getenv(&quot;ANTHROPIC_API_KEY&quot;)  )MODEL = os.environ[&quot;MODEL_ID&quot;]# 系统级提示词SYSTEM = f&quot;You are a coding agent at &#123;os.getcwd()&#125;. Use bash to solve tasks. Act, don&#x27;t explain.&quot;# bash 的工具定义TOOLS: list[ToolParam] = [&#123;    &quot;name&quot;: &quot;bash&quot;,    &quot;description&quot;: &quot;Run a shell command.&quot;,    &quot;input_schema&quot;: &#123;        &quot;type&quot;: &quot;object&quot;,        &quot;properties&quot;: &#123;&quot;command&quot;: &#123;&quot;type&quot;: &quot;string&quot;&#125;&#125;,        &quot;required&quot;: [&quot;command&quot;],    &#125;,&#125;]# bash tool 的执行函数def run_bash(command: str) -&gt; str:    dangerous = [&quot;rm -rf /&quot;, &quot;sudo&quot;, &quot;shutdown&quot;, &quot;reboot&quot;, &quot;&gt; /dev/&quot;]    if any(d in command for d in dangerous):        return &quot;Error: Dangerous command blocked&quot;    try:        r = subprocess.run(command, shell=True, cwd=os.getcwd(),                           capture_output=True, text=True, timeout=120)        out = (r.stdout + r.stderr).strip()        return out[:50000] if out else &quot;(no output)&quot;    except subprocess.TimeoutExpired:        return &quot;Error: Timeout (120s)&quot;    except (FileNotFoundError, OSError) as e:        return f&quot;Error: &#123;e&#125;&quot;# agent_loop 函数，处理消息循环def agent_loop(messages):    while True:        # 响应接收        response = client.messages.create(            model=MODEL, system=SYSTEM, messages=messages,            tools=TOOLS, max_tokens=8000,        )        messages.append(&#123;&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: response.content&#125;)        # 退出条件        if response.stop_reason != &quot;tool_use&quot;:            return        # 工具运行及结果        results = []        for block in response.content:            if block.type == &quot;tool_use&quot;:                # 工具使用块                command = block.input.get(&quot;command&quot;)                # 运行工具                # 获得运行结果                output = run_bash(str(command))                results.append(&#123;                    &quot;type&quot;: &quot;tool_result&quot;,                    &quot;tool_use_id&quot;: block.id,                    &quot;content&quot;: output,                &#125;)        # 组装累计式消息列表，添加工具结果        messages.append(&#123;&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: results&#125;)# 入口if __name__ == &quot;__main__&quot;:    # 上下文历史    history = []    while True:        # 客户端输入引导        try:            query = input(&quot;\033[36m&quot;+&quot;Agent &gt;&gt; &quot;+&quot;\033[0m&quot;)        except (EOFError, KeyboardInterrupt):            break        # 用户query请求 解析退出条件        if query.strip().lower() in (&quot;q&quot;, &quot;exit&quot;, &quot;&quot;):            break        # 添加请求后缀        history.append(&#123;&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: query&#125;)        # 将上下文投入 agent_loop        agent_loop(history)        # 打印模型的最后内容响应        response_content = history[-1][&quot;content&quot;]        if isinstance(response_content, list):            for block in response_content:                if getattr(block, &quot;type&quot;, None) == &quot;text&quot;:                    print(block.text)        print()
 
+从 Claude Code 的实现来看
+Claude Code 的核心循环即对上述 Agent Loop 的扩展，以保证结果的稳定性
+
+对于循环结构，CC不使用stop_reson作为标志位，而是直接检查LLM响应体中的tool_use块，根据tool_use块是否存在决定Agent Loop是否继续，CC响应体中的状态对象更多
+CC存在多条退出路径，覆盖多种实际场景，对于每个场景都有自己的恢复或退出策略
+由于大模型的响应是基于字节流的，是流式响应，根据流式输出，可以配置为与流并行的工具调用
 ]]></content>
       <categories>
         <category>AI 智能体</category>
@@ -10764,6 +10777,53 @@ user&#x2F;
         <tag>Operating System</tag>
         <tag>xv6-project</tag>
         <tag>xv6-kernel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>learn-claude-code s02</title>
+    <url>/ML-DL-AI/Agent/learn-claude-code/s02_tool_use/</url>
+    <content><![CDATA[s02_tool_use
+“加一个工具, 只加一个 handler” — 循环不用动, 新工具注册进 dispatch map 就行。Harness 层: 工具分发 — 扩展模型能触达的边界。
+
+对于 s01_agent_loop 的TOOLS目前只有bash，若要使用基于bash的操作工具，LLM需要进行分析，产生token消耗，浪费token
+工具分发
+Agent Loop 不需要改变，只需要增加分发映射
+
+在 Agent Loop 中，解析响应中的tool_use块后，使用Tool_handers进行工具分发，将run_bash()替换为TOOL_HANDLERS[block.name]()查找分发表，
+添加工具
+定义工具：在TOOLS中增加一条描述
+
+注册处理函数：在TOOL_HANDLERS字典中增加一个映射
+
+
+
+Agent Loop 改进
+查表获得可执行命令
+运行命令
+
+多工具调用模型经常返回多个tool_use调用，使用查表方法更适合命令扩展
+
+从 Claude Code 来看当前代码，bash的执行并不受限制，类似于rm -rf /的负面命令，仍然能跑，CC中，每个工具是使用buildTool()创建的独立对象，包含各种所需的工具
+CC在使用cmdline时，会进行并发安全性的判断，在执行层面确保了并发安全，将并发安全的代码合并为一个总调用，在安全分发的条件下，确保顺序语义的同时，优化安全并发，在buildTool()的同时，就确定了命令的并发性，严格保证命令的串行、并行安全
+CC 的每个工具调用经过严格的 5 步验证：
+
+Zod schema 验证：参数类型&#x2F;结构检查
+工具级 validateInput()：参数值验证（如路径是否在工作区内）
+PreToolUse hooks：钩子可以返回消息、修改输入、阻止执行
+权限检查（该节内容）：canUseTool + checkPermissions -&gt; allow&#x2F;deny&#x2F;ask
+执行 tool.call()
+
+
+该教学版省略了 Zod（用 JSON Schema）、省略了 validateInput（用安全函数）、保留了权限检查和钩子概念
+
+CC的StreamingToolExecutor让工具在模型还在生成时就启动，不必等待模型响应完毕CC的每个工具都有一个maxResultSizeChars字段。超过该值就落盘，LLM看到的是：文件预览+文件路径。对于ReadFile设定为Infinity，确保模型读文件的输出又被当成文件落盘，导致文件正反馈洪流
+
+END]]></content>
+      <categories>
+        <category>AI 智能体</category>
+      </categories>
+      <tags>
+        <tag>AI Agent</tag>
       </tags>
   </entry>
 </search>
