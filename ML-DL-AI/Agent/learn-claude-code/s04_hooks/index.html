@@ -21,25 +21,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":100,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="Volador235 的博客：技术学习与个人生活">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Volador235&#39;s blog">
-<meta property="og:url" content="https://iloging.github.io/tags/docker/index.html">
+    <meta name="description" content="Hooks 功能注入 “挂在循环上, 不写进循环里” — hook 在工具执行前后注入扩展逻辑。Harness 层: hook — 扩展点不侵入循环。  当前的行为都显示写在Agent Loop中，若要针对某些工具，在调用前后进行功能扩展，则需要修改Agent Loop循环体，与我们保证循环体稳定性的要求相悖，对工具进行功能扩充要与Agent Loop进行解耦，trigger_hooks要安装在T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="learn-claude-code s04">
+<meta property="og:url" content="https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s04_hooks/index.html">
 <meta property="og:site_name" content="Volador235&#39;s blog">
-<meta property="og:description" content="Volador235 的博客：技术学习与个人生活">
+<meta property="og:description" content="Hooks 功能注入 “挂在循环上, 不写进循环里” — hook 在工具执行前后注入扩展逻辑。Harness 层: hook — 扩展点不侵入循环。  当前的行为都显示写在Agent Loop中，若要针对某些工具，在调用前后进行功能扩展，则需要修改Agent Loop循环体，与我们保证循环体稳定性的要求相悖，对工具进行功能扩充要与Agent Loop进行解耦，trigger_hooks要安装在T">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-11T13:11:17.000Z">
+<meta property="article:modified_time" content="2026-08-11T16:08:46.718Z">
 <meta property="article:author" content="iLogIng">
-<meta property="article:tag" content="blog, 操作系统, OS, xv6, AI, Agent, 编程笔记, program, note, tool, iLogIng">
+<meta property="article:tag" content="AI Agent">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://iloging.github.io/tags/docker/">
+<link rel="canonical" href="https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s04_hooks/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"tags/docker/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s04_hooks/","path":"ML-DL-AI/Agent/learn-claude-code/s04_hooks/","title":"learn-claude-code s04"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>标签: docker | Volador235's blog</title>
+<title>learn-claude-code s04 | Volador235's blog</title>
   
 
 
@@ -262,7 +264,7 @@ mjx-container[display="true"] + br {
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -275,6 +277,7 @@ mjx-container[display="true"] + br {
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hooks-%E5%8A%9F%E8%83%BD%E6%B3%A8%E5%85%A5"><span class="nav-number">1.</span> <span class="nav-text">Hooks 功能注入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-HOOKS"><span class="nav-number">1.1.</span> <span class="nav-text">添加 HOOKS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8ECC%E9%87%87%E7%94%A8%E7%9A%84%E5%B7%A5%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">关于CC采用的工程实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#END"><span class="nav-number">1.3.</span> <span class="nav-text">END</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -324,51 +327,223 @@ mjx-container[display="true"] + br {
 
     </div>
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">docker
-          <small>标签</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s04_hooks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="learn-claude-code s04 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          learn-claude-code s04<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmcvTVktTk9URS90cmVlL21hc3Rlci9NTC1ETC1BSS9BZ2VudC9sZWFybi1jbGF1ZGUtY29kZS9zMDRfaG9va3MubWQ=" title="编辑"><i class="fa fa-pen-nib"></i></span>
         </h1>
-      </div>
 
-      
-    <div class="collection-year">
-      <span class="collection-header">2026</span>
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-08-11 21:11:17" itemprop="dateCreated datePublished" datetime="2026-08-11T21:11:17+08:00">2026-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-12 00:08:46" itemprop="dateModified" datetime="2026-08-12T00:08:46+08:00">2026-08-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI-%E6%99%BA%E8%83%BD%E4%BD%93/" itemprop="url" rel="index"><span itemprop="name">AI 智能体</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Hooks-功能注入"><a href="#Hooks-功能注入" class="headerlink" title="Hooks 功能注入"></a>Hooks 功能注入</h1><blockquote>
+<p>“挂在循环上, 不写进循环里” — hook 在工具执行前后注入扩展逻辑。<br>Harness 层: hook — 扩展点不侵入循环。</p>
+</blockquote>
+<p>当前的行为都显示写在<code>Agent Loop</code>中，若要针对某些工具，在调用前后进行功能扩展，则需要修改<code>Agent Loop</code>循环体，<br>与我们保证循环体稳定性的要求相悖，对工具进行功能扩充要与<code>Agent Loop</code>进行解耦，<br><code>trigger_hooks</code>要安装在<code>TOOL_HANDLERS</code>调用前后，进行触发</p>
+<pre>
+<code class="mermaid">
+
+flowchart TD
+    A[message]
+    B[LLM,stop_reason&#x3D;tool_use?]
+    C[prev-trigger_hooks]
+    D[TOOL_HANDLERS]
+    E[post-trigger_hooks]
+
+    A --&gt; B -- 是 --&gt; C -- 通过 --&gt; D -- 执行后 --&gt; E
+    C --&gt; tool_result
+    E -.-&gt; A
+
+</code>
+</pre>
+
+<p>四个事件，覆盖一个完整的 agent cycle：</p>
+<table>
+<thead>
+<tr>
+<th align="left">事件</th>
+<th align="left">触发时机</th>
+<th align="left">典型用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">UserPromptSubmit</td>
+<td align="left">用户输入提交后、进入 LLM 前</td>
+<td align="left">输入验证、注入上下文</td>
+</tr>
+<tr>
+<td align="left">PreToolUse</td>
+<td align="left">工具执行前</td>
+<td align="left">权限检查、日志记录</td>
+</tr>
+<tr>
+<td align="left">PostToolUse</td>
+<td align="left">工具执行后</td>
+<td align="left">副作用（自动 git add 等）、输出检查</td>
+</tr>
+<tr>
+<td align="left">Stop</td>
+<td align="left">循环即将退出时</td>
+<td align="left">收尾清理（CC 还支持强制续跑）</td>
+</tr>
+</tbody></table>
+<p>扩展通过 <code>register_hook()</code> 添加，循环只在固定位置调用 <code>trigger_hooks()</code></p>
+<h2 id="添加-HOOKS"><a href="#添加-HOOKS" class="headerlink" title="添加 HOOKS"></a>添加 HOOKS</h2><p>通过建立<code>HOOKS</code>表，注册HOOK</p>
+<h2 id="关于CC采用的工程实现"><a href="#关于CC采用的工程实现" class="headerlink" title="关于CC采用的工程实现"></a>关于CC采用的工程实现</h2><p>使用七类，共二十七个事件：</p>
+<table>
+<thead>
+<tr>
+<th align="left">类别</th>
+<th align="left">事件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">工具相关</td>
+<td align="left">PreToolUse, PostToolUse, PostToolUseFailure</td>
+</tr>
+<tr>
+<td align="left">会话相关</td>
+<td align="left">SessionStart, SessionEnd, Stop, StopFailure, Setup</td>
+</tr>
+<tr>
+<td align="left">用户交互</td>
+<td align="left">UserPromptSubmit, Notification, PermissionRequest, PermissionDenied</td>
+</tr>
+<tr>
+<td align="left">子 Agent</td>
+<td align="left">SubagentStart, SubagentStop</td>
+</tr>
+<tr>
+<td align="left">压缩相关</td>
+<td align="left">PreCompact, PostCompact</td>
+</tr>
+<tr>
+<td align="left">团队相关</td>
+<td align="left">TeammateIdle, TaskCreated, TaskCompleted</td>
+</tr>
+<tr>
+<td align="left">其他</td>
+<td align="left">Elicitation, ElicitationResult, ConfigChange, WorktreeCreate, WorktreeRemove, InstructionsLoaded, CwdChanged, FileChanged</td>
+</tr>
+</tbody></table>
+<p>在工程安全的角度上，hook 返回 allow 时，仍然要检查 settings.json 的 deny&#x2F;ask 规则。以确保规则下的功能限制。</p>
+<hr>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-07-13T20:26:00+08:00"
-              content="2026-07-13">
-          07-13
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/Tech-Stack/container/docker-note/" itemprop="url">
-            <span itemprop="name">docker note</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          
 
-      
-    </header>
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>iLogIng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s04_hooks/" title="learn-claude-code s04">https://iloging.github.io/ML-DL-AI/Agent/learn-claude-code/s04_hooks/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC8="><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/AI-Agent/" rel="tag"># AI Agent</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/ML-DL-AI/Agent/learn-claude-code/s03_permission/" rel="prev" title="learn-claude-code s03">
+                  <i class="fa fa-angle-left"></i> learn-claude-code s03
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-    </div>
-  </div>
-  
-  
-  
 
+
+
+
+
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 

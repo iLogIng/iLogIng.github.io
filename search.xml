@@ -10959,4 +10959,107 @@ END]]></content>
         <tag>AI Agent</tag>
       </tags>
   </entry>
+  <entry>
+    <title>learn-claude-code s04</title>
+    <url>/ML-DL-AI/Agent/learn-claude-code/s04_hooks/</url>
+    <content><![CDATA[Hooks 功能注入
+“挂在循环上, 不写进循环里” — hook 在工具执行前后注入扩展逻辑。Harness 层: hook — 扩展点不侵入循环。
+
+当前的行为都显示写在Agent Loop中，若要针对某些工具，在调用前后进行功能扩展，则需要修改Agent Loop循环体，与我们保证循环体稳定性的要求相悖，对工具进行功能扩充要与Agent Loop进行解耦，trigger_hooks要安装在TOOL_HANDLERS调用前后，进行触发
+
+
+
+flowchart TD
+    A[message]
+    B[LLM,stop_reason&#x3D;tool_use?]
+    C[prev-trigger_hooks]
+    D[TOOL_HANDLERS]
+    E[post-trigger_hooks]
+
+    A --&gt; B -- 是 --&gt; C -- 通过 --&gt; D -- 执行后 --&gt; E
+    C --&gt; tool_result
+    E -.-&gt; A
+
+
+
+
+四个事件，覆盖一个完整的 agent cycle：
+
+
+
+事件
+触发时机
+典型用途
+
+
+
+UserPromptSubmit
+用户输入提交后、进入 LLM 前
+输入验证、注入上下文
+
+
+PreToolUse
+工具执行前
+权限检查、日志记录
+
+
+PostToolUse
+工具执行后
+副作用（自动 git add 等）、输出检查
+
+
+Stop
+循环即将退出时
+收尾清理（CC 还支持强制续跑）
+
+
+扩展通过 register_hook() 添加，循环只在固定位置调用 trigger_hooks()
+添加 HOOKS通过建立HOOKS表，注册HOOK
+关于CC采用的工程实现使用七类，共二十七个事件：
+
+
+
+类别
+事件
+
+
+
+工具相关
+PreToolUse, PostToolUse, PostToolUseFailure
+
+
+会话相关
+SessionStart, SessionEnd, Stop, StopFailure, Setup
+
+
+用户交互
+UserPromptSubmit, Notification, PermissionRequest, PermissionDenied
+
+
+子 Agent
+SubagentStart, SubagentStop
+
+
+压缩相关
+PreCompact, PostCompact
+
+
+团队相关
+TeammateIdle, TaskCreated, TaskCompleted
+
+
+其他
+Elicitation, ElicitationResult, ConfigChange, WorktreeCreate, WorktreeRemove, InstructionsLoaded, CwdChanged, FileChanged
+
+
+在工程安全的角度上，hook 返回 allow 时，仍然要检查 settings.json 的 deny&#x2F;ask 规则。以确保规则下的功能限制。
+
+END]]></content>
+      <categories>
+        <category>AI 智能体</category>
+      </categories>
+      <tags>
+        <tag>AI Agent</tag>
+      </tags>
+  </entry>
 </search>
