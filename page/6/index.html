@@ -289,7 +289,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -325,419 +325,6 @@ mjx-container[display="true"] + br {
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Tech-Stack/frm-lib/c++boost/Boost-Log/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Tech-Stack/frm-lib/c++boost/Boost-Log/" class="post-title-link" itemprop="url">C++ Boost::Log</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-04-03 19:03:06" itemprop="dateCreated datePublished" datetime="2026-04-03T19:03:06+08:00">2026-04-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">框架与库</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Log"><a href="#Log" class="headerlink" title="Log"></a>Log</h1><blockquote>
-<p>一个高度模块化和可扩展的C++日志库，旨在为应用程序提供灵活的日志记录功能。</p>
-</blockquote>
-<p><span class="exturl" data-url="aHR0cHM6Ly9ib29zdC5hYy5jbi9kb2MvbGlicy9sYXRlc3QvbGlicy9sb2cvZG9jL2h0bWwvaW5kZXguaHRtbCNsb2cuaW50cm8=">Boost::Log Refference<i class="fa fa-external-link-alt"></i></span></p>
-<h3 id="设计理念"><a href="#设计理念" class="headerlink" title="设计理念"></a>设计理念</h3><p>提供 <strong>高度模块化</strong> 和 <strong>可扩展</strong> 的日志处理。各个模块可以独立使用和替换，并且能够添加自定义功能。支持宽&#x2F;窄字符记录。</p>
-<h3 id="三层架构"><a href="#三层架构" class="headerlink" title="三层架构"></a>三层架构</h3><ol>
-<li><strong>日志数据收集层</strong><ul>
-<li>负责从程序中处理收集的日志事件</li>
-</ul>
-</li>
-<li><strong>收集数据处理层</strong><ul>
-<li>负责处理收集到的日志事件</li>
-</ul>
-</li>
-<li><strong>连接前两层的中央枢纽</strong><ul>
-<li>协调管理日志在上两层之间的流转</li>
-</ul>
-</li>
-</ol>
-<blockquote>
-<p><strong>设计要点：</strong> 这个架构的核心优势是正交性，即日志的收集、处理方式和日志内容本身是相互独立的。这种设计让库不仅能用于传统日志记录，还能用于向用户发出通知、累积统计信息等场景。</p>
-</blockquote>
-<!-- main -->
-
-<h3 id="关键组件"><a href="#关键组件" class="headerlink" title="关键组件"></a>关键组件</h3><p>构成以上三层的具体组件：</p>
-<ul>
-<li><p><strong>日志源 (Logging Sources)：</strong> <em><strong>日志事件的发起者</strong></em> 。最常见的是日志记录器 (Logger)，它提供了类似 std::ostream 的流式接口来 <strong>格式化</strong> 日志消息。库也支持其他类型的源，如捕获子进程的控制台输出等。</p>
-</li>
-<li><p><strong>属性与属性值 (Attributes and Attribute Values)：</strong> <strong>日志记录的<em>元数据</em></strong> 。一个属性本质上是获取某个值的函数（例如获取当前时间），其返回的值就是 <em>属性值</em> ，会在日志处理的后续阶段使用。属性分为 <em>三种</em> 类型：</p>
-<ul>
-<li><p><em><strong>全局属性</strong></em> ：附加到 <em>所有</em> 日志记录，优先级最低。</p>
-</li>
-<li><p><em><strong>线程特定属性</strong></em> ：仅附加到 <em>特定线程</em> 生成的记录。</p>
-</li>
-<li><p><em><strong>源特定属性</strong></em> ：<strong>由日志源维护</strong> ，仅附加到通过 <em>该源生成的记录</em> ，优先级最高。</p>
-</li>
-<li><p>当同名属性出现在多个集合中时，优先级高的属性会覆盖优先级低的。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>日志核心 (Logging Core)：</strong> 中央枢纽的具体实现。它负责接收日志事件，并应用全局过滤器来决定哪些日志记录可以继续传递。核心被实现为 <em><strong>单例 (Singleton)</strong></em> ，可通过 boost::log::core::get() 访问。</p>
-</li>
-<li><p><strong>过滤器 (Filters)：</strong> 核心的一部分功能。过滤器用于在核心层面 <em><strong>筛选</strong></em> 日志记录，决定其是否被处理。</p>
-</li>
-<li><p><strong>接收器 (Sinks)：</strong> 日志处理的最终目的地。它是处理层的核心，负责将日志记录 <em><strong>格式化并输出到文件</strong></em> 、控制台、网络等不同目标。接收器采用前后端分离的设计：</p>
-<ul>
-<li><p><strong>前端 (Frontend)：</strong> 负责接收日志记录，并决定同步、异步等传递策略。</p>
-</li>
-<li><p><strong>后端 (Backend)：</strong> 负责执行实际的格式化操作并将日志写入最终目标。</p>
-</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Tech-Stack/tools/vim-config/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Tech-Stack/tools/vim-config/" class="post-title-link" itemprop="url">nvim配置文件</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-03-28 16:26:02" itemprop="dateCreated datePublished" datetime="2026-03-28T16:26:02+08:00">2026-03-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>neovim 基础配置文件</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/Tech-Stack/tools/vim-config/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Tech-Stack/frm-lib/hexo-note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Tech-Stack/frm-lib/hexo-note/" class="post-title-link" itemprop="url">hexo-note</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-03-28 15:50:52" itemprop="dateCreated datePublished" datetime="2026-03-28T15:50:52+08:00">2026-03-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">框架与库</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>基于hexo包的网页配置</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/Tech-Stack/frm-lib/hexo-note/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Tech-Stack/languages/C-asm/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Tech-Stack/languages/C-asm/" class="post-title-link" itemprop="url">C内联汇编</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-02-14 12:13:47" itemprop="dateCreated datePublished" datetime="2026-02-14T12:13:47+08:00">2026-02-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="C内联汇编"><a href="#C内联汇编" class="headerlink" title="C内联汇编"></a>C内联汇编</h1><p>在 C 语言中，内联汇编通常使用编译器扩展来实现。<br>最常用的是 <strong>GCC 的扩展内联汇编</strong>（用于 Linux 内核、xv6、OSTEP 实验等），这里重点汇总它的语法。<br>MSVC 的内联汇编语法不同（<code>__asm {}</code> 块），简单提及但不展开。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/Tech-Stack/languages/C-asm/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -1092,8 +679,422 @@ mjx-container[display="true"] + br {
 
 
 
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Computer-Sci/Network/application-layer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Computer-Sci/Network/application-layer/" class="post-title-link" itemprop="url">应用层杂记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-11-08 19:47:22" itemprop="dateCreated datePublished" datetime="2025-11-08T19:47:22+08:00">2025-11-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>基于 《计算机网络：自顶向下方法》</p>
+</blockquote>
+<hr>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Tech-Stack/frm-lib/c++boost/asio-async-server/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Tech-Stack/frm-lib/c++boost/asio-async-server/" class="post-title-link" itemprop="url">包装Asio编写异步TCP服务器模型</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-10-18 18:33:07" itemprop="dateCreated datePublished" datetime="2025-10-18T18:33:07+08:00">2025-10-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">框架与库</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>该笔记，以官方异步TCP服务器实现用例为基础<br>记录几种改造方向</p>
+</blockquote>
+<h1 id="官方用例"><a href="#官方用例" class="headerlink" title="官方用例"></a>官方用例</h1><p><span class="exturl" data-url="aHR0cHM6Ly9ib29zdC5hYy5jbi9kb2MvbGlicy9sYXRlc3QvZG9jL2h0bWwvYm9vc3RfYXNpby90dXRvcmlhbC90dXRkYXl0aW1lMy5odG1s">异步 TCP daytime服务器<i class="fa fa-external-link-alt"></i></span></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Tech-Stack/frm-lib/c++boost/asio-async-server/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Computer-Sci/Network/computer-network-overview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Computer-Sci/Network/computer-network-overview/" class="post-title-link" itemprop="url">计算机网络概观</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-10-17 20:13:29" itemprop="dateCreated datePublished" datetime="2025-10-17T20:13:29+08:00">2025-10-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>基于 《计算机网络：自顶向下方法》</p>
+</blockquote>
+<blockquote>
+<p><strong>因特网是一个世界范围内的计算机网络</strong></p>
+</blockquote>
+<p><strong>入网设备</strong> 被称为 <strong>主机(host)</strong> 或 <strong>段系统(end system)</strong></p>
+<p><strong>端系统</strong>通过</p>
+<ul>
+<li>通信链路 (communication link)</li>
+<li>分组交换机 (packet switch)</li>
+</ul>
+<p>的网络连接在一起。</p>
+<blockquote>
+<p><strong>通信链路</strong> 是一组物理媒介，是信息流的载体。</p>
+</blockquote>
+<blockquote>
+<p><strong>链路</strong> 有由其性质决定的 <em><strong>传输速率(transmission rate)</strong></em> 以 <em><strong>bit&#x2F;s (bps)</strong></em> 为度量。</p>
+</blockquote>
+<p>网络中的信息是以信息包的形式被 <strong>分组(packet)</strong> 流通的，从始端由网络传送至目的端，并在目的端装配复原。</p>
+<p>当今，因特网中有两种常见的交换机：</p>
+<ul>
+<li><strong>路由器 (router)</strong> 通常用于网络核心中</li>
+<li><strong>链路层交换机 (link-layer switch)</strong> 通常用于接入网中</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Computer-Sci/Network/computer-network-overview/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Tech-Stack/frm-lib/c++boost/Boost-Asio/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Tech-Stack/frm-lib/c++boost/Boost-Asio/" class="post-title-link" itemprop="url">C++ Boost::Asio</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-10-05 16:10:02" itemprop="dateCreated datePublished" datetime="2025-10-05T16:10:02+08:00">2025-10-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">框架与库</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Asio"><a href="#Asio" class="headerlink" title="Asio"></a>Asio</h1><blockquote>
+<p><strong>Boost.Asio</strong> 是一个跨平台的C++库，用于网络和底层I&#x2F;O编程，它使用现代C++方法为开发人员提供一致的异步模型。</p>
+</blockquote>
+<ul>
+<li><p><strong>库学习建议</strong></p>
+<p>  核心概念优先级：</p>
+<ol>
+<li>io_context + 异步操作模型 ✓</li>
+<li>TCP&#x2F;UDP编程基础 ✓</li>
+<li>异步回调与completion handler ✓</li>
+<li>定时器与deadline_timer ✓</li>
+<li>简单的异步链 ✓</li>
+</ol>
+<p>  可暂缓的内容：</p>
+<ul>
+<li>复杂的proactor模式理论</li>
+<li>所有高级特性（如协程支持）</li>
+<li>性能优化细节</li>
+</ul>
+</li>
+</ul>
+<h2 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h2><blockquote>
+<p>通过展示如何对定时器执行阻塞来介绍 asio<br>所有的 asio 类都可以通过简单的包含 <strong>&lt;boost&#x2F;asio.hpp&gt;</strong> 头文件来使用</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Tech-Stack/frm-lib/c++boost/Boost-Asio/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
