@@ -6399,21 +6399,6 @@ CATALOG
       </tags>
   </entry>
   <entry>
-    <title>ai-agent-book Chapter-1</title>
-    <url>/ML-DL-AI/Agent/ai-agent-book/chapter-1/</url>
-    <content><![CDATA[AI Agent 入门github.com&#x2F;ai-agent-book&#x2F;chapter1
-
-
-
-]]></content>
-      <categories>
-        <category>AI 智能体</category>
-      </categories>
-      <tags>
-        <tag>AI Agent</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MapReduce-osdi04 Paper Read</title>
     <url>/Reads/Papers/MapReduce-osdi04/</url>
     <content><![CDATA[MapReduce: 大规模集群上的简化数据处理
@@ -6581,6 +6566,9 @@ Combiner函数的输出发送至reduce任务的中间文件，在语义上可以
 
 README.mdAgent &#x3D; LLM + Context + Tools
 Agent 产品 &#x3D; 模型 + Harness
+
+Claude Code 的复杂性不是“另一个 agent 大脑”，而是一个成熟 harness 的复杂性。模型负责判断和行动选择；harness 负责把环境、工具、权限、记忆、团队和外部能力组织好。
+
 
 LLM: 已训练的神经网络参数模型函数Agent: 一个通过训练学会了行动的模型，加上让它能在特定环境中工作的基础设施Agency: 感知、推理、行动
 
