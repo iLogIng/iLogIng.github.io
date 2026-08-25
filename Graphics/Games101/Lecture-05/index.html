@@ -29,7 +29,7 @@
 <meta property="og:description" content="Rasterization 着色   光栅化 Raster Images  &lt;–! more –&gt;   三角形的光栅化  在上一节课中讨论到了透视投影，可以将近平面作为显示器（显示平面），定义宽 width和高 height。 即，定义了一个视场 field-of-view(fovY)与宽高比 aspect ratio (width &#x2F; height) (包括可视角度，在此处，表示为相">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-01-28T06:21:10.000Z">
-<meta property="article:modified_time" content="2026-08-07T19:55:51.190Z">
+<meta property="article:modified_time" content="2026-08-25T07:01:55.460Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="Games101">
 <meta property="article:tag" content="Graphics">
@@ -375,7 +375,7 @@ mjx-container[display="true"] + br {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
+      <time title="修改时间：2026-08-25 15:01:55" itemprop="dateModified" datetime="2026-08-25T15:01:55+08:00">2026-08-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -415,7 +415,7 @@ mjx-container[display="true"] + br {
 <p><em>三角形的光栅化</em></p>
 </blockquote>
 <p>在上一节课中讨论到了透视投影，可以将<em><strong>近平面</strong></em>作为显示器（显示平面），定义<strong>宽 width</strong>和<strong>高 height</strong>。</p>
-<p>即，定义了一个<em><strong>视场 field-of-view(fovY)<em><strong>与</strong></em>宽高比 aspect ratio (width / height)</strong></em> (包括<em><strong>可视角度</strong></em>，在此处，表示为相机到<strong>上下边界</strong>的开口大小，即<em><strong>视场</strong></em>）</p>
+<p>即，定义了一个<em><strong>视场 field-of-view(fovY)<em><strong>与</strong></em>宽高比 aspect ratio (width / height)</strong></em> (包括<em><strong>可视角度</strong></em>，在此处，表示为相机到<strong>上下边界</strong>的开口大小，即<em><strong>视场</strong></em>)</p>
 <blockquote>
 <p>以上两个值直接定义了<strong>视锥</strong></p>
 </blockquote>
@@ -550,7 +550,7 @@ mjx-container[display="true"] + br {
 </blockquote>
 <blockquote>
 <p>如，对于三角形 <em>p1 p2 p3</em> 另外一个像素 <em>q</em><br>然后使用叉积，每次取三个点（px py q，顺序取用三次不同的组合，考虑三角形上的所有顶点的二二组合），<strong>使用叉积判断q与向量间的左右关系</strong>（叉乘值<strong>全为</strong>正/负时才能证明q在三角形p1 p2 p3内，边界情况为q在三角形边界）</p>
-<p>只需要在三角形所存在的区域（三角形的<em><strong>包围和</strong></em>）内选取各个像素进行判定就可以对三角形进行光栅化（循环处理），而不需要对屏幕空间中的所有点进行判定处理</p>
+<p>只需要在三角形所存在的区域（三角形的<em><strong>包围盒</strong></em>）内选取各个像素进行判定就可以对三角形进行光栅化（循环处理），而不需要对屏幕空间中的所有点进行判定处理</p>
 </blockquote>
 <blockquote>
 <p>在光栅化图形学中，由于采样不足而产生像素锯齿，需要<em><strong>抗锯齿</strong></em>技术对产生图形进行处理，以产生较高质量的图形。</p>
