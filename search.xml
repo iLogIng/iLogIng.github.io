@@ -1284,8 +1284,7 @@ Course Topics
 
 
 
-
-Course Logistics]]></content>
+]]></content>
       <categories>
         <category>计算机图形学</category>
       </categories>
@@ -1570,17 +1569,17 @@ Lecture 04变换深入
 
 
 
+绕z轴进行旋转 ：
+
+
+
+
 由于循环对称性 xyzxyzxyz…
 各轴有以下关系：
 
   
   
   
-
-
-
-绕z轴进行旋转 ：
-
 
 
 
@@ -1689,7 +1688,9 @@ Undefined control sequence \bm
 
 
 
-透视投影 Perspective projection
+透视投影 Perspective projection视椎正交立方体
+
+
 （视锥中的）物体通过各顶点与视点（相机原点）的连线投影至画布上（与画布的焦点）
 是最常使用的投影，遵循近大远小的视觉原理
 
@@ -1749,6 +1750,12 @@ Undefined control sequence \bm
 
 
 
+由此可知：
+视锥压缩为正交立方体
+正交投影
+
+
+最后可以得到透视投影变换矩阵：
 
 
 
@@ -1773,10 +1780,10 @@ Undefined control sequence \bm
     <title>Games101 光栅化</title>
     <url>/Graphics/Games101/Lecture-05/</url>
     <content><![CDATA[Rasterization
-着色
-
-
 光栅化 Raster Images
+
+
+在通过变换获得了投影后，如何将投影显示在屏幕上
 
 &lt;–! more –&gt;
 
@@ -1791,6 +1798,8 @@ Undefined control sequence \bm
 
 令：
 视角为fovY
+分别为 左，右，下，上
+
 令摄像机到近平面的距离为 
 近平面上边界坐标为 
 有：
@@ -1807,13 +1816,16 @@ View Transformation (placing camera)
 Projection Transformation
 正交投影 (  规范立方体)
 透视投影
+先转化为正交投影
+
+
 
 
 
 
 接下来，将以上透视规则投影至屏幕(近平面)上
 
-在图形学中，将*屏幕(screen)抽象为一个二维数组*，每个元素即为屏幕对应位置的像素**，数组的大小即为屏幕的分辨率
+在图形学中，将 屏幕(screen) 抽象为一个 二维数组 ，每个元素即为屏幕对应位置的 像素 ，数组的大小即为屏幕的分辨率(width*height)
 
 
 
@@ -1829,48 +1841,19 @@ Pixel意为像素，即Picture element
 screen space意为屏幕空间，在屏幕中定义的一个坐标系，比如，取屏幕左上角为原点，向下为Y，向右为X。可以使用坐标 (x,y) 对各个像素进行访问。像素索引在 (0,0) ~ (width-1,height-1) 区间内像素的实际位置(中心)处于 (x+0.5,y+0.5) 处(物理位置)屏幕对于像素的显示范围为 (0,0) ~ (width,height)
 
 
-从规范立方体到屏幕
+接下来，就要将   映射到  的屏幕空间中即，进行     的转换
 
+
+从规范立方体到屏幕
 与Z无关
 转换至XY平面中：   到  
 视口变换矩阵 Viewport transform matrix (屏幕；近面)
 将   变换为屏幕空间
-
-
-
-Mviewport
-
+不改变方向
 
 
 
 
-
-
-
-
-
-width/2
-0
-0
-width/2
-
-
-0
-height/2
-0
-heigth/2
-
-
-0
-0
-1
-0
-
-
-0
-0
-0
-1
 
 
 
@@ -1901,16 +1884,13 @@ Y’ = Yheigth/2 + height/2*
 
 
 
-可以通过采样的方法进行光栅化
+可以通过采样 Sampling的方法进行光栅化
 
 
 采样：给定一个连续函数，在该函数上取离散的各个定点即，函数的离散化
 
 为了判断某像素是否在三角形内可以使用采样的思维，定义一个函数：
-inside(tri,x,y)
 
-1 (x,y) in
-0 (x,y) out
 
 for(int x = 0; x &lt; xmax; ++x)    for(int y = 0; y &lt; ymax; ++y)        image[x][y] = inside(tri, x+0.5, y+0.5);
 
@@ -1918,8 +1898,12 @@ for(int x = 0; x &lt; xmax; ++x)    for(int y = 0; y &lt; ymax; ++y)        imag
 关于inside函数，考虑前述课程中向量的叉积
 
 
-如，对于三角形 p1 p2 p3 另外一个像素 q然后使用叉积，每次取三个点（px py q，顺序取用三次不同的组合，考虑三角形上的所有顶点的二二组合），使用叉积判断q与向量间的左右关系（叉乘值全为正/负时才能证明q在三角形p1 p2 p3内，边界情况为q在三角形边界）
-只需要在三角形所存在的区域（三角形的包围盒）内选取各个像素进行判定就可以对三角形进行光栅化（循环处理），而不需要对屏幕空间中的所有点进行判定处理
+如，对于三角形 p1 p2 p3 另外一个像素 q计算：
+ 
+ 
+ 
+然后使用叉积，每次取三个点（px py q，顺序取用三次不同的组合，考虑三角形上的所有顶点的二二组合），使用叉积判断q与向量间的左右关系（叉乘值全为正/负时才能证明q在三角形p1 p2 p3内，边界情况(0)为q在三角形边界）
+只需要在三角形所存在的区域（三角形的包围盒 Bounding Box）内选取各个像素进行判定就可以对三角形进行光栅化（循环处理），而不需要对屏幕空间中的所有点进行判定处理
 
 
 在光栅化图形学中，由于采样不足而产生像素锯齿，需要抗锯齿技术对产生图形进行处理，以产生较高质量的图形。
@@ -1968,6 +1952,9 @@ implicit geometry 隐式几何
 
 
 隐式表示各个点，利于判断点与该区域之间的关系（内/外），但是并不直观
+
+距离场 SDF
+
 explicit geometry 显式几何
 利用集合或参数映射(二维映射为三维)到方式进行定义
 
@@ -1981,15 +1968,18 @@ explicit geometry 显式几何
 需要根据需求选择表示方法
 在计算机图形学中较多的应用了隐式的表示方法
 
-Constructive Solid Geometry (CSG) (implicit)通过基本几何的布尔运算定义一个模型
+Constructive Solid Geometry (CSG) 构造立体几何 (implicit)通过基本几何的布尔运算定义一个模型
 
 交 并 差
 
-Distance Functions (implicit)通过描述物体间的距离函数（最小距离）
+Distance Functions (implicit)
+
+SDF (Signed Distance Function)通过描述物体间的距离函数（最小距离）描述空间中的点到几何表面的最小距离
+
 Fractals (implicit)
 
-分形
-应用不多
+分形自相似（类似于递归）应用不多
+
 
 Point Cloud 点云
 点的列表
@@ -2004,10 +1994,13 @@ The Wavefront Object File (.obj) Format
 是一种文本文件，详细的列出了顶点，法线方向，纹理坐标，以及他们的连接方式
 .obj格式文件介绍
 
+
 Curves 曲线Bezier Curves 贝塞尔曲线使用一系列控制点定义曲线，曲线不一定经过路径上的定义点
 de Casteljau Algorithm
 
 考虑三个点下的贝塞尔曲线计算（二次贝塞尔曲线）三个顶点依次分别为 b0 b1 b2 起点为b0终点为b2
+
+三个定点的二次贝塞尔曲线三个点，要求定义的曲线从到假设，曲线的起点在时间，终点在时间，若要画出该曲线，则是描绘出对应时间内，曲线上的点沿时间运动的轨迹由上述设定可知，存在两条线段，分别是以及令上有一点，则定义，在上，同理找到连接得到的两个点，得到线段在该线段上再找到，使得，我们暂且令：则，由可知：得到由对称性可知得到即，得到了的关于的参数方程：阶贝塞尔曲线：
 
 
 将绘制曲线转化为找一个点的问题以上的三个顶点产生了两个线段：b0-&gt;b1 b1-&gt;b2线段b0-&gt;b1上取一点p1使b0-&gt;p1=t p1-&gt;b1=(1-t)；线段b1-&gt;b2上取一点p2使b1-&gt;p2=t p2-&gt;b2=(1-t)；再在p1-&gt;p2上取一点p3使p1-&gt;p3=t p3-&gt;p2=(1-t)
@@ -2029,6 +2022,12 @@ Piecewise Bezier Curves
 
 
  连续：上一段终点为下一段起点 连续： 连续的基础上，两端线段在连接点处的导数相同
+
+
+Spline 样条
+B-Spline 基函数样条
+
+
 
 
 Surface 曲面Bezier Surface 贝塞尔曲面
@@ -2055,21 +2054,48 @@ Loop Subdivision Loop细分
 将各个三角形根据其各边中点，将其分为四个较小的三角形此时顶点分为两类，顶点、边上插入点
 
 先产生新顶点，更新新顶点的坐标，再根据周围旧顶点的坐标更新坐标
+
+先细分，再调整
+
 Catmull-Clark Subdivision
 适用于一般情况
 
 
-将边分为两种：quad face与non-quad face；将度不等于4的点称为奇异点
+将边分为两种：quad face与non-quad face；将度不等于4的点称为奇异点 Extraordinary
 
-在处理时，取每一个边与面的中点，且连接边上中点与面上中点会引入更多的奇异点（原有的奇异点不改变，新奇异点为非四边形面中点），这也仅限于第一次Catmull-Clark，在这之后，原有模型中将不存在非四边形面，不再新增奇异点
+在处理时，取每一个边与面的中点，且连接边上中点与面上中点会引入更多的奇异点（引入的奇异点数量是原模型中非四边形面的数量，原有的奇异点不改变，新奇异点为非四边形面中点），这也仅限于第一次Catmull-Clark，在这之后，原有模型中将不存在非四边形面，不再新增奇异点
 
 根据一系列加权规则进行平均将模型平滑化
 
-Simplification 简化
+Simplification 曲面简化
 可联系MipMap进行理解
 
 Edge Collapsing 边坍缩
-Quadric Error Metrics 二次误差度量
+Quadric Error Metrics 二次误差度量新定点到与他相关联的面的平方和达到最小，求得最小化二次误差对每个边记录其最小二次误差借助优先队列（最小堆）进行运算，通过对局部进行最优的贪心算法
+
+
+Shadows
+使用光栅化进行阴影生成
+
+
+Shadow mapping
+不需要关注物理状态
+会产生走样现象
+只能处理点光源
+存在浮点精度等问题
+
+
+
+点不在阴影里：光源与相机都可以看到
+
+从光源看到任何点，记录深度
+从相机看向场景，投影回光源的平面（深度记录）
+得到点的可见状态
+
+
+
+
+硬阴影：物体投影出的阴影（点光源，锐利）软阴影：不仅计算本影/阴影(Umbra)还包含对物体半影(Uenumbra)的计算柔和
 
 ]]></content>
       <categories>
@@ -2084,54 +2110,44 @@ Quadric Error Metrics 二次误差度量
     <title>Games101 反走样与深度缓冲</title>
     <url>/Graphics/Games101/Lecture-06/</url>
     <content><![CDATA[Rasterization
-着色
-
-
-
 图像保真与深度缓冲Antialiasing and Z-Buffering
+
 
 &lt;–! more –&gt;
 反走样 Antialiasing采样理论 Sampling theory
 采样在图形学中无处不在
 
 
-Sampling Artifacts(Errors/Mistakes/inaccuracies) in Computer Graphics
+Sampling Artifacts(Errors/Mistakes/inaccuracies) in Computer Graphics 采样瑕疵
 
-
-图形产生走样的原因在于信号(函数)的变化太快(频率很高)，而采样的变化太慢了
-
-
+图形产生走样的原因在于信号(函数)的变化太快(频率很高)，而采样的变化太慢了，采样率不足
 进行反走样处理的一种思想：在采样前进行模糊（过滤/滤波）类似于，先将原图片模糊化，再进行采样一定是先滤波再采样
+频域 Frequency Domain通过调整 、 两函数中  的系数，可以调整相应的周期函数的频率
 
-频域 Frequency Domain
-通过调整 、 两函数中  的系数，可以调整相应的周期函数的频率
-
-
-详见傅里叶级数展开，傅里叶变换
-
+详见傅里叶级数展开与傅里叶变换
 
 在采样时，采样频率与信号频率的频率差越大，信息失真越严重走样，即两个不同频率的信号在采样后，产生的结果无法区分，产生走样
-
 滤波 filter
 滤波，即是在采样后除去某些频率成分
 
-
 傅里叶变换可以将一个函数从实域变换到频域
-
-
 高通滤波：滤波后只让高频信号通过可以提取图像内的物体边界，即物体的边界突变
-
-
 低通滤波：滤波后只让低频信号通过可以将图像模糊化，即去除了物体边界突变
 
-
   
-滤波 = 卷积 = 品均
+滤波 = 卷积 = 平均
 
 
 实域上对两个信号进行卷积，是两个信号频域的乘积
 
+
+ 
 采样，实际上是重复频域上的内容
+
+
+Extra close brace or missing open brace
+走样，实际上是频域上产生混叠
+
 降低走样
 
 提高采样率
@@ -2144,11 +2160,21 @@ Sampling Artifacts(Errors/Mistakes/inaccuracies) in Computer Graphics
 MSAA(Multi Sample Antialiasing)
 
 模糊
+使用更小的”像素”，针对覆盖率进行近似模糊
+并不是通过增加分辨率进行解决的
+
+
 采样
+
+
+增大了计算量(x:1)
 
 
 还有另外两种抗锯齿方案：
 ***FXAA(Fast Approximate AA)***TAA(Temporal AA)
+
+
+Super resolution / super sampling 超采样
 
 
 可见性/遮挡 Visibility/occulusion
@@ -2156,17 +2182,18 @@ MSAA(Multi Sample Antialiasing)
 
 深度缓冲 Z-Buffer
 
-记录当前每个样本最小的深度值
-对于深度信息，需要一个额外的缓存空间
+记录当前每个像素样本最小的深度值
+对于深度信息，需要两个缓存空间
 帧缓冲存储颜色值
-深度缓冲(Z-Buffer)存储深度
+**深度缓冲(Z-Buffer)*存储深度值*
 
 
 
 
-深度缓冲中各元素初始化值为最远值维护逐个像素当前能看到的最浅深度Z-Buffer无法处理透明物体的深度
+深度缓冲中各元素初始化值为最远值（无限大INF）维护逐个像素当前能看到的最浅深度Z-Buffer无法处理透明物体的深度
 
-for(each triangle T){    for(each sample (x,y,z) in T)    {        // 找出画面中该点深度最浅的像素信息        if (z &lt; zbuffer[x,y])        {            // 更新 帧缓存 深度缓存            framebuffer[x,y] = rgb            zbuffer[x,y] = z        }        else            ;    }}
+在此处，使用ZBuffer方法时，并不是一种排序操作，而是一种对最值的记录，所以时间复杂度对于每个三角形而言可以来到 并且深度缓存算法，与计算顺序是无关的ZBuffer的深度缓存，不一定是针对像素而言的，对于MSAA可以是针对像素采用的多个采样点而言的
+// 两层循环：任意三角形上的任意像素for(each triangle T){    for(each sample (x,y,z) in T)    {        // 找出画面中该点深度最浅的像素信息        if (z &lt; zBuffer[x,y])        {            // 更新 帧缓存 深度缓存            FrameBuffer[x,y] = rgb            ZBuffer[x,y] = z        }        else            ;    }}
 
 
 
@@ -2184,12 +2211,101 @@ for(each triangle T){    for(each sample (x,y,z) in T)    {        // 找出画�
   <entry>
     <title>Games101 光线追踪</title>
     <url>/Graphics/Games101/Lecture-13/</url>
-    <content><![CDATA[Ray Tracing
+    <content><![CDATA[Ray Tracing 1
+光线追踪Whitted-Sytle Ray Tracing
+
+光栅化方法不能很好的处理全局影响
+
+Soft shadows 软阴影
+Glossy reflection 镜面表面
+Indirect illumination 间接光照
+
+一般认为，光栅化是一种很快但是很近似的处理方法，但是质量较低
+光线追踪是一种准确的方法，但是很慢
+
+光栅化应用于实时处理，光线追踪应用于离线处理
+生成一张图一般需要10kgpu核心时间
 
 
 
+Basic Ray-Tracing Algorithm
+在谈论光线追踪时：
 
-]]></content>
+相机永远是一个点
+光源也近似与点光源
+默认是完美的反射
+
+
+Light Rays 光线
+具有以下三个定义
+
+
+光沿直线传播（尽管在物理上并不完全正确）
+光线相交时相互间不会发生 “碰撞”(collide) （尽管这在物理上仍不正确）
+光线从光源处传播到人眼，且 光路可逆 （但物理原理在路径反转下是不变的 – 互易性）
+
+Ray Casting 光线投射
+Appel 1986
+
+
+通过对每一个像素点发射一条光线用于生成图片
+
+通过从光源发射一条射线来 检查阴影
+
+生成眼睛射线（相机射线）（直接解决了深度测试的问题）
+
+与物体求交
+
+
+根据焦点对光源射线是否可达，进行像素着色
+
+
+Recurisive (Whitted-Style) Ray Tracing
+1979是一种递归的算法
+
+相机射线，在与一个可反射像素相交时，递归的向下一步计算光的折射与反射（光路可逆）
+由于每一次光线弹射都会产生一个交点，需要对每个相交点向光源判断射线是否可达（每次弹射都要考虑能量损失，以防产物过曝）
+将从相机发射的一条经过多次弹射的光线在场景中所产生的交点的着色，都加回相机屏幕上的一个像素点
+
+由一条 primary ray (相机射线) 逐次产生多条 secondary ray (后续的光线弹射)
+
+RGB ray_tracing(const Ray&amp; ray, int depth, float energy) &#123;    // 1. 终止条件    if (depth &lt;= 0 || energy &lt; EPSILON) &#123;        return BLACK;    &#125;    // 2. 求交：找到最近的交点    Intersection hit = scene.intersect(ray);    if (!hit.has_hit) &#123;        return BACKGROUND_COLOR; // 通常是浅蓝/黑色    &#125;    // 3. 计算直接光照 (包含阴影测试)    RGB direct_light = BLACK;    for (Light&amp; light : scene.lights) &#123;        // 发射阴影射线，判断hit点是否被遮挡        Vector3 to_light = light.position - hit.point;        if (!scene.isOccluded(hit.point, to_light)) &#123;            // 根据材质计算漫反射与高光            direct_light += hit.material.shade(light, hit);        &#125;    &#125;    // 4. 计算间接光照 (反射与折射)    RGB reflect_color = BLACK;    RGB refract_color = BLACK;    if (hit.material.is_reflective) &#123;        Vector3 reflect_dir = reflect(ray.direction, hit.normal);        reflect_color = ray_tracing(Ray(hit.point, reflect_dir), depth - 1, energy * hit.material.reflectivity);    &#125;    if (hit.material.is_transparent) &#123;        Vector3 refract_dir = refract(ray.direction, hit.normal, hit.material.ior);        // 处理全内反射        if (!refract_dir.is_zero()) &#123;            refract_color = ray_tracing(Ray(hit.point, refract_dir), depth - 1, energy * hit.material.transparency);        &#125;    &#125;    // 5. 最终混合 (加权和)    return direct_light          + hit.material.reflectivity * reflect_color          + hit.material.transparency * refract_color;&#125;
+
+Ray Equation 射线方程光线被定义为， 源点 origin $\mathbf{o}$ 以及 方向 direction $\mathbf{d}$有以下方程定义$$r(t)&#x3D;\mathbf{o}+t\mathbf{d} \quad t \in [0, \infty)$$
+Plane Equation 平面方程平面被定义为， 平面上一点 point $\mathbf{p’}$ 以及 法线 normal $\mathbf{N}$有以下方程定义$$p:\mathbf{N}(p-p’)&#x3D;0 \quad ax+by+cz+d&#x3D;0$$
+Ray-Surface Intersection 射线交点
+求光线与物体的交点
+
+与球体求交点Sphere: $\mathbf{p}:(\mathbf{p}-c)^2-R^2&#x3D;0$
+将射线方程代入：$(\mathbf{o}+t\mathbf{d} - c)^2-R^2&#x3D;0$$$at^2+2bt+c&#x3D;0 \quad\begin{cases}a &#x3D; d^2 \b &#x3D; 2d(0-c) \c &#x3D; (o-c)^2-R^2\end{cases} \quadt &#x3D; \frac{-b \pm \sqrt{b^2-4ac}}{2a}$$
+光线与隐式表面的求交$$隐式表面：\mathbf{p}:f(\mathbf{p})&#x3D;0 \将射线方程代入：f(\mathbf{0}+t\mathbf{d})$$
+光线与显式表面的求交
+转换为光线与三角形求交
+
+
+对于一个封闭模型，取空间中的任意一点作为射线源，若相交时总是产生奇数个交点，则射线源在物体内部，若产生偶数个交点，则射线源在物体外部
+
+光线与三角形求交
+三角形是一个平面
+
+
+先推广到光与平面相交
+再检测光与三角形所在平面的交点是否在三角形内
+
+射线与平面求交$$(p-p’)\mathbf{N}&#x3D;(\mathbf{o}+t\mathbf{d}-p’)\mathbf{N}&#x3D;0 \t&#x3D;\frac{(p’-\mathbf{o})\mathbf{N}}{\mathbf{d}\mathbf{N}} \quad t \in [0, \infty)$$
+Moller Trumbore Algorithem可以直接进行射线与三角形求交
+
+回顾重心坐标$$\mathbf{O}+t\mathbf{D}&#x3D;(1-b_1-b_2)\mathbf{P_0}+b_1\mathbf{P_1}+b_2\mathbf{P_2} \\begin{bmatrix}t \ b_1 \ b_2\end{bmatrix}    &#x3D;\frac{1}{\mathbf{S_1E_1}}\begin{bmatrix}\mathbf{S_2 \cdot E_2} \\mathbf{S_1 \cdot S} \\mathbf{S_2 \cdot D}\end{bmatrix} \quad\begin{cases}\mathbf{E_1}&#x3D;\mathbf{P_1-P_0} \\mathbf{E_2}&#x3D;\mathbf{P_2-P_0} \\mathbf{S}&#x3D;\mathbf{O-P_0} \\mathbf{S_1}&#x3D;\mathbf{D \times E_2} \\mathbf{S_2}&#x3D;\mathbf{D \times E_1}\end{cases}$$
+
+Accelerating Ray-Surface Intersection 加速射线求交Bounding Volumes 包围盒&#x2F;体积使用一个简单的几何模型将物体包围如果射线无法与包围盒相交，则一定无法与模型相交
+box是一个相互平行的三对平行面的交集
+在实际应用中，我们通常使用 Axis-Aligned Bounding Box (AABB 轴对齐包围盒)
+2D例子两对平行线可以知道光线何时进入或射出这两对平行板可以求出两对 $t_{min}:t_{max}$ ，于是可以选取 最大的 $t_{min}$ 以及 最小的 $t_{max}$  相当于求了两条线段的交集
+对于 3D 情况，必须要满足三个对面都进入了光线，光线只要离开任意一个对面，该光线就离开了盒子，记录三对 $t_{min}:t_{max}$$t_{enter}&#x3D;max{t_{min}} \quad t_{exit}&#x3D;min{t_{max}}$若 $t_{enter}&lt;t_{exit}$ 我们就可以知道，光线在盒子中
+若 $t_{exit}&lt;0$ box一定在射线的反向若 $t_{exit}&gt;&#x3D;0 且 t_{enter}&lt;0$ 光源在盒子内部
+若射线与AABB相交，当且仅当 $\quad t_{enter}&lt;t_{exit}$ &amp;&amp; $t_{exit} &gt;&#x3D; 0$
+
+END]]></content>
       <categories>
         <category>计算机图形学</category>
       </categories>
@@ -2205,7 +2321,7 @@ for(each triangle T){    for(each sample (x,y,z) in T)    {        // 找出画�
 着色
 
 
-(Illumination, Shading and Graphics Pipline)
+将物体投影到屏幕后，渲染物体本身的表面光学性质
 
 
 
@@ -2214,18 +2330,27 @@ for(each triangle T){    for(each sample (x,y,z) in T)    {        // 找出画�
 在空间中定位物体和相机（坐标）
 计算物体与相机间的位置关系
 将物体投影至平面
-采样三角形覆盖区域
+采样三角形覆盖区域进行光栅化
+
+
+
+变换
+模型
+视角
+投影
+
+
+光栅化
 
 
 
 
+Lecture 7 (Illumination, Shading and Graphics Pipline)Undefined control sequence \bm
 
-shading 着色: 对不同物体应用不同材质
 
-最基础的着色模型：Blinn-Phong Reflectance Model(Blinn-Phong 反射模型)
+最基础的着色模型：Blinn-Phong Reflectance Model(Blinn-Phong 反射模型)高光，环境光，漫反射是一种经验模型
 
-高光，环境光，漫反射
-漫反射计算在一个shading point着色点射向相机的反射光线
+计算在一个shading point着色点射向相机的反射光线
 
 输入：
 
@@ -2235,12 +2360,12 @@ Light direction, l (for each of many lights) 光照方向
 Surface parameters (color, shininess…) 表面属性对于以上方向都定义为单位向量
 
 
-着色是局部的，仅看被着色物体，仅展现在该物体的表面属性下产生的着色结果，不会产生阴影
-
+着色是局部的，仅关注被着色物体，而不考虑其他物体的存在，仅展现在该物体的表面属性下产生的着色结果，不会产生阴影
+漫反射 Diffuse Reflection
 光反射能量定律
 
-光照在平面的能量由Lambert’s cosine Law指出
-  
+光照在平面的能量由Lambert’s cosine Law指出  
+    
 平面接收到的能量与该平面法线方向和光照方向的夹角的余弦成正比
 
 
@@ -2257,11 +2382,10 @@ Surface parameters (color, shininess…) 表面属性对于以上方向都定义
 漫反射光线 = 漫反射系数 * (到达该着色平面的光线能量) * 物体表面该点反射的能量(该值大于等于0)
 
 
-漫反射的效果与观察方向毫无关系，因为漫反射向四周散射的光线的信息都是一样的
-光源位置不变，物体位置不变，则l与n的方向不变，那么从不同方向看向同一点，其亮度相同
+漫反射的效果与观察方向毫无关系，因为漫反射向四周散射的光线的信息都是一样的光源位置不变，物体位置不变，则l与n的方向不变，那么从不同方向看向同一点，其亮度相同
 
 高光
-高光处类似镜面反射高光与观察方向有关
+高光处类似镜面反射高光与观察方向有关当高光经法线反射后，与视线方向接近，则产生高光通过向量点乘，判断向量间的角度关系
 
 
 在Blinn-Phong模型中当观察方向  接近镜面方向时，法线方向  与半程向量  很接近（半程向量 :  ）这是由于，镜面反射其反射角与入射角相等， 在  与  的角平分线上
@@ -2269,6 +2393,7 @@ Surface parameters (color, shininess…) 表面属性对于以上方向都定义
 有以下方程关系：
 
 
+其中，指数  在该模型中一般取用 &gt;= 100 的值
 
 镜面反射光线 = 镜面反射系数 * （到达该着色平面的光线能量） * 物体表面该点镜面反射的能量(该值大于0)其中的指数  可以控制高光区的大小，高光区的可视角度，
 在该模型上未考虑镜面所吸收的能量，Blinn-Phong模型是一个经验模型，对该情况有所简化
@@ -2288,31 +2413,25 @@ Blinn-Phong反射模型 = 环境光照(Ambient) + 漫反射光(Diffuse) + 镜面
 
 
 
-着色频率 Shading Frepuencies
+Lecture 8 着色频率 Shading Frepuencies
 着色频率，即是应用于每个面的着色量
 
 有以下三种方式：
 
-
 Flat shading 三角平面着色
-
-
 三角形面是平坦的，仅一个法向
 对于平滑表面不友好
 
 
 Gouraud shading 顶点插值着色
-
-
 所有的顶点具有其法向
 使用三角形的三个顶点，对该三角形平面进行插值计算
 
 
 Phong shading 逐个像素的插值着色
-
-
 对三角形内的每个像素进行一次插值着色
-Blinn-Phong着色模型与Phong shading不是相同的内容，但是是同一个人
+Blinn-Phong着色模型与Phong shading（是一种着色频率）不是相同的内容，但是是同一个人
+
 
 
 
@@ -2348,7 +2467,7 @@ Fragment Stream
 
 Fragment Processing
 Shaded Fragments
-将各个离散像素进行着色
+将各个离散像素（片段）进行着色
 
 
 Framebuffer Operation
@@ -2363,11 +2482,8 @@ Display
 shader即是操作顶点与像素进行着色的工具，如GLSLshader的代码是交由可编程硬件的，对于各个像素点通用的代码，对于每个像素执行一遍
 
 
-Textrue mapping
-纹理映射
-
-
-定义任何一个点的基本属性
+Lecture 9 Textrue mapping 纹理映射
+定义任何一个点的基本属性定义着色时各个不同点的属性不同的材质就是不同的着色方法
 
 
 任何一个三维图形的表面都是二维图形
@@ -2382,53 +2498,55 @@ Barycentric coordinate 重心坐标可用于在三角形内根据顶点属性进
 
 重心坐标是定义在三角形上的：在三角形ABC所形成的平面内任何一点  都可以表示成三个顶点A B C的线性组合
 
-       
-该式得出三角形所在平面上的任意一个点，当  都大于0时，表示在三角形内的点
+         
+该式得出三角形所在平面上的任意一个点，当   时，表示在三角形内的点
 该点的坐标可以由其产生的三个三角形的面积比得到，与各个顶点对底的三角形占主三角形的面积比例，就是线性组合中，该点所需的系数
-
+三角形面积
 如此，就可以将三角形的三个顶点的属性作为输入，对三角形内部的各个像素进行插值处理
 
-       
-其中， 可以是附加在三角形顶点上的任意属性但是，重心坐标在投影下应用不能保证效果不变即，若想对三维空间下的属性进行插值，就需要取用三维空间中的坐标，而不能在投影后的三角形中进行插值，三维空间中的属性在三维空间中做插值，不能在投影到屏幕后再插值（需要逆变换）
+
+其中， 可以是附加在三角形顶点上的任意属性
+
+
+但是，重心坐标在投影下应用不能保证效果不变即，若想对三维空间下的属性进行插值，就需要取用三维空间中的坐标，而不能在投影后的三角形中进行插值（如，深度信息会被破坏）三维空间中的属性在三维空间中做插值，不能在投影到屏幕后再插值（需要逆变换）
 
 Applying Textures
 应用贴图
 
-屏幕上的任意一个采样点，都与一个贴图坐标相对应，可以得知该位置插值后得到的对应的uv坐标可以在纹理贴图中查询该**(u,v)**的值（texcolor = texture.sample(u,v)），随时使用该纹理属性
+屏幕上的任意一个采样点，都与一个贴图坐标相对应，可以得知该位置插值后得到的对应的uv坐标可以在纹理贴图中查询该 (u,v) 的值（texcolor = texture.sample(u,v)），随时使用该纹理属性
 会产生以下问题：
-Texture Magnification
-
-纹理放大
-
-
-在处理贴图时，若目标区域超过uv纹理的清晰度（像素大小），会产生明显的像素点
+Texture Magnification纹理放大
+在处理贴图时，若目标区域超过uv纹理的清晰度（像素大小），会产生明显的像素点。即，多个 pixel 被映射到相同的 texel
 
 纹理上的像素称为： texel 纹理元素
 
 以上的问题是由于多个pixel被映射到同一个*texel上
 Bilinear interpolation 双线性插值
 类似于重心坐标的思想，将pixel映射到uv贴图的坐标位置处的点，与周围四个texel的中心围成的矩形，计算该点在此平面上的浮点偏移坐标 (s,t) (即，两个相邻texel之间的距离为1.00)
-定义一个称为线性插值的操作：
+定义一个称为 线性插值 Linear interpolation (Lerp) 的操作：
 
 
 可以对两对组成平行线的texel中心进行以上插值，待求的pixel映射点在这两条平行线上相对应的插值点的连线上，再对这两点应用以上插值公式，将pixel映射点插入该公式
 如下：
 
 
-
-
 该映射点的属性考虑到周围四点的属性，以达到平滑过渡到效果，相较于Nearest更优
 
+比如，现有一二维平面上的两点，采用插值方法，求解两点间线段上的某点的属性：
+所在直线的方程：若在线段上由此可以得到的二维坐标并求解点处的属性值对于双线性插值法（），即是选择一个点周围临近的四个点，进行三次线性插值，从而求得待定点属性状态
 
 
-纹理过大会产生锯齿与摩尔纹
+进行插值运算，即会带来更高的运行时开销
 
+纹理过大
+
+会产生锯齿与摩尔纹（类似于采样问题）
 
 
 在近处，一个pixel与texel呈现一/多对一的情况;在远处，一个pixel覆盖多个texel由此，若纹理过大/过于精细，最极端情况会导致所有的pixel都覆盖多个texel可以对纹理采取与反走样技术类似的方式，将一个pixel作为多个texel的采样点进行卷积处理(类似于MSAA超采样抗锯齿)
 
 
-实际上仍然是texel变化过快，进行采样的pixel无法真正的考虑到材质的变化
+实际上仍然是 texel 变化过快，进行采样的 pixel 无法真正的考虑到材质的变化
 
 在此处，我们考虑是否可以避免pixel向texel进行类似采样的处理的出现，直接得知该处的平均值
 这是一个范围查询问题(Range Query)
@@ -2440,14 +2558,22 @@ Bilinear interpolation 双线性插值
 允许 快速的、不准确的（近似的）、方形的 范围查询
 
 可以先将高品质纹理处理为多级的低分辨率的纹理，在需要时使用
+令的材质质量大小为（或）（）：（）：（）：最终的拼接材质的大小为：
 
-Level 0 为原始图像此时需要的存储为原来图像的4/3倍，仅需要额外的1/3的存储空间
+
+存储时，由于层叠的各质量材质很像一个金字塔，所以也被称为：Image Pyramid
+
+
+Level 0 为原始图像此时需要的存储为原来图像的4/3倍，仅需要额外的1/3的存储空间虽然公式算出来是  倍，但实际上显卡驱动可能会因为内存对齐（Aligment）或压缩格式（如 BCn 格式）的原因，导致实际占用略高于这个理论值。
 
 处理时，可以考虑周边的pixel所对应的texel的位置，以估计该pixel概括了多少texel从而选择不同品质的uv贴图
 若我们在处理Mipmap进行分层时根据，各层为上层的一半（1/4面积），可以看出  为选择贴图品质的依据
-经过以上处理，仍会产生选用的各个不同品质的纹理在同一个表面过度不均匀的问题，可以分别在选用的两层中进行Bilinear interpolation，最后在层与层之间进行插值，即三线性插值(Trilinear filtering)
-但是，在远处会出现Overblur的问题，导致远处贴图过于模糊
-Anisotropic Filtering 各向异性过滤可以部分缓解该问题，保留远处的部分细节（即，在不同方向表现不同，具有对不同的方向性的支持）
+
+即，计算 pixel 所能对应的 texel 数量，进行 Mipmap 分层选择
+
+经过以上处理，仍会产生选用的各个不同品质的纹理在同一个表面 过度不均匀 的问题可以先在参与过度的两层中进行 Bilinear interpolation 插值求层内过度属性 ，最后在 层与层之间 进行插值求层间过度属性，即三线性插值(Trilinear filtering)
+但是，在远处会出现Overblur的问题，导致远处贴图 过于模糊 ，这是由于，Mipmap适用于正方形区域
+Anisotropic Filtering 各向异性过滤可以部分缓解该问题，保留远处的部分细节（即，在不同方向表现不同，具有对不同的方向性的支持）提供了矩形查询但是对于不规则形状仍有欠缺
 
 Ripmap 收敛到原图存储的4倍，增加了额外的3倍空间（但是仅仅占用更高的显存，几乎不对计算性能造成大影响）可以处理轴向压缩的区域(长条形区域)但是，其仅解决了对于矩形区域的查询，但是对于长形的不规则区域的支持极为有限
 
@@ -2456,15 +2582,23 @@ Ripmap 收敛到原图存储的4倍，增加了额外的3倍空间（但是仅�
 EWA Filtering
 
 
-纹理的应用在现代GPU中，可以理解为texture = memory + range query(filtering) 即，内存中的一块数据
+纹理的应用在现代GPU中，可以理解为 texture = memory + range query(filtering) 即，内存与范围查询，是内存中的一块数据
+
+环境光照只记录方向信息，认为光源无限远无深度意义可以将环境光照记录在球上（Spherical Map），但是会出现扭曲问题也可以将环境光照记录在立方体上（Qube Map），用以减小扭曲问题纹理可以影响渲染
+
 
 Environment Map 环境光映射
 Cube Map 立方体映射  (描述来自不同方向的环境光)
-Bump/Normal Map 凹凸/法线贴图 可以在保证简单的几何形体的情况下，可以在贴图上定义几何形体表面的凹凸关系，可以给出表面细节的各种复杂的法线或相对高度设定，表现精细化的形体
-Displacement Map 位移贴图  与凹凸贴图类似，定义了贴图表面的起伏信息，位移贴图实际上会将原实体的各个顶点进行真正的移动(凹凸贴图并不会更改原实体的形体)，但是需要使实体中定义的顶点比贴图的顶点定义更加细节
+Bump/Normal Map 凹凸/法线贴图 可以在保证简单的几何形体的情况下，可以在贴图上定义几何形体表面的凹凸关系，可以给出表面细节的各种复杂的法线或相对高度设定，表现精细化的形体（假法线，在边缘仍是原模型形态，没有自投影的计算。没有改变几何）
+Displacement Map 位移贴图  与凹凸贴图类似，定义了贴图表面的起伏信息，位移贴图实际上会将原实体的各个顶点进行真正的移动(凹凸贴图并不会更改原实体的形体)，但是需要使实体中定义的顶点比贴图的顶点定义更加细节（改变了几何，要求模型足够精细，模型顶点频率要高于uv贴图）
+三维纹理 可以对空间进行纹理设定
 
 可以混合环境光遮蔽的功能
-]]></content>
+
+
+第一阶段 光栅化 结束
+
+END]]></content>
       <categories>
         <category>计算机图形学</category>
       </categories>
@@ -10802,6 +10936,362 @@ user&#x2F;
         <tag>Operating System</tag>
         <tag>xv6-project</tag>
         <tag>xv6-kernel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Games101 光线追踪 4</title>
+    <url>/Graphics/Games101/Lecture-16/</url>
+    <content><![CDATA[Ray Tracing 4
+Monte Carlo Path Tracing 蒙特卡洛路径追踪  
+
+
+Probability Density Function, PDF 概率密度函数
+
+蒙特卡洛积分
+通常的常用定积分形式为 $\int_a^bf(x)dx$ 以表示函数 $f(x)$ 上从$a$到$b$的积分采用随机方法，对包含目标函数的固定区域内进行随机采样，计算采样点与总采样次数之间的比值（ $\frac{\text{函数区域}}{\text{固定区域}}$ ），并由此计算出该函数的积分
+
+
+
+定积分$$\int_a^bf(x)dx$$
+随机变量$$X_i \sim p(x)$$
+蒙特卡洛积分$$\int f(x)dx &#x3D; F_N&#x3D;\frac{1}{N}\sum_{i&#x3D;1}^{N}\frac{f(X_i)}{p(X_i)} \quad X_i \sim p(x)$$
+Path Tracing
+是为了解决 Whitted-Style Ray Tracing 所提出的解决方案
+
+
+Whitted-Style Ray Tracing  
+
+总是执行镜面反射&#x2F;折射
+在漫反射面停止弹跳
+
+但存在以下问题:
+
+仅对于 Mirror 镜面材质 的模拟性能优秀，但是对于 Glossy 光面材质 模拟较差（会完全按照镜面反射方式进行计算）
+在漫反射表面没有反射光线的计算
+
+
+从不同方向进行采样，计算反射方程 $L_o(p,\omega_o)&#x3D;\int_{\Omega+}L_i(p,\omega_i)f_r(p,\omega_i,\omega_o)(\mathbf{n \cdot \omega_i})d\omega_i$ 的积分
+$$\int f(x)dx &#x3D; L_i(p,\omega_i)f_r(p,\omega_i,\omega_o)(\mathbf{n \cdot \omega_i}) &#x3D; \frac{1}{N}\sum_{i&#x3D;1}^{N}\frac{f(X_k)}{p(X_k)} \quad X_k \sim p(x) \p(\omega_i) &#x3D; \frac{1}{2\pi} \quad \text{半球面}$$
+$$L_o(p,\omega_o)&#x3D;\int_{\Omega+}L_i(p,\omega_i)f_r(p,\omega_i,\omega_o)(\mathbf{n \cdot \omega_i})d\omega_i\approx \frac{1}{N} \sum_{i&#x3D;1}^{N} \frac{L_i(p,\omega_i)f_r(p,\omega_i,\omega_o)(\mathbf{n \cdot \omega_i})}{p(\omega_i)}$$
+float shade(p, wo) &#123;    随机选择在wi~pdf内的N个方向    Lo = 0.0f    for (const auto&amp; w : wi) &#123;        追踪一条光径 r(p, wi)        // 直接光照        if (r hit light)            Lo += (1/N) * L_i * f_r * cosine / pdf(wi)        // 以当前交点作为观察点，再次计算该点开始的&quot;直接光照&quot;        else if (r hit an object at q)            Lo += (1/N) * shade(q, -wi) * f_r * cosine / pdf(wi)    &#125;    return Lo;&#125;
+
+
+以上处理方式，会造成光线数量爆炸。当且仅当一个着色点发出一条光线时，才不会发生指数爆炸的情况，将以上伪代码算法描述修改为以下描述
+
+Ray Generation 光线生成float shade(p, wo) &#123;    随机选择在wi~pdf内的某一个方向    Lo = 0.0f    追踪一条光径 r(p, wi)    // 直接光照    if (r hit light)        return L_i * f_r * cosine / pdf(wi)    // 以当前交点作为观察点，再次计算该点开始的&quot;直接光照&quot;    else if (r hit an object at q)        return shade(q, -wi) * f_r * cosine / pdf(wi)&#125;
+
+以上算法描述，即为 Path Tracing 路径追踪 （直接消除了分布式光线追踪算法会造成的指数爆炸问题）并且，以上算法没有终止条件，永远无法停止
+但是，我们知道，小频率的采样会导致噪声过多，导致 走样 现象但是，没有关系，只需要我们增多采样次数 从每个像素投射更多的光路径并进行平均 即可缓解该问题
+// 控制 shade 的采样频率，类似与使用了蒙特卡洛算法radiace ray_generation(camPos, pixel) &#123;    在单个像素中均匀的选择N个采样点    pixel_radiance = 0.0f    for each sample in the pixel        发射光线 r(camPos, cam_to_sample)        if ray r hit the scene at p            pixel_radiance += 1 / N * shade(p, sample_to_cam)    return pixel_radiance&#125;
+
+但是，以上方法仍没有解决无限递归问题并且，在之前的模拟算法中，我们确实有一个明显的光线停止限制，而现实世界的光线显然是没有反射限制的，通过限制光反射次数的方法也明显会造成部分场景下的渲染问题（比如渲染一个复杂的多反射透明物体，少光反射次数会导致无法正确的渲染光线，极度偏暗）
+Russian Roulette (RR) 俄罗斯轮盘赌
+解决无限递归问题
+
+使用RR方法，以一定概率停止光线继续反射的计算
+通过人工设置一个概率 $P \space (0 &lt; P &lt; 1)$渲染结果除 $P$ : $L_o&#x2F;P$无光线入射的概率是 $1-P$ : 0产生的数学期望 $E(L_o) &#x3D; P \times \frac{L_o}{P} + (1-P) \times 0 &#x3D; L_o$
+得到修正的shade函数
+float shade(p, wo) &#123;    人工确定一个随机数 P_RR    随机的在[0,1]的均匀分布中选择 ksi    if (ksi &gt; P_RR)        return 0.0f;    随机选择在wi~pdf内的某一个方向    Lo = 0.0f    追踪一条光径 r(p, wi)    // 直接光照    if (r hit light)        return L_i * f_r * cosine / pdf(wi) / P_RR;    // 以当前交点作为观察点，再次计算该点开始的&quot;直接光照&quot;    else if (r hit an object at q)        return shade(q, -wi) * f_r * cosine / pdf(wi) / _RR;&#125;
+
+
+以上实现得到的就是正确的路径追踪算法但是效率低在低 SPP(samples per pixel) 即每像素光线数量少的时候，会产生较多的噪声
+
+由于当前点路径追踪是建立在从摄像机进行光路的逆向解算之上的，所以会导致摄像机发出的光线射入光源的概率与二者间的相对物理关系有关（特别是光源的大小）可能从摄像机均匀发出的光线只有很少的最终射入了光源，很多光线都浪费了
+我们要减少光线的浪费，需要更换 PDF我们可以在 光源上 进行采样但是蒙特卡洛算法需要的是对x采样对x积分所以需要对光源面进行微分只需要知道 $d\omega$ 与 $dA$ 的关系即可即面积投影产生的立体角$$d\omega &#x3D;\frac{dA\cos\theta’}{||x’-x||^2} \quad \theta’ \neq 0 \L_o(p,\omega_o)&#x3D;\int_{\Omega+}L_i(p,\omega_i)f_r(p,\omega_i,\omega_o)(\mathbf{n\cdot\omega_i})d\omega_i\int_A L_i(x,\omega_i)f_r(x,\omega_i,\omega_o)\frac{\cos\theta\cos\theta’}{||x’-x||^2} dA$$
+Sampling the Light 对光源采样
+light source (直接，无需 RR )
+直接光照
+
+
+other reflectiors (间接， RR )
+其他非光源
+
+
+
+改进shade
+float shade(p, wo) &#123;    // 从光源的贡献    均匀的在x`处对光源进行采样 (pdf_light = 1/A)    从 p 点向 x` 发射一条光线    // 确保直接光照计算中间没有物体阻挡    if 光线没有被阻挡        L_dir = L_i * f_r * cos theta * cos theta` / |x` - p|^2 / pdf_light    从其他反射光的贡献    L_indir = 0.0f    人工确定一个随机数 P_RR    随机的在[0,1]的均匀分布中选择 ksi    if (ksi &gt; P_RR)        return 0.0f;    在半球上对w_i进行均匀的采样 w_i (pdf_hemi = 1 / (2 * pi))    追踪一条光径 r(p, wi)    if ray r hit a non-emitting object at q        L_indir = shade(q, -wi) * f_r * cos O / pdf_hemi / P_RR    return L_dir + L_indir&#125;
+
+
+点光源在路径追踪中比较难以处理
+
+
+路径追踪能够做到近似于照片的真实感
+
+现代图形学所说的 Ray Tracing 实际上指所有光线传播方法的集合
+
+
+Ray Tracing 部分结束
+
+END]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+      <tags>
+        <tag>Graphics</tag>
+        <tag>Games101</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Games101 材质与外观</title>
+    <url>/Graphics/Games101/Lecture-17/</url>
+    <content><![CDATA[Lecture 17 Matierals and Appearances 材质与外观
+Matierals &#x3D;&#x3D; BRDF
+
+光线被均等的反射到其他方向$$\text{假设入射光是均匀的 }L_o(\omega_o) &#x3D; \int_{H^2}f_rL_i(\omega_i)\cos\theta_i d\omega_i &#x3D; f_rL_i\int_{H^2}\cancel{(\omega_i)}\cos\theta_i d\omega_i &#x3D; \pi f_rL_i \f_r &#x3D; \frac{\rho}{\pi} \quad \rho -albedo(color) \text{反射率} \in [0,1] \f_r \in [0,\frac{1}{\pi}]$$
+
+
+求反射光线
+
+根据定义进行计算
+
+$$\omega_o + \omega_i &#x3D; 2 \cos\theta \mathbf{n} &#x3D; 2(\omega_i \cdot \mathbf{n})\mathbf{n}$$
+
+使用投影进行计算
+
+$$\omega_o &#x3D; -\omega_i + 2(\omega_i \cdot \mathbf{n})\mathbf{n} \quad \Phi_o &#x3D; (\Phi_i + \pi) mod 2\pi$$
+求折射光线
+
+Snell’s Law 斯涅尔定律
+
+折射与发现、入射以及反射光线都处于同一平面内$$\eta_i\sin\theta_i &#x3D; \eta_t\sin\theta_t \quad \text{其中}\eta 为折射率 \\varphi_t &#x3D; \varphi_t \pm \pi \\cos\theta_t&#x3D;\sqrt{1-(\frac{\eta_i}{\eta_t})^2(1-\cos^2\theta_i)} \若发生 \frac{\eta_i}{\eta_t} &gt; 1 则有可能产生全反射现象$$
+
+BSDF(双向散射) &#x3D; BRDF(双向反射) + BTDF(双向透射)
+
+Fresnel Reflection &#x2F; Term 菲涅耳项Schlick’s approximation 近似$$R(\theta) &#x3D; R_0 + (1-R_0)(1-\cos\theta)^5 \R_0 &#x3D; (\frac{n_1 - n_2}{n_1 + n_2})^2$$
+Microfacet Material 微表面材质Microfacet Theory 微表面理论对于一个粗糙表面
+
+宏表面：平坦且粗糙
+材质和外观
+
+
+微表面：坎坷且光滑
+几何
+
+
+
+可以研究微表面法线的分布
+
+微表面法线集中 &lt;&#x3D;&#x3D;&gt; glossy 光泽表面
+微表面法线扩散 &lt;&#x3D;&#x3D;&gt; diffuse 漫反射表面
+
+可以使用微表面的法线分布表示物体表面材质$$f(i,o) &#x3D; \frac{F(i,h)G(i,o,h)D(h)}{4(n,i)(n,o)} \\text{分子从左到右依次为 菲涅耳项 影子遮蔽项(微表面间遮挡) 法线分布}$$
+Isotropic &#x2F; Anisotropic Materials (BRDFs) 各项同性&#x2F;各项异性材质
+描述的是微表面的方向性控制了宏观上的高光表现
+
+BRDFs 的属性
+非负性 $f_r(\omega_i \to \omega_r) \ge 0$
+线性 $L_r(p,\omega_r)  &#x3D; \int_{H^2}f_r(p,\omega_i \to \omega_r)L_i(p,\omega_i)\cos\theta_i d\omega_i$
+可逆性 $f_r(\omega_r\to\omega_i) &#x3D; f_r(\omega_i\to\omega_r)$
+能量守恒 $\forall \omega_r \int_{H^2}f_r(\omega_r\to\omega_r)\cos\theta_i d\omega_i \le 1$
+
+Measuring BRDFs 测量BRDF使用一束光源对待测物体进行照射，改变相机关于待测物体上某一定点的相对角度，进行BRDF测量
+
+END]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+      <tags>
+        <tag>Graphics</tag>
+        <tag>Games101</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Games101 光线追踪 2 3</title>
+    <url>/Graphics/Games101/Lecture-14-15/</url>
+    <content><![CDATA[Ray Tracing 2
+Acceleration &amp; Radiometry加速结构 &amp; 辐射度量学
+
+如何使用 AABB 加速光线追踪
+
+Uniform grids 均匀格
+Spatial partitions 空间划分
+
+
+
+
+Uniform Spatial Partitions (Grids) 统一空间划分（网格）
+做光线对盒子的求交，根据格子中的对象状态进行射线求交运算需要设定合适的网格数
+
+
+找到包围盒
+创建网格
+将每个对象存储在重叠的单元格中
+按光线遍历顺序逐步遍历网络
+对每个相交的单元格检测存储在其中的对象
+
+
+
+
+若场景中物体分布不均匀，则不适合使用统一的均匀网格进行描述
+
+Spatial Partitions 空间划分
+对于稀疏部分，没有使用过多的网格的必要
+
+
+Oct-Tree 八叉树
+2D中一般是四叉树
+nD中是$2^n$叉树
+
+
+KD-Tree KD树
+每次，总是沿一个轴进行切分，划分为类似于二叉树的结构
+交替进行水平&#x2F;竖直划分，以均匀分布
+nD情况下对$n$个维度进行顺序循环切分
+
+
+
+
+BSP-Tree BSP树
+
+
+以上数据结构，都可以应用于2D或3D实例
+
+KD-Tree
+对于KD树，需要求解模型三角形是否与KD-Tree的物理结构有交集，算法难写一个物体可能出现在多个叶子节点中，KD-Tree并不直观  
+
+只需要将模型对象存储在 叶子节点上
+
+内部节点
+按轴，进行顺序切分
+切分位置垂直于选定轴线
+切分位置需要定义
+
+
+子节点指针
+内部节点不保存模型对象
+
+
+叶子节点
+叶子节点保存对象列表
+
+
+
+
+Object Partitions &amp; Bounding Volume Hierarchy (BVH)
+物体划分包围层次体结构（目前常用）
+
+一个物体只可能出现在一个包围盒中，避免了一个几何结构会出现在多个包围盒中生成的包围盒可能相交，但相交部分需要尽量少  
+如何划分节点
+
+选择一个维度进行划分
+总是选择剩下的最长轴进行划分
+从中位对象进行节点划分（按三角形数量进行划分）
+
+
+快速选择算法
+
+内部节点
+
+包围盒
+子节点指针叶子节点
+包围盒
+对象列表节点表示场景中图元的子集
+所有的对象都在子树中
+
+vec Intersect(Ray ray, BVH node) &#123;    if (ray misses node.bbox) return;    if (node is a leaf node) &#123;        test intersection with all objs;        return closest intersection;    &#125;    hit1 = Intersect(ray, node.child1);    hit2 = Intersect(ray, node.child2);    return the closer of hit1, hit2;&#125;
+
+
+Basic radiometry 辐射度量学
+在物理上对光照进行准确定义的方法
+
+定义了包含以下关于光照的若干属性：
+
+Radiant flux 辐射通量
+intensity 光强
+irradiance 辐照度
+radiance 辐射
+
+Radiant Energy and Flux (Power)Radiant Energy 辐射能是电磁辐射的能量，它以焦耳为单位测量，并用符号表示为：$$Q[J&#x3D;Joule]$$
+Radiant flux (Power) 辐射通量是单位时间内发射、反射、传输或接收到的能量$$\Phi \equiv \frac{dQ}{dt} [W&#x3D;Watt][lm&#x3D;lumem]^*$$
+Radiant Intensity 辐射强度（光照强度）是点光源发出的每单位立体角的功率$$I(\omega) \equiv \frac{d\Phi}{d\omega} \\begin{bmatrix}\frac{W}{sr}\end{bmatrix}\begin{bmatrix}\frac{lm}{sr} &#x3D; cd &#x3D; candela\end{bmatrix}$$
+
+角度：圆上的弧长与半径之比
+
+$\theta &#x3D; \frac{l}{r}$
+圆形具有 $2\pi$ 弧度
+
+
+
+立体角：球体所对应球面面积与半径平方之比
+
+$\Omega &#x3D; \frac{A}{r^2}$
+球体有 $4\pi$ 球面度
+
+
+球面上计算一个小表面的面积为：$$dA&#x3D;(rd\theta)(r\sin \theta d\phi)&#x3D;r^2\sin\theta d\theta d\phi \d\omega&#x3D;\frac{dA}{r^2}&#x3D;\sin\theta d\theta d\phi$$
+各向同性点光源定义$$\Phi&#x3D;\int_{S^2}Id\omega&#x3D;4\pi I \\text{Intensity: }I&#x3D;\frac{d\Phi}{d\omega} \text{  立体角能收集到的能量，仅与立体角的大小有关}$$
+Irradiance 辐照度是入射在表面点上的每（垂直&#x2F;投影）单位面积的功率单位面积收集到的能量，与受照射的单位面积上的光密度有关
+$$E(x)&#x3D;\frac{d\Phi(x)}{dA} \\begin{bmatrix}\frac{W}{m^2}\end{bmatrix}\begin{bmatrix}\frac{lm}{m^2}&#x3D;lux\end{bmatrix}$$
+Lambert’s Cosine Law一个平面相对于光的角度所接收到的能量为：$$\cos\theta&#x3D;\mathbf{l}\mathbf{n} \E&#x3D;\frac{Phi}{A}\cos\theta$$
+
+之前使用 球壳 这一概念对点光源周边的球面上的光照强度进行定义。由以上 Itensity 与 Irradiance 的物理定义可知，在一个固定的立体角的球面选区下，总能量是一定的，只有 Irradiance 是在衰减的
+
+Radiance 辐射率（亮度）是表面每单位立体角、每单位投影面积发射、反射、传输或接收的功率
+
+辐射率是描述环境中光分布的基本场量
+
+
+辐射率是与射线相关的量
+渲染就是计算辐射率 Radiance
+
+$$L(p,\omega) \equiv \frac{d^2\phi(p,\omega)}{d\omega dA \cos\theta}$$$$\begin{bmatrix}\frac{W}{sr \space m^2}\end{bmatrix}\begin{bmatrix}\frac{cd}{m^2} &#x3D; \frac{lm}{sr \space m^2} &#x3D; nit\end{bmatrix}$$
+
+
+
+物理量
+概念
+
+
+
+Radiance 辐射率
+每单位立体角每单位投影的能量
+
+
+Irradiance 辐照度
+每单位投影的能量
+
+
+Intensity 光照强度
+每单位立体角的能量
+
+
+Radiance
+每单位立体角的Irradiance
+
+
+Radiance
+每单位投影的Intensity
+
+
+Irradiance: 微分面积 $dA$ 所接收到的所有能量Radiance: 微分面积$dA$从方向 $d\omega$ 接收到的能量$$dE(p,\omega)&#x3D;L_i(p,\omega)\cos\theta d\omega \E(p)&#x3D;\int_{H^2}L_i(p,\omega)\cos\theta d\omega \\text{Unit Hemisphere: }H^2$$
+Bidirectional Reflectance Distribution Function BRDF
+双向反射率分布函数
+
+点上的反射从方向 $\omega_i$ 来的辐射率(Radiance)转化为能量$E$面积微元$dA$接收到能量$E$将成为反射向任意角度 $\omega$ 的Radiance
+
+入射的辐照度微元： $dE(\omega_i)&#x3D;L(\omega_i)\cos\theta_i d\omega_i$
+反射出射的微元： $dL_{r}(\omega_{r})$
+
+BRDF
+BRDF 代表了每个入射光线反射后的各个角度的出射光线 $\omega_{r}$ 有多少描述了光线与物体是如何作用的
+
+$$f_{r}(\omega_{i} \to \omega_{r}) &#x3D; \frac{dL_r(\omega_r)}{dE_i{\omega_i}} &#x3D; \frac{dL_r(\omega_r)}{L_i(\omega_i) \cos\theta_i d\omega_i}\begin{bmatrix}\frac{1}{sr}\end{bmatrix}$$
+将每一个方向上的BRDF的入射光线贡献都进行加和，最后就得出，该点在特定方向上的反射辐射率$$L_r(p,\omega_r)&#x3D;\int_{H^2}f_r(p,\omega_i\to\omega_r)L_i(p,\omega_i)\cos\theta_i d\omega_i$$
+Rendering Equation 渲染方程若物体能够自发光
+
+自发光+反射$$L_o(p,\omega_o)&#x3D;L_e(p,\omega_o)+\int_{\Omega+}L_i(p,\omega_i)f_r(p,\omega_i,\omega_o)(\mathbf{n\cdot\omega_i})d\omega_i$$上式中 $L_o$ 与 $L_i$ 是未知量，于是，方程可以简记为：$$l(u)&#x3D;e(u)+\int l(v)K(u,v)dv$$也可以写为以下算子：$$L&#x3D;E+DL$$进行展开$$L&#x3D;(1-K)^{-1}E \\text{Binomial Theorem:} \L&#x3D;(1+K+K^2+K^3+ \cdots)E \L&#x3D;E+KE+K^{2}E+K^{3}E+ \cdots$$表现为，直接光照+多次间接光照过去光栅化能计算的仅包含，光源 $E$ 以及直接光照 $KE$ 部分
+
+全局光照
+会收敛于一个稳定的光照值包含了所有直接光照与间接光照的集合
+
+
+END]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+      <tags>
+        <tag>Graphics</tag>
+        <tag>Games101</tag>
       </tags>
   </entry>
 </search>

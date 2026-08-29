@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="vbDoNUyw1fTmCxqT1wYbKjPkHhe47UsNd0Xr_skRB5M">
+  <meta name="msvalidate.01" content="DC6B47CBA3456E79B5CB2BDA940BE7F8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":100,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Ray Tracing 2 Acceleration &amp; Radiometry加速结构 &amp; 辐射度量学  如何使用 AABB 加速光线追踪  Uniform grids 均匀格 Spatial partitions 空间划分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Games101 光线追踪 2 3">
+<meta property="og:url" content="https://iloging.github.io/Graphics/Games101/Lecture-14-15/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="Ray Tracing 2 Acceleration &amp; Radiometry加速结构 &amp; 辐射度量学  如何使用 AABB 加速光线追踪  Uniform grids 均匀格 Spatial partitions 空间划分">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-28T08:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-29T12:42:00.548Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="Games101">
+<meta property="article:tag" content="Graphics">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://iloging.github.io/Graphics/Games101/Lecture-14-15/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://iloging.github.io/Graphics/Games101/Lecture-14-15/","path":"Graphics/Games101/Lecture-14-15/","title":"Games101 光线追踪 2 3"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Games101 光线追踪 2 3 | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/7.2.0/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Ray-Tracing-2"><span class="nav-number">1.</span> <span class="nav-text">Ray Tracing 2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Uniform-Spatial-Partitions-Grids-%E7%BB%9F%E4%B8%80%E7%A9%BA%E9%97%B4%E5%88%92%E5%88%86%EF%BC%88%E7%BD%91%E6%A0%BC%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">Uniform Spatial Partitions (Grids) 统一空间划分（网格）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spatial-Partitions-%E7%A9%BA%E9%97%B4%E5%88%92%E5%88%86"><span class="nav-number">1.2.</span> <span class="nav-text">Spatial Partitions 空间划分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#KD-Tree"><span class="nav-number">1.2.1.</span> <span class="nav-text">KD-Tree</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Object-Partitions-Bounding-Volume-Hierarchy-BVH"><span class="nav-number">1.3.</span> <span class="nav-text">Object Partitions &amp; Bounding Volume Hierarchy (BVH)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-radiometry-%E8%BE%90%E5%B0%84%E5%BA%A6%E9%87%8F%E5%AD%A6"><span class="nav-number">1.4.</span> <span class="nav-text">Basic radiometry 辐射度量学</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Radiant-Energy-and-Flux-Power"><span class="nav-number">1.4.1.</span> <span class="nav-text">Radiant Energy and Flux (Power)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bidirectional-Reflectance-Distribution-Function-BRDF"><span class="nav-number">1.5.</span> <span class="nav-text">Bidirectional Reflectance Distribution Function BRDF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E4%B8%8A%E7%9A%84%E5%8F%8D%E5%B0%84"><span class="nav-number">1.5.1.</span> <span class="nav-text">点上的反射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BRDF"><span class="nav-number">1.5.2.</span> <span class="nav-text">BRDF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rendering-Equation-%E6%B8%B2%E6%9F%93%E6%96%B9%E7%A8%8B"><span class="nav-number">1.6.</span> <span class="nav-text">Rendering Equation 渲染方程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7"><span class="nav-number">1.6.1.</span> <span class="nav-text">全局光照</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#END"><span class="nav-number">1.7.</span> <span class="nav-text">END</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="iLogIng"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description">Volador235 的博客：技术学习与个人生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnZvbGFkb3IxMjl6aEBnbWFpbC5jb20=" title="E-Mail → mailto:volador129zh@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Graphics/Games101/Lecture-14-15/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Games101 光线追踪 2 3 | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Games101 光线追踪 2 3<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmcvTVktTk9URS90cmVlL21hc3Rlci9HcmFwaGljcy9HYW1lczEwMS9MZWN0dXJlLTE0LTE1Lm1k" title="编辑"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-08-28 16:00:00" itemprop="dateCreated datePublished" datetime="2026-08-28T16:00:00+08:00">2026-08-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-29 20:42:00" itemprop="dateModified" datetime="2026-08-29T20:42:00+08:00">2026-08-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机图形学</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Ray-Tracing-2"><a href="#Ray-Tracing-2" class="headerlink" title="Ray Tracing 2"></a>Ray Tracing 2</h1><blockquote>
+<p><strong>Acceleration &amp; Radiometry</strong><br>加速结构 &amp; 辐射度量学</p>
+</blockquote>
+<p><strong>如何使用 <em>AABB</em> 加速光线追踪</strong></p>
+<ul>
+<li><strong><em>Uniform grids</em> 均匀格</strong></li>
+<li><strong><em>Spatial partitions</em> 空间划分</strong></li>
+</ul>
+<span id="more"></span>
+
+<hr>
+<h2 id="Uniform-Spatial-Partitions-Grids-统一空间划分（网格）"><a href="#Uniform-Spatial-Partitions-Grids-统一空间划分（网格）" class="headerlink" title="Uniform Spatial Partitions (Grids) 统一空间划分（网格）"></a>Uniform Spatial Partitions (Grids) 统一空间划分（网格）</h2><blockquote>
+<p>做光线对盒子的求交，根据格子中的对象状态进行射线求交运算<br>需要设定合适的网格数</p>
+</blockquote>
+<ol>
+<li>找到包围盒</li>
+<li>创建网格</li>
+<li>将每个对象存储在重叠的单元格中</li>
+<li>按光线遍历顺序逐步遍历网络<ul>
+<li>对每个相交的单元格检测存储在其中的对象</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>若场景中物体分布不均匀，则不适合使用统一的均匀网格进行描述</p>
+</blockquote>
+<h2 id="Spatial-Partitions-空间划分"><a href="#Spatial-Partitions-空间划分" class="headerlink" title="Spatial Partitions 空间划分"></a>Spatial Partitions 空间划分</h2><blockquote>
+<p>对于稀疏部分，没有使用过多的网格的必要</p>
+</blockquote>
+<ul>
+<li><strong><em>Oct-Tree</em> 八叉树</strong><ul>
+<li>2D中一般是四叉树</li>
+<li>nD中是$2^n$叉树</li>
+</ul>
+</li>
+<li><strong><em>KD-Tree</em> KD树</strong><ul>
+<li>每次，总是沿一个轴进行切分，划分为类似于二叉树的结构<ul>
+<li>交替进行水平&#x2F;竖直划分，以均匀分布</li>
+<li>nD情况下对$n$个维度进行顺序循环切分</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><em>BSP-Tree</em> BSP树</strong></li>
+</ul>
+<blockquote>
+<p>以上数据结构，都可以应用于2D或3D实例</p>
+</blockquote>
+<h3 id="KD-Tree"><a href="#KD-Tree" class="headerlink" title="KD-Tree"></a>KD-Tree</h3><blockquote>
+<p>对于KD树，需要求解模型三角形是否与KD-Tree的物理结构有交集，算法难写<br>一个物体可能出现在多个叶子节点中，KD-Tree并不直观  </p>
+</blockquote>
+<p>只需要将模型对象存储在 <strong>叶子节点上</strong></p>
+<ul>
+<li>内部节点<ul>
+<li>按轴，进行顺序切分</li>
+<li>切分位置垂直于选定轴线<ul>
+<li>切分位置需要定义</li>
+</ul>
+</li>
+<li>子节点指针</li>
+<li>内部节点不保存模型对象</li>
+</ul>
+</li>
+<li>叶子节点<ul>
+<li>叶子节点保存对象列表</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Object-Partitions-Bounding-Volume-Hierarchy-BVH"><a href="#Object-Partitions-Bounding-Volume-Hierarchy-BVH" class="headerlink" title="Object Partitions &amp; Bounding Volume Hierarchy (BVH)"></a>Object Partitions &amp; Bounding Volume Hierarchy (BVH)</h2><blockquote>
+<p>物体划分<br>包围层次体结构<br>（目前常用）</p>
+</blockquote>
+<p>一个物体只可能出现在一个包围盒中，避免了一个几何结构会出现在多个包围盒中<br>生成的包围盒可能相交，但相交部分需要尽量少  </p>
+<p><strong>如何划分节点</strong></p>
+<ul>
+<li>选择一个维度进行划分</li>
+<li>总是选择剩下的最长轴进行划分</li>
+<li>从中位对象进行节点划分（按三角形数量进行划分）</li>
+</ul>
+<blockquote>
+<p><em>快速选择算法</em></p>
+</blockquote>
+<p><strong>内部节点</strong></p>
+<ul>
+<li>包围盒</li>
+<li>子节点指针<br><strong>叶子节点</strong></li>
+<li>包围盒</li>
+<li>对象列表<br><strong>节点表示场景中图元的子集</strong></li>
+<li>所有的对象都在子树中</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vec <span class="title">Intersect</span><span class="params">(Ray ray, BVH node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (ray misses node.bbox) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (node is a leaf node) &#123;</span><br><span class="line">        test intersection with all objs;</span><br><span class="line">        <span class="keyword">return</span> closest intersection;</span><br><span class="line">    &#125;</span><br><span class="line">    hit1 = <span class="built_in">Intersect</span>(ray, node.child1);</span><br><span class="line">    hit2 = <span class="built_in">Intersect</span>(ray, node.child2);</span><br><span class="line">    <span class="keyword">return</span> the closer of hit1, hit2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Basic-radiometry-辐射度量学"><a href="#Basic-radiometry-辐射度量学" class="headerlink" title="Basic radiometry 辐射度量学"></a>Basic radiometry 辐射度量学</h2><blockquote>
+<p>在物理上对光照进行准确定义的方法</p>
+</blockquote>
+<p>定义了包含以下关于光照的若干属性：</p>
+<ul>
+<li><strong><em>Radiant flux</em> 辐射通量</strong></li>
+<li><strong><em>intensity</em> 光强</strong></li>
+<li><strong><em>irradiance</em> 辐照度</strong></li>
+<li><strong><em>radiance</em> 辐射</strong></li>
+</ul>
+<h3 id="Radiant-Energy-and-Flux-Power"><a href="#Radiant-Energy-and-Flux-Power" class="headerlink" title="Radiant Energy and Flux (Power)"></a>Radiant Energy and Flux (Power)</h3><p><em><strong>Radiant Energy</strong></em> 辐射能是电磁辐射的能量，它以焦耳为单位测量，并用符号表示为：<br>$$<br>Q[J&#x3D;Joule]<br>$$</p>
+<p><strong>Radiant flux (Power)</strong> 辐射通量是单位时间内发射、反射、传输或接收到的能量<br>$$<br>\Phi \equiv \frac{dQ}{dt} [W&#x3D;Watt][lm&#x3D;lumem]^*<br>$$</p>
+<p><strong>Radiant Intensity</strong> 辐射强度（光照强度）是点光源发出的每单位立体角的功率<br>$$<br>I(\omega) \equiv \frac{d\Phi}{d\omega} \<br>\begin{bmatrix}<br>\frac{W}{sr}<br>\end{bmatrix}<br>\begin{bmatrix}<br>\frac{lm}{sr} &#x3D; cd &#x3D; candela<br>\end{bmatrix}<br>$$</p>
+<blockquote>
+<p><strong>角度</strong>：圆上的弧长与半径之比</p>
+<ul>
+<li>$\theta &#x3D; \frac{l}{r}$</li>
+<li>圆形具有 $2\pi$ 弧度</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>立体角</strong>：球体所对应球面面积与半径平方之比</p>
+<ul>
+<li>$\Omega &#x3D; \frac{A}{r^2}$</li>
+<li>球体有 $4\pi$ 球面度</li>
+</ul>
+</blockquote>
+<p>球面上计算一个小表面的面积为：<br>$$<br>dA&#x3D;(rd\theta)(r\sin \theta d\phi)&#x3D;r^2\sin\theta d\theta d\phi \<br>d\omega&#x3D;\frac{dA}{r^2}&#x3D;\sin\theta d\theta d\phi<br>$$</p>
+<p><em><strong>各向同性点光源定义</strong></em><br>$$<br>\Phi&#x3D;\int_{S^2}Id\omega&#x3D;4\pi I \<br>\text{Intensity: }I&#x3D;\frac{d\Phi}{d\omega} \text{  立体角能收集到的能量，仅与立体角的大小有关}<br>$$</p>
+<p><strong>Irradiance</strong> 辐照度是入射在表面点上的每（垂直&#x2F;投影）单位面积的功率<br>单位面积收集到的能量，与受照射的单位面积上的光密度有关</p>
+<p>$$<br>E(x)&#x3D;\frac{d\Phi(x)}{dA} \<br>\begin{bmatrix}<br>\frac{W}{m^2}<br>\end{bmatrix}<br>\begin{bmatrix}<br>\frac{lm}{m^2}&#x3D;lux<br>\end{bmatrix}<br>$$</p>
+<p><em><strong>Lambert’s Cosine Law</strong></em><br>一个平面相对于光的角度所接收到的能量为：<br>$$<br>\cos\theta&#x3D;\mathbf{l}\mathbf{n} \<br>E&#x3D;\frac{Phi}{A}\cos\theta<br>$$</p>
+<blockquote>
+<p>之前使用 <em><strong>球壳</strong></em> 这一概念对点光源周边的球面上的光照强度进行定义。由以上 <em><strong>Itensity</strong></em> 与 <em><strong>Irradiance</strong></em> 的物理定义可知，在一个固定的立体角的球面选区下，总能量是一定的，只有 <em><strong>Irradiance</strong></em> 是在衰减的</p>
+</blockquote>
+<p><strong>Radiance</strong> 辐射率（亮度）是表面每单位立体角、每单位投影面积发射、反射、传输或接收的功率</p>
+<blockquote>
+<p>辐射率是描述环境中光分布的基本场量</p>
+</blockquote>
+<ul>
+<li>辐射率是与射线相关的量</li>
+<li>渲染就是计算辐射率 Radiance</li>
+</ul>
+<p>$$<br>L(p,\omega) \equiv \frac{d^2\phi(p,\omega)}{d\omega dA \cos\theta}<br>$$<br>$$<br>\begin{bmatrix}<br>\frac{W}{sr \space m^2}<br>\end{bmatrix}<br>\begin{bmatrix}<br>\frac{cd}{m^2} &#x3D; \frac{lm}{sr \space m^2} &#x3D; nit<br>\end{bmatrix}<br>$$</p>
+<table>
+<thead>
+<tr>
+<th align="center">物理量</th>
+<th align="center">概念</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Radiance 辐射率</td>
+<td align="center">每单位立体角每单位投影的能量</td>
+</tr>
+<tr>
+<td align="center">Irradiance 辐照度</td>
+<td align="center">每单位投影的能量</td>
+</tr>
+<tr>
+<td align="center">Intensity 光照强度</td>
+<td align="center">每单位立体角的能量</td>
+</tr>
+<tr>
+<td align="center">Radiance</td>
+<td align="center">每单位立体角的Irradiance</td>
+</tr>
+<tr>
+<td align="center">Radiance</td>
+<td align="center">每单位投影的Intensity</td>
+</tr>
+</tbody></table>
+<p><strong><em>Irradiance</em>: 微分面积 $dA$ 所接收到的所有能量</strong><br><strong><em>Radiance</em>: 微分面积$dA$从方向 $d\omega$ 接收到的能量</strong><br>$$<br>dE(p,\omega)&#x3D;L_i(p,\omega)\cos\theta d\omega \<br>E(p)&#x3D;\int_{H^2}L_i(p,\omega)\cos\theta d\omega \<br>\text{Unit Hemisphere: }H^2<br>$$</p>
+<h2 id="Bidirectional-Reflectance-Distribution-Function-BRDF"><a href="#Bidirectional-Reflectance-Distribution-Function-BRDF" class="headerlink" title="Bidirectional Reflectance Distribution Function BRDF"></a>Bidirectional Reflectance Distribution Function BRDF</h2><blockquote>
+<p><strong>双向反射率分布函数</strong></p>
+</blockquote>
+<h3 id="点上的反射"><a href="#点上的反射" class="headerlink" title="点上的反射"></a>点上的反射</h3><p>从方向 $\omega_i$ 来的辐射率(Radiance)转化为能量$E$面积微元$dA$接收到能量$E$将成为反射向任意角度 $\omega$ 的Radiance</p>
+<ul>
+<li>入射的辐照度微元： $dE(\omega_i)&#x3D;L(\omega_i)\cos\theta_i d\omega_i$</li>
+<li>反射出射的微元： $dL_{r}(\omega_{r})$</li>
+</ul>
+<h3 id="BRDF"><a href="#BRDF" class="headerlink" title="BRDF"></a>BRDF</h3><blockquote>
+<p>BRDF 代表了每个入射光线反射后的各个角度的出射光线 $\omega_{r}$ 有多少<br>描述了光线与物体是如何作用的</p>
+</blockquote>
+<p>$$<br>f_{r}(\omega_{i} \to \omega_{r}) &#x3D; \frac{dL_r(\omega_r)}{dE_i{\omega_i}} &#x3D; \frac{dL_r(\omega_r)}{L_i(\omega_i) \cos\theta_i d\omega_i}<br>\begin{bmatrix}<br>\frac{1}{sr}<br>\end{bmatrix}<br>$$</p>
+<p>将每一个方向上的BRDF的入射光线贡献都进行加和，最后就得出，该点在特定方向上的反射辐射率<br>$$<br>L_r(p,\omega_r)&#x3D;\int_{H^2}f_r(p,\omega_i\to\omega_r)L_i(p,\omega_i)\cos\theta_i d\omega_i<br>$$</p>
+<h2 id="Rendering-Equation-渲染方程"><a href="#Rendering-Equation-渲染方程" class="headerlink" title="Rendering Equation 渲染方程"></a>Rendering Equation 渲染方程</h2><p>若物体能够自发光</p>
+<blockquote>
+<p>自发光+反射<br>$$<br>L_o(p,\omega_o)&#x3D;L_e(p,\omega_o)+\int_{\Omega+}L_i(p,\omega_i)f_r(p,\omega_i,\omega_o)(\mathbf{n\cdot\omega_i})d\omega_i<br>$$<br>上式中 $L_o$ 与 $L_i$ 是未知量，于是，方程可以简记为：<br>$$<br>l(u)&#x3D;e(u)+\int l(v)K(u,v)dv<br>$$<br>也可以写为以下算子：<br>$$<br>L&#x3D;E+DL<br>$$<br>进行展开<br>$$<br>L&#x3D;(1-K)^{-1}E \<br>\text{Binomial Theorem:} \<br>L&#x3D;(1+K+K^2+K^3+ \cdots)E \<br>L&#x3D;E+KE+K^{2}E+K^{3}E+ \cdots<br>$$<br>表现为，直接光照+多次间接光照<br>过去光栅化能计算的仅包含，光源 $E$ 以及直接光照 $KE$ 部分</p>
+</blockquote>
+<h3 id="全局光照"><a href="#全局光照" class="headerlink" title="全局光照"></a>全局光照</h3><blockquote>
+<p>会收敛于一个稳定的光照值<br>包含了所有直接光照与间接光照的集合</p>
+</blockquote>
+<hr>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>iLogIng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://iloging.github.io/Graphics/Games101/Lecture-14-15/" title="Games101 光线追踪 2 3">https://iloging.github.io/Graphics/Games101/Lecture-14-15/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC8="><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Graphics/" rel="tag"># Graphics</a>
+              <a href="/tags/Games101/" rel="tag"># Games101</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Graphics/Games101/Lecture-13/" rel="prev" title="Games101 光线追踪">
+                  <i class="fa fa-angle-left"></i> Games101 光线追踪
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Graphics/Games101/Lecture-16/" rel="next" title="Games101 光线追踪 4">
+                  Games101 光线追踪 4 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2025 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></span>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"iLogIng/blog-comments","issue_term":"pathname","theme":"preferred-color-scheme"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>

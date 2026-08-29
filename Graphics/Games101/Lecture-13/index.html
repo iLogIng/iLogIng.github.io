@@ -21,15 +21,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":100,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="Ray Tracing">
+    <meta name="description" content="Ray Tracing 1 光线追踪Whitted-Sytle Ray Tracing  光栅化方法不能很好的处理全局影响  Soft shadows 软阴影 Glossy reflection 镜面表面 Indirect illumination 间接光照  一般认为，光栅化是一种很快但是很近似的处理方法，但是质量较低 光线追踪是一种准确的方法，但是很慢  光栅化应用于实时处理，光线追踪应用于离">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Games101 光线追踪">
 <meta property="og:url" content="https://iloging.github.io/Graphics/Games101/Lecture-13/index.html">
 <meta property="og:site_name" content="Volador235&#39;s blog">
-<meta property="og:description" content="Ray Tracing">
+<meta property="og:description" content="Ray Tracing 1 光线追踪Whitted-Sytle Ray Tracing  光栅化方法不能很好的处理全局影响  Soft shadows 软阴影 Glossy reflection 镜面表面 Indirect illumination 间接光照  一般认为，光栅化是一种很快但是很近似的处理方法，但是质量较低 光线追踪是一种准确的方法，但是很慢  光栅化应用于实时处理，光线追踪应用于离">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-01-21T07:39:24.000Z">
-<meta property="article:modified_time" content="2026-08-07T19:55:51.190Z">
+<meta property="article:published_time" content="2026-08-28T04:00:24.000Z">
+<meta property="article:modified_time" content="2026-08-28T08:18:18.190Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="Games101">
 <meta property="article:tag" content="Graphics">
@@ -278,7 +278,7 @@ mjx-container[display="true"] + br {
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Ray-Tracing"><span class="nav-number">1.</span> <span class="nav-text">Ray Tracing</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Ray-Tracing-1"><span class="nav-number">1.</span> <span class="nav-text">Ray Tracing 1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-Ray-Tracing-Algorithm"><span class="nav-number">1.1.</span> <span class="nav-text">Basic Ray-Tracing Algorithm</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Light-Rays-%E5%85%89%E7%BA%BF"><span class="nav-number">1.1.1.</span> <span class="nav-text">Light Rays 光线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ray-Casting-%E5%85%89%E7%BA%BF%E6%8A%95%E5%B0%84"><span class="nav-number">1.1.2.</span> <span class="nav-text">Ray Casting 光线投射</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Recurisive-Whitted-Style-Ray-Tracing"><span class="nav-number">1.2.</span> <span class="nav-text">Recurisive (Whitted-Style) Ray Tracing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ray-Equation-%E5%B0%84%E7%BA%BF%E6%96%B9%E7%A8%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">Ray Equation 射线方程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Plane-Equation-%E5%B9%B3%E9%9D%A2%E6%96%B9%E7%A8%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">Plane Equation 平面方程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ray-Surface-Intersection-%E5%B0%84%E7%BA%BF%E4%BA%A4%E7%82%B9"><span class="nav-number">1.2.3.</span> <span class="nav-text">Ray-Surface Intersection 射线交点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8E%E7%90%83%E4%BD%93%E6%B1%82%E4%BA%A4%E7%82%B9"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">与球体求交点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%89%E7%BA%BF%E4%B8%8E%E9%9A%90%E5%BC%8F%E8%A1%A8%E9%9D%A2%E7%9A%84%E6%B1%82%E4%BA%A4"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">光线与隐式表面的求交</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%89%E7%BA%BF%E4%B8%8E%E6%98%BE%E5%BC%8F%E8%A1%A8%E9%9D%A2%E7%9A%84%E6%B1%82%E4%BA%A4"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">光线与显式表面的求交</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%89%E7%BA%BF%E4%B8%8E%E4%B8%89%E8%A7%92%E5%BD%A2%E6%B1%82%E4%BA%A4"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">光线与三角形求交</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Accelerating-Ray-Surface-Intersection-%E5%8A%A0%E9%80%9F%E5%B0%84%E7%BA%BF%E6%B1%82%E4%BA%A4"><span class="nav-number">1.2.4.</span> <span class="nav-text">Accelerating Ray-Surface Intersection 加速射线求交</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bounding-Volumes-%E5%8C%85%E5%9B%B4%E7%9B%92-%E4%BD%93%E7%A7%AF"><span class="nav-number">1.2.5.</span> <span class="nav-text">Bounding Volumes 包围盒&#x2F;体积</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#END"><span class="nav-number">1.3.</span> <span class="nav-text">END</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -293,7 +293,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -367,15 +367,9 @@ mjx-container[display="true"] + br {
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2025-01-21 15:39:24" itemprop="dateCreated datePublished" datetime="2025-01-21T15:39:24+08:00">2025-01-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
+      <time title="创建时间：2026-08-28 12:00:24 / 修改时间：16:18:18" itemprop="dateCreated datePublished" datetime="2026-08-28T12:00:24+08:00">2026-08-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -403,12 +397,101 @@ mjx-container[display="true"] + br {
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="Ray-Tracing"><a href="#Ray-Tracing" class="headerlink" title="Ray Tracing"></a>Ray Tracing</h1><span id="more"></span>
+    <div class="post-body" itemprop="articleBody"><h1 id="Ray-Tracing-1"><a href="#Ray-Tracing-1" class="headerlink" title="Ray Tracing 1"></a>Ray Tracing 1</h1><blockquote>
+<p><em><strong>光线追踪</strong></em><br><em><strong>Whitted-Sytle Ray Tracing</strong></em></p>
+</blockquote>
+<p>光栅化方法不能很好的处理全局影响</p>
+<ul>
+<li><em><strong>Soft shadows</strong></em> 软阴影</li>
+<li><em><strong>Glossy reflection</strong></em> 镜面表面</li>
+<li><em><strong>Indirect illumination</strong></em> 间接光照</li>
+</ul>
+<p>一般认为，光栅化是一种很快但是很近似的处理方法，但是质量较低</p>
+<p>光线追踪是一种准确的方法，但是很慢</p>
+<ul>
+<li>光栅化应用于实时处理，光线追踪应用于离线处理</li>
+<li>生成一张图一般需要10kgpu核心时间</li>
+</ul>
+<span id="more"></span>
 
+<h2 id="Basic-Ray-Tracing-Algorithm"><a href="#Basic-Ray-Tracing-Algorithm" class="headerlink" title="Basic Ray-Tracing Algorithm"></a>Basic Ray-Tracing Algorithm</h2><blockquote>
+<p>在谈论光线追踪时：</p>
+<ol>
+<li>相机永远是一个点</li>
+<li>光源也近似与点光源</li>
+<li>默认是完美的反射</li>
+</ol>
+</blockquote>
+<h3 id="Light-Rays-光线"><a href="#Light-Rays-光线" class="headerlink" title="Light Rays 光线"></a>Light Rays 光线</h3><blockquote>
+<p>具有以下三个定义</p>
+</blockquote>
+<ol>
+<li><strong>光沿直线传播</strong>（尽管在物理上并不完全正确）</li>
+<li>光线相交时相互间不会发生 <strong>“碰撞”(collide)</strong> （尽管这在物理上仍不正确）</li>
+<li>光线从光源处传播到人眼，且 <strong>光路可逆</strong> （但物理原理在路径反转下是不变的 – 互易性）</li>
+</ol>
+<h3 id="Ray-Casting-光线投射"><a href="#Ray-Casting-光线投射" class="headerlink" title="Ray Casting 光线投射"></a>Ray Casting 光线投射</h3><blockquote>
+<p>Appel 1986</p>
+</blockquote>
+<ol>
+<li><p>通过对每一个像素点发射一条光线用于生成图片</p>
+</li>
+<li><p>通过从光源发射一条射线来 <strong>检查阴影</strong></p>
+</li>
+<li><p>生成眼睛射线（相机射线）（直接解决了深度测试的问题）</p>
+<ul>
+<li>与物体求交</li>
+</ul>
+</li>
+<li><p>根据焦点对光源射线是否可达，进行像素着色</p>
+</li>
+</ol>
+<h2 id="Recurisive-Whitted-Style-Ray-Tracing"><a href="#Recurisive-Whitted-Style-Ray-Tracing" class="headerlink" title="Recurisive (Whitted-Style) Ray Tracing"></a>Recurisive (Whitted-Style) Ray Tracing</h2><blockquote>
+<p>1979<br>是一种递归的算法</p>
+</blockquote>
+<p>相机射线，在与一个可反射像素相交时，递归的向下一步计算光的折射与反射（光路可逆）</p>
+<p>由于每一次光线弹射都会产生一个交点，需要对每个相交点向光源判断射线是否可达（每次弹射都要考虑能量损失，以防产物过曝）</p>
+<p>将从相机发射的一条经过多次弹射的光线在场景中所产生的交点的着色，都加回相机屏幕上的一个像素点</p>
+<blockquote>
+<p>由一条 <strong>primary ray</strong> (相机射线) 逐次产生多条 <strong>secondary ray</strong> (后续的光线弹射)</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">RGB <span class="title">ray_tracing</span><span class="params">(<span class="type">const</span> Ray&amp; ray, <span class="type">int</span> depth, <span class="type">float</span> energy)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1. 终止条件</span></span><br><span class="line">    <span class="keyword">if</span> (depth &lt;= <span class="number">0</span> || energy &lt; EPSILON) &#123;</span><br><span class="line">        <span class="keyword">return</span> BLACK;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 求交：找到最近的交点</span></span><br><span class="line">    Intersection hit = scene.<span class="built_in">intersect</span>(ray);</span><br><span class="line">    <span class="keyword">if</span> (!hit.has_hit) &#123;</span><br><span class="line">        <span class="keyword">return</span> BACKGROUND_COLOR; <span class="comment">// 通常是浅蓝/黑色</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 计算直接光照 (包含阴影测试)</span></span><br><span class="line">    RGB direct_light = BLACK;</span><br><span class="line">    <span class="keyword">for</span> (Light&amp; light : scene.lights) &#123;</span><br><span class="line">        <span class="comment">// 发射阴影射线，判断hit点是否被遮挡</span></span><br><span class="line">        Vector3 to_light = light.position - hit.point;</span><br><span class="line">        <span class="keyword">if</span> (!scene.<span class="built_in">isOccluded</span>(hit.point, to_light)) &#123;</span><br><span class="line">            <span class="comment">// 根据材质计算漫反射与高光</span></span><br><span class="line">            direct_light += hit.material.<span class="built_in">shade</span>(light, hit);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 计算间接光照 (反射与折射)</span></span><br><span class="line">    RGB reflect_color = BLACK;</span><br><span class="line">    RGB refract_color = BLACK;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (hit.material.is_reflective) &#123;</span><br><span class="line">        Vector3 reflect_dir = <span class="built_in">reflect</span>(ray.direction, hit.normal);</span><br><span class="line">        reflect_color = <span class="built_in">ray_tracing</span>(<span class="built_in">Ray</span>(hit.point, reflect_dir), depth - <span class="number">1</span>, energy * hit.material.reflectivity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (hit.material.is_transparent) &#123;</span><br><span class="line">        Vector3 refract_dir = <span class="built_in">refract</span>(ray.direction, hit.normal, hit.material.ior);</span><br><span class="line">        <span class="comment">// 处理全内反射</span></span><br><span class="line">        <span class="keyword">if</span> (!refract_dir.<span class="built_in">is_zero</span>()) &#123;</span><br><span class="line">            refract_color = <span class="built_in">ray_tracing</span>(<span class="built_in">Ray</span>(hit.point, refract_dir), depth - <span class="number">1</span>, energy * hit.material.transparency);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5. 最终混合 (加权和)</span></span><br><span class="line">    <span class="keyword">return</span> direct_light </span><br><span class="line">         + hit.material.reflectivity * reflect_color </span><br><span class="line">         + hit.material.transparency * refract_color;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
-
+<h3 id="Ray-Equation-射线方程"><a href="#Ray-Equation-射线方程" class="headerlink" title="Ray Equation 射线方程"></a>Ray Equation 射线方程</h3><p>光线被定义为， <strong>源点 <em>origin</em></strong> $\mathbf{o}$ 以及 <strong>方向 <em>direction</em></strong> $\mathbf{d}$<br>有以下方程定义<br>$$<br>r(t)&#x3D;\mathbf{o}+t\mathbf{d} \quad t \in [0, \infty)<br>$$</p>
+<h3 id="Plane-Equation-平面方程"><a href="#Plane-Equation-平面方程" class="headerlink" title="Plane Equation 平面方程"></a>Plane Equation 平面方程</h3><p>平面被定义为， <strong>平面上一点 <em>point</em></strong> $\mathbf{p’}$ 以及 <strong>法线 <em>normal</em></strong> $\mathbf{N}$<br>有以下方程定义<br>$$<br>p:\mathbf{N}(p-p’)&#x3D;0 \quad ax+by+cz+d&#x3D;0<br>$$</p>
+<h3 id="Ray-Surface-Intersection-射线交点"><a href="#Ray-Surface-Intersection-射线交点" class="headerlink" title="Ray-Surface Intersection 射线交点"></a>Ray-Surface Intersection 射线交点</h3><blockquote>
+<p>求光线与物体的交点</p>
+</blockquote>
+<h4 id="与球体求交点"><a href="#与球体求交点" class="headerlink" title="与球体求交点"></a>与球体求交点</h4><p>Sphere: $\mathbf{p}:(\mathbf{p}-c)^2-R^2&#x3D;0$</p>
+<p>将射线方程代入：$(\mathbf{o}+t\mathbf{d} - c)^2-R^2&#x3D;0$<br>$$<br>at^2+2bt+c&#x3D;0 \quad<br>\begin{cases}<br>a &#x3D; d^2 \<br>b &#x3D; 2d(0-c) \<br>c &#x3D; (o-c)^2-R^2<br>\end{cases} \quad<br>t &#x3D; \frac{-b \pm \sqrt{b^2-4ac}}{2a}<br>$$</p>
+<h4 id="光线与隐式表面的求交"><a href="#光线与隐式表面的求交" class="headerlink" title="光线与隐式表面的求交"></a>光线与隐式表面的求交</h4><p>$$<br>隐式表面：\mathbf{p}:f(\mathbf{p})&#x3D;0 \<br>将射线方程代入：f(\mathbf{0}+t\mathbf{d})<br>$$</p>
+<h4 id="光线与显式表面的求交"><a href="#光线与显式表面的求交" class="headerlink" title="光线与显式表面的求交"></a>光线与显式表面的求交</h4><blockquote>
+<p>转换为光线与三角形求交</p>
+</blockquote>
+<blockquote>
+<p>对于一个封闭模型，取空间中的任意一点作为射线源，若相交时总是产生奇数个交点，则射线源在物体内部，若产生偶数个交点，则射线源在物体外部</p>
+</blockquote>
+<h4 id="光线与三角形求交"><a href="#光线与三角形求交" class="headerlink" title="光线与三角形求交"></a>光线与三角形求交</h4><blockquote>
+<p>三角形是一个平面</p>
+</blockquote>
+<ul>
+<li>先推广到光与平面相交</li>
+<li>再检测光与三角形所在平面的交点是否在三角形内</li>
+</ul>
+<p>射线与平面求交<br>$$<br>(p-p’)\mathbf{N}&#x3D;(\mathbf{o}+t\mathbf{d}-p’)\mathbf{N}&#x3D;0 \<br>t&#x3D;\frac{(p’-\mathbf{o})\mathbf{N}}{\mathbf{d}\mathbf{N}} \quad t \in [0, \infty)<br>$$</p>
+<p><strong>Moller Trumbore Algorithem</strong><br>可以直接进行射线与三角形求交</p>
+<blockquote>
+<p>回顾重心坐标<br>$$<br>\mathbf{O}+t\mathbf{D}&#x3D;(1-b_1-b_2)\mathbf{P_0}+b_1\mathbf{P_1}+b_2\mathbf{P_2} \<br>\begin{bmatrix}<br>t \ b_1 \ b_2<br>\end{bmatrix}<br>    &#x3D;<br>\frac{1}{\mathbf{S_1E_1}}<br>\begin{bmatrix}<br>\mathbf{S_2 \cdot E_2} \<br>\mathbf{S_1 \cdot S} \<br>\mathbf{S_2 \cdot D}<br>\end{bmatrix} \quad<br>\begin{cases}<br>\mathbf{E_1}&#x3D;\mathbf{P_1-P_0} \<br>\mathbf{E_2}&#x3D;\mathbf{P_2-P_0} \<br>\mathbf{S}&#x3D;\mathbf{O-P_0} \<br>\mathbf{S_1}&#x3D;\mathbf{D \times E_2} \<br>\mathbf{S_2}&#x3D;\mathbf{D \times E_1}<br>\end{cases}<br>$$</p>
+</blockquote>
+<h3 id="Accelerating-Ray-Surface-Intersection-加速射线求交"><a href="#Accelerating-Ray-Surface-Intersection-加速射线求交" class="headerlink" title="Accelerating Ray-Surface Intersection 加速射线求交"></a>Accelerating Ray-Surface Intersection 加速射线求交</h3><h3 id="Bounding-Volumes-包围盒-体积"><a href="#Bounding-Volumes-包围盒-体积" class="headerlink" title="Bounding Volumes 包围盒&#x2F;体积"></a>Bounding Volumes 包围盒&#x2F;体积</h3><p>使用一个简单的几何模型将物体包围<br>如果射线无法与包围盒相交，则一定无法与模型相交</p>
+<p>box是一个相互平行的三对平行面的交集</p>
+<p>在实际应用中，我们通常使用 <strong>Axis-Aligned Bounding Box (AABB 轴对齐包围盒)</strong></p>
+<p><strong>2D例子</strong><br>两对平行线<br>可以知道光线何时进入或射出这两对平行板<br>可以求出两对 $t_{min}:t_{max}$ ，于是可以选取 <strong>最大的</strong> $t_{min}$ 以及 <strong>最小的</strong> $t_{max}$  相当于求了两条线段的交集</p>
+<p>对于 <strong>3D</strong> 情况，必须要满足三个对面都进入了光线，光线只要离开任意一个对面，该光线就离开了盒子，记录三对 $t_{min}:t_{max}$<br>$t_{enter}&#x3D;max{t_{min}} \quad t_{exit}&#x3D;min{t_{max}}$<br>若 $t_{enter}&lt;t_{exit}$ 我们就可以知道，光线在盒子中</p>
+<p>若 $t_{exit}&lt;0$ box一定在射线的反向<br>若 $t_{exit}&gt;&#x3D;0 且 t_{enter}&lt;0$ 光源在盒子内部</p>
+<p>若射线与AABB相交，当且仅当 $\quad t_{enter}&lt;t_{exit}$ &amp;&amp; $t_{exit} &gt;&#x3D; 0$</p>
+<hr>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
     </div>
 
     
@@ -442,13 +525,13 @@ mjx-container[display="true"] + br {
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/Graphics/Games101/Lecture-shadow/" rel="prev" title="Games101 阴影">
-                  <i class="fa fa-angle-left"></i> Games101 阴影
+                <a href="/My-Projects/http_server/http-server-perf/" rel="prev" title="基于 Boost 的 HTTP 服务器：性能方法论">
+                  <i class="fa fa-angle-left"></i> 基于 Boost 的 HTTP 服务器：性能方法论
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/Graphics/Games101/Lecture-02/" rel="next" title="Games101 向量与线性代数">
-                  Games101 向量与线性代数 <i class="fa fa-angle-right"></i>
+                <a href="/Graphics/Games101/Lecture-14-15/" rel="next" title="Games101 光线追踪 2 3">
+                  Games101 光线追踪 2 3 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
