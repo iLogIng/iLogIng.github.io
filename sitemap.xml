@@ -2,15 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://iloging.github.io/Self/Journal/2026-09-24-%E4%B8%AD%E7%A7%8B%E5%8D%81%E4%B8%80/</loc>
-    
-    <lastmod>2026-10-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://iloging.github.io/Tech/Tools/git-note/</loc>
     
     <lastmod>2026-09-07</lastmod>
