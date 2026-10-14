@@ -13,7 +13,7 @@ fi
 
 # 收集 主机名 时间戳
 HOSTNAME=$(hostname)
-TIMESTEMP=$(date '+%Y-%m-%d %H:%M:%S')
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
 # 获取所有未提交的更改
 mapfile -d '' -t changed_files < <(
@@ -28,45 +28,59 @@ if [ ${#changed_files[@]} -eq 0 ]; then
     exit 0
 fi
 
-# 按第一级目录进行归类
+# 按前两级目录进行归类：kind -> 该分类下的文件（换行分隔）
 declare -A kinds
-declare -a root_files=() # 数组 根目录下的文件单独收集
+declare -a root_files=() # 根目录下的文件单独收集
 
 for file in "${changed_files[@]}"; do
     # 跳过空行
-    [ -z "$file" ] && continue 
+    [ -z "$file" ] && continue
 
-    dir="${file%%/*}"
+    IFS='/' read -ra parts <<< "$file"
+    n=${#parts[@]}
 
-    if [ "$dir" = "$file" ]; then
+    if [ "$n" -eq 1 ]; then
+        # 根目录下的文件
         root_files+=("$file")
-    else
-        # 保留第一级目录
-        kind="$dir"
-        kinds["$kind"]=1
+        continue
     fi
+
+    if [ "$n" -eq 2 ]; then
+        # 位于第一级目录下的文件，只取一级
+        kind="${parts[0]}"
+    else
+        # 至少两级目录，取前两级
+        kind="${parts[0]}/${parts[1]}"
+    fi
+
+    kinds["$kind"]+="$file"$'\n'
 done
 
 # 根目录下的文件
 if [ ${#root_files[@]} -gt 0 ]; then
     echo "process the files in root: ${root_files[*]}"
     for f in "${root_files[@]}"; do
-        git add "$f"
+        git add -- "$f"
     done
     if ! git diff --cached --quiet; then
-        git commit -m "[$HOSTNAME] [$TIMESTEMP] | root"
+        git commit -m "[$HOSTNAME] [$TIMESTAMP] | root"
     fi
 fi
 
 # 逐类提交
 for kind in "${!kinds[@]}"; do
     echo "processing kind: $kind"
-    git add "$kind"/
+    # 逐个文件加入，避免不同 kind 之间的交叉污染
+    while IFS= read -r f; do
+        [ -z "$f" ] && continue
+        git add -- "$f"
+    done <<< "${kinds[$kind]}"
+
     if git diff --cached --quiet; then
         echo "  $kind has no cached change continue."
-        continue 
+        continue
     fi
-    git commit -m "[$HOSTNAME] [$TIMESTEMP] | $kind"
+    git commit -m "[$HOSTNAME] [$TIMESTAMP] | $kind"
 done
 
 # 提交
@@ -77,6 +91,4 @@ printf "\n\n\n"
 echo "All Note Commits Are Already Pushed."
 
 printf "\n\n\n"
-
-git status
 

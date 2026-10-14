@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="vbDoNUyw1fTmCxqT1wYbKjPkHhe47UsNd0Xr_skRB5M">
+  <meta name="msvalidate.01" content="DC6B47CBA3456E79B5CB2BDA940BE7F8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":100,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="生活是连续的，数据是离散的，我们通过数学将他们串联    音视频基础知识 FFmpeg相关材料: about-ffmpeg  Multi Media BasicsColor &amp; Picture现实生活中的物体靠 吸收 与 反射 光展现其颜色   常用的有两种色彩空间  RGB R Red 红 G Green 绿 B Blue 蓝 是 加色系统 ，用于 发光体   CMYK C Cvan">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Audio Video Basic">
+<meta property="og:url" content="https://iloging.github.io/CS/Media/Audio-Video-Basic/index.html">
+<meta property="og:site_name" content="Volador235&#39;s blog">
+<meta property="og:description" content="生活是连续的，数据是离散的，我们通过数学将他们串联    音视频基础知识 FFmpeg相关材料: about-ffmpeg  Multi Media BasicsColor &amp; Picture现实生活中的物体靠 吸收 与 反射 光展现其颜色   常用的有两种色彩空间  RGB R Red 红 G Green 绿 B Blue 蓝 是 加色系统 ，用于 发光体   CMYK C Cvan">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://iloging.github.io/resource/UV-component.jpg">
+<meta property="og:image" content="https://iloging.github.io/resource/rgb2yuv-example.jpg">
+<meta property="og:image" content="https://iloging.github.io/resource/I-P-B-Frame-Relation.jpg">
+<meta property="og:image" content="https://iloging.github.io/resource/pixel-picture-example.jpg">
+<meta property="og:image" content="https://iloging.github.io/resource/YV12.jpg">
+<meta property="og:image" content="https://iloging.github.io/resource/NV12.jpg">
+<meta property="og:image" content="https://iloging.github.io/resource/gamma-fix.jpg">
+<meta property="og:image" content="https://iloging.github.io/resource/Hsl-hsv_models.svg.webp">
+<meta property="og:image" content="https://iloging.github.io/resource/HSV_cone.png">
+<meta property="og:image" content="https://iloging.github.io/resource/Triangulo_HSV.png">
+<meta property="article:published_time" content="2026-10-07T14:41:00.000Z">
+<meta property="article:modified_time" content="2026-10-14T12:09:14.161Z">
+<meta property="article:author" content="iLogIng">
+<meta property="article:tag" content="media">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://iloging.github.io/resource/UV-component.jpg">
+
+
+<link rel="canonical" href="https://iloging.github.io/CS/Media/Audio-Video-Basic/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://iloging.github.io/CS/Media/Audio-Video-Basic/","path":"CS/Media/Audio-Video-Basic/","title":"Audio Video Basic"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Audio Video Basic | Volador235's blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/7.2.0/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Volador235's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my blog!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9F%B3%E8%A7%86%E9%A2%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">音视频基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Multi-Media-Basics"><span class="nav-number">1.1.</span> <span class="nav-text">Multi Media Basics</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Color-Picture"><span class="nav-number">1.1.1.</span> <span class="nav-text">Color &amp; Picture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Film-TV-Video"><span class="nav-number">1.1.2.</span> <span class="nav-text">Film TV &amp; Video</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Audio"><span class="nav-number">1.1.3.</span> <span class="nav-text">The Audio</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="iLogIng"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">iLogIng</p>
+  <div class="site-description" itemprop="description">Volador235 的博客：技术学习与个人生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iLogIng"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnZvbGFkb3IxMjl6aEBnbWFpbC5jb20=" title="E-Mail → mailto:volador129zh@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/CS/Media/Audio-Video-Basic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Audio Video Basic | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Audio Video Basic<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmcvTVktTk9URS90cmVlL21hc3Rlci9DUy9NZWRpYS9BdWRpby1WaWRlby1CYXNpYy5tZA==" title="编辑"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-10-07 22:41:00" itemprop="dateCreated datePublished" datetime="2026-10-07T22:41:00+08:00">2026-10-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-10-14 20:09:14" itemprop="dateModified" datetime="2026-10-14T20:09:14+08:00">2026-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>生活是连续的，数据是离散的，我们通过数学将他们串联  </p>
+</blockquote>
+<h1 id="音视频基础知识"><a href="#音视频基础知识" class="headerlink" title="音视频基础知识"></a>音视频基础知识</h1><blockquote>
+<p>FFmpeg相关材料: <a href="/Tech/Tools/ffmpeg-note.md">about-ffmpeg</a></p>
+</blockquote>
+<h2 id="Multi-Media-Basics"><a href="#Multi-Media-Basics" class="headerlink" title="Multi Media Basics"></a>Multi Media Basics</h2><h3 id="Color-Picture"><a href="#Color-Picture" class="headerlink" title="Color &amp; Picture"></a>Color &amp; Picture</h3><p>现实生活中的物体靠 <strong>吸收</strong> 与 <strong>反射</strong> 光展现其颜色  </p>
+<p>常用的有两种色彩空间</p>
+<ul>
+<li><em><strong>RGB</strong></em><ul>
+<li><em><strong>R</strong></em> Red 红</li>
+<li><em><strong>G</strong></em> Green 绿</li>
+<li><em><strong>B</strong></em> Blue 蓝</li>
+<li>是 <strong>加色系统</strong> ，用于 <strong>发光体</strong></li>
+</ul>
+</li>
+<li><em><strong>CMYK</strong></em><ul>
+<li><em><strong>C</strong></em> Cvan 青</li>
+<li><em><strong>M</strong></em> Magenta 洋红</li>
+<li><em><strong>Y</strong></em> Yellow 黄</li>
+<li><em><strong>K</strong></em> blacK 黑</li>
+<li>是 <strong>减色系统</strong> ，用于 <strong>印刷制品</strong> （现实生活中难以获取纯色，为了与期望的颜色接近，需要在颜色中加入黑色）</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>在数字显示世界中，处理音视频，一般使用 <em><strong>RGB</strong></em> 色彩空间</p>
+</blockquote>
+<p>计算机中，图像的存储一般使用 <strong>位图(Bitmap)</strong> ，其中每个点称为 <strong>像素(Pixel)</strong><br>对于 <strong>RGB</strong> 色彩空间，每个颜色分量称为一个 <strong>通道(Channel)</strong><br>通常，每个像素的每种颜色分量用 <strong>1字节(1Byte &#x3D; 8bit)</strong> 表示，存储一个像素的色彩就需要 <em><strong>24位</strong></em><br>也称为 <strong>24位真彩色</strong> ，一共可表示 <em><strong>2^24</strong></em> 种颜色<br>为了描述 <em><strong>透明</strong></em> 的图像，在每个像素上再增加一个表示 <strong>透明度</strong> 的分量，称为 <strong>Alpha通道</strong><br>表示 <em><strong>2^8</strong></em> 种透明度，产生 <em><strong>RGBA</strong></em> 色彩空间，一个像素就需要 4Byte 的空间进行存储，正好可以通过 32位 整数表示<br>由此，通常使用整数来对图像进行计算</p>
+<p>由于计算机在不同架构下其字节序也可能不同，产生数据存储的 <strong>大小端</strong>* 问题<br>因此出现了多种不同的存储方式 (RGBA ABGR BGRA ARGB 等) </p>
+<blockquote>
+<p>对于 <strong>灰度图</strong> 一般使用1Byte进行存储<br>对于 <strong>单色图</strong> 一般使用1bit进行存储</p>
+</blockquote>
+<h3 id="Film-TV-Video"><a href="#Film-TV-Video" class="headerlink" title="Film TV &amp; Video"></a>Film TV &amp; Video</h3><p><strong>视觉暂留</strong>：即，余晖效应，<br>人眼在观察景物时，光信号传入大脑神经需经过一段短暂的时间，而光的作用结束后视觉形象并不立即消失，这种残留的视觉称为 <em><strong>后像</strong></em> ，视觉的这一现象则被称为“视觉暂留”。</p>
+<blockquote>
+<p>人们看到的电影其实是快速闪过的、一帧一帧的不连续的图像</p>
+</blockquote>
+<blockquote>
+<p>CRT, Cathode Ray Tube 阴极射线管，扫描显示一幅图像称为 <strong>1场</strong><br>LCD, Liquid Crystal Display 液晶显示器，液晶本身不发光，需要使用背光源<br>OLED, Organic Light-Emitting Diode 有机发光二极管，可以自发光，不需要使用背光源</p>
+</blockquote>
+<p>*<em>帧率 <em>FPS(Frames Per Second)</em></em>**: 每秒闪过的图像数量</p>
+<p><strong>隔行扫描</strong>: 也称，交错扫描，一场扫描奇数行另一场再扫描偶数行（受早期CRT技术的限制）<br>对于LCD，也是一行一行地刷新显示，屏幕的分辨率一般采用 <em><strong>宽*长</strong></em> 来表示<br>如，1080p(1920<em>1080)、720p(1280</em>720)，其中 <strong>p</strong> 指的是 <strong>逐行扫描</strong> ，若是 1080i 则 <strong>i</strong> 表示的是 <strong>隔行扫描</strong><br>对于扫描完整的 <strong>1帧</strong> 图像，主要是由图像的高度决定，即行数决定，所以常常将 1920*1080 称为 1080p</p>
+<p>若一块屏幕的分辨率达到 <em><strong>300ppi</strong></em> 以上，我们称之为 <strong>视网膜屏</strong>。<br><strong>ppi</strong> (<em><strong>Pixel Per Inch</strong></em>, 每英寸像素数，也称 <strong>dpi <em>Dots Per Inch</em></strong>) 是描述最高分辨能力的单位  </p>
+<blockquote>
+<p>视力为1.0的人观看离双眼10～12英寸（约25～30厘米）的手机屏时，最高能分辨300ppi。只有当图像与显示器的分辨率匹配时，才能达到最好的显示效果。</p>
+</blockquote>
+<p>目前，视频一般都在 25fps 以上，若要传输一帧为 1080p 的图像，并采用 8位色深的 RGB 格式存储，<br>产生的数据量是 25 * (1920 * 1080) * 3byte &#x3D; 155’520’000byte 约为 <strong>150MB</strong><br>视频传输速率一般以 <strong>bit&#x2F;s (Bits Per Second)</strong> 来计算，则需要至少 1’244’160’000bit&#x2F;s 约为 <strong>1200Mbit&#x2F;s</strong> 的带宽作为支撑</p>
+<p>为降低存储空间以及传输带宽占用，需要采用视频压缩（<strong>视频编码</strong>）技术<br>常用的视频压缩原理是 <strong>运动<em>估计</em>和运动<em>补偿</em></strong></p>
+<p>主要原因有两点：</p>
+<ol>
+<li>人眼并不是对所有颜色都敏感，因而可以去掉一些颜色，对图像进行压缩，这称为有损压缩，也是一些典型图像如JPEG的主要压缩原理</li>
+<li>一般来说，两帧图像间的差异其实不大，可以根据这个特性，只存储或传输图像间的差异信息，而不是整帧图像。<blockquote>
+<p>由此，我们也可以知道，实际占用的带宽与视频的复杂度（画面细节、运动快慢程度等）和帧率、分辨率都是正相关的</p>
+</blockquote>
+</li>
+</ol>
+<p>在音视频应用中，视频在传输到对端后要进行 <em><strong>解码</strong></em> ，即将压缩过的视频再转换成一帧一帧的图像，才能送到显示器上显示<br>整个过程合起来称为 <em><strong>编解码</strong></em></p>
+<p>需要 <strong>编解码</strong> 的视频图像一般不使用RGB色彩空间，而是使用一种称为 <strong>YUV</strong> 的色彩空间，</p>
+<blockquote>
+<p>两者之间有直接的对应关系，但由于转换过程涉及浮点运算，转换是有损的，但对人眼来说几乎无法分辨，因而是完全可以接受的</p>
+</blockquote>
+<p>YUV也是一种颜色编码方法，<strong>Y</strong> 表示 <strong>明度</strong> ，<strong>U</strong> 和 <strong>V</strong> 则分别表示 <strong>色度</strong> 和 <strong>浓度</strong> 。<br>不同于RGB图像一般按像素存储（如RGB’RGB’RGB’RGB），YUV图像一般按 <strong>平面</strong> 存储，<br>即将所有的Y放到一起，所有的U放到一起，所有的V放在一起（如YYYYUUUUVVVV），其中每一部分称为一个平面。<br>这种存储方式的一个好处就是，在广播电视中，当接收到一帧图像时，黑白电视机只需要播放Y平面（黑白图像），而忽略代表颜色的U和V平面。<br>当然，彩色电视机则需要播放所有平面的数据。</p>
+<table>
+<thead>
+<tr>
+<th align="center">分量</th>
+<th align="center">含义</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Y</td>
+<td align="center">亮度&#x2F;明度</td>
+<td align="center">表示灰度、明暗</td>
+</tr>
+<tr>
+<td align="center">U</td>
+<td align="center">蓝色色差，约等于 Cb</td>
+<td align="center">参与表示色度</td>
+</tr>
+<tr>
+<td align="center">V</td>
+<td align="center">红色色差，约等于 Cr</td>
+<td align="center">参与表示色度</td>
+</tr>
+<tr>
+<td align="center">U+V</td>
+<td align="center">色度</td>
+<td align="center">共同表示色调和饱和度</td>
+</tr>
+<tr>
+<td align="center">彩度</td>
+<td align="center">饱和度</td>
+<td align="center">是色度的一部分，不等于 V</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>一般所说的 <strong>YUV</strong> 指的都是 <strong>YCbCr</strong><br>而Y来自RGB的加权和，根据人眼的感光能力得到<br>Y &#x3D; 0.299R + 0.587G + 0.114B<br>U &#x3D; B - Y   （蓝色色差）<br>V &#x3D; R - Y   （红色色差）<br>Y是黑白底色，表示像素的明亮程度，U&#x2F;V表示应该向B&#x2F;R偏移多少，若某个像素的色差为0，则它没有偏色，只表现出原RGB对应的黑白灰色  </p>
+</blockquote>
+<p>如，纯红色在YUV色彩空间中表示为</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R = 255, G = 0, B = 0</span><br><span class="line">Y ≈ 76</span><br><span class="line">B - Y ≈ -76   // 蓝色远低于亮度，偏黄/青方向</span><br><span class="line">R - Y ≈ 179   // 红色远高于亮度，偏红方向</span><br></pre></td></tr></table></figure>
+
+<p>YUV和Y’UV通常用来编码电视的模拟信号。Y’表示经过了gamma矫正<br>YCbCr 则用来描述数字影像信号，适合数字化的视频与图片压缩及传输，如MPEG、JPEG  </p>
+<blockquote>
+<p>数字化的 YUV 使用得更加广泛</p>
+</blockquote>
+<p><strong>YUV中UV分量数值分布平面图</strong><br><img src="/./resource/UV-component.jpg" alt="UV分量数值分布平面图"><br><strong>RGB转YUV平面</strong><br><img src="/./resource/rgb2yuv-example.jpg" alt="rgb2yuv-example"></p>
+<p><strong>GoP <em>Group of Picture</em></strong>: 分组后的图像，主要是为了解决视频图像编码后的前向依赖问题导致的解码时，若出现前向编码中的某些帧丢失，导致的花屏现象<br><strong>I帧</strong>: 可单独解码的图像帧，不依赖前后图像，作为 GoP 的 <strong>第一帧</strong> 也称为 <strong>关键帧 Key Frame</strong> （GoP每隔一定数量的图像就会对一幅完整的图像进行编码）  </p>
+<blockquote>
+<p><strong>关键帧 Key Frame</strong>: 在H.264中一般称为 <strong>IDR帧 <em>Instantaneous Decoding Refresh</em></strong> 即，立即刷新图像<br>I帧: Intra-coded picture ，与IDR帧有所区别，IDR帧是I帧的子集<br>每个GoP里的第1个I帧是IDR帧，后续的I帧虽然能独立解码，但它前&#x2F;后面的P&#x2F;B帧可能会参考I帧后&#x2F;前面的帧，但GoP内的帧参考不会跨越IDR帧<br>P帧: 前向预测编码图像的帧<br>B帧: 双向预测编码图像的帧，压缩率更高<br>由于B帧需要参考后面的帧，收到B帧后不能立即解码，在实时音视频应用中会带来延迟，因而在实时通信中一般不使用B帧  </p>
+</blockquote>
+<p><strong>I P B 帧之间的关系</strong><br><img src="/./resource/I-P-B-Frame-Relation.jpg" alt="I P B 帧之间的关系"></p>
+<h3 id="The-Audio"><a href="#The-Audio" class="headerlink" title="The Audio"></a>The Audio</h3><p>声音由振动产生，为了将现实世界中的音频（连续的）放到数字世界（离散的）中，<br>需要执行一个 <strong>模数转换 <em>Analog-Digital Conversion，ADC</em></strong>操作  </p>
+<blockquote>
+<p>DAC 数模转换 &lt;&#x3D;&gt; ADC 模数转换<br>执行的是模拟信号与数字信号之间的相互转换  </p>
+</blockquote>
+<p>波，由 相位 频率 振幅 构成<br>可以通过 <strong>傅里叶变换 <em>FTT</em></strong> 将任何波形都分解为有限&#x2F;无限个正弦波的组合  </p>
+<p>声音大小的变化不是线性的，声音的刺激与人耳听到的感觉并不是线性的，而是呈 <strong>对数关系</strong>  </p>
+<p>通过采样、量化和编码3个步骤，可以将模拟信号转换为数字信号<br><strong>采样</strong>: 在时域中按一定时间间隔(T)对信号进行抽样，得到离散值<br>将采样得到的离散值通过量化与编码过程转化为数字信号  </p>
+<p>单位时间内的抽样次数称为 <strong>采样率</strong><br>采样率越高，单位时间内采样点越密，得到的离散信号就与原信号越接近</p>
+<blockquote>
+<p>抽样定理 (采样定理或奈奎斯特·香农定理):<br>当抽样频率是模拟信号频率带宽（最高频率与最低频率的差值）的 <strong>两倍</strong> 时，就能够完全还原原来的模拟信号</p>
+</blockquote>
+<p>数模转换通常使用 <strong>PCM <em>Pulse Code Modulation</em> 脉冲编码调制</strong> 方法</p>
+<hr>
+<p>颜色所使用的位数就称为颜色的 <strong>位深</strong>  </p>
+<p>*<em>FourCC <strong>Four Character Code</strong></em> 四字符编码，一个32位无符号整数，使用大端序编码4个ASCII字符序列  </p>
+<p>数字 YCbCr 中，通常会给色差加上 128 偏移</p>
+<ul>
+<li>Cb &#x3D; 128 表示没有蓝色色差</li>
+<li>Cr &#x3D; 128 表示没有红色色差</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">色差</th>
+<th align="center">大于中性值</th>
+<th align="center">小于中性值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Cb &#x2F; U</td>
+<td align="center">偏蓝</td>
+<td align="center">偏黄</td>
+</tr>
+<tr>
+<td align="center">Cr &#x2F; V</td>
+<td align="center">偏红</td>
+<td align="center">偏青</td>
+</tr>
+</tbody></table>
+<p>实际的数字YUV计算为，其中的RGB值是经过gamma矫正后的：</p>
+<ul>
+<li>Y &#x3D; 0.299<em>R + 0.587</em>G + 0.114*B</li>
+<li>U &#x3D; -0.169<em>R - 0.331</em>G + 0.5*B + 128</li>
+<li>V &#x3D; 0.5<em>R - 0.419</em>G - 0.081*B + 128</li>
+</ul>
+<blockquote>
+<p><strong>gamma矫正</strong> 是一种针对图像或视频帧的预失真校正。<br>CRT显示器所产生的信号强度不是输入电压的线性函数，相反，它与信号幅度的功率成正比，也简称为伽玛。<br>另外，人眼对光的强度的感知程度也不是光的强度的线性函数，人眼在黑暗环境下的辨识能力要强于明亮环境，因此也需要对颜色进行校正。</p>
+</blockquote>
+<p>相对于Y来说，人眼对UV不大敏感，<br>因此，可以在图像存储时 <strong>降低UV分量的分辨率（采样率）</strong> ，以节省存储空间，<br>而这种降采样后的图像看起来与原图像没有多大差别。<br>YUV的像素存储格式一般采用 <em><strong>A:B:C</strong></em> 表示法（表示采样的方式），根据采样和降采样的程度不同，以及像素排列格式的不同，有很多不同的表示</p>
+<p><strong>像素图像编号示意图</strong><br><img src="/./resource/pixel-picture-example.jpg" alt="pixel-picture-example"></p>
+<blockquote>
+<p>Y 亮度信号尽量保持全分辨率，U&#x2F;V（Cb&#x2F;Cr）色度信号按不同比例降采样<br>表示色度相对于亮度在水平、垂直方向被压缩了多少。</p>
+</blockquote>
+<p>总体原则：</p>
+<ul>
+<li>Y：每个像素都保留，不降采样</li>
+<li>U&#x2F;V：成对出现，一个“色度样本”包含一组 Cb、Cr</li>
+<li>采样格式：描述的是每多少个 Y 像素共享一组 Cb&#x2F;Cr</li>
+</ul>
+<blockquote>
+<p>Y图层始终保持全尺寸，而U&#x2F;V图层可能变小</p>
+</blockquote>
+<ol>
+<li><strong>YUV444</strong><blockquote>
+<p>FourCC: 有YUYV、YVYU、UYVY、VYUY等</p>
+</blockquote>
+</li>
+</ol>
+<p>水平，每4个像素中，Y取4个，U取4个，V取4个</p>
+<p><strong>Y平面</strong>:<br>Y11 Y12 Y13 Y14<br>Y21 Y22 Y23 Y24<br>Y31 Y32 Y33 Y34<br>Y41 Y42 Y43 Y44  </p>
+<p><strong>U平面</strong>:<br>U11 U12 U13 U14<br>U21 U22 U23 U24<br>U31 U32 U33 U34<br>U41 U42 U43 U44  </p>
+<p><strong>V平面</strong>:<br>V11 V12 V13 V14<br>V21 V22 V23 V24<br>V31 V32 V33 V34<br>V41 V42 V43 V44  </p>
+<ol start="2">
+<li><strong>YUV422</strong><blockquote>
+<p>FourCC: Y422</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>Y平面</strong>:<br>Y11 Y12 Y13 Y14<br>Y21 Y22 Y23 Y24<br>Y31 Y32 Y33 Y34<br>Y41 Y42 Y43 Y44  </p>
+<p><strong>U平面</strong>:<br>U11 ___ U13 ___<br>U21 ___ U23 ___<br>U31 ___ U33 ___<br>U41 ___ U43 ___  </p>
+<p><strong>V平面</strong>:<br>V11 ___ V13 ___<br>V21 ___ V23 ___<br>V31 ___ V33 ___<br>V41 ___ V43 ___  </p>
+<ol start="3">
+<li><strong>YUV411</strong><blockquote>
+<p>FourCC: Y411</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>Y平面</strong>:<br>Y11 Y12 Y13 Y14<br>Y21 Y22 Y23 Y24<br>Y31 Y32 Y33 Y34<br>Y41 Y42 Y43 Y44  </p>
+<p><strong>U平面</strong>:<br>U11 ___ ___ ___<br>U21 ___ ___ ___<br>U31 ___ ___ ___<br>U41 ___ ___ ___  </p>
+<p><strong>V平面</strong>:<br>V11 ___ ___ ___<br>V21 ___ ___ ___<br>V31 ___ ___ ___<br>V41 ___ ___ ___  </p>
+<ol start="4">
+<li><strong>YUV420</strong><blockquote>
+<p>实质上是包括了 4:2:0 + 4:0:2 两种情况<br>实际采样邻近4像素的左上角部分</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>Y平面</strong>:<br>Y11 Y12 Y13 Y14<br>Y21 Y22 Y23 Y24<br>Y31 Y32 Y33 Y34<br>Y41 Y42 Y43 Y44  </p>
+<p><strong>U平面</strong>:<br>U11 ___ U13 ___<br>___ ___ ___ ___<br>U31 ___ U33 ___<br>___ ___ ___ ___  </p>
+<p><strong>V平面</strong>:<br>V11 ___ V13 ___<br>___ ___ ___ ___<br>V31 ___ V33 ___<br>___ ___ ___ ___  </p>
+<p><img src="/./resource/YV12.jpg" alt="YV12"><br><img src="/./resource/NV12.jpg" alt="NV12">  </p>
+<table>
+<thead>
+<tr>
+<th align="center">格式</th>
+<th align="center">Y 平面</th>
+<th align="center">U&#x2F;V 平面</th>
+<th align="center">共享方式</th>
+<th align="center">平均每像素色度样本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">4:4:4</td>
+<td align="center">宽 * 高</td>
+<td align="center">宽 * 高</td>
+<td align="center">每个 Y 独立 U&#x2F;V</td>
+<td align="center">1 个 U + 1 个 V</td>
+</tr>
+<tr>
+<td align="center">4:2:2</td>
+<td align="center">宽 * 高</td>
+<td align="center">宽&#x2F;2 * 高</td>
+<td align="center">水平每 2 个 Y 共享</td>
+<td align="center">0.5 个 U + 0.5 个 V</td>
+</tr>
+<tr>
+<td align="center">4:1:1</td>
+<td align="center">宽 * 高</td>
+<td align="center">宽&#x2F;4 * 高</td>
+<td align="center">水平每 4 个 Y 共享</td>
+<td align="center">0.25 个 U + 0.25 个 V</td>
+</tr>
+<tr>
+<td align="center">4:2:0</td>
+<td align="center">宽 * 高</td>
+<td align="center">宽&#x2F;2 * 高&#x2F;2</td>
+<td align="center">每 2*2 个 Y 共享</td>
+<td align="center">0.25 个 U + 0.25 个 V</td>
+</tr>
+</tbody></table>
+<p>RGB颜色模型的主要用途是在电子系统中检测、表示和显示图像，<br>其原理是利用 <strong>大脑强制视觉生理模糊化（失焦）</strong> ，将红、绿、蓝三原色子像素合成一个色彩像素，产生感知色彩<br>（其实此真彩色并非加色法所产生的合成色彩，因为该三原色光 <strong>从来没有重叠</strong> 在一起，只是人类为了“想”看到色彩，大脑强制眼睛失焦而形成的） </p>
+<blockquote>
+<p>RGB是一种 <strong>依赖于设备</strong> 的颜色空间，不同设备对特定RGB值的检测和展现不一样，不同设备的每像素的RGB排列方式不同</p>
+</blockquote>
+<blockquote>
+<p>三原色的原理不是由物理原因，而是由生理原因造成的，人的眼睛内有3种辨别颜色（黄绿、绿和蓝紫）的锥形感光细胞<br>三原色并不足以重现所有的色彩，只有那些在三原色的色度所定义的颜色三角内的颜色，才可以利用三原色的光以非负量相加混合得到<br>所以，人眼看到红光与绿光混合出黄光，仅仅是对视锥细胞的一种等效  </p>
+</blockquote>
+<p>全值域色彩空间：每个原色都能取到 0-255<br>RGB也通常被映射到 [0, 1] 之间<br>由于gamma矫正的非线性影响，每个原色的256个级别不能表示同等间隔的强度  </p>
+<blockquote>
+<p>数字视频的RGB不是全值域的。视频RGB使用有比例和偏移量的约定，即（16，16，16）是黑色，（235，235，235）是白色。</p>
+</blockquote>
+<p><strong>gamma矫正示意图</strong><br><img src="/./resource/gamma-fix.jpg" alt="gamma-fix"></p>
+<blockquote>
+<p>在CRT显示器中，色彩的亮度跟输入电压的关系不是线性的，而是呈指数关系，这个 <strong>指数</strong> 就称为gamma<br>伽玛是一个经验值，而不是用数学公式计算出来的<br>一般gamma &#x3D; 2.5 或 2.2，业界通常使用 2.2<br>照相机的感光器件是线性的，得到的是线性的RGB图像<br>经过伽玛校正后的图像所使用的RGB空间是非线性的，称为sRGB（Standard RGB）</p>
+</blockquote>
+<p>矫正后的值 &#x3D; 矫正前的值^0.45 (0.45 &#x3D; 1&#x2F;2.2, 此处值域为[0,1])  </p>
+<p>实际的图像都是使用非线性的sRGB空间（包括使用调色板选择颜色时），而在做图像计算和处理（比如将亮度加倍）时，则使用线性RGB空间更方便  </p>
+<p><strong>HSL</strong> 与 <strong>HSV</strong> 色彩表示<br>RGB色彩空间对人来说并不直观，所以引入HSL&#x2F;HSV模型来表示色彩，更适合人类感知  </p>
+<ul>
+<li><strong>H <em>Hue</em></strong> 色相   <ul>
+<li>色彩的基本属性，即颜色名称</li>
+</ul>
+</li>
+<li><strong>S <em>Saturation</em></strong> 饱和度  <ul>
+<li>色彩的纯度，越高色越纯，越低越灰</li>
+</ul>
+</li>
+<li><strong>L <em>Lightness</em></strong> 亮度  <ul>
+<li>最大通道和最小通道的平均</li>
+<li>更接近人眼的视觉</li>
+</ul>
+</li>
+<li><strong>V <em>Value</em></strong> 明度 &#x2F; <em><strong>Brightness</strong></em>  <ul>
+<li>最亮通道的亮度</li>
+<li>只表示该颜色离黑色有多远<blockquote>
+<p><em><strong>HSV</strong></em>也称<strong>HSB</strong><br>HSV更偏向于画家调色 1.选纯色 2.加白S 3.加黑V<br>HSL是从明暗角度设计的 L是整体明暗</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<p>HSL和HSV二者都把颜色描述为圆柱坐标系内的点，<br>这个圆柱的中心轴取值范围为自底部的黑色到顶部的白色，而在它们中间的是灰色，<br>绕这个轴的 <strong>角度</strong> 对应 <em><strong>色相</strong></em> ，<br>到这个轴的 <strong>距离</strong> 对应 <em><strong>饱和度</strong></em> ，<br>而沿着这个轴的 <strong>高度</strong> 对应 *<em><strong>亮度</strong></em> <em><strong>色调</strong></em> 或 <em><strong>明度</strong></em></p>
+<blockquote>
+<p>这两种表示的目的类似，但在方法上有所区别。<br>二者在数学上都是圆柱，但 <strong>HSV</strong> 在概念上可以被认为是颜色的 <strong>倒圆锥体</strong> （黑色在下顶点，白色在上底面圆心）；<br>而 <strong>HSL</strong> 在概念上表示一个 <strong>双圆锥体和圆球体</strong> （白色在上顶点，黑色在下顶点，最大横切面的圆心是灰色）。<br>注意，尽管在HSL和HSV中“色相”指相同的性质，但它们的 <em><strong>饱和度</strong></em> 的定义是明显不同的。</p>
+</blockquote>
+<p><strong>HSL 与 HSV</strong><br><img src="/./resource/Hsl-hsv_models.svg.webp" alt="HSL-HSV-models"></p>
+<p><strong>HSV</strong><br><img src="/./resource/HSV_cone.png" alt="HSV-model"></p>
+<p><strong>HSV色轮</strong><br><img src="/./resource/Triangulo_HSV.png" alt="Triangulo_HSV"></p>
+<blockquote>
+<p>因为HSL和HSV是 <strong>设备依赖的RGB的简单变换</strong> ，<br>(h, s, l)或 (h, s, v)三元组定义的颜色依赖于所使用的特定红色、绿色和蓝色“加法原色”。<br>HSV更常用<br>每个独特的RGB设备都伴随着一个 <strong>独特的HSL和HSV空间</strong>。但是 (h, s, l)或 (h, s, v)三元组在被约束于特定RGB空间比如sRGB的时候就更明确了。 </p>
+</blockquote>
+<p>在互联网上的实时音视频应用中，当网络条件不好时（拥塞、丢包），<br>通信双方会协商降低码率，相应地可能会降低分辨率和帧率，降低分辨率会导致模糊，降低帧率会导致画面跳跃（卡顿）， 但总比花屏或长时间卡住要好。<br>这种 <strong>非恒定的</strong> <strong>码率</strong> 和 <strong>帧率</strong> 就称为</p>
+<ul>
+<li>可变码率（Variable Bit Rate，VBR）</li>
+<li>可变帧率（Variable Frame Rate，VFR）</li>
+</ul>
+<p>在视频编码时，每帧被编码的图像都有一个 <strong>时间戳</strong> ，以便在播放时能正确地显示时间。<br>时间戳可以是真正的钟表时间（一般使用相对时间），在帧率恒定的情况下也可以直接使用1、2、3、4……这样的连续时间戳，<br>这个时间戳就称为 <strong>PTS <em>Presentation Time Stamp</em></strong> ，即 <strong>播放时间</strong></p>
+<p>有些视频编码（如H.264和H.265）中有B帧。<br>解码器在收到B帧后不能直接解码，而是要等到收到它后面的与之相关的P、B帧后才能解码，<br>也就是说，如果解码器收到帧的顺序是IBBP，实际的解码顺序是IPBB，但播放顺序仍是IBBP，<br>这就是播放时间和解码时间不一致的现象。每帧图像也有一个 <strong>独立的解码时间戳</strong> ，即 <strong>DTS（Decode Time Stamp）</strong> 。<br>在没有B帧的情况下，PTS和DTS可以是相同的。</p>
+<p>像素密度的数值高，图片和视频的清晰度就高。<br>在提到显示分辨率的时候，人们常常会提到宽高比，即 <strong>DAR（Display Aspect Ratio)</strong></p>
+<p>当人们日常看电视和计算机屏幕中或打印机打印出来的视频图像的时候，同一张图像会有颜色差异，甚至不同的计算机屏幕、不同的电视看到的视频图像有时也会存在颜色差异。<br>之所以会出现这样的差异，主要是受到了 <strong>色彩空间参数</strong> 的影响。<br>这里说的色彩空间也叫 <strong>色域</strong> ，就是指某种表色模式所能表达的颜色的范围区域，也指具体设备，如显示器、打印机等印刷和复制所能表现的颜色范围。</p>
+<p><strong>声道 <em>Sound Channel</em></strong> 是指声音在录制或播放时在不同空间位置采集或回放的相互独立的音频信号，<br>声道数也就是声音录制时的音源数量或回放时相应的扬声器数量。</p>
+<p>采样率 使用 <strong>Hz</strong> 表示<br>比特率(码率) 使用 <strong>bps</strong> 表示</p>
+<p>在数字音频领域，常用的采样率如下。</p>
+<ul>
+<li>8000Hz：电话所用的采样率，对于人说话的声音已经足够。</li>
+<li>11 025Hz：AM调幅广播所用的采样率。</li>
+<li>22 050和24 000Hz：无线电广播（FM调频广播）所用的采样率。</li>
+<li>32 000Hz：MiniDV数码视频Camcorder、DAT（LP模式）所用的采样率。</li>
+<li>44 100Hz：音频CD所用的采样率，也常用于MPEG-1音频（VCD、SVCD、MP3）。</li>
+<li>47 250Hz：Nippon Columbia（Denon）开发的世界上第一款商用PCM录音机所用的采样率。</li>
+<li>48 000Hz：MiniDV、数字电视、DVD、DAT、电影和专业音频所用的数字声音采样率。</li>
+<li>50 000Hz：20世纪70年代后期出现的由3M和Soundstream开发的第一款商用数字录音机所用的采样率。</li>
+<li>50 400Hz：三菱X-80数字录音机所用的采样率。</li>
+<li>96 000或192 000Hz：DVD-Audio、一些LPCM DVD音轨、蓝光光盘音轨和HD-DVD（高清晰度DVD）音轨所用的采样率。</li>
+<li>2.8224MHz：SACD、索尼和飞利浦联合开发的，被称为Direct Stream Digital的1位Sigma-Delta调制过程所用的采样率。</li>
+</ul>
+<blockquote>
+<p>44100 &#x3D;&#x3D; 2^2 * 3^2 * 5^2 * 7^2  </p>
+</blockquote>
+<blockquote>
+<p>采样位深: 每个采样点用多少位来表示  </p>
+</blockquote>
+<p>存储空间 &#x3D;&#x3D; 声道数 * 采样率 * 采样位深 * 时长<br>带宽 &#x3D;&#x3D; 存储空间 &#x2F; 60s  </p>
+<blockquote>
+<p>要注意，在一些人工智能应用中需要用到语音识别时，尽量不要重采样或使用有损压缩，那样会影响识别的准确率。</p>
+</blockquote>
+<blockquote>
+<p>所有的概念和原理都来源于人们的生产和生活，而数字化则是对现实世界的抽象和映射。在从现实到抽象的过程中，不可避免地会“丢失”一些信息，但同时也给人们带来了标准化和规范化，以及更多的想象空间。通过数字世界的存储，人们可以“看”到历史上世界的样子；通过远程音视频的传输，人们可以实时地看到远处的世界，并可以与世界各个角落的人实时互动交流。打破时间和空间的限制，这就是音视频数字化最大的意义。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>iLogIng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://iloging.github.io/CS/Media/Audio-Video-Basic/" title="Audio Video Basic">https://iloging.github.io/CS/Media/Audio-Video-Basic/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC8="><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/media/" rel="tag"># media</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Tech/Tools/ffmpeg-note/" rel="prev" title="ffmpeg-note">
+                  <i class="fa fa-angle-left"></i> ffmpeg-note
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Tech/Tools/ffprobe-ffplay-note/" rel="next" title="ffprobe-ffplay-note">
+                  ffprobe-ffplay-note <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2025 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">iLogIng</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmc=" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></span>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"iLogIng/blog-comments","issue_term":"pathname","theme":"preferred-color-scheme"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>

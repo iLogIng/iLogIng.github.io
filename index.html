@@ -289,7 +289,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">59</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -300,7 +300,7 @@ mjx-container[display="true"] + br {
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">34</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -325,6 +325,1902 @@ mjx-container[display="true"] + br {
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Tech/Tools/FFmpeg-tool-kit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Tech/Tools/FFmpeg-tool-kit/" class="post-title-link" itemprop="url">FFmpeg-tool-kit</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-10-09 20:50:21" itemprop="dateCreated datePublished" datetime="2026-10-09T20:50:21+08:00">2026-10-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-10-14 20:05:47" itemprop="dateModified" datetime="2026-10-14T20:05:47+08:00">2026-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>资料：</p>
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly90cmFjLmZmbXBlZy5vcmcv">trac.ffmpeg.org<i class="fa fa-external-link-alt"></i></span>  </li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9mZm1wZWcub3JnL2RvY3VtZW50YXRpb24uaHRtbA==">ffmpeg.org&#x2F;documentation<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+</blockquote>
+<h1 id="FFmpeg-Note"><a href="#FFmpeg-Note" class="headerlink" title="FFmpeg Note"></a>FFmpeg Note</h1><blockquote>
+<p>FFmpeg 是 Fabrice Bellard 发起的项目  </p>
+</blockquote>
+<p>FFmpeg 提供以下三种工具</p>
+<ul>
+<li><a href="./ffmpeg-note.md#ffmpeg">ffmpeg</a><ul>
+<li><em><strong>处理与转码</strong></em></li>
+<li>核心工具，用于转码、剪辑、合并、滤镜等几乎所有处理任务</li>
+</ul>
+</li>
+<li><a href="./ffprobe-ffplay-note.md#ffprobe">ffprobe</a><ul>
+<li><em><strong>分析信息</strong></em></li>
+<li>可以快速查看任何媒体文件的容器、流、编码、时长等信息</li>
+</ul>
+</li>
+<li><a href="./ffprobe-ffplay-note.md#ffplay">ffplay</a><ul>
+<li><em><strong>播放验证</strong></em></li>
+<li>一个极简的媒体播放器，用于快速验证文件是否能正常解码播放</li>
+</ul>
+</li>
+</ul>
+<p>上述三个工具的命令行都会产生以下文本</p>
+<p><em><strong>head</strong></em></p>
+<blockquote>
+<p>版本和版权</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ffprobe version 8.1.3 Copyright (c) 2007-2026 the FFmpeg developers</span><br><span class="line"></span><br><span class="line">ffplay version 8.1.3 Copyright (c) 2003-2026 the FFmpeg developers</span><br><span class="line"></span><br><span class="line">ffmpeg version 8.1.3 Copyright (c) 2000-2026 the FFmpeg developers</span><br></pre></td></tr></table></figure>
+
+<p><em><strong>body</strong></em></p>
+<blockquote>
+<p>编译器<br>编译配置 是构建这套 FFmpeg（ffmpeg、ffprobe、ffplay 还有其他套件）时的总配置摘要，其中包含 GCC 的编译&#x2F;链接参数<br>内部库版本<br>  其中的库前缀 av: Audio&#x2F;Video 音视频通用基础 | sw: Software 软件处理实现  </p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">built with gcc 16 (GCC)</span><br><span class="line">configuration: --prefix=/usr --bindir=/usr/bin --datadir=/usr/share/ffmpeg --docdir=/usr/share/doc/ffmpeg --incdir=/usr/include/ffmpeg --libdir=/usr/lib64 --mandir=/usr/share/man --arch=x86_64 --optflags=&#x27;-O2 -flto=auto -ffat-lto-objects -fexceptions -g -grecord-gcc-switches -pipe -Wall -Wno-complain-wrong-lang -Werror=format-security -Wp,-U_FORTIFY_SOURCE,-D_FORTIFY_SOURCE=3 -Wp,-D_GLIBCXX_ASSERTIONS -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -fstack-protector-strong -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -march=x86-64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -mtls-dialect=gnu2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer&#x27; --extra-ldflags=&#x27;-Wl,-z,relro -Wl,--as-needed -Wl,-z,pack-relative-relocs -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -specs=/usr/lib/rpm/redhat/redhat-hardened-ld-errors -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -Wl,--build-id=sha1 -specs=/usr/lib/rpm/redhat/redhat-package-notes &#x27; --extra-cflags=&#x27; -I/usr/include/rav1e&#x27; --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libvo-amrwbenc --enable-version3 --enable-bzlib --enable-chromaprint --enable-fontconfig --enable-frei0r --enable-gcrypt --enable-gnutls --enable-ladspa --enable-lcms2 --enable-libaom --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libass --enable-libbluray --enable-libbs2b --enable-libcodec2 --enable-cuda --enable-cuda-llvm --enable-cuvid --enable-libcdio --enable-libdrm --enable-libfdk-aac --enable-libjack --enable-libjxl --enable-libklvanc --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libilbc --enable-liblc3 --enable-libmp3lame --enable-libmysofa --enable-nvenc --enable-nvdec --enable-openal --enable-liboapv --enable-opencl --enable-opengl --enable-libopenh264 --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-libplacebo --enable-librsvg --enable-librav1e --enable-librubberband --enable-libqrencode --enable-libsmbclient --enable-version3 --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libtesseract --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libv4l2 --enable-libvidstab --enable-libvmaf --enable-version3 --enable-vapoursynth --enable-libvpx --enable-libvvenc --enable-vulkan --enable-libshaderc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libxml2 --enable-libzimg --enable-libzmq --enable-libzvbi --enable-lv2 --enable-avfilter --enable-libmodplug --enable-pthreads --disable-static --enable-shared --enable-gpl --disable-debug --disable-stripping --shlibdir=/usr/lib64 --enable-lto --enable-libvpl --enable-runtime-cpudetect</span><br><span class="line">libavutil      60. 26.103 / 60. 26.103</span><br><span class="line">libavcodec     62. 28.103 / 62. 28.103</span><br><span class="line">libavformat    62. 12.103 / 62. 12.103</span><br><span class="line">libavdevice    62.  3.103 / 62.  3.103</span><br><span class="line">libavfilter    11. 14.103 / 11. 14.103</span><br><span class="line">libswscale      9.  5.103 /  9.  5.103</span><br><span class="line">libswresample   6.  3.103 /  6.  3.103</span><br></pre></td></tr></table></figure>
+
+<p><em><strong>tail</strong></em></p>
+<p><strong>ffprobe</strong> 简单多媒体流解析器</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Simple multimedia streams analyzer</span><br><span class="line">usage: ffprobe [OPTIONS] INPUT_FILE</span><br></pre></td></tr></table></figure>
+
+<p><strong>ffplay</strong> 简单媒体播放器</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Simple media player</span><br><span class="line">usage: ffplay [options] input_file</span><br></pre></td></tr></table></figure>
+
+<p><strong>ffmpeg</strong> 通用媒体转换器</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Universal media converter</span><br><span class="line">usage: ffmpeg [options] [[infile options] -i infile]... &#123;[outfile options] outfile&#125;...</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上述信息可以使用<br><code>-hide_banner</code> 关闭上述信息，保留工具都回显信息<br><code>-loglevel</code> 控制日志输出级别<br>可以使用 <code>-v quiet</code> 完全静默回显信息  </p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Tech/Tools/ffprobe-ffplay-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Tech/Tools/ffprobe-ffplay-note/" class="post-title-link" itemprop="url">ffprobe-ffplay-note</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-10-09 10:33:51" itemprop="dateCreated datePublished" datetime="2026-10-09T10:33:51+08:00">2026-10-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-10-14 20:06:19" itemprop="dateModified" datetime="2026-10-14T20:06:19+08:00">2026-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="ffprobe"><a href="#ffprobe" class="headerlink" title="ffprobe"></a>ffprobe</h1><blockquote>
+<p>是一个非常强大的 <strong>多媒体分析工具</strong> ，可以从媒体文件或者媒体流中获得用户想要了解的 <strong>媒体信息</strong> ，<br>比如音频的格式、视频的宽高、媒体文件的时长等参数信息等。<br>它除了用于分析媒体容器中音频的 <strong>编码格式、采样率、通道数目</strong> ，以及视频的 <strong>编码格式、宽高等</strong> 以外，<br>还用于分析媒体文件中媒体的 <strong>总时长、复合码率等</strong> 信息。<br>使用ffprobe还可以深入分析媒体文件中 <strong>每个压缩媒体包的长度、包的类型、包对应的帧的信息等</strong></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看基本信息</span></span><br><span class="line">ffprobe input.mp4</span><br><span class="line"><span class="comment"># 以JSON格式输出所有流的详细信息，便于脚本解析</span></span><br><span class="line">ffprobe -v quiet -print_format json -show_format -show_streams input.mp4</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-v</code>: 指定输出的详细程度 少 0-9 多</li>
+<li><code>-show_format</code>: 查看媒体文件的容器信息：格式、时长、码率等</li>
+<li><code>-show_streams</code>: 查看媒体文件的流信息：编码格式、帧率、分辨率等</li>
+<li><code>-show_chapters</code>: 查看媒体文件的章节信息</li>
+<li><code>-show_packets</code>: 查看包级别的信息</li>
+<li><code>-of</code>: 指定输出格式，JSON XML 等<ul>
+<li>XML、INI、JSON、CSV、FLAT等</li>
+<li>通过各种格式输出，即可以简单的进行格式解析，又可以使用对应的绘图方式绘制出可视化图形</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将输出重定向到 video-info.json</span></span><br><span class="line">ffprobe -v 9 -show_format -show_streams -show_chapters -of json video.mp4 &gt; video-info.json</span><br></pre></td></tr></table></figure>
+
+<h1 id="ffplay"><a href="#ffplay" class="headerlink" title="ffplay"></a>ffplay</h1><blockquote>
+<p>主要作用是作为播放测试工具使用，提供音视频显示和播放，也能用于显示音频的波形信息等</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 播放一个文件</span></span><br><span class="line">ffplay input.mp4</span><br><span class="line"><span class="comment"># 播放网络流</span></span><br><span class="line">ffplay rtmp://server/app/stream</span><br><span class="line"><span class="comment"># 播放模式 (n = 0 1 2)</span></span><br><span class="line">ffplay -showmode n</span><br><span class="line"></span><br><span class="line">-an -vn -sn</span><br><span class="line"><span class="comment"># 排除 音频 视频 字幕 流</span></span><br></pre></td></tr></table></figure>
+
+<p>对于音频，会生成一个 <strong>频谱图(<em>spectrogram</em>)</strong>:<br>横轴&#x3D;时间（向右推进）、纵轴&#x3D;频率、颜色&#x3D;该频率的能量。<br>每一条水平彩线就是声音里的一个频率成分（分音&#x2F;谐波）；线越亮表示能量越大。<br>所以线条随音乐”推进”，其实是在显示每一刻有哪些频率在响、响多强。</p>
+<ul>
+<li><code>-showmode 1</code> 可以控制波形的输出模式(0 1 2)</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示运动补偿与运动估计矢量</span></span><br><span class="line">ffplay -flags2 +export_mvs -vf codecview=<span class="built_in">mv</span>=pf+bf+bb <span class="string">&quot;video.mp4&quot;</span></span><br><span class="line"><span class="comment"># 保存某一帧的帧间运动矢量（此处是跳过前 200 帧，保存之后的 1 帧为frame.png）</span></span><br><span class="line">ffmpeg -flags2 +export_mvs -i <span class="string">&quot;video.avi&quot;</span> -vf <span class="string">&quot;select=gte(n\,200),codecview=mv=pf+bf+bb&quot;</span> -vframes 1 frame.png</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/CS/Media/Audio-Video-Basic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/CS/Media/Audio-Video-Basic/" class="post-title-link" itemprop="url">Audio Video Basic</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-10-07 22:41:00" itemprop="dateCreated datePublished" datetime="2026-10-07T22:41:00+08:00">2026-10-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-10-14 20:09:14" itemprop="dateModified" datetime="2026-10-14T20:09:14+08:00">2026-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>生活是连续的，数据是离散的，我们通过数学将他们串联  </p>
+</blockquote>
+<h1 id="音视频基础知识"><a href="#音视频基础知识" class="headerlink" title="音视频基础知识"></a>音视频基础知识</h1><blockquote>
+<p>FFmpeg相关材料: <a href="/Tech/Tools/ffmpeg-note.md">about-ffmpeg</a></p>
+</blockquote>
+<h2 id="Multi-Media-Basics"><a href="#Multi-Media-Basics" class="headerlink" title="Multi Media Basics"></a>Multi Media Basics</h2><h3 id="Color-Picture"><a href="#Color-Picture" class="headerlink" title="Color &amp; Picture"></a>Color &amp; Picture</h3><p>现实生活中的物体靠 <strong>吸收</strong> 与 <strong>反射</strong> 光展现其颜色  </p>
+<p>常用的有两种色彩空间</p>
+<ul>
+<li><em><strong>RGB</strong></em><ul>
+<li><em><strong>R</strong></em> Red 红</li>
+<li><em><strong>G</strong></em> Green 绿</li>
+<li><em><strong>B</strong></em> Blue 蓝</li>
+<li>是 <strong>加色系统</strong> ，用于 <strong>发光体</strong></li>
+</ul>
+</li>
+<li><em><strong>CMYK</strong></em><ul>
+<li><em><strong>C</strong></em> Cvan 青</li>
+<li><em><strong>M</strong></em> Magenta 洋红</li>
+<li><em><strong>Y</strong></em> Yellow 黄</li>
+<li><em><strong>K</strong></em> blacK 黑</li>
+<li>是 <strong>减色系统</strong> ，用于 <strong>印刷制品</strong> （现实生活中难以获取纯色，为了与期望的颜色接近，需要在颜色中加入黑色）</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>在数字显示世界中，处理音视频，一般使用 <em><strong>RGB</strong></em> 色彩空间</p>
+</blockquote>
+<p>计算机中，图像的存储一般使用 <strong>位图(Bitmap)</strong> ，其中每个点称为 <strong>像素(Pixel)</strong><br>对于 <strong>RGB</strong> 色彩空间，每个颜色分量称为一个 <strong>通道(Channel)</strong><br>通常，每个像素的每种颜色分量用 <strong>1字节(1Byte &#x3D; 8bit)</strong> 表示，存储一个像素的色彩就需要 <em><strong>24位</strong></em><br>也称为 <strong>24位真彩色</strong> ，一共可表示 <em><strong>2^24</strong></em> 种颜色<br>为了描述 <em><strong>透明</strong></em> 的图像，在每个像素上再增加一个表示 <strong>透明度</strong> 的分量，称为 <strong>Alpha通道</strong><br>表示 <em><strong>2^8</strong></em> 种透明度，产生 <em><strong>RGBA</strong></em> 色彩空间，一个像素就需要 4Byte 的空间进行存储，正好可以通过 32位 整数表示<br>由此，通常使用整数来对图像进行计算</p>
+<p>由于计算机在不同架构下其字节序也可能不同，产生数据存储的 <strong>大小端</strong>* 问题<br>因此出现了多种不同的存储方式 (RGBA ABGR BGRA ARGB 等) </p>
+<blockquote>
+<p>对于 <strong>灰度图</strong> 一般使用1Byte进行存储<br>对于 <strong>单色图</strong> 一般使用1bit进行存储</p>
+</blockquote>
+<h3 id="Film-TV-Video"><a href="#Film-TV-Video" class="headerlink" title="Film TV &amp; Video"></a>Film TV &amp; Video</h3><p><strong>视觉暂留</strong>：即，余晖效应，<br>人眼在观察景物时，光信号传入大脑神经需经过一段短暂的时间，而光的作用结束后视觉形象并不立即消失，这种残留的视觉称为 <em><strong>后像</strong></em> ，视觉的这一现象则被称为“视觉暂留”。</p>
+<blockquote>
+<p>人们看到的电影其实是快速闪过的、一帧一帧的不连续的图像</p>
+</blockquote>
+<blockquote>
+<p>CRT, Cathode Ray Tube 阴极射线管，扫描显示一幅图像称为 <strong>1场</strong><br>LCD, Liquid Crystal Display 液晶显示器，液晶本身不发光，需要使用背光源<br>OLED, Organic Light-Emitting Diode 有机发光二极管，可以自发光，不需要使用背光源</p>
+</blockquote>
+<p>*<em>帧率 <em>FPS(Frames Per Second)</em></em>**: 每秒闪过的图像数量</p>
+<p><strong>隔行扫描</strong>: 也称，交错扫描，一场扫描奇数行另一场再扫描偶数行（受早期CRT技术的限制）<br>对于LCD，也是一行一行地刷新显示，屏幕的分辨率一般采用 <em><strong>宽*长</strong></em> 来表示<br>如，1080p(1920<em>1080)、720p(1280</em>720)，其中 <strong>p</strong> 指的是 <strong>逐行扫描</strong> ，若是 1080i 则 <strong>i</strong> 表示的是 <strong>隔行扫描</strong><br>对于扫描完整的 <strong>1帧</strong> 图像，主要是由图像的高度决定，即行数决定，所以常常将 1920*1080 称为 1080p</p>
+<p>若一块屏幕的分辨率达到 <em><strong>300ppi</strong></em> 以上，我们称之为 <strong>视网膜屏</strong>。<br><strong>ppi</strong> (<em><strong>Pixel Per Inch</strong></em>, 每英寸像素数，也称 <strong>dpi <em>Dots Per Inch</em></strong>) 是描述最高分辨能力的单位  </p>
+<blockquote>
+<p>视力为1.0的人观看离双眼10～12英寸（约25～30厘米）的手机屏时，最高能分辨300ppi。只有当图像与显示器的分辨率匹配时，才能达到最好的显示效果。</p>
+</blockquote>
+<p>目前，视频一般都在 25fps 以上，若要传输一帧为 1080p 的图像，并采用 8位色深的 RGB 格式存储，<br>产生的数据量是 25 * (1920 * 1080) * 3byte &#x3D; 155’520’000byte 约为 <strong>150MB</strong><br>视频传输速率一般以 <strong>bit&#x2F;s (Bits Per Second)</strong> 来计算，则需要至少 1’244’160’000bit&#x2F;s 约为 <strong>1200Mbit&#x2F;s</strong> 的带宽作为支撑</p>
+<p>为降低存储空间以及传输带宽占用，需要采用视频压缩（<strong>视频编码</strong>）技术<br>常用的视频压缩原理是 <strong>运动<em>估计</em>和运动<em>补偿</em></strong></p>
+<p>主要原因有两点：</p>
+<ol>
+<li>人眼并不是对所有颜色都敏感，因而可以去掉一些颜色，对图像进行压缩，这称为有损压缩，也是一些典型图像如JPEG的主要压缩原理</li>
+<li>一般来说，两帧图像间的差异其实不大，可以根据这个特性，只存储或传输图像间的差异信息，而不是整帧图像。<blockquote>
+<p>由此，我们也可以知道，实际占用的带宽与视频的复杂度（画面细节、运动快慢程度等）和帧率、分辨率都是正相关的</p>
+</blockquote>
+</li>
+</ol>
+<p>在音视频应用中，视频在传输到对端后要进行 <em><strong>解码</strong></em> ，即将压缩过的视频再转换成一帧一帧的图像，才能送到显示器上显示<br>整个过程合起来称为 <em><strong>编解码</strong></em></p>
+<p>需要 <strong>编解码</strong> 的视频图像一般不使用RGB色彩空间，而是使用一种称为 <strong>YUV</strong> 的色彩空间，</p>
+<blockquote>
+<p>两者之间有直接的对应关系，但由于转换过程涉及浮点运算，转换是有损的，但对人眼来说几乎无法分辨，因而是完全可以接受的</p>
+</blockquote>
+<p>YUV也是一种颜色编码方法，<strong>Y</strong> 表示 <strong>明度</strong> ，<strong>U</strong> 和 <strong>V</strong> 则分别表示 <strong>色度</strong> 和 <strong>浓度</strong> 。<br>不同于RGB图像一般按像素存储（如RGB’RGB’RGB’RGB），YUV图像一般按 <strong>平面</strong> 存储，<br>即将所有的Y放到一起，所有的U放到一起，所有的V放在一起（如YYYYUUUUVVVV），其中每一部分称为一个平面。<br>这种存储方式的一个好处就是，在广播电视中，当接收到一帧图像时，黑白电视机只需要播放Y平面（黑白图像），而忽略代表颜色的U和V平面。<br>当然，彩色电视机则需要播放所有平面的数据。</p>
+<table>
+<thead>
+<tr>
+<th align="center">分量</th>
+<th align="center">含义</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Y</td>
+<td align="center">亮度&#x2F;明度</td>
+<td align="center">表示灰度、明暗</td>
+</tr>
+<tr>
+<td align="center">U</td>
+<td align="center">蓝色色差，约等于 Cb</td>
+<td align="center">参与表示色度</td>
+</tr>
+<tr>
+<td align="center">V</td>
+<td align="center">红色色差，约等于 Cr</td>
+<td align="center">参与表示色度</td>
+</tr>
+<tr>
+<td align="center">U+V</td>
+<td align="center">色度</td>
+<td align="center">共同表示色调和饱和度</td>
+</tr>
+<tr>
+<td align="center">彩度</td>
+<td align="center">饱和度</td>
+<td align="center">是色度的一部分，不等于 V</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>一般所说的 <strong>YUV</strong> 指的都是 <strong>YCbCr</strong><br>而Y来自RGB的加权和，根据人眼的感光能力得到<br>Y &#x3D; 0.299R + 0.587G + 0.114B<br>U &#x3D; B - Y   （蓝色色差）<br>V &#x3D; R - Y   （红色色差）<br>Y是黑白底色，表示像素的明亮程度，U&#x2F;V表示应该向B&#x2F;R偏移多少，若某个像素的色差为0，则它没有偏色，只表现出原RGB对应的黑白灰色  </p>
+</blockquote>
+<p>如，纯红色在YUV色彩空间中表示为</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R = 255, G = 0, B = 0</span><br><span class="line">Y ≈ 76</span><br><span class="line">B - Y ≈ -76   // 蓝色远低于亮度，偏黄/青方向</span><br><span class="line">R - Y ≈ 179   // 红色远高于亮度，偏红方向</span><br></pre></td></tr></table></figure>
+
+<p>YUV和Y’UV通常用来编码电视的模拟信号。Y’表示经过了gamma矫正<br>YCbCr 则用来描述数字影像信号，适合数字化的视频与图片压缩及传输，如MPEG、JPEG  </p>
+<blockquote>
+<p>数字化的 YUV 使用得更加广泛</p>
+</blockquote>
+<p><strong>YUV中UV分量数值分布平面图</strong><br><img src="/./resource/UV-component.jpg" alt="UV分量数值分布平面图"><br><strong>RGB转YUV平面</strong><br><img src="/./resource/rgb2yuv-example.jpg" alt="rgb2yuv-example"></p>
+<p><strong>GoP <em>Group of Picture</em></strong>: 分组后的图像，主要是为了解决视频图像编码后的前向依赖问题导致的解码时，若出现前向编码中的某些帧丢失，导致的花屏现象<br><strong>I帧</strong>: 可单独解码的图像帧，不依赖前后图像，作为 GoP 的 <strong>第一帧</strong> 也称为 <strong>关键帧 Key Frame</strong> （GoP每隔一定数量的图像就会对一幅完整的图像进行编码）  </p>
+<blockquote>
+<p><strong>关键帧 Key Frame</strong>: 在H.264中一般称为 <strong>IDR帧 <em>Instantaneous Decoding Refresh</em></strong> 即，立即刷新图像<br>I帧: Intra-coded picture ，与IDR帧有所区别，IDR帧是I帧的子集<br>每个GoP里的第1个I帧是IDR帧，后续的I帧虽然能独立解码，但它前&#x2F;后面的P&#x2F;B帧可能会参考I帧后&#x2F;前面的帧，但GoP内的帧参考不会跨越IDR帧<br>P帧: 前向预测编码图像的帧<br>B帧: 双向预测编码图像的帧，压缩率更高<br>由于B帧需要参考后面的帧，收到B帧后不能立即解码，在实时音视频应用中会带来延迟，因而在实时通信中一般不使用B帧  </p>
+</blockquote>
+<p><strong>I P B 帧之间的关系</strong><br><img src="/./resource/I-P-B-Frame-Relation.jpg" alt="I P B 帧之间的关系"></p>
+<h3 id="The-Audio"><a href="#The-Audio" class="headerlink" title="The Audio"></a>The Audio</h3><p>声音由振动产生，为了将现实世界中的音频（连续的）放到数字世界（离散的）中，<br>需要执行一个 <strong>模数转换 <em>Analog-Digital Conversion，ADC</em></strong>操作  </p>
+<blockquote>
+<p>DAC 数模转换 &lt;&#x3D;&gt; ADC 模数转换<br>执行的是模拟信号与数字信号之间的相互转换  </p>
+</blockquote>
+<p>波，由 相位 频率 振幅 构成<br>可以通过 <strong>傅里叶变换 <em>FTT</em></strong> 将任何波形都分解为有限&#x2F;无限个正弦波的组合  </p>
+<p>声音大小的变化不是线性的，声音的刺激与人耳听到的感觉并不是线性的，而是呈 <strong>对数关系</strong>  </p>
+<p>通过采样、量化和编码3个步骤，可以将模拟信号转换为数字信号<br><strong>采样</strong>: 在时域中按一定时间间隔(T)对信号进行抽样，得到离散值<br>将采样得到的离散值通过量化与编码过程转化为数字信号  </p>
+<p>单位时间内的抽样次数称为 <strong>采样率</strong><br>采样率越高，单位时间内采样点越密，得到的离散信号就与原信号越接近</p>
+<blockquote>
+<p>抽样定理 (采样定理或奈奎斯特·香农定理):<br>当抽样频率是模拟信号频率带宽（最高频率与最低频率的差值）的 <strong>两倍</strong> 时，就能够完全还原原来的模拟信号</p>
+</blockquote>
+<p>数模转换通常使用 <strong>PCM <em>Pulse Code Modulation</em> 脉冲编码调制</strong> 方法</p>
+<hr>
+<p>颜色所使用的位数就称为颜色的 <strong>位深</strong>  </p>
+<p>*<em>FourCC <strong>Four Character Code</strong></em> 四字符编码，一个32位无符号整数，使用大端序编码4个ASCII字符序列  </p>
+<p>数字 YCbCr 中，通常会给色差加上 128 偏移</p>
+<ul>
+<li>Cb &#x3D; 128 表示没有蓝色色差</li>
+<li>Cr &#x3D; 128 表示没有红色色差</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">色差</th>
+<th align="center">大于中性值</th>
+<th align="center">小于中性值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Cb &#x2F; U</td>
+<td align="center">偏蓝</td>
+<td align="center">偏黄</td>
+</tr>
+<tr>
+<td align="center">Cr &#x2F; V</td>
+<td align="center">偏红</td>
+<td align="center">偏青</td>
+</tr>
+</tbody></table>
+<p>实际的数字YUV计算为，其中的RGB值是经过gamma矫正后的：</p>
+<ul>
+<li>Y &#x3D; 0.299<em>R + 0.587</em>G + 0.114*B</li>
+<li>U &#x3D; -0.169<em>R - 0.331</em>G + 0.5*B + 128</li>
+<li>V &#x3D; 0.5<em>R - 0.419</em>G - 0.081*B + 128</li>
+</ul>
+<blockquote>
+<p><strong>gamma矫正</strong> 是一种针对图像或视频帧的预失真校正。<br>CRT显示器所产生的信号强度不是输入电压的线性函数，相反，它与信号幅度的功率成正比，也简称为伽玛。<br>另外，人眼对光的强度的感知程度也不是光的强度的线性函数，人眼在黑暗环境下的辨识能力要强于明亮环境，因此也需要对颜色进行校正。</p>
+</blockquote>
+<p>相对于Y来说，人眼对UV不大敏感，<br>因此，可以在图像存储时 <strong>降低UV分量的分辨率（采样率）</strong> ，以节省存储空间，<br>而这种降采样后的图像看起来与原图像没有多大差别。<br>YUV的像素存储格式一般采用 <em><strong>A:B:C</strong></em> 表示法（表示采样的方式），根据采样和降采样的程度不同，以及像素排列格式的不同，有很多不同的表示</p>
+<p><strong>像素图像编号示意图</strong><br><img src="/./resource/pixel-picture-example.jpg" alt="pixel-picture-example"></p>
+<blockquote>
+<p>Y 亮度信号尽量保持全分辨率，U&#x2F;V（Cb&#x2F;Cr）色度信号按不同比例降采样<br>表示色度相对于亮度在水平、垂直方向被压缩了多少。</p>
+</blockquote>
+<p>总体原则：</p>
+<ul>
+<li>Y：每个像素都保留，不降采样</li>
+<li>U&#x2F;V：成对出现，一个“色度样本”包含一组 Cb、Cr</li>
+<li>采样格式：描述的是每多少个 Y 像素共享一组 Cb&#x2F;Cr</li>
+</ul>
+<blockquote>
+<p>Y图层始终保持全尺寸，而U&#x2F;V图层可能变小</p>
+</blockquote>
+<ol>
+<li><strong>YUV444</strong><blockquote>
+<p>FourCC: 有YUYV、YVYU、UYVY、VYUY等</p>
+</blockquote>
+</li>
+</ol>
+<p>水平，每4个像素中，Y取4个，U取4个，V取4个</p>
+<p><strong>Y平面</strong>:<br>Y11 Y12 Y13 Y14<br>Y21 Y22 Y23 Y24<br>Y31 Y32 Y33 Y34<br>Y41 Y42 Y43 Y44  </p>
+<p><strong>U平面</strong>:<br>U11 U12 U13 U14<br>U21 U22 U23 U24<br>U31 U32 U33 U34<br>U41 U42 U43 U44  </p>
+<p><strong>V平面</strong>:<br>V11 V12 V13 V14<br>V21 V22 V23 V24<br>V31 V32 V33 V34<br>V41 V42 V43 V44  </p>
+<ol start="2">
+<li><strong>YUV422</strong><blockquote>
+<p>FourCC: Y422</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>Y平面</strong>:<br>Y11 Y12 Y13 Y14<br>Y21 Y22 Y23 Y24<br>Y31 Y32 Y33 Y34<br>Y41 Y42 Y43 Y44  </p>
+<p><strong>U平面</strong>:<br>U11 ___ U13 ___<br>U21 ___ U23 ___<br>U31 ___ U33 ___<br>U41 ___ U43 ___  </p>
+<p><strong>V平面</strong>:<br>V11 ___ V13 ___<br>V21 ___ V23 ___<br>V31 ___ V33 ___<br>V41 ___ V43 ___  </p>
+<ol start="3">
+<li><strong>YUV411</strong><blockquote>
+<p>FourCC: Y411</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>Y平面</strong>:<br>Y11 Y12 Y13 Y14<br>Y21 Y22 Y23 Y24<br>Y31 Y32 Y33 Y34<br>Y41 Y42 Y43 Y44  </p>
+<p><strong>U平面</strong>:<br>U11 ___ ___ ___<br>U21 ___ ___ ___<br>U31 ___ ___ ___<br>U41 ___ ___ ___  </p>
+<p><strong>V平面</strong>:<br>V11 ___ ___ ___<br>V21 ___ ___ ___<br>V31 ___ ___ ___<br>V41 ___ ___ ___  </p>
+<ol start="4">
+<li><strong>YUV420</strong><blockquote>
+<p>实质上是包括了 4:2:0 + 4:0:2 两种情况<br>实际采样邻近4像素的左上角部分</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>Y平面</strong>:<br>Y11 Y12 Y13 Y14<br>Y21 Y22 Y23 Y24<br>Y31 Y32 Y33 Y34<br>Y41 Y42 Y43 Y44  </p>
+<p><strong>U平面</strong>:<br>U11 ___ U13 ___<br>___ ___ ___ ___<br>U31 ___ U33 ___<br>___ ___ ___ ___  </p>
+<p><strong>V平面</strong>:<br>V11 ___ V13 ___<br>___ ___ ___ ___<br>V31 ___ V33 ___<br>___ ___ ___ ___  </p>
+<p><img src="/./resource/YV12.jpg" alt="YV12"><br><img src="/./resource/NV12.jpg" alt="NV12">  </p>
+<table>
+<thead>
+<tr>
+<th align="center">格式</th>
+<th align="center">Y 平面</th>
+<th align="center">U&#x2F;V 平面</th>
+<th align="center">共享方式</th>
+<th align="center">平均每像素色度样本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">4:4:4</td>
+<td align="center">宽 * 高</td>
+<td align="center">宽 * 高</td>
+<td align="center">每个 Y 独立 U&#x2F;V</td>
+<td align="center">1 个 U + 1 个 V</td>
+</tr>
+<tr>
+<td align="center">4:2:2</td>
+<td align="center">宽 * 高</td>
+<td align="center">宽&#x2F;2 * 高</td>
+<td align="center">水平每 2 个 Y 共享</td>
+<td align="center">0.5 个 U + 0.5 个 V</td>
+</tr>
+<tr>
+<td align="center">4:1:1</td>
+<td align="center">宽 * 高</td>
+<td align="center">宽&#x2F;4 * 高</td>
+<td align="center">水平每 4 个 Y 共享</td>
+<td align="center">0.25 个 U + 0.25 个 V</td>
+</tr>
+<tr>
+<td align="center">4:2:0</td>
+<td align="center">宽 * 高</td>
+<td align="center">宽&#x2F;2 * 高&#x2F;2</td>
+<td align="center">每 2*2 个 Y 共享</td>
+<td align="center">0.25 个 U + 0.25 个 V</td>
+</tr>
+</tbody></table>
+<p>RGB颜色模型的主要用途是在电子系统中检测、表示和显示图像，<br>其原理是利用 <strong>大脑强制视觉生理模糊化（失焦）</strong> ，将红、绿、蓝三原色子像素合成一个色彩像素，产生感知色彩<br>（其实此真彩色并非加色法所产生的合成色彩，因为该三原色光 <strong>从来没有重叠</strong> 在一起，只是人类为了“想”看到色彩，大脑强制眼睛失焦而形成的） </p>
+<blockquote>
+<p>RGB是一种 <strong>依赖于设备</strong> 的颜色空间，不同设备对特定RGB值的检测和展现不一样，不同设备的每像素的RGB排列方式不同</p>
+</blockquote>
+<blockquote>
+<p>三原色的原理不是由物理原因，而是由生理原因造成的，人的眼睛内有3种辨别颜色（黄绿、绿和蓝紫）的锥形感光细胞<br>三原色并不足以重现所有的色彩，只有那些在三原色的色度所定义的颜色三角内的颜色，才可以利用三原色的光以非负量相加混合得到<br>所以，人眼看到红光与绿光混合出黄光，仅仅是对视锥细胞的一种等效  </p>
+</blockquote>
+<p>全值域色彩空间：每个原色都能取到 0-255<br>RGB也通常被映射到 [0, 1] 之间<br>由于gamma矫正的非线性影响，每个原色的256个级别不能表示同等间隔的强度  </p>
+<blockquote>
+<p>数字视频的RGB不是全值域的。视频RGB使用有比例和偏移量的约定，即（16，16，16）是黑色，（235，235，235）是白色。</p>
+</blockquote>
+<p><strong>gamma矫正示意图</strong><br><img src="/./resource/gamma-fix.jpg" alt="gamma-fix"></p>
+<blockquote>
+<p>在CRT显示器中，色彩的亮度跟输入电压的关系不是线性的，而是呈指数关系，这个 <strong>指数</strong> 就称为gamma<br>伽玛是一个经验值，而不是用数学公式计算出来的<br>一般gamma &#x3D; 2.5 或 2.2，业界通常使用 2.2<br>照相机的感光器件是线性的，得到的是线性的RGB图像<br>经过伽玛校正后的图像所使用的RGB空间是非线性的，称为sRGB（Standard RGB）</p>
+</blockquote>
+<p>矫正后的值 &#x3D; 矫正前的值^0.45 (0.45 &#x3D; 1&#x2F;2.2, 此处值域为[0,1])  </p>
+<p>实际的图像都是使用非线性的sRGB空间（包括使用调色板选择颜色时），而在做图像计算和处理（比如将亮度加倍）时，则使用线性RGB空间更方便  </p>
+<p><strong>HSL</strong> 与 <strong>HSV</strong> 色彩表示<br>RGB色彩空间对人来说并不直观，所以引入HSL&#x2F;HSV模型来表示色彩，更适合人类感知  </p>
+<ul>
+<li><strong>H <em>Hue</em></strong> 色相   <ul>
+<li>色彩的基本属性，即颜色名称</li>
+</ul>
+</li>
+<li><strong>S <em>Saturation</em></strong> 饱和度  <ul>
+<li>色彩的纯度，越高色越纯，越低越灰</li>
+</ul>
+</li>
+<li><strong>L <em>Lightness</em></strong> 亮度  <ul>
+<li>最大通道和最小通道的平均</li>
+<li>更接近人眼的视觉</li>
+</ul>
+</li>
+<li><strong>V <em>Value</em></strong> 明度 &#x2F; <em><strong>Brightness</strong></em>  <ul>
+<li>最亮通道的亮度</li>
+<li>只表示该颜色离黑色有多远<blockquote>
+<p><em><strong>HSV</strong></em>也称<strong>HSB</strong><br>HSV更偏向于画家调色 1.选纯色 2.加白S 3.加黑V<br>HSL是从明暗角度设计的 L是整体明暗</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<p>HSL和HSV二者都把颜色描述为圆柱坐标系内的点，<br>这个圆柱的中心轴取值范围为自底部的黑色到顶部的白色，而在它们中间的是灰色，<br>绕这个轴的 <strong>角度</strong> 对应 <em><strong>色相</strong></em> ，<br>到这个轴的 <strong>距离</strong> 对应 <em><strong>饱和度</strong></em> ，<br>而沿着这个轴的 <strong>高度</strong> 对应 *<em><strong>亮度</strong></em> <em><strong>色调</strong></em> 或 <em><strong>明度</strong></em></p>
+<blockquote>
+<p>这两种表示的目的类似，但在方法上有所区别。<br>二者在数学上都是圆柱，但 <strong>HSV</strong> 在概念上可以被认为是颜色的 <strong>倒圆锥体</strong> （黑色在下顶点，白色在上底面圆心）；<br>而 <strong>HSL</strong> 在概念上表示一个 <strong>双圆锥体和圆球体</strong> （白色在上顶点，黑色在下顶点，最大横切面的圆心是灰色）。<br>注意，尽管在HSL和HSV中“色相”指相同的性质，但它们的 <em><strong>饱和度</strong></em> 的定义是明显不同的。</p>
+</blockquote>
+<p><strong>HSL 与 HSV</strong><br><img src="/./resource/Hsl-hsv_models.svg.webp" alt="HSL-HSV-models"></p>
+<p><strong>HSV</strong><br><img src="/./resource/HSV_cone.png" alt="HSV-model"></p>
+<p><strong>HSV色轮</strong><br><img src="/./resource/Triangulo_HSV.png" alt="Triangulo_HSV"></p>
+<blockquote>
+<p>因为HSL和HSV是 <strong>设备依赖的RGB的简单变换</strong> ，<br>(h, s, l)或 (h, s, v)三元组定义的颜色依赖于所使用的特定红色、绿色和蓝色“加法原色”。<br>HSV更常用<br>每个独特的RGB设备都伴随着一个 <strong>独特的HSL和HSV空间</strong>。但是 (h, s, l)或 (h, s, v)三元组在被约束于特定RGB空间比如sRGB的时候就更明确了。 </p>
+</blockquote>
+<p>在互联网上的实时音视频应用中，当网络条件不好时（拥塞、丢包），<br>通信双方会协商降低码率，相应地可能会降低分辨率和帧率，降低分辨率会导致模糊，降低帧率会导致画面跳跃（卡顿）， 但总比花屏或长时间卡住要好。<br>这种 <strong>非恒定的</strong> <strong>码率</strong> 和 <strong>帧率</strong> 就称为</p>
+<ul>
+<li>可变码率（Variable Bit Rate，VBR）</li>
+<li>可变帧率（Variable Frame Rate，VFR）</li>
+</ul>
+<p>在视频编码时，每帧被编码的图像都有一个 <strong>时间戳</strong> ，以便在播放时能正确地显示时间。<br>时间戳可以是真正的钟表时间（一般使用相对时间），在帧率恒定的情况下也可以直接使用1、2、3、4……这样的连续时间戳，<br>这个时间戳就称为 <strong>PTS <em>Presentation Time Stamp</em></strong> ，即 <strong>播放时间</strong></p>
+<p>有些视频编码（如H.264和H.265）中有B帧。<br>解码器在收到B帧后不能直接解码，而是要等到收到它后面的与之相关的P、B帧后才能解码，<br>也就是说，如果解码器收到帧的顺序是IBBP，实际的解码顺序是IPBB，但播放顺序仍是IBBP，<br>这就是播放时间和解码时间不一致的现象。每帧图像也有一个 <strong>独立的解码时间戳</strong> ，即 <strong>DTS（Decode Time Stamp）</strong> 。<br>在没有B帧的情况下，PTS和DTS可以是相同的。</p>
+<p>像素密度的数值高，图片和视频的清晰度就高。<br>在提到显示分辨率的时候，人们常常会提到宽高比，即 <strong>DAR（Display Aspect Ratio)</strong></p>
+<p>当人们日常看电视和计算机屏幕中或打印机打印出来的视频图像的时候，同一张图像会有颜色差异，甚至不同的计算机屏幕、不同的电视看到的视频图像有时也会存在颜色差异。<br>之所以会出现这样的差异，主要是受到了 <strong>色彩空间参数</strong> 的影响。<br>这里说的色彩空间也叫 <strong>色域</strong> ，就是指某种表色模式所能表达的颜色的范围区域，也指具体设备，如显示器、打印机等印刷和复制所能表现的颜色范围。</p>
+<p><strong>声道 <em>Sound Channel</em></strong> 是指声音在录制或播放时在不同空间位置采集或回放的相互独立的音频信号，<br>声道数也就是声音录制时的音源数量或回放时相应的扬声器数量。</p>
+<p>采样率 使用 <strong>Hz</strong> 表示<br>比特率(码率) 使用 <strong>bps</strong> 表示</p>
+<p>在数字音频领域，常用的采样率如下。</p>
+<ul>
+<li>8000Hz：电话所用的采样率，对于人说话的声音已经足够。</li>
+<li>11 025Hz：AM调幅广播所用的采样率。</li>
+<li>22 050和24 000Hz：无线电广播（FM调频广播）所用的采样率。</li>
+<li>32 000Hz：MiniDV数码视频Camcorder、DAT（LP模式）所用的采样率。</li>
+<li>44 100Hz：音频CD所用的采样率，也常用于MPEG-1音频（VCD、SVCD、MP3）。</li>
+<li>47 250Hz：Nippon Columbia（Denon）开发的世界上第一款商用PCM录音机所用的采样率。</li>
+<li>48 000Hz：MiniDV、数字电视、DVD、DAT、电影和专业音频所用的数字声音采样率。</li>
+<li>50 000Hz：20世纪70年代后期出现的由3M和Soundstream开发的第一款商用数字录音机所用的采样率。</li>
+<li>50 400Hz：三菱X-80数字录音机所用的采样率。</li>
+<li>96 000或192 000Hz：DVD-Audio、一些LPCM DVD音轨、蓝光光盘音轨和HD-DVD（高清晰度DVD）音轨所用的采样率。</li>
+<li>2.8224MHz：SACD、索尼和飞利浦联合开发的，被称为Direct Stream Digital的1位Sigma-Delta调制过程所用的采样率。</li>
+</ul>
+<blockquote>
+<p>44100 &#x3D;&#x3D; 2^2 * 3^2 * 5^2 * 7^2  </p>
+</blockquote>
+<blockquote>
+<p>采样位深: 每个采样点用多少位来表示  </p>
+</blockquote>
+<p>存储空间 &#x3D;&#x3D; 声道数 * 采样率 * 采样位深 * 时长<br>带宽 &#x3D;&#x3D; 存储空间 &#x2F; 60s  </p>
+<blockquote>
+<p>要注意，在一些人工智能应用中需要用到语音识别时，尽量不要重采样或使用有损压缩，那样会影响识别的准确率。</p>
+</blockquote>
+<blockquote>
+<p>所有的概念和原理都来源于人们的生产和生活，而数字化则是对现实世界的抽象和映射。在从现实到抽象的过程中，不可避免地会“丢失”一些信息，但同时也给人们带来了标准化和规范化，以及更多的想象空间。通过数字世界的存储，人们可以“看”到历史上世界的样子；通过远程音视频的传输，人们可以实时地看到远处的世界，并可以与世界各个角落的人实时互动交流。打破时间和空间的限制，这就是音视频数字化最大的意义。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Tech/Tools/ffmpeg-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Tech/Tools/ffmpeg-note/" class="post-title-link" itemprop="url">ffmpeg-note</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-10-07 21:21:40" itemprop="dateCreated datePublished" datetime="2026-10-07T21:21:40+08:00">2026-10-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-10-14 20:06:54" itemprop="dateModified" datetime="2026-10-14T20:06:54+08:00">2026-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>资料：</p>
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly90cmFjLmZmbXBlZy5vcmcv">trac.ffmpeg.org<i class="fa fa-external-link-alt"></i></span>  </li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9mZm1wZWcub3JnL2RvY3VtZW50YXRpb24uaHRtbA==">ffmpeg.org&#x2F;documentation<i class="fa fa-external-link-alt"></i></span>  </li>
+<li>《深入理解ffmpeg》(刘歧)</li>
+</ul>
+</blockquote>
+<ul>
+<li><em><strong>TODO</strong></em><table>
+<thead>
+<tr>
+<th align="center">精力占比</th>
+<th align="center">学习方向</th>
+<th align="center">为什么重要</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">30%</td>
+<td align="center">FFmpeg 的 libavcodec API 开发</td>
+<td align="center">如果你要做播放器、转码服务，必须懂 <code>avcodec_send_packet</code> &#x2F; <code>avcodec_receive_frame</code> 的调用流程，以及如何处理 B 帧导致的 PTS&#x2F;DTS 倒序。</td>
+</tr>
+<tr>
+<td align="center">30%</td>
+<td align="center">滤镜（Filter）系统</td>
+<td align="center">笔记只涉及了编码，但实际转码往往需要缩放（scale）、裁剪（crop）、叠加水印（overlay）。需要掌握 libavfilter 的 AVFilterGraph。</td>
+</tr>
+<tr>
+<td align="center">20%</td>
+<td align="center">自适应码率（ABR）与封装</td>
+<td align="center">把编码与之前的 fMP4&#x2F;HLS 结合，研究如何生成多码率阶梯（如 1080p@5M, <span class="exturl" data-url="bWFpbHRvOiYjeDM3OyYjNTA7JiM0ODsmIzExMjsmI3g0MDsmIzUwOyYjeDJlOyYjNTM7JiM3Nzs=">720p@2.5M<i class="fa fa-external-link-alt"></i></span>），并写入 master.m3u8。</td>
+</tr>
+<tr>
+<td align="center">20%</td>
+<td align="center">编码器调优进阶</td>
+<td align="center">深入 x264&#x2F;x265 的 -x264-params 高级参数（如 ref、me、subme、aq-mode），以及 AV1 编码器（libaom&#x2F;svt-av1）的现状。</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h1 id="ffmpeg"><a href="#ffmpeg" class="headerlink" title="ffmpeg"></a>ffmpeg</h1><ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E7%BB%84%E7%BB%87">数据组织</a></li>
+<li><a href="#%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9D%97">基础模块</a></li>
+<li><a href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B">工作流程</a></li>
+<li><a href="#ffmpeg-cli">ffmpeg cli</a><ul>
+<li><a href="#%E5%B0%81%E8%A3%85%E4%B8%8E%E8%A7%A3%E5%B0%81%E8%A3%85">封装与解封装</a></li>
+<li><a href="#%E7%BC%96%E7%A0%81%E4%B8%8E%E8%BD%AC%E7%A0%81">编码与转码</a></li>
+<li><a href="#%E6%B5%81%E5%AA%92%E4%BD%93%E6%8A%80%E6%9C%AF">流媒体技术</a></li>
+<li><a href="#bitstream%E8%BF%87%E6%BB%A4%E5%99%A8">bitstream过滤器</a><ul>
+<li><a href="#%E8%A7%A3%E6%9E%90%E5%99%A8-%E6%AF%94%E7%89%B9%E6%B5%81%E8%BF%87%E6%BB%A4%E5%99%A8-%E9%9F%B3%E8%A7%86%E9%A2%91%E6%BB%A4%E9%95%9C">解析器-比特流过滤器-音视频滤镜比较</a></li>
+</ul>
+</li>
+<li><a href="#%E9%87%87%E9%9B%86%E8%AE%BE%E5%A4%87%E6%93%8D%E4%BD%9C">采集设备操作</a></li>
+</ul>
+</li>
+<li><a href="#ffmpeg-c-api">ffmpeg c api</a></li>
+</ul>
+<h2 id="Linux-平台编译"><a href="#Linux-平台编译" class="headerlink" title="Linux 平台编译"></a>Linux 平台编译</h2><blockquote>
+<p>需要nasm汇编器对FFmpeg中的汇编部分进行编译</p>
+</blockquote>
+<p>在 FFmpeg 项目的源码目录中经过配置后执行 <code>make</code> 即可开始编译</p>
+<h2 id="数据组织"><a href="#数据组织" class="headerlink" title="数据组织"></a>数据组织</h2><p><strong>对于数据组织，需要理解以下概念</strong>:</p>
+<ol>
+<li>文件<ul>
+<li>从操作系统的角度来看，文件就是磁盘上的一串字节，有文件名、扩展名、大小、路径。但是扩展名只是一种约定&#x2F;提示，不决定文件内部的真实内容。</li>
+<li>常使用 <code>ffprobe</code> 来查看真实格式</li>
+</ul>
+</li>
+<li>容器&#x2F;封装格式<ul>
+<li><em><strong>container &#x2F; wrapper format</strong></em></li>
+<li>定义：如何把多条编码后的音视频流、字幕流、元数据、索引、时间戳组织在一个文件里。一般会有一个特定的后缀名标识。</li>
+<li>实际上是数据的一种组织形式，<strong>不负责压缩视频和音频</strong><br> 如，mp4实际上是容器，H.264是一种音视频编码，acc是音频编码，而mp4是能够装载这些编码的容器</li>
+</ul>
+</li>
+<li>封装&#x2F;解封装<ul>
+<li><strong><em>muxing&#x2F;demuxing</em> 复用&#x2F;解复用</strong></li>
+<li>muxing: 把编码后的视频流、音频流、字幕流，按照某种容器规范，写成一个文件。</li>
+<li>demuxing: 从一个容器文件里，把视频流、音频流、字幕流分离出来。<br> <code>ffmpeg</code> 中 <code>-f mp4</code> 表示输出容器为 mp4</li>
+<li><code>-c copy</code> 不重新编码，只是把流从旧容器复制到新容器，这叫做 <strong>转封装</strong><br> <code>ffmpeg -i input.mp4 -c copy output.mkv</code> 不改变容器内的数据与编码形式，通常来讲，数据效果不变</li>
+</ul>
+</li>
+<li>编码&#x2F;解码<ul>
+<li><strong><em>encoding&#x2F;decoding</em> 编码&#x2F;解码</strong></li>
+<li>encoding: 把原始音视频数据压缩成更小的码流</li>
+<li>decoding: 把压缩码流还原成原始帧或音频样本，供播放、渲染、处理</li>
+<li><strong>编码格式</strong>是规则，<strong>编解码器 codec</strong>是实现这个规则的库或程序<ul>
+<li>大部分请况下指的是一种 <strong>压缩标准</strong> 如：AVC&#x2F;H.264 HEVC&#x2F;H.265 VCC&#x2F;H.266 等</li>
+</ul>
+</li>
+<li>如果重新编码，就叫做 <strong>转码</strong> 过程慢，可能损失画质，但可以改变编码格式、分辨率、码率等</li>
+</ul>
+</li>
+<li>流、轨道、包、帧<ul>
+<li>一个容器里可以有多条流，也称为轨道</li>
+<li>流：容器中的一条独立数据通道，存储诸如：音频(Audio)、视频(Video)、字幕(Subtitle)等数据</li>
+<li>包 Packet：编码后的小块数据，带时间戳；</li>
+<li>帧 Frame：解码后的原始图像或音频样本；</li>
+<li>PTS &#x2F; DTS：时间戳，用于同步和播放顺序；</li>
+<li>元数据：一般位于容器之中，传递一些额外信息</li>
+</ul>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">概念</th>
+<th align="center">是什么</th>
+<th align="center">例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">文件</td>
+<td align="center">字节序列，外层载体</td>
+<td align="center">input.mp4</td>
+</tr>
+<tr>
+<td align="center">容器格式</td>
+<td align="center">组织多流和元数据的规范</td>
+<td align="center">MP4、MKV、TS</td>
+</tr>
+<tr>
+<td align="center">封装</td>
+<td align="center">把流写入容器的动作</td>
+<td align="center">muxing</td>
+</tr>
+<tr>
+<td align="center">编码格式</td>
+<td align="center">压缩音视频的规则</td>
+<td align="center">H.264、AAC</td>
+</tr>
+<tr>
+<td align="center">编解码器</td>
+<td align="center">实现编码格式的库&#x2F;程序</td>
+<td align="center">libx264、libx265</td>
+</tr>
+<tr>
+<td align="center">流</td>
+<td align="center">容器里的独立通道</td>
+<td align="center">视频流、音频流</td>
+</tr>
+<tr>
+<td align="center">帧&#x2F;包</td>
+<td align="center">解码后帧 &#x2F; 编码后包</td>
+<td align="center">frame、packet</td>
+</tr>
+</tbody></table>
+<ul>
+<li>容器 ≠ 编码：MP4 不是编码，H.264 不是容器；</li>
+<li>封装 ≠ 编码：封装不改变压缩数据；</li>
+<li>转封装 ≠ 转码：-c copy 是转封装，-c:v libx264 是转码；</li>
+<li>扩展名 ≠ 实际格式：要用 ffprobe 探测。</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">文件</span><br><span class="line">  └── 容器 / 封装格式</span><br><span class="line">        └── 流 / 轨道</span><br><span class="line">              └── 编码格式</span><br><span class="line">                    └── 包 / 帧 / 样本</span><br></pre></td></tr></table></figure>
+
+<h2 id="基础模块"><a href="#基础模块" class="headerlink" title="基础模块"></a>基础模块</h2><p><strong>ffmpeg 基础模块</strong><br><img src="/./resource/ffmpeg/ffmpeg-basic-modul.jpg" alt="ffmpeg basic modul"></p>
+<p>有以下基本模块:</p>
+<ul>
+<li><strong>AVFormat</strong><ul>
+<li>是封装模块，实现了目前多媒体领域中的绝大多数媒体封装格式，包括封装器(Muxer)和解封装器(Demuxer)</li>
+<li>FFmpeg是否支持某种媒体封装格式，取决于编译时是否包含该格式的Muxer&#x2F;Demuxer</li>
+<li>FFmpeg也支持根据框架要求添加自己的Muxer&#x2F;Demuxer</li>
+</ul>
+</li>
+<li><strong>AVCodec</strong><ul>
+<li>是编解码模块，实现了目前多媒体领域绝大多数常用的编解码格式，既支持编码(Encoding)，也支持解码(Decoding)</li>
+<li>FFmpeg也支持根据自己的需要添加新的编解码模块</li>
+</ul>
+</li>
+<li><strong>AVFilter</strong><ul>
+<li>滤镜模块，是一个通用的音频、视频、字幕等滤镜处理框架，可以有多个输入和输出</li>
+<li>构成规则<ul>
+<li>相同滤镜的线性链用逗号<code>,</code>分隔，将前一个滤镜的输出给后一个滤镜使用</li>
+<li>不同滤镜的线性链之间用分号<code>;</code>分隔，分隔不同的滤镜或分支</li>
+<li>方括号<code>[name]</code>，给连接点打标签，相当于变量名</li>
+<li>有些过滤器的输入是一个参数列表，参数列表被指定在过滤器名称和一个等号之后，并且用冒号分开。<br>也存在没有音频、视频输入的源过滤器（即source filter），以及不会有音频、视频输出的汇集过滤器（即sink filter）</li>
+<li>可以通过 <code>ffmpeg -filters</code> 列出所有支持的滤镜，通过 <code>ffmpeg -h filter=filter_name</code> 列出某个滤镜的参数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>AVDevice</strong><ul>
+<li>提供了一些常用的输入输出设备的处理框架</li>
+<li>AVDevice还有一个名为 <strong>lavfi</strong> 的 <strong>虚拟输入设备</strong> ，<br>它允许使用libavfilter的滤镜链或表达式作为 <em>8输入或输出设备</em>*。<br>通过它，可以很方便地生成很多“假”的音频（如某一频率的声音或高斯白噪声）和视频流（如纯色或渐变的RGB图像序列等）。<br>该设备在作为示例或测试时很常用</li>
+</ul>
+</li>
+<li><strong>AVUtil</strong></li>
+<li><strong>swresample</strong><ul>
+<li>音频转换计算模块</li>
+<li>重采样：执行 <strong>改变音频采样率</strong> 的处理，例如从44 100Hz的高采样率转换到8000Hz的低采样率。<br>从高采样率到低采样率的音频转换是一个有损失的过程，该库有多个重采样选项和算法可用。</li>
+<li>格式转换：执行 <strong>采样类型的转换过程</strong> ，例如从16位有符号采样格式转换为无符号8位或浮点类型的采样格式。<br>它还处理 <strong>打包转换</strong> ，如从打包布局变换到平面布局。</li>
+<li>Rematrixing: <strong>改变通道布局的过程</strong>，例如从立体声到单声道。<br>当输入通道数量 <strong>多于</strong> 输出通道数量时，这个过程是 <strong>有损失的</strong> ，因为它涉及不同的增益因子和混合。</li>
+</ul>
+</li>
+<li><strong>swscale</strong><ul>
+<li>视频图像转换计算模块</li>
+<li>提供了底层的图像转换API接口，它允许进行图像缩放和像素格式转换</li>
+<li>重新缩放：即改变视频尺寸的处理，其有几个重新缩放的选项和算法可用。<br>与此同时，需要注意缩放通常是一个有损失的过程，缩放也需要在图像质量、缩放性能等限定条件下进行折中权衡。</li>
+<li>像素格式转换：这是 <strong>转换图像格式和图像色彩空间</strong> 的过程，例如从平面格式的YUV420P到RGB24打包格式。<br>它还处理 <strong>打包转换</strong> ，即从打包布局（所有属于不同平面的像素交错在同一个缓冲区，如RGB格式）转换为平面布局（所有属于同一平面的采样数据存储在一个专门的缓冲区或“平面”，如YUV420P）。<br>如果源和目的 <strong>色彩空间不同</strong> ，这通常也是一个 <strong>有损失</strong> 的过程。</li>
+</ul>
+</li>
+</ul>
+<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><ul>
+<li><strong>主要流程</strong><ul>
+<li>解封装 Demuxing (解复用)</li>
+<li>解码 Decoding</li>
+<li>[流处理]</li>
+<li>编码 Encoding</li>
+<li>封装 Muxing (复用)</li>
+</ul>
+</li>
+</ul>
+<p><strong>ffmpeg主要工作流程</strong><br><img src="/./resource/ffmpeg/ffmpeg-workflow.jpg" alt="ffmpeg-main-workflow"></p>
+<ul>
+<li><p><strong>制作文件</strong></p>
+<ul>
+<li>原始视频帧 -&gt; 视频编码器 -&gt; 视频码流</li>
+<li>原始音频样本 -&gt; 音频编码器 -&gt; 音频码流</li>
+<li>视频码流 + 音频码流 + 字幕 + 元数据 -&gt; 封装器 -&gt; 容器文件</li>
+</ul>
+</li>
+<li><p><strong>播放文件</strong></p>
+<ul>
+<li>容器文件 -&gt; 解封装器 -&gt; 视频码流 &#x2F; 音频码流</li>
+<li>视频码流 -&gt; 视频解码器 -&gt; 原始视频帧 -&gt; 渲染</li>
+<li>音频码流 -&gt; 音频解码器 -&gt; PCM 样本 -&gt; 播放</li>
+</ul>
+</li>
+<li><p><strong>转码</strong></p>
+<ul>
+<li>解封装 -&gt; 解码 -&gt; 滤镜处理 -&gt; 重新编码 -&gt; 重新封装</li>
+</ul>
+</li>
+<li><p><strong>转封装</strong></p>
+<ul>
+<li>解封装 -&gt; 再直接封装，不需要重新编码</li>
+</ul>
+</li>
+</ul>
+<h2 id="FFmpeg特性的选择与定制"><a href="#FFmpeg特性的选择与定制" class="headerlink" title="FFmpeg特性的选择与定制"></a>FFmpeg特性的选择与定制</h2><p>FFmpeg所做的是提供一套基础的框架，所有的编码格式、文件封装格式与流媒体协议可以作为FFmpeg的模块挂载在FFmpeg框架中，<br>这些模块可以以第三方外部库的方式提供支持，也可以选择直接与FFmpeg一体，成为FFmpeg原生实现的一部分。<br>通过FFmpeg源码的configure命令，可以查看FFmpeg支持的音视频编码格式、文件封装格式与流媒体传输协议，<br>对于FFmpeg不支持的格式，可以通过configure –help查看是否有第三方外部库支持，然后通过增加对应的编译参数选项进行支持。</p>
+<p>FFmpeg默认支持的音视频编码格式、文件封装格式与流媒体传输协议比较多，因此编译的FFmpeg文件较大。<br>而在有些应用场景中并不需要FFmpeg支持如此多的编码、封装或者协议，<br>为了减小最终编译出来的库的体积（如在手机端等须注意最终包大小的场景等），<br>这时候可以通过configure –help查看一些有用的选项以用作后续的裁减。</p>
+<h2 id="ffmpeg-cli"><a href="#ffmpeg-cli" class="headerlink" title="ffmpeg cli"></a>ffmpeg cli</h2><p>ffmpeg的常见命令大概分为以下6个部分</p>
+<ul>
+<li><strong>ffmpeg信息查询</strong> 部分<ul>
+<li><code>ffmpeg -formats/encoders/decoders/codecs/filters</code> 的方式，查看支持的容器&#x2F;编解码器&#x2F;滤镜的简介</li>
+<li><code>ffmpeg -h encoder/decoder/muxer/demuxer/ filter=xxx</code> 的方式，查看具体容器、编解码器、滤镜的详细参数</li>
+</ul>
+</li>
+<li><strong>公共操作参数</strong> 部分</li>
+<li><strong>文件主要操作参数</strong> 部分</li>
+<li><strong>视频操作参数</strong> 部分</li>
+<li><strong>音频操作参数</strong> 部分</li>
+<li><strong>字幕操作参数</strong> 部分</li>
+</ul>
+<h3 id="封装与解封装"><a href="#封装与解封装" class="headerlink" title="封装与解封装"></a>封装与解封装</h3><blockquote>
+<p>(format) muxer &amp; demuxer</p>
+</blockquote>
+<blockquote>
+<p>目前的网络流容器格式以 <strong>MPEG</strong> 容器格式为主流<br>MPEG容器格式是一个 <strong>树形 Box 结构</strong></p>
+</blockquote>
+<p>容器格式是一种允许将单个或多个音频、视频、字幕等数据流存入单个文件的文件格式，<br>通常伴随着用于识别和进一步详细说明这些数据流的元数据，元数据一般被存储在文件的头部，有时候也被称为音视频关键数据索引。</p>
+<p>较简单的容器格式可以包含不同类型的音频、视频流，<br>而更高级的容器格式可以支持多个音频和视频流、字幕、章节信息、元数据（或称为标签），以及播放各种类型的流所需的同步信息。</p>
+<p><strong>容器需要解决的问题</strong><br><img src="/./resource/ffmpeg/problem-format-must-resolve.jpg" alt="problem-format-must-resolve"></p>
+<p><strong>容器设计至少需要考虑以下问题</strong>:</p>
+<ul>
+<li>捕获视频图像、音频信号。</li>
+<li>文件的交换与下载，包括增量下载与播放。</li>
+<li>本地播放。</li>
+<li>编辑、组合、快速定位与搜索等。</li>
+<li>流式播放及拉流录制。</li>
+</ul>
+<h4 id="视频文件转-MP4-格式"><a href="#视频文件转-MP4-格式" class="headerlink" title="视频文件转 MP4 格式"></a>视频文件转 MP4 格式</h4><p>MP4文件分为两个主要部分：</p>
+<ul>
+<li><strong>元数据 (moov)</strong><ul>
+<li>包含通用信息<ul>
+<li>如：每个音频、视频帧的时间信息和偏移量等</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>音视频数据 (mdat)</strong><ul>
+<li>包含视频和音频帧，通常以交错顺序存放</li>
+</ul>
+</li>
+</ul>
+<p>MP4 中没有以 <em>起始码</em> 作为前缀，而是使用长度<br>MP4 文件格式的基础是 ISO BMFF (ISO Basic Media File Format) ，最初源自于苹果的 QuickTime 文件格式<br>MP4 文件格式中包括多个子容器，每个子容器在标准中都称为 <em><strong>box</strong></em> 或 <em><strong>atom</strong></em> 在交流时通常不翻译为容器、盒子、箱子。<br>(moov mdat 都是box)</p>
+<blockquote>
+<p>ISO BMFF文件格式包含结构和媒体数据信息，主要用于媒体数据的时序化展示，如音频、视频等；也支持非时序化的数据，如元数据。</p>
+</blockquote>
+<p><strong>MP4标准间的关系</strong><br><img src="/./resource/ffmpeg/MP4-standard-relation.jpg" alt="MP4-standard-relation"></p>
+<blockquote>
+<p>MP4（ISO Base Media File Format，ISO&#x2F;IEC 14496-12）中所有多字节整数字段都按大端序（Big-Endian）序列化<br>包括 box 头里的 size、largesize，以及各种 box 内部的 16&#x2F;32&#x2F;64 位整数字段。没有 little-endian 的标准变体</p>
+</blockquote>
+<p>MP4文件由许多box与FullBox组成，基本结构如下  </p>
+<ul>
+<li>|size|type| 组成共8Byte的header<ul>
+<li>size 是块包含头的总大小</li>
+<li>type 是 FourCC 标签，moov与mdat存放在这里</li>
+</ul>
+</li>
+<li>|data| 是box块的实际数据，可以是媒体数据，也可以是多个子box<ul>
+<li>box 可以分层嵌套，此时，该box也称为 Container box (容器box)</li>
+</ul>
+</li>
+<li>header包含了整个box的长度大小（size）和类型（type），类型是一个典型的4字符的标签，一般被称为 <strong>FourCC</strong><br>当size等于0时，代表这个box是文件的最后一个box；<br>当size等于1时，说明box长度需要更多的位来描述，在后面会定义一个64位的largesize来描述box的长度<br>当type为uuid时，说明这个box中的数据是用户自定义扩展类型  </li>
+<li>FullBox是box的扩展，以box结构为基础，在header中添加8bit的version标志和24bit的flags标志，以确保能灵活扩展(<code>version</code>)，flags标志在特定的FullBox中定义</li>
+</ul>
+<p><strong>box</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">4Byte</th>
+<th align="center">4Byte</th>
+<th align="center">size - 8Byte Byte</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">size</td>
+<td align="center">type</td>
+<td align="center">data</td>
+</tr>
+</tbody></table>
+<p><strong>扩展box</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">4Byte</th>
+<th align="center">4Byte</th>
+<th align="center">8Byte</th>
+<th align="center">largesize - 16Byte Byte</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">size &#x3D;&#x3D; 0x01</td>
+<td align="center">type</td>
+<td align="center">largesize</td>
+<td align="center">data</td>
+</tr>
+</tbody></table>
+<p><strong>嵌套box</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">4Byte</th>
+<th align="center">4Byte</th>
+<th align="center">size - 8Byte Byte</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">size</td>
+<td align="center">type</td>
+<td align="center">data:(|box|box|box|…|)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>box的大小至少是 4+4&#x3D;8 Byte (size+type)</p>
+</blockquote>
+<blockquote>
+<p>在互联网的视频点播中，如果希望MP4文件被快速打开，则需要将moov存放在mdat的前面，<br>如果放在后面，需要将MP4文件下载完成后才可以进行播放。<br>从实践的角度看，moov放在文件头部更为合适一些。当然，在实际生成MP4文件时，由于moov中的一些信息事先无法预测，<br>需要在文件即将结束时才能获取到，所以一般都是在生成完毕后再移动到文件头部的。</p>
+</blockquote>
+<p>box与FullBox的严格定义</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">aligned</span>(<span class="number">8</span>)</span><br><span class="line"><span class="function"><span class="keyword">class</span> <span class="title">Box</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span>(<span class="number">32</span>) boxtype, optional <span class="type">unsigned</span> <span class="type">int</span>(<span class="number">8</span>)[<span class="number">16</span>] extended_type)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function"><span class="type">unsigned</span> <span class="title">int</span><span class="params">(<span class="number">32</span>)</span> size</span>;</span><br><span class="line">    <span class="function"><span class="type">unsigned</span> <span class="title">int</span><span class="params">(<span class="number">32</span>)</span> type </span>= boxtype;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (size == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="function"><span class="type">unsigned</span> <span class="title">int</span><span class="params">(<span class="number">64</span>)</span> largesize</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (size == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// box extends to end of file</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (boxtype == <span class="string">&#x27;uuid&#x27;</span>) &#123;</span><br><span class="line">        <span class="type">unsigned</span> <span class="built_in">int</span>(<span class="number">8</span>)[<span class="number">16</span>] usertype = extended_type;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">aligned</span>(<span class="number">8</span>)</span><br><span class="line"><span class="function"><span class="keyword">class</span> <span class="title">FullBox</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span>(<span class="number">32</span>) boxtype, <span class="type">unsigned</span> <span class="type">int</span>(<span class="number">8</span>) v, bit(<span class="number">24</span>) f)</span></span></span><br><span class="line"><span class="function">extends <span class="title">Box</span><span class="params">(boxtype)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function"><span class="type">unsigned</span> <span class="title">int</span><span class="params">(<span class="number">8</span>)</span> version </span>= v;</span><br><span class="line">    <span class="built_in">bit</span>(<span class="number">24</span>) flags = f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>MP4 解析就是不断读取 size 和 type，用 size 确定当前 box 的边界；<br>如果是容器 box，就进入内部继续解析子 box；如果是叶子 box，就按 size 跳到末尾，继续下一个同级 box。</p>
+</blockquote>
+<h4 id="moov-movie-box-解析"><a href="#moov-movie-box-解析" class="headerlink" title="moov (movie box) 解析"></a>moov (movie box) 解析</h4><blockquote>
+<p><strong>在标准的 MP4&#x2F;ISO BMFF 文件中，moov box 内绝对没有纯媒体流数据（音视频帧），它里面全部都是元数据（以及索引信息）</strong></p>
+</blockquote>
+<p>moov定义了MP4文件的元数据信息，在MP4文件中 <strong>moov box 有且仅有一个</strong> ，moov里面包含的子box作为描述媒体数据的信息的容器。<br>这些元数据信息被存储在不同类型的子box中。一般来说，元数据被存储在moov box中，而多媒体的实际数据，<br>如音频或视频数据，则在moov box中被引用，但不包含在其中。</p>
+<p>moov至少包含以下3种box中的一种。</p>
+<ul>
+<li><strong>mvhd：<em>Movie Header box</em></strong> ，存放多媒体信息头的容器，这是最常见的形式。</li>
+<li><strong>cmov：Compressed Movie box</strong>* ，压缩过的电影信息容器。</li>
+<li><strong>rmra：Reference Movie box</strong>* ，参考电影信息容器。</li>
+</ul>
+<p>moov本质上是其他box的一个容器，这些box组合在一起描述了多媒体的内容。<br>从高层结构看，moov通常包含trak box，而trak box又包含mdia box。<br>最低层的子box则包含非box格式的数据，通常以表格或一组数据元素的形式出现。</p>
+<blockquote>
+<p>moov中最为常见的是mvhd，它定义了整个多媒体文件的timescale、duration等显示特性。<br>而trak中定义了多媒体文件中的一个track的信息，track指的是多媒体文件中 <strong>可以独立操作</strong> 的媒体单位，<br>例如一个声道是一个track，一个视频流也是一个track。</p>
+</blockquote>
+<p>trak box有两种</p>
+<ul>
+<li>media track<ul>
+<li>用于保存media相关信息</li>
+</ul>
+</li>
+<li>hint track<ul>
+<li>包含用于流媒体的打包信息</li>
+</ul>
+</li>
+</ul>
+<h4 id="mvhd-movie-header-box-解析"><a href="#mvhd-movie-header-box-解析" class="headerlink" title="mvhd (movie header box) 解析"></a>mvhd (movie header box) 解析</h4><p>mvhd box包裹在moov box中，包含了与整个播放展示相关的元数据<br>诸如文件的创建和修改时间等信息，它告诉我们视频播放器总时长、time scale、播放速度和初始音量</p>
+<p><strong>mvhd参数</strong><br><img src="/./resource/ffmpeg/mvhd-args-1.jpg" alt="mvhd-args-1"><br><img src="/./resource/ffmpeg/mvhd-args-2.jpg" alt="mvhd-args-2"></p>
+<h4 id="trak-解析"><a href="#trak-解析" class="headerlink" title="trak 解析"></a>trak 解析</h4><p>trak定义了媒体文件中一个 <strong>track(轨道)</strong> 的信息。<br>一个媒体文件可以包含多个track，每个track都是独立的，有自己的时间和空间占用的信息。<br>每个trak容器都有与它关联的媒体容器描述信息。使用trak的主要目的如下：</p>
+<ul>
+<li>包含媒体数据的 <strong>引用和描述</strong> (media track)</li>
+<li>包含<strong>modifier</strong> track信息</li>
+<li>包含 <strong>流媒体协议的打包信息(hint track)</strong> ，hint track(提示轨道)可以引用或者复制对应的媒体采样数据</li>
+</ul>
+<p><strong>hint track和modifier track必须保证完整性，与至少一个media track同时存在</strong><br>一个trak中要求必须有一个Track Header box（tkhd）、一个Media box（mdia），其他的box都是可选的。</p>
+<h4 id="tkhd-tracker-header-box-解析"><a href="#tkhd-tracker-header-box-解析" class="headerlink" title="tkhd (tracker header box) 解析"></a>tkhd (tracker header box) 解析</h4><blockquote>
+<p>由 mvhd 与 tkhd 的 size 我们看到，在一定版本下，在规范中的size字段的参数大小是一定的，标识的块数据长度也是一定的</p>
+</blockquote>
+<p>tkhd放在trak box里，每个track只能有一个tkhd。它是强制性的，包含描述单个轨道的特性的元数据。<br>可以看到tkhd中的很多字段信息与mvhd有些类似，原因其实容易理解，<br>mvhd描述整个文件的公共信息，而thkd描述整个文件中 <strong>某个track</strong> 的信息。</p>
+<p><img src="/./resource/ffmpeg/tkhd-args-1.jpg" alt="tkhd-args-1"><br><img src="/./resource/ffmpeg/tkhd-args-2.jpg" alt="tkhd-args-2"><br><img src="/./resource/ffmpeg/tkhd-args-3.jpg" alt="tkhd-args-3"></p>
+<h4 id="mdia-解析"><a href="#mdia-解析" class="headerlink" title="mdia 解析"></a>mdia 解析</h4><blockquote>
+<p>是 trak 的子容器</p>
+</blockquote>
+<p>Media box的类型是mdia，是一个容器box，其必须包含如下容器：</p>
+<ul>
+<li>媒体头容器：Media Header box（mdhd）</li>
+<li>句柄参考容器：Handler Reference box（hdlr）</li>
+<li>媒体信息容器：Media Information box（minf）</li>
+<li>用户数据容器：User Data box（udta）</li>
+</ul>
+<h4 id="hdlr-解析"><a href="#hdlr-解析" class="headerlink" title="hdlr 解析"></a>hdlr 解析</h4><p>描述了媒体流的媒体类型，可以根据这个box的内容，确定对应track的具体类型是Video、Audio或者其他</p>
+<h4 id="minf-解析"><a href="#minf-解析" class="headerlink" title="minf 解析"></a>minf 解析</h4><p>minf包含了很多重要的子容器，例如与音视频采样等信息相关的容器。minf容器中的信息将作为音视频数据的映射存在</p>
+<p>其内容信息如下:</p>
+<ul>
+<li>视频信息头：Video Media Information Header（vmhd子容器）</li>
+<li>音频信息头：Sound Media Information Header（smhd子容器）</li>
+<li>数据信息：Data Information（dinf子容器）</li>
+<li>采样表：Sample Table（stbl子容器，描述具体的数据与时间、位置等信息的对应关系）</li>
+</ul>
+<h4 id="dinf-解析"><a href="#dinf-解析" class="headerlink" title="dinf 解析"></a>dinf 解析</h4><p>dinf是一个描述数据信息的容器，定义了音视频数据的信息，它包含子容器dref。</p>
+<h4 id="stbl-解析"><a href="#stbl-解析" class="headerlink" title="stbl 解析"></a>stbl 解析</h4><p>stbl为采样列表容器（Sample Table box），该容器包含转化媒体时间到实际的sample（样本或者采样点）的信息，<br>也表征了如何进一步解析sample的信息，例如，视频数据是否需要解压缩、解压缩采用的是什么编码算法等  </p>
+<p>它包含的子容器如下:</p>
+<ul>
+<li>采样描述容器：Sample Description box（stsd）</li>
+<li>采样时间容器：Time To Sample box（stts）</li>
+<li>采样同步容器：Sync Sample box（stss）</li>
+<li>Chunk采样容器：Sample To Chunk box（stsc）</li>
+<li>采样大小容器：Sample Size box（stsz）</li>
+<li>Chunk偏移容器：Chunk Offset box（stco）</li>
+<li>Shadow同步容器：Shadow Sync box（stsh）</li>
+</ul>
+<p>stbl包含track中media sample的 <strong>所有时间和数据索引</strong> ，利用stbl，就可以 <strong>定位sample到媒体时间、文件位置的映射关系</strong> ，<br>决定其类型、大小，以及如何在其他容器中找到紧邻的sample。<br>如果它所在的track没有引用任何数据，那么它就不是一个有用的media track，不需要包含任何子box。  </p>
+<p>如果它 <strong>所在的track引用了数据</strong> ，那么必须包含以下子box:</p>
+<ul>
+<li>采样描述容器（stsd）：它主要包含解码器所需要的基本信息，里面的细节规定一般与特定的编码器相关。<br>一般新的Codec需要注册一下，可以参考<span class="exturl" data-url="aHR0cDovL21wNHJhLm9yZy8jIy9jb2RlY3M=">mp4ra.org<i class="fa fa-external-link-alt"></i></span>，从中查到已经注册的Codec的描述信息及对应的标准。</li>
+<li>采样大小容器（stsz）。</li>
+<li>Chunk采样容器（stsc）。</li>
+<li>Chunk偏移容器（stco）。<br>所有的子表都有相同的sample数目。</li>
+</ul>
+<p><strong>stbl是必不可少的一个box</strong> ，而且 <strong>必须包含至少一个条目</strong> ，因为它包含了检索media sample的索引信息。<br><strong>没有sample description就不能计算出media sample存储的位置。</strong><br>采样同步容器（stss）是可选的，如果没有，规范上规定这表明所有的sample都是采样同步的。</p>
+<blockquote>
+<p>但是很可惜，很多MP4文件并未遵循这个规定，使得我们无法很好地使用stss，<br>以及在没有这个box时认为所有sample都是可同步的。</p>
+</blockquote>
+<ul>
+<li>track：轨道，表示一些sample的集合，对于媒体数据来说，表示一个视频或者音频序列。</li>
+<li>chunk：块，一个track的几个连续sample组成的单元称为一个chunk，同一chunk内的sample是连续的，它是一个逻辑概念。在fMP4格式中，则使用run来表征类似的意思。</li>
+<li>sample：采样，与一个时间戳相关的所有数据，一般对应视频中的一个帧，或对应Audio中一段压缩的音频。一般而言，同一个track中不可能有两个或者多个sample具有相同的时间戳。</li>
+</ul>
+<blockquote>
+<p>((track (chunks (samples …) …) …) …)</p>
+</blockquote>
+<p>一个track由连续的chunk组成，而chunk则包含多个连续的sample。<br>track和sample的概念比较容易理解，chunk这个概念则需要多思考一下，其原因主要是 <strong>增加了一个中间层</strong><br>这样的好处是不用直接做track到sample的映射，这些box的大小可以通过增加的chunk层得以 <strong>可控</strong><br>每个轨道都有一个stbl容器，因此每个track有自己的一套完整的采样表。<br>chunk在轨道间并非完美的交错  </p>
+<blockquote>
+<p>使用chunk、sample这样的两级结构，使得描述最终sample所需要的数据量大为减少，这是通过增加一个间接的层chunk实现的。</p>
+</blockquote>
+<blockquote>
+<p>毕竟Butler Lampson很早就告诉我们，“计算机科学领域的任何问题都可以通过增加一个间接的中间层来解决”</p>
+</blockquote>
+<p>一个给定sample的解码时间是由轨道中所有前面sample的累积时间确定的，<br>这其实带来了一个潜在的依赖问题，这意味着解码显示当前帧，会依赖前面的帧的时间数据。<br>在fMP4&#x2F;CMAF场景，因为有可能从中间任意位置解码，使用了绝对时间而非这种有依赖关系的方式来描述时间。</p>
+<p>采样delta是以什么单位来衡量的呢？我们可以通过查看媒体box中定义的时间尺度（timescale）值，即轨道对应的mdhd box来了解。</p>
+<table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="center">全称</th>
+<th align="center">含义</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">DTS</td>
+<td align="center">Decoding Time Stamp</td>
+<td align="center">解码时间戳</td>
+<td align="center">指示这一帧何时被解码（送入解码器的顺序）</td>
+</tr>
+<tr>
+<td align="center">PTS</td>
+<td align="center">Presentation Time Stamp</td>
+<td align="center">显示时间戳</td>
+<td align="center">指示这一帧何时被显示（在屏幕上呈现的时间）</td>
+</tr>
+</tbody></table>
+<h4 id="edts-解析"><a href="#edts-解析" class="headerlink" title="edts 解析"></a>edts 解析</h4><p>edts定义了创建Movie媒体文件中的一个track的一部分媒体，所有的edts数据都在一个表里，<br>包括每一部分的时间偏移量和长度。如果没有该表，这个track就会被立即播放。<br>一个空的edts用来定位到track的起始时间偏移位置。</p>
+<blockquote>
+<p>对edts box特别是elst box做一个更一步的说明，elst因为在逻辑上把trak做了一个偏移，<br>很多播放器或者对应的工具支持得并不是很好，所以碰到这个box需要注意兼容性问题。</p>
+</blockquote>
+<h4 id="stbl-如何构建出一个视频帧（AVPacket）？"><a href="#stbl-如何构建出一个视频帧（AVPacket）？" class="headerlink" title="stbl 如何构建出一个视频帧（AVPacket）？"></a>stbl 如何构建出一个视频帧（AVPacket）？</h4><table>
+<thead>
+<tr>
+<th align="left">需要的信息</th>
+<th align="left">对应的子 Box</th>
+<th align="left">FFmpeg 内部变量</th>
+<th align="left">实际用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>帧大小</strong></td>
+<td align="left"><code>stsz</code> (Sample Size Box)</td>
+<td align="left"><code>MOVStreamContext-&gt;sample_sizes[]</code></td>
+<td align="left">决定 <code>pkt-&gt;size</code></td>
+</tr>
+<tr>
+<td align="left"><strong>文件偏移</strong></td>
+<td align="left"><code>stco/co64</code> + <code>stsc</code></td>
+<td align="left"><code>MOVStreamContext-&gt;chunk_offsets[]</code></td>
+<td align="left"><code>avio_seek</code> 到文件对应位置读取数据</td>
+</tr>
+<tr>
+<td align="left"><strong>解码时间(DTS)</strong></td>
+<td align="left"><code>stts</code> (Time To Sample Box)</td>
+<td align="left"><code>MOVStreamContext-&gt;stts_data[]</code></td>
+<td align="left">累加 <code>sample_delta</code> 得到 <code>pkt-&gt;dts</code></td>
+</tr>
+<tr>
+<td align="left"><strong>显示时间(PTS)</strong></td>
+<td align="left"><code>ctts</code> (Composition Offset)</td>
+<td align="left"><code>MOVStreamContext-&gt;ctts_data[]</code></td>
+<td align="left"><code>pkt-&gt;pts = pkt-&gt;dts + ctts_offset</code> (解决B帧)</td>
+</tr>
+<tr>
+<td align="left"><strong>关键帧标记</strong></td>
+<td align="left"><code>stss</code> (Sync Sample Box)</td>
+<td align="left"><code>MOVStreamContext-&gt;keyframe_pts[]</code></td>
+<td align="left">设置 &#96;pkt-&gt;flags</td>
+</tr>
+<tr>
+<td align="left"><strong>编解码参数</strong></td>
+<td align="left"><code>stsd</code> (Sample Description)</td>
+<td align="left"><code>st-&gt;codecpar</code></td>
+<td align="left">初始化解码器（如 HEVC 的 VPS&#x2F;SPS&#x2F;PPS）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>FFmpeg 源码入口</strong>：<code>mov_read_stsz()</code> &#x2F; <code>mov_read_stts()</code> &#x2F; <code>mov_read_stco()</code> &#x2F; <code>mov_read_stsc()</code> &#x2F; <code>mov_build_index()</code><br><strong>调试验证</strong>：<code>ffprobe -v trace input.mp4</code> 查看 Box 解析顺序；<code>ffprobe -show_packets input.mp4</code> 查看计算出的 DTS&#x2F;PTS&#x2F;Size&#x2F;Flags。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>详细的 容器&#x2F;子容器 内部细节，参见《深入理解ffmpeg》第4章封装与解封装部分</strong></p>
+</blockquote>
+<hr>
+<p>以上是 <strong>点播场景</strong> 下的MP4容器格式<br>针对于 <strong>直播场景</strong> ，其传输是流式的，于是诞生了 <strong>Fragment MP4 (fMP4)</strong> 容器格式，以及后来的 <strong>CMAF</strong> 容器格式</p>
+<h4 id="fMP4"><a href="#fMP4" class="headerlink" title="fMP4"></a>fMP4</h4><p><strong>为什么点播、直播场景需要使用不同形式的容器？</strong></p>
+<ul>
+<li>在普通模式下，MP4的单一moov box导致在所有数据完成写入之前，不能写入该box，对于直播环境下的 <em><strong>捕获&#x2F;实时录制</strong></em> 是一个很大的挑战<br>并且，若传输中出现了意外的损坏，也无法修复</li>
+<li>对于动辄小时起步的电影来说，moov box的大小可能相当大，对内存优化有不小的挑战。在网络场景中，moov box的存在意味着需要预传输大量的数据才能开始播放</li>
+</ul>
+<p>fMP4以及CMAF的基本原理是:<br>将一部电影或直播流划分为较小的片段，称为分片，分片这种能力是流媒体应用的关键。<br>与原来等待一个完整的MP4文件的下载相比，我们更希望每次下载的时间不超过几秒钟，这样就可以在下载的过程中同时播放。<br>此外，随着网络条件的变化，我们还希望能够在不同版本的流媒体之间无缝切换，以便得到更高或更低的分辨率，或者更多或更小的压缩比。<br>这就是自适应比特率流媒体的特点。同时，分片越短，就越能快速地适应网络环境的变化。<br>但不幸的是，这给压缩和分发也带来一些挑战。</p>
+<p>一个 fMP4 流由一个 <strong>初始化段</strong> 和一连串的 <strong>媒体段</strong> 组成。初始化段类似于一个未分片文件的开始，它由一个ftyp box和一个moov box组成。<br>moov box包含额外的信息，以表明流是切片的，主要包括一个mvex box。<br>不过与上面的传统MP4相比较，fMP4的moov box只存储了文件级别的媒体信息，因此比传统MP4文件的moov box要小很多。<br>mvex是fMP4的标准box，它的作用是告诉Demuxer端这是一个fMP4文件，具体的sample信息内容不再放到trak里，而是放到每一个moof中。</p>
+<p>音视频切片文件由一个 <strong>moof（movie fragment）box</strong> 和一个 <strong>mdat box</strong> 组成，<br>前者包含该片段的元数据，后者包含部分音频、视频的有效载荷。<br><strong>moof box</strong> 存放的是 <strong>fragment（分片）</strong> 级别的元信息，用于描述所在的fragment。<br>该类型的box在普通的MP4文件中是 <strong>不存在的</strong> ，而 <strong>在fMP4文件中，每个fragment都会有一个moof类型的box</strong><br>moof和moov类似，它包含了当前片段中MP4的相关元信息，但 <strong>将moov的部分信息变成了多个moof这样的方式</strong><br>另外，一般而言，普通的MP4文件只有一个mdat box，而 <strong>fMP4&#x2F;CMAF文件则有多个mdat box</strong><br>它也可能在开始时有一个styp box，styp就像ftyp一样，但针对的是一个音视频切片片段。<br>在一个正确编码的流中，每个媒体fragment都可以被解码和播放，除去需要所依赖的初始化片段外，任何其他片段的信息都不再需要。<br>粗略来讲，fMP4的构成如下：</p>
+<ul>
+<li>1 ftyp</li>
+<li>1 moov</li>
+<li>N [moof mdat] &#x2F;&#x2F; 一起构成分片</li>
+<li>1 mfra</li>
+</ul>
+<p><strong>fMP4与分片</strong><br><img src="/./resource/ffmpeg/fMP4-slice-1.jpg" alt="fMP4-slice-1"><br><img src="/./resource/ffmpeg/fMP4-slice-2.jpg" alt="fMP4-slice-2"></p>
+<p>上面的mvex box是可选的，其由mehd和trex组成，其中，mehd是可选的，它指定整个文件的持续时间，<br>整个文件的持续时间对应于 <strong>最长的轨道持续时间（包含所有分片）</strong> ；<br>trex是必选的（如果mvex存在），每个轨道都有一个单独的trex，这个box为其轨道（track_ID）指定默认的标志和值。<br>在moof box中，对应特性如果没有被标识或设置对应的值，解码器将从trex box中获取对应轨道的默认值。</p>
+<blockquote>
+<p>通常每个封闭的GoP都作为一个单独的分片来存储，这种分片模式被称为基于关键帧的分片。使用的FFmpeg命令一般如下：<br><code>ffmpeg -i in.h264 -c:v copy -f mp4 -movflags frag_keyframe+empty_moov frag_out.mp4</code><br>命令只是把原有的编码帧重新封装到 fMP4 容器里，并没有对视频进行重新编码</p>
+</blockquote>
+<h4 id="CMAF"><a href="#CMAF" class="headerlink" title="CMAF"></a>CMAF</h4><p>CMAF（通用媒体应用格式，Common Media Application Format），<br>它是一种可扩展的格式，用于打包分段的媒体对象，以便在自适应媒体流中在终端用户设备上传输和解码。<br>使用CMAF的最初目的是简化基于HTTP的流媒体的交付。它是一个新兴的标准，有助于降低成本和复杂性，并可以结合其他技术来减少端到端的延迟。<br>CMAF通过与HLS和DASH协议合作，在一个统一的传输容器文件下打包数据，简化了播放设备的媒体传输过程。</p>
+<p>CMAF本身不是一个协议，而是一种 <strong>格式</strong> ，它包含一套容器和标准，用于统一HLS和MPEG-DASH等协议底层的单一媒体流。<br>CMAF以ISO BMFF为基础，为分片的内容定义两个基础的brand（品牌）：cmfc和cmf2。<br>其限定主要如下:<br>cmfc品牌的约束如下：</p>
+<ul>
+<li>定义了ISO BMFF box中的一些默认值。</li>
+<li>每个文件只包含一个媒体，这意味着音频和视频存储在不同的文件中，这个特性带来了灵活性，但也带来了一些挑战。</li>
+<li>每个分片有一个单一的轨道片段（moof）。</li>
+<li>视频轨道中存在ColorInformation box和PixelAspectRatio box。</li>
+<li>在每个轨道分片中存在一个tfdt box，在MPEG DASH格式中，分片在时间上可能是不连续的。<br>因此，DASH要求每个分片（即每个traf box）中都要有tfdt box。<br>注意，tfdt box指定了当前分片的解码时间<br>（以mvhd时间尺度为单位，当前分片中第1个样本的解码时间，实际上tfdt是分片的一个时间锚点）</li>
+<li>edit list被限定为仅在媒体跳过时使用。<br>在cmfc品牌的基础上，cmf2品牌进一步限定如下：</li>
+<li>不应使用edit list。</li>
+<li>可以使用负的composition偏移。</li>
+<li>样本默认值应在每个轨道分片中重复出现。</li>
+</ul>
+<h4 id="视频文件转-FIV"><a href="#视频文件转-FIV" class="headerlink" title="视频文件转 FIV"></a>视频文件转 FIV</h4><p>在网络直播与点播场景中，FLV也是一种常见的格式。FLV是Adobe发布的一种可作为直播也可以作为点播的封装格式。<br>其封装格式非常简单，均以FLVTAG的形式存在，并且每一个TAG都是独立存在的。</p>
+<p>FLV文件格式分为两部分：</p>
+<ul>
+<li>FLV文件头</li>
+<li>FLV文件内容。</li>
+</ul>
+<blockquote>
+<p>对于整型数据，按小端方式进行存储<br><strong>FLV文件头</strong><br><img src="/./resource/ffmpeg/FLV-header.jpg" alt="FLV-header"> </p>
+</blockquote>
+<p>FLV文件内容格式主要为FLVTAG。FLVTAG分为两部分，分别为 <strong>Header</strong> 部分与 <strong>Body</strong> 部分</p>
+<p><strong>FLV文件TAG排列方式</strong><br><img src="/./resource/ffmpeg/FLV-TAG-list.jpg" alt="FLV-TAG"> </p>
+<p><strong>FLVTAG格式</strong><br><img src="/./resource/ffmpeg/FLV-TAG-format.jpg" alt="FLV-TAG-format"> </p>
+<p><strong>VideoTag数据格式</strong></p>
+<blockquote>
+<p>如果从FLVTAG的Header中读取到TagType为0x09，则该TAG为视频数据TAG，FLV支持多种视频格式<br><img src="/./resource/ffmpeg/VideoTag-data-format-1.jpg" alt="VideoTag-data-format-1"><br><img src="/./resource/ffmpeg/VideoTag-data-format-2.jpg" alt="VideoTag-data-format-2"> </p>
+</blockquote>
+<p><strong>AudioTag数据格式</strong></p>
+<blockquote>
+<p>从FLVTAG的Header中解析到TagType为0x08，则这个TAG为音频TAG，与视频TAG类似，音频TAG里面可以封装的压缩音频编码也可以有很多种<br><img src="/./resource/ffmpeg/AudioTag-data-format-1.jpg" alt="AudioTag-data-format-1"><br><img src="/./resource/ffmpeg/AudioTag-data-format-2.jpg" alt="AudioTag-data-format-2"> </p>
+</blockquote>
+<p><strong>ScriptData数据格式</strong></p>
+<blockquote>
+<p>当FLVTAG读取的TagType为0x12时，这个数据位表征是ScriptData类型。<br>ScriptData常见的展现方式为FLV的Metadata，里面存储的一般为AMF数据<br><img src="/./resource/ffmpeg/ScriptData-format.jpg" alt="ScriptData-format"></p>
+</blockquote>
+<blockquote>
+<p>如果原媒体文件中的音视频编码格式本身就是FLV标准所支持的格式，那么只用转封装（通常称为Remuxing）即可，无须执行转码操作。</p>
+</blockquote>
+<h4 id="MPEG-TS"><a href="#MPEG-TS" class="headerlink" title="MPEG-TS"></a>MPEG-TS</h4><blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuaXNvLm9yZy9zdGFuZGFyZC83NTkyOC5odG1s">详情请见<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<p>MPEG-TS在MPEG-2第1部分中被标准化 ，最初专门为 <strong>数字视频广播（DVB）</strong> 应用而设计，<br>与其对应的MPEG-PS多用于存储媒体，并在DVD中得到应用。<br>相较而言，MPEG-TS <strong>面向传输</strong> ，它将流 <strong>划分为基本流</strong> ，这些流被分割成小块。<br>同时，系统信息以固定的时间间隔发送，因此接收器可以随时播放流。<br>此外，该格式使用 <strong>前向纠错（Forward Error Correction，FEC）技术</strong> ， <strong>允许在 <em>接收器</em> 处纠正传输错误</strong><br>MPEG-TS格式显然是为在 <strong>有损传输通道</strong> 上使用而设计的。  </p>
+<p>从系统层面定义，TS&#x2F;PS文件可以分成3层: </p>
+<ul>
+<li>ES层：由单独的音频流（如MP3）、视频流（如H.264）组成基本数据流（Elementary Stream，ES）。</li>
+<li>PES层：将ES按一定的规则进行封装，例如H.264以访问单元（Access Unit，AU）作为拆分单元，并打上时间戳，<br>组成分组的基本数据流（Packetized Elementary Stream，PES）。</li>
+<li>TS&#x2F;PS层：将PES包进行切分后再封装成固定大小（通常为188字节）的 <strong>传输流（Transport Stream，TS）包</strong> ，<br>同时还将一些节目信息也封装成TS包，又称为 <strong>片段（section）</strong> , 两者共同组成TS层。</li>
+</ul>
+<p><strong>MPEG-TS&#x2F;PS打包流程</strong><br><img src="/./resource/ffmpeg/MPEG-TS-PS-pkg.jpg" alt="MPEG-TS&#x2F;PS打包流程"> </p>
+<blockquote>
+<p>每个TS数据包头都带有PID（packet identifier，数据包标识符），PID将TS数据包和TS数据包中的基本流联系起来</p>
+</blockquote>
+<blockquote>
+<p>MPEG-TS标准的包长度是188字节。<br>日本通过在标准的188字节的数据包中增加一个4字节的时间码（TimeCode，TC）字段，使之变为192字节的数据包，一般用于数字摄像机、录音机和播放器。<br>还有一种是204字节的，是在188字节的基础上加上16字节的FEC构成。FFmpeg同时支持这3种格式变种。</p>
+</blockquote>
+<p><strong>MPEG-TS包的基本结构</strong><br><img src="/./resource/ffmpeg/MPEG-TS-pkg-struct.jpg" alt="MPEG-TS包的基本结构"></p>
+<p>MPEG-TS没有像许多其他文件类型（包括程序流）那样使用全局文件头，而是在 <strong>每个数据包前都有一个头部</strong><br>这个数据包的头部结构设计非常清晰，并且正好占4字节，这使得流式的解析会非常便利。</p>
+<p>**MPEG-TS重要的格式头数据<br><img src="/./resource/ffmpeg/MPEG-TS-important-head.jpg" alt="MPEG-TS-important-head"><br><img src="/./resource/ffmpeg/MPEG-TS-important-head-2.jpg" alt="MPEG-TS-important-head-2"></p>
+<blockquote>
+<p><strong>MPEG-payload</strong>部分见《深入理解ffmpeg》所述</p>
+</blockquote>
+<p><strong>PES结构</strong><br><img src="/./resource/ffmpeg/PES-struct.jpg" alt="PES-struct"></p>
+<p><strong>MPEG-TS</strong>的特性：<br>由于MPEG-TS是在以太网诞生之前建立的服务于数字无线广播的容器格式，包括失序的数据包检测和远程时间同步等功能。<br>在当今互联网环境下，TCP协议与设备高精度时钟也能承担该功能。<br>由于MPEG-TS使用定长的188byte数据包，导致可能会需要额外更多的字节传输一个小数据，极限情况就是仅包含pkg_payload + 1byte载荷<br>（载荷字段的利用率是 1&#x2F;170 或 1&#x2F;184)，可以看出，需要花费一倍的带宽来传输原来的数据，有效利用率跌落到了 45% 左右<br>MPEG-TS格式并未考虑seek问题，没有对应的全局索引，需要各端自行解决（HLS场景下是使用I帧播放列表的方式来解决这个问题的）</p>
+<h4 id="视频文件转HLS"><a href="#视频文件转HLS" class="headerlink" title="视频文件转HLS"></a>视频文件转HLS</h4><blockquote>
+<p>HTTP实时流(HTTP Live Streaming, HLS) 基于HTTP的自适应码率流媒体通信协议<br>HLS类似MPEG-DASH，它的工作方式是将整个流分解为一连串基于HTTP的小文件来下载，每个文件下载一个可能无限制的整体传输流的短块。<br>同时，它使用扩展的M3U播放列表描述相关的信息，将不同码率编码的可用数据流列表发送给客户端。</p>
+</blockquote>
+<p><strong>HLS的基本架构</strong><br><img src="/./resource/ffmpeg/HLS-basic-framework.jpg" alt="HLS-basic-framework"></p>
+<p>HLS在标准上只支持TS格式的切片</p>
+<blockquote>
+<p>服务器端先对流进行切分（离线预处理或实时生成），生成索引文件（<code>.m3u8</code>）和一连串媒体流的切片文件；<br>客户端先通过 HTTP 获取索引，再按需通过 HTTP 逐个获取切片文件，经过解码、重组后播放。</p>
+</blockquote>
+<p>HLS使用的<code>m3u8</code>格式基于<code>M3U</code>播放列表扩展而来，主要用于将分片文件以列表的形式描述，即支持直播又支持点播。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">##EXTM3U</span><br><span class="line"></span><br><span class="line">##EXT-X-VERSION:3</span><br><span class="line"></span><br><span class="line">##EXT-X-TARGETDURATION:4</span><br><span class="line"></span><br><span class="line">##EXT-X-MEDIA-SEQUENCE:0</span><br><span class="line"></span><br><span class="line">##EXTINF:3.760000,</span><br><span class="line"></span><br><span class="line">out0.ts</span><br><span class="line"></span><br><span class="line">##EXTINF:1.880000,</span><br><span class="line"></span><br><span class="line">out1.ts</span><br><span class="line"></span><br><span class="line">##EXTINF:1.760000,</span><br><span class="line"></span><br><span class="line">out2.ts</span><br><span class="line"></span><br><span class="line">##EXTINF:1.040000,</span><br><span class="line"></span><br><span class="line">out3.ts</span><br><span class="line"></span><br><span class="line">##EXTINF:1.560000,</span><br><span class="line"></span><br><span class="line">out4.ts</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>EXTM3U</strong> M3U8格式必须包含的标签，必须在文件的第一行</li>
+<li><strong>EXT-X-VERSION</strong> M3U8文件的版本，常见的是3</li>
+<li><strong>EXT-X-TARGETDURATION</strong> 每一个分片都会有一个自己的duration（时长），这个标签是最大分片浮点数时长四舍五入后的整数值，<br>这个值是所有分片时长的整数部分的上限，而较长的分片片段则可能触发播放卡顿或其他错误。</li>
+<li><strong>EXT-X-MEDIA-SEQUENCE</strong> M3U8直播时的直播切片序列，当打开M3U8时，以这个标签的值为参考，播放对应的序列号的切片。<br>分片必须是动态改变的，并且序列号不能相同，为递增序。<br>当M3U8列表中没有出现EXT-X-ENDLIST标签时，无论这个M3U8列表中有多少分片，播放分片都从倒数第3片开始播放，如果不满3片则不播放。</li>
+<li><strong>XTINF</strong> EXTINF为M3U8列表中每一个分片的duration，在EXTINF标签中除了duration值，还可以包含可选的描述信息，<br>主要为标注切片信息，使用逗号分隔开。EXTINF下面的信息为具体的分片信息，分片存储路径可以为相对路径，<br>也可以为绝对路径，还可以为互联网的URL链接地址。</li>
+<li><strong>EXT-X-ENDLIST</strong> 表明这个M3U8文件不会再有更多的切片产生，可以理解为这个M3U8已停止更新，并且播放分片到这个标签后结束。<br>M3U8 不仅可以作为直播，也可以作为点播形式存在，在M3U8文件中保留所有切片信息，最后使用EXT-X-ENDLIST结尾，这个M3U8即为点播M3U8。</li>
+</ul>
+<p><strong>文件转HLS直播</strong><br><code>ffmpeg -i input.mp4 -c copy -f hls -bsf:v h264_mp4toannexb output.m3u8</code></p>
+<h4 id="视频文件的音视频流抽取"><a href="#视频文件的音视频流抽取" class="headerlink" title="视频文件的音视频流抽取"></a>视频文件的音视频流抽取</h4><p>在某些情况下，除了分析封装数据，我们还需要分析音视频流部分。</p>
+<blockquote>
+<p>除了转封装、转码，FFmpeg还可以提取音频流，例如需要提取音频流并保存到另一个封装中。</p>
+</blockquote>
+<p><strong>提取AAC音频流</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 输入 input.mp4</span></span><br><span class="line"><span class="comment">## 输出 output.aac</span></span><br><span class="line"><span class="comment">## -vn 不产生视频图像数据</span></span><br><span class="line"><span class="comment">## -acodec 使用音频编解码器</span></span><br><span class="line">ffmpeg -i input.mp4 -vn -acodec copy output.aac</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>有时在视频编辑场景中需要提取视频流，或者与另一路视频流进行合并等，此时也可以使用FFmpeg来完成。</p>
+</blockquote>
+<p><strong>提取H.264视频流</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 输入 input.mp4</span></span><br><span class="line"><span class="comment">## 输出 output.h264</span></span><br><span class="line"><span class="comment">## -an 不产生音频图像数据</span></span><br><span class="line"><span class="comment">## -vcodec 使用视频编解码器</span></span><br><span class="line">ffmpeg -i input.mp4 -vcodec copy -an output.h264</span><br></pre></td></tr></table></figure>
+
+<p><strong>提取H.265视频流</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -vcodec copy -an -bsf hevc_mp4toannexb -f hevc output.hevc</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在使用FFmpeg进行格式转换、编码转换操作时，所占用的系统资源各有不同。<br>如果使用FFmpeg仅仅转换封装格式而非转换编码，所使用的CPU资源并不多。<br>使用FFmpeg进行封装转换时并不会占用大量的CPU资源，因为此时主要以读取、写入音视频数据为主，并不涉及复杂的计算。<br>如果使用FFmpeg进行编码转换，则需要进行大量的计算，从而会占用大量的CPU资源。</p>
+</blockquote>
+<blockquote>
+<p><strong>媒体容器格式小结</strong><br>任何编码格式的使用都面临存储、分发、编辑、overhead等挑战，一般而言，我们需要关注容器中数据的组织结构、音视频编码格式、时间戳、元信息、如何支持seek操作，以及是否支持流化和录制等。另外，也需要有合适的工具来分析容器格式异常或者错误。</p>
+</blockquote>
+<h3 id="编码与转码"><a href="#编码与转码" class="headerlink" title="编码与转码"></a>编码与转码</h3><blockquote>
+<p>(codec) encoding &amp; decoding<br>trans coding</p>
+</blockquote>
+<p>所有在互联网上传播的媒体文件都需要被压缩，以便快速地从一个地方传输到另一个地方。<br>提供高质量的媒体内容是有成本的，无论是处理、存储还是传输。<br>这就是编解码器(Codec)发挥作用的地方</p>
+<blockquote>
+<p>Codec在不同场景下表征的意义不大一样，可以视为压缩设备、程序或者标准。但在不同的上下文场景下，我们能很容易地区分。<br>并不是每个视频编解码器都是基于混合编码方案的，但当前使用最为广泛的视频编解码器都是基于混合方案。</p>
+</blockquote>
+<p>编解码器是一种压缩媒体数据的 <strong>设备、程序或者标准</strong> ，以实现更快的传输或者降低存储空间。</p>
+<blockquote>
+<p>codec &#x3D;&#x3D; enCOde + DECode<br>一般认为第一个标准化的视频编解码器是H.261，由国际电信联盟（ITU）视频编码专家组于1988年批准，并于1990年公开推出。</p>
+</blockquote>
+<p>迄今为止的每一个主流使用的编解码器都基于混合编码方案，<br>在 <strong>空间域</strong> 利用 <strong>预测</strong>（使用内部预测以及运动补偿），在 <strong>变换域</strong> 对产生的 <strong>残差信号</strong> 进行编码。<br>在实际应用中，最常使用的变换方法是 <strong>离散余弦变换（Discrete Cosine Transform，DCT）</strong></p>
+<p><strong>HEVC混合编码框架</strong><br><img src="/./resource/ffmpeg/HEVC-framework.jpg" alt="HEVC-hybride-encoding-framework"></p>
+<blockquote>
+<p>视频混合编码主要涉及的流程包含分区、预测、变换、量化、环路滤波、熵编码等关键技术</p>
+</blockquote>
+<p>使用分区的主要原因是精确地处理预测。</p>
+<ul>
+<li>一般而言，在移动较多的区域使用较小的块，而在静态背景上使用较大的块。(保持静态区块的大小)</li>
+<li>一旦分区完成，就可以在它们之上做出预测。<br>主要有两类预测：<ul>
+<li>一是 <strong>帧间预测</strong> ，主要考虑 <em><strong>时间冗余</strong></em> ，需要发送 <strong>运动向量和残差</strong> ；</li>
+<li>二是 <strong>帧内预测</strong> ，考虑 <em><strong>空间冗余</strong></em> ，需要发送 <strong>预测方向和残差</strong> 。</li>
+</ul>
+</li>
+<li>在预测之后，就得到残差块（预测分区与真实分区的差值），然后用某种方式对残差块进行变换，就得到一些结果。<br>这样在随后的步骤中，对这些变换后的结果进行分析，就可以知道哪些像素丢弃后依然能保持图像的整体质量了。<br><strong>DCT</strong> 无疑是最重要的变换方式之一，可以使用它将一张图像转换到 <strong>频域</strong> ，这时候大多数能量就会集中到 <strong>低频部分</strong> ，<br>所以丢掉高频系数能减少描述图像所需的数据量，同时不会牺牲太多的图像质量。</li>
+<li>接下来 <strong>对系数进行量化</strong> 以达到压缩的目的，最后一步则是对量化后的数据执行无损的熵编码，这主要是利用了语法元素间的相关性以进一步压缩，<br>这样就产生了适合存储或者传输的码流。<blockquote>
+<p>以上就是编码的基本流程，解码流程反其道而行之即可。</p>
+</blockquote>
+</li>
+</ul>
+<p>编解码器的发展基本上分为几个“流派”，以解决没有一个编解码器能适合所有使用情况的问题。<br>下面是几个主要的视频编码标准制定的“流派”: </p>
+<ul>
+<li>标准制定组织。ITU-T视频编码专家组（VCEG）和ISO&#x2F;IEC JTC1运动图像专家组（MPEG）。</li>
+<li>基于公司&#x2F;联盟的组织。典型的如开放媒体联盟（AOMedia）。</li>
+<li>国标。典型如AVS系列，包含AVS、AVS+、AVS2、AVS3等。</li>
+</ul>
+<blockquote>
+<p>虽然几派都专注于改善媒体传输，但它们之间的关键区别在于：<br>ITU-T和ISO&#x2F;IEC JTC1标准制定组织创造了专利技术，需要为编解码器的部署支付专利费；<br>开放媒体联盟则是开发开源的编解码器；而AVS系列则着重于自主编码标准和国产化问题。<br>然而需要注意的是，尽管如此，对于这些编解码器的“开放”程度一直存在一些争议。</p>
+</blockquote>
+<p><strong>软编码H.264</strong>  </p>
+<p>当前网络中常见的视频编码格式要数H.264（AVC）。<br>持H.264的封装格式很多，如RTMP、FLV、MP4、HLS（M3U8）、MKV、TS等。<br>FFmpeg本身并 <strong>不支持H.264编码器</strong> ，而是采用了 <strong>集成第三方模块的方式进行支持</strong> ，如x264和OpenH264。<br>x264和OpenH264二者各有各的优势，OpenH264开源比较晚，最初主要是为了让RTC等低延迟场景且版权更为宽松一些。<br>不过目前x264还是最常用的H.264编码器，主要因为其优异的压缩性能和良好的工程实践。</p>
+<blockquote>
+<p>H.264即AVC（Advanced Video Coding），H.265即HEVC（High-Efficiency Video Coding），<br>它们都有两个名称，主要是因为是这两个编解码器标准都是由MPEG和国际电信联盟（ITU）联合标准化的。<br>H.266即VVC（Versatile Video Coding），原因相同。</p>
+</blockquote>
+<blockquote>
+<p>使用x264进行H.264编码时，所支持的像素格式主要包括：<br>yuv420p、yuvj420p、yuv422p、yuvj422p、yuv444p、yuvj444p、nv12、nv16、nv21、yuv420p10le、yuv422p10le、yuv444p10le、nv20le、gray、gray10le。<br>通过 <code>ffmpeg -h encoder=libx264</code> 可以查看。</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Encoder libx264 [libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10]:</span><br><span class="line">    General capabilities: dr1 delay threads</span><br><span class="line">    Threading capabilities: other</span><br><span class="line">    Supported pixel formats: yuv420p yuvj420p yuv422p yuvj422p yuv444p yuvj444p nv12 nv16 nv21 yuv420p10le yuv422p10le yuv444p10le nv20le gray gray10le</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>FFmpeg推荐使用编码器特定参数的方式向libx264参数进行传参，具体参数可参考 <code>ffmpeg -h encoder=libx264</code> 的输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># skyfall2-trailer.mp4 文件使用 H.264 编码格式压缩为 output.mp4 文件</span></span><br><span class="line"><span class="comment"># ultrafast 最快的压缩（但是质量低）</span></span><br><span class="line"><span class="comment"># -b:v 2000k 将目标码率定为 2000k</span></span><br><span class="line">ffmpeg -i skyfall2-trailer.mp4 -c:v libx264 -preset ultrafast -b:v 2000k output.mp4</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用 <code>-preset</code> 选项以启用预设</li>
+<li>通过指定一个tune进行H.264编码优化</li>
+</ul>
+<p><strong>控制场景切换时关键帧的插入</strong><br>可以通过 <code>-g</code> 参数设置最大帧数间隔GoP的长度，但是当遇到场景切换时，如从一个画面场景突变为另一个画面场景时，<br>会插入一个关键帧，此时GoP的间隔将会重新开始计算。<br>以上情况在视频点播中时常会遇到。如果将点播文件进行M3U8切片，或者将点播文件进行串流虚拟直播，GoP的间隔也会有相同的情况。<br>在有些情况下，我们不希望因为场景变动而产生可变的GoP，这时可以使用 <code>sc_threshold</code> 参数进行调整来控制场景切换时是否插入关键帧。</p>
+<blockquote>
+<p>在固定码率下，GOP 越长，P&#x2F;B 帧越多，帧间信息丢失（漂移）的风险越大。但如果编码器使用固定质量模式（CRF），GOP 长短对画质的影响会小得多。<br>I 帧：只做帧内压缩，丢掉的是高频细节（类似 JPEG），但保留了完整的画面结构。<br>P&#x2F;B 帧：只记录与参考帧的残差（差异）。如果残差很小，编码器就会用极少的比特去描述它（甚至直接 skip，不传数据）。</p>
+</blockquote>
+<p>编码能够设置VBR、CBR、CRF等码控模式，<br>其中VBR（Variable Bitrate）为可变码率，<br>CBR（Constant Bitrate）为恒定码率，<br>CRF则表示以质量为目标。<br>尽管现在互联网中所看到的视频以VBR居多，但CBR依然存在，它主要用于广电领域等使用固定传输通道的场景。</p>
+<blockquote>
+<p>FFmpeg中进行H.265编码时，可以采用x265进行编码，H.265编码参数与x264的编码参数相差不多，基本可以通用，所以我们不再单独介绍FFmpeg怎么使用x265来进行编码。</p>
+</blockquote>
+<h4 id="硬件加速"><a href="#硬件加速" class="headerlink" title="硬件加速"></a>硬件加速</h4><p>专用视频加速硬件可以使得解码、编码或过滤等操作更快完成且使用更少的其他资源（特别是CPU）。<br>但也需要注意，其可能会存在额外的限制，而这些限制在仅使用软件Codec时一般不存在。<br>比如，各种视频加速硬件支持的特性各不相同，所以在使用的时候，建议多阅读相关文档及咨询相应的公司。<br>对于具有多种不同profile的复杂的Codec，硬件解码器很少能实现全部功能（例如，对于H.264，硬件解码器往往只支持8位的YUV 4:2:0格式）。</p>
+<p>通常认为硬件编码器的输出比x264等优秀软件编码器的输出质量 <strong>差一些</strong> ，但编码速度则 <strong>通常更快</strong> ，且不会占用太多的CPU资源。<br>也就是说，硬件编码器一般需要更高的码率来达到相同的视觉感知质量，或者说它们在相同码率的情况下以更低的视觉感知质量输出。<br>具有解码或编码能力的硬件系统还可以提供其他相关过滤器加速功能，比如常见的缩放和去隔行等。是否支持后处理功能取决于不同的硬件系统。</p>
+<p>FFmpeg所支持的硬件加速方案，粗略以各OS厂商和芯片厂商特定方案及行业联盟定义的标准来区分可分为以下3类。</p>
+<ul>
+<li>以操作系统分：Windows、Linux、macOS&#x2F;iOS、Android。</li>
+<li>以芯片厂商的特定方案分：Intel、AMD、NVIDIA等。</li>
+<li>以行业标准或事实标准分：着重OpenMAX与OpenCL、Vulkan、OpenGL及CUDA等。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># NVIDIA 硬件解码 + 硬件编码</span></span><br><span class="line">ffmpeg -hwaccel cuda -i input.mp4 -c:v h264_nvenc -preset p4 -b:v 5M output.mp4</span><br><span class="line"></span><br><span class="line"><span class="comment"># Intel 硬件解码 + 硬件编码 (QSV)</span></span><br><span class="line">ffmpeg -hwaccel qsv -i input.mp4 -c:v h264_qsv -b:v 5M output.mp4</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>深入的硬件解码相关内容，见 《深入理解ffmpeg》一书，第五章</p>
+</blockquote>
+<h4 id="FFmpeg对音频的支持"><a href="#FFmpeg对音频的支持" class="headerlink" title="FFmpeg对音频的支持"></a>FFmpeg对音频的支持</h4><p><strong>MP3</strong></p>
+<blockquote>
+<p>MPEG-1 Audio Layer III 很多人以为它是MPEG3的缩写，但明显并不是。<br>MP3在1994年由运动图像专家组（MPEG）创建，是一种有损压缩算法<br>MP3同时使用了基于心理声学领域的思想。其基本想法是，人耳只能辨别20Hz～20kHz的声音，<br>所以任何超出这个阈值的数据都可以丢弃，以使文件更小。</p>
+</blockquote>
+<p>整个算法部分可以粗略地分成如下4个主要部分:</p>
+<ul>
+<li>将音频信号分成小块，这些被称为帧。然后对输出进行MDCT滤波</li>
+<li>将采样传入一个1024点的FFT，然后应用心理声学模型。另一个MDCT滤波器在输出上执行。</li>
+<li>对每个采样进行量化和编码。这也被称为噪声&#x2F;位分配。噪声&#x2F;位分配会自我调整，以满足码率和声音屏蔽的要求。</li>
+<li>对码流进行格式化，称为音频帧。一个音频帧由4部分组成：头部、错误检查、音频数据和辅助数据。</li>
+</ul>
+<blockquote>
+<p>MDCT，即修改后的离散余弦变换（Modified Discrete Cosine Transform），<br>是一种线性正交拉氏变换，基于时域混叠消除（TDAC）的思想。<br>它在J.Princen、A.Bradley于1986年发表的论文“Analysis&#x2F;Synthesis Filter Bank Design Based on Time Domain Aliasing Cancellation”中被首次提出，<br>随后得到进一步发展。现行的很多音频编码格式都使用了MDCT技术。</p>
+</blockquote>
+<p><strong>MP3编码</strong><br><img src="/./resource/ffmpeg/MP3-encoding.jpg" alt="MP3-encoding"></p>
+<p>使用FFmpeg可以解码MP3，同样也可以支持MP3编码。<br>FFmpeg并未原生支持MP3编码，需要使用第三方库libmp3lame。<br>不但如此，MP3编码还是低延迟的编码，可以支持的采样率比较多，<br>包含44100、48000、32000、22050、24000、16000、11025、12000、8000多种采样率，<br>采样格式也比较多，包含s32p、fltp、s16p多种格式，声道布局方式支持包含mono（单声道模式）、stereo（环绕立体声模式）。</p>
+<p><strong>MP3编码参数</strong><br><img src="/./resource/ffmpeg/MP3-encoding-arg.jpg" alt="MP3-encoding-arg"></p>
+<p>在FFmpeg中进行MP3编码采用的是第三方库libmp3lame，所以进行MP3编码时，需要设置编码参数acodec为libmp3lame。<br><code>ffmpeg -i INPUT -acodec libmp3lame OUTPUT.mp3</code></p>
+<p>MP3 可以设置为 VBR(variable bitrate mode) 可变码率模式，CBR(constant bitrate mode) 恒定码率模式，ABR(Average bitrate mode) 平均码率模式</p>
+<blockquote>
+<p>CBR编码压缩效率并不高，VBR和ABR模式可以为复杂的音乐段落提供更多的比特，为简单的段落节省比特，<br>而CBR则以相同的码率对每一帧进行编码。CBR只推荐在流媒体情况下使用，在这种情况下必须严格执行最高码率。<br>通过LAME对MP3格式的比特存储功能的使用，虽然在幕后仍有一些码率的变化，但它比实际的VBR灵活得多。</p>
+</blockquote>
+<p><strong>AAC编码</strong></p>
+<p>AAC（Advanced Audio Coding）和MP3都是音频编码的有损压缩技术。<br>MP3于1993年首次发布，比AAC早4年，现在已经成为流媒体和存储音乐的普遍标准。<br>AAC被设计为MP3的继承者。它摆脱了MP3的固有缺陷，在码率接近的情况下实现了比MP3更好的音质，特别是在低码率的情况下，<br>它在ISO&#x2F;IEC 13818-7及ISO&#x2F;IEC 14496-3中被标准化</p>
+<p>在音视频流媒体中，无论直播与点播，AAC都是目前最常用的一种音频编码格式，<br>如RTMP直播、HLS直播、RTSP直播、FLV直播、FLV点播、MP4点播文件等，一般都是采用AAC的音频格式。<br>其原因主要在于与MP3相比，AAC的 <strong>编码效率更高，编码音质更好</strong> 。<br>AAC相较于MP3的改进主要包含以下内容：</p>
+<ul>
+<li>支持了更多采样率（8kHz～96kHz，而MP3为16kHz～48kHz），更多的声道数（达48个，MP3在MPEG-1模式下为最多双声道，MPEG-2模式下为5.1声道）及任意的码率和可变帧长度。</li>
+<li>更高效率的滤波器（AAC使用纯粹的MDCT，MP3则使用较复杂的混和滤波器）。</li>
+<li>对平稳的信号有更高的编码效率（AAC使用1024&#x2F;960点区块长度，MP3则为576点），对暂态变化的信号有更高编码准确度（AAC使用128&#x2F;120点区块长度，MP3则为192点）。</li>
+<li>对于频率在16kHz的声音频号成分有更好的处理。</li>
+<li>有额外的模块如噪声移频、后向预测、感知噪声替代等，这些特性能组合成不同的编码规格。</li>
+</ul>
+<p>目前有两种常见的AAC版本：AAC-LD（低延迟），也被称为AAC-LC（低复杂度）和AAC-HE（高效率），AAC-LD&#x2F;AAC-LC用于双向通信，它结合了足够高的音频质量和足够低的延迟，以促进通信；<br>AAC-HE（或HE-AAC）用于流媒体音频，通常用于数字广播之类的场景。</p>
+<blockquote>
+<p>AAC音频分为LC、HE和HEv2三种</p>
+</blockquote>
+<p>在FFmpeg中可以支持以下两个AAC编码器：</p>
+<ul>
+<li><p>原生AAC编码器：FFmpeg本身的AAC编码实现，实现的特性和支持的Profile相对比较少，好处在于不需要额外的第三方AAC编码库。</p>
+</li>
+<li><p>集成第三方的 <code>libfdk_aac</code> ：第三方的Fraunhofer FDK AAC编解码库，一般认为编码质量好于原生AAC编码库。</p>
+</li>
+<li><p>编码器延迟是在编码过程中产生的延迟，以产生正确编码的音频数据包。它通常指添加到AAC码流前面的无声媒体样本（priming sample）的数量。</p>
+</li>
+<li><p>解码器延迟是指在给定的时间指数下重现一个编码的源音频信号所需的pre-roll音频样本的数量。对于AAC来说，这个数字通常是1024，本身与编码算法相关。与编码器延迟相反，后者是由所用的编码器和编码配置决定的。然而，解码器延迟决定了可能的最小编码器延迟（也就是AAC的1024）。</p>
+</li>
+</ul>
+<blockquote>
+<p>音视频转码与音视频转封装的不同在于音视频转码会占用大量计算资源，而转封装主要是将音频数据或者视频数据取出，<br>然后封装成另外一种封装格式。转封装主要占用 <strong>IO资源</strong> ，而转码主要占用 <strong>CPU资源</strong> ，同时转码也会使用更多的内存资源。</p>
+</blockquote>
+<p>码率并非对视频时长的控制，而是编码器为了在“特定画质目标”和“网络传输&#x2F;存储限制”之间取得平衡，而设定或产生的每秒数据量（带宽需求），因为每秒的媒体数据帧数需要稳定</p>
+<ul>
+<li>对于点播（如 MP4 文件）：我们往往追求“固定质量（CRF）”，容忍码率波动，因为文件可以下载。<ul>
+<li>以固定质量为目标，允许短时码率剧烈波动，用缓冲区和文件大小来吸收波动。</li>
+<li>为什么会波动？<ul>
+<li>固定质量保证的是各个媒体帧的数据质量，对于编码而言，就是更少的数据损耗，<br>而每个媒体帧之间保持质量后的存储空间（数据大小）差别可以很大&#x2F;很小，<br>那么，为了满足每秒输出帧数的稳定这一硬性需要（保证用户的观看体验），<br>又由于每单位时间虽然包含相同帧数，但是每单位时间的数据量不同，每单位时间所需的带宽也不同，导致了可能的数据的剧烈波动</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>对于直播（如 HLS&#x2F;TS）：我们往往需要“限制码率（ABR&#x2F;CBR）”，容忍画质波动，因为网络带宽是硬约束，不能断流。<ul>
+<li>以稳定带宽为约束，允许短时画质波动，用码率阶梯和实时编码控制来保证流不中断。</li>
+<li>为什么带宽是硬性约束？而容忍画质波动？<ul>
+<li>由上文的问题可以知道，若保证质量每单位时间所需的带宽一般不同，并可能产生剧烈抖动，<br>对于直播媒体，用户更期望的是连续的媒体流体验，而网络环境中不同的物理链路，不同的网络层之间的数据&#x2F;报文交换环境下，<br>每个用户所分配的带宽是动态的，为了保证媒体流的稳定（包含输出帧率的稳定），需要将每单位时间的数据以此刻的带宽作为传输能力上限进行编码（一般会有不同码率的切片），<br>所以每单位时间的媒体流质量不同，也就是画质波动</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">笔记概念</th>
+<th align="center">FFmpeg 内部实现&#x2F;变量</th>
+<th align="center">实战验证命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">分区&#x2F;宏块</td>
+<td align="center">AVCodecContext-&gt;mb_decision</td>
+<td align="center"><code>ffmpeg -h encoder=libx264</code></td>
+</tr>
+<tr>
+<td align="center">帧间&#x2F;帧内预测</td>
+<td align="center">AVFrame-&gt;pict_type (I&#x2F;P&#x2F;B)</td>
+<td align="center"><code>ffprobe -show_frames input.mp4</code></td>
+</tr>
+<tr>
+<td align="center">DCT变换&#x2F;量化</td>
+<td align="center">AVCodecContext-&gt;qmin&#x2F;qmax</td>
+<td align="center"><code>-qp 23 (恒定量化参数)</code></td>
+</tr>
+<tr>
+<td align="center">GOP&#x2F;关键帧</td>
+<td align="center">AVCodecContext-&gt;gop_size</td>
+<td align="center"><code>-g 60</code></td>
+</tr>
+<tr>
+<td align="center">B帧</td>
+<td align="center">AVCodecContext-&gt;max_b_frames</td>
+<td align="center"><code>-bf 3</code></td>
+</tr>
+<tr>
+<td align="center">码控模式</td>
+<td align="center">AVCodecContext-&gt;rc_*</td>
+<td align="center"><code>-crf 23</code> &#x2F; <code>-b:v 2M</code> &#x2F; <code>-maxrate + -bufsize</code></td>
+</tr>
+<tr>
+<td align="center">硬件加速</td>
+<td align="center">AVHWDeviceType &#x2F; AVCodecContext-&gt;hw_device_ctx</td>
+<td align="center"><code>-hwaccel cuda</code> &#x2F; <code>-c:v h264_nvenc</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>编解码小结</strong><br>libx264是使用最广泛的开源编码器，在业界影响力巨大，也影响了后来一众编码器。<br>与此同时，H.264编码标准也是使用最为广泛的编码标准。使用好FFmpeg的libx264编码器，对使用好其他编码器有很大的帮助。<br>另外，随着编码标准复杂度的提升及编码密度和功耗的考虑，硬件加速的编解码屡见不鲜，在很多情况下甚至是唯一的选择。</p>
+</blockquote>
+<h3 id="流媒体技术"><a href="#流媒体技术" class="headerlink" title="流媒体技术"></a>流媒体技术</h3><p>流媒体是指以连续的方式从一个源头传递和消费多媒体，其在网络环节（指传输节点和通道）中很少或没有中间存储。<br>需要注意，流媒体指的是 <strong>内容的传输方法，而不是内容本身</strong> 。</p>
+<ul>
+<li><p>什么是流式实时传输？</p>
+<ul>
+<li>流式传输是人们在互联网上观看视频（包括听音频）时使用的 <strong>数据传输方法</strong> 。<br>这是一种一次从 <em><strong>远程存储</strong></em> 交付 <strong>少许媒体数据</strong> 的方式，<br>通过一次在互联网上传输 <strong>少量（如几秒钟）</strong> 的媒体数据，客户端设备 <em>不必在开始播放之前等待下载整个媒体文件</em> 。<br><em><strong>实时流式传输是指流媒体视频通过网络实时发送，无须预先进行录制和存储。</strong></em><br>如今，电视广播、视频游戏流和社交媒体视频都可以进行实时流式传输。<blockquote>
+<p>常规流式传输和实时流式传输之间的区别可以类比演员背诵独白和即兴演讲之间的区别。<br>前者是预先创建内容，存储下来并转播给观众；后者则是观众在演员创建内容的同时接收内容，就如实时流式传输一样。</p>
+</blockquote>
+</li>
+<li>术语“实时流式传输”通常是指广播实时流，即同时传给多个用户的一对多连接。<br>Skype、FaceTime和Google Hangouts Meet等视频会议技术采用的是 <strong>实时通信（RTC）协议</strong> ，<br>而不是一对多实时流广播所使用的协议。</li>
+</ul>
+</li>
+<li><p>在技术层面，实时流式传输如何工作？</p>
+<ul>
+<li>以下是实时流式传输幕后发生的主要步骤:<ol>
+<li>采集：实时流式传输 <strong>始于原始视频数据</strong> ，即摄像机捕捉的视觉信息、麦克风捕捉到听觉信息。<br>在摄像机所连接的计算设备中，此视觉信息表示为数字数据（最终表示为1和0）</li>
+<li>编码：对采集到的视频数据进行 <strong>压缩</strong> 和 <strong>编码</strong> 。通过删除多余的视觉、统计信息来压缩数据。<br>实时流式传输视频数据编码为各种不同设备可以识别的 <strong>可解释数字格式</strong> 。<br>常见的视频编码标准包括MPEG2、H.264、H.265、VP8&#x2F;9、AV1等。</li>
+<li>分段：视频包含许多数字信息，这就是为什么下载视频文件要比下载简短的PDF或图像耗费更久的时间。<br>由于一次将所有视频数据通过Internet发送出去需要消耗的时间较长，因此流式传输时视频会被 <strong>分割</strong> 成若 <em><strong>干个几秒长的小片段</strong></em> 。</li>
+<li>内容交付网络（CDN）与缓存：实时流一旦完成采集和编码（所有过程仅需几秒甚至几毫秒），就需要提供给成千上万的观众。<br>为了在 <em><strong>最小延迟的同时保持高品质</strong></em> ，并且将流媒体提供给不同位置的多个用户，需要使用CDN进行 <em><strong>分发</strong></em> 。<br>CDN是分布式服务器网络，代替源站服务器为用户缓存和提供内容。使用CDN可以实现更快的性能，<br>因为用户请求不再需要直接行进到源站服务器，而是可以通过附近的CDN服务器进行处理。以这种方式处理请求和交付内容还可以 <strong>减轻源站服务器的工作量</strong>（专注于流处理） 。<br>由于CDN服务器遍布世界各地，而不是聚集在单个地理区域内，CDN可以高效地向全球用户提供内容。<br>CDN还将缓存（临时保存）实时流的各个片段（作为web cache存在），因此大多数用户将 <strong>从CDN缓存而不是源站服务器获取实时流</strong> 。<br>即使缓存数据会延迟一段时间，这实际上可以使实时流 <em><strong>更接近于实时</strong></em> ，因为它 <strong>削减</strong> 了来回于源站服务器的往返时间（ <em><strong>RTT</strong></em> ）。</li>
+<li>解码以及视频播放：实时流传送至所有正在观看流媒体的用户，通过每个用户的观看设备接收、解码分段的视频数据。<br>最后，用户设备上的媒体播放器（专门的应用或浏览器内的视频播放器）将数据 <strong>解释</strong> 为视觉信息，然后播放。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>CDN Content Distribution Network, 内容分发网络</p>
+</blockquote>
+<h4 id="录制与发布RTMP流"><a href="#录制与发布RTMP流" class="headerlink" title="录制与发布RTMP流"></a>录制与发布RTMP流</h4><blockquote>
+<p><code>ffmpeg -h protocol=rtmp</code></p>
+</blockquote>
+<blockquote>
+<p>Real Time Messaging Protocol</p>
+</blockquote>
+<blockquote>
+<p>在流媒体中，RTMP直播为实时直播中最为常见的一种。由于是实时直播，精彩画面错过了就永远不会再出现了。<br>为了解决这个问题，可以考虑将实时直播的RTMP流录制下来。<br>RTMP相关协议经过不断演化实际上已经变成了一个 <em><strong>协议族</strong></em> ，包括RTMP、RTMPS、RTMPE、RTMFP等，<br>其差别主要在于是否加密、使用隧道，以及是否使用UDP或者TCP来传输等。</p>
+</blockquote>
+<p>协议中的 <strong>基本数据单元</strong> 被称为 <strong>消息（Message）</strong> ，<br>传输的过程中消息会被分割为更小的 <strong>消息块（Chunk）单元</strong> ，<br>最后将分割后的消息块通过 <em><strong>TCP</strong></em> 传输到接收端，接收端再将接收到的消息块恢复成流媒体数据。</p>
+<blockquote>
+<p>需要注意，RTMP的协议格式与FLV容器格式有千丝万缕的联系。</p>
+</blockquote>
+<p>RTMP主要有以下几个优点：</p>
+<ul>
+<li>专为流媒体开发的协议。</li>
+<li>最初和FLV的生态相得益彰（虽然现在FLV相关技术已经日薄西山，但当时它的影响力巨大）。</li>
+<li>RTMP的延迟相对较低，一般延时为1～3秒，对于延迟不是特别敏感的场景，其延迟是可以接受的。</li>
+</ul>
+<p>当然RTMP并非尽善尽美，它也有不足的地方:</p>
+<ol>
+<li>一方面是它基于TCP传输，导致链路抖动时并不能很好地使用带宽，且使用非公共端口，可能会被防火墙阻拦；</li>
+<li>另一方面是它是Adobe私有协议，对于浏览器生态并不友好。<br>目前业界一直在探索各种方向以替换该协议，主要的原因是Adobe拥有该协议的版权，但又放弃了该协议的发展，<br>在对新Codec及其他特性的支持上也停滞不前。<ul>
+<li>在下行分发领域，RTMP面临着HLS、MPEG-DASH等基于HTTP传输协议的竞争，</li>
+<li>在上行领域也面临一些新的技术方案比如DASH-IF Live Media Ingest Protocol、WebRTC-HTTP Ingestion Protocol（WHIP）等协议的竞争。<blockquote>
+<p>不过即便这样，从市场占有率来说，RTMP依旧是值得研究的技术之一，它也是第一个被广泛使用的流媒体协议。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>RTMP URL基本格式及意义</strong><br><img src="/./resource/ffmpeg/RTMP-URL-struct.jpg" alt="RTMP-URL-struct"> </p>
+<p><strong>FFmpeg拉取RTMP直播流可以使用的参考参数</strong>：<br><img src="/./resource/ffmpeg/FFmpeg-RTMP-args-1.jpg" alt="RTMP-args-1"><br><img src="/./resource/ffmpeg/FFmpeg-RTMP-args-2.jpg" alt="RTMP-args-2">   </p>
+<h4 id="录制并发布RTSP流"><a href="#录制并发布RTSP流" class="headerlink" title="录制并发布RTSP流"></a>录制并发布RTSP流</h4><blockquote>
+<p>Real Time Streaming Protocol<br><code>ffmpeg -h demuxer=RTSP</code></p>
+</blockquote>
+<blockquote>
+<ul>
+<li>信令（Signaling）：RTSP 负责 <strong>发号施令</strong> 。它定义了客户端和服务器之间 <strong>如何沟通</strong> ，比如：<ul>
+<li>DESCRIBE：客户端问服务器：“这个流里有什么？编码是 H.264 还是 H.265？分辨率多少？”</li>
+<li>SETUP：客户端说：“我要建立连接了，用 RTP 传输，端口号是多少？”</li>
+<li>PLAY：客户端说：“开始播放！”</li>
+<li>PAUSE：客户端说：“暂停。”</li>
+<li>TEARDOWN：客户端说：“再见，断开连接。”</li>
+</ul>
+</li>
+<li>传输（Transport）：RTSP <strong>不负责</strong>  <em><strong>搬运</strong></em> 具体的音视频数据（比如 H.264 的 NALU 单元）。它只负责“控制”，不负责“搬砖”。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>RTP 专门负责在网络上实时传输音视频数据。是“搬运工”：它<br>它给每个数据包打上时间戳（Timestamp）和序列号（Sequence Number），这样接收端才能按顺序、同步地还原出视频和音频。</p>
+</blockquote>
+<p>是一种信令协议，是曾经最常见的直播方式，目前常用于 安防等领域<br>FFmpeg 目前仅支持 RTSP1.0，目前协议已发展至2.0版本<br>RTSP本身定义了信令，其传输协议并未确定。在当前的实现中，大部分情况下都使用 <em><strong>RTP</strong></em> 来传输数据，<br>但实际上，仍然有Real Data Transport（RDT）这样的私有传输协议被使用。<br>RTSP是一个典型的CS架构，其基本交互流程如图：<br><img src="/./resource/ffmpeg/RTSP-basic-interactive.jpg" alt="RTSP-basic-interactive"> </p>
+<blockquote>
+<p>RTSP是以demuxer实现的，而RTMP是以protocol实现的。<br><img src="/./resource/ffmpeg/RTSP-demuxer-1.jpg" alt="RTSP-demuxer-1"><br><img src="/./resource/ffmpeg/RTSP-demuxer-2.jpg" alt="RTSP-demuxer-2">   </p>
+</blockquote>
+<p>FFmpeg默认使用的拉取RTSP流方式为 <em><strong>UDP</strong></em> 传输方式，为了避免丢包导致的花屏、绿屏、灰屏、马赛克等问题，可以考虑将UDP改为TCP方式。</p>
+<p>RSTP demuxer可以支持UDP或者TCP传输数据，当通过UDP接收数据时，解封装器会尝试对收到的数据包重新排序（因为它们可能不按顺序到达，或者数据包完全丢失）。<br>这可以通过将最大的解封装延迟设置为0来禁用该功能，这样可以控制RTSP demuxer带来的延迟（通过设置AVFormatContext的max_delay字段）。</p>
+<h4 id="录制HTTP流"><a href="#录制HTTP流" class="headerlink" title="录制HTTP流"></a>录制HTTP流</h4><blockquote>
+<p><code>ffmpeg -h protocol=http</code></p>
+</blockquote>
+<p>在流媒体服务当中，HTTP服务最为常见，尤其是点播。当然，直播也支持HTTP服务，<br>例如使用HTTP传输FLV、TS直播流，或者使用HTTP传输使用M3U8及TS文件的HLS格式等。<br>FFmpeg的HTTP既可以作为客户端使用，又可以作为服务端使用，但作为客户端使用的场景更多</p>
+<h4 id="录制与发布UDP-TCP流"><a href="#录制与发布UDP-TCP流" class="headerlink" title="录制与发布UDP&#x2F;TCP流"></a>录制与发布UDP&#x2F;TCP流</h4><blockquote>
+<p><code>ffmpeg -h protocol=udp</code><br><code>ffmpeg -h protocol=tcp</code>  </p>
+</blockquote>
+<p>FFmpeg不仅支持RTMP、HTTP这类高层协议，同样支持UDP、TCP这类较为底层的协议，而且可以支持UDP、TCP流媒体的录制与发布。</p>
+<h4 id="多路流输出"><a href="#多路流输出" class="headerlink" title="多路流输出"></a>多路流输出</h4><p>早期FFmpeg在转码后输出直播流时并不支持一次编码后同时输出多路直播流，需要使用管道方式输出。<br>而在新版本的FFmpeg中已经支持tee文件封装及协议输出，可以使用tee进行多路流输出。</p>
+<p><strong>管道方式</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将输出发送至 标准输出</span></span><br><span class="line"><span class="comment"># 产生三个输出流 output%d</span></span><br><span class="line">ffmpeg -i input -acodec aac -vcodec libx264 -f flv - | ffmpeg -f mpegts -i - -c copy output1 -c copy output2 -c copy output3</span><br></pre></td></tr></table></figure>
+
+<p><strong>tee封装格式</strong></p>
+<blockquote>
+<p>关于 <code>tee</code> 请详见 <code>man tee</code></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -i input.mp4 -vcodec libx264 -acodec aac -map 0 -f <span class="built_in">tee</span> <span class="string">&quot;[f=flv]rtmp://publish.chinaffmpeg.com/live/stream1 | [f=flv]rtmp:// publish.chinaffmpeg.com/live/stream2&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># FFmpeg 3.1 后</span></span><br><span class="line">ffmpeg -re -i input.mp4 -vcodec libx264 -acodec aac -f flv <span class="string">&quot;tee:rtmp://publish.chinaffmpeg.com/live/stream1|rtmp://publish.chinaffmpeg.com/live/stream2&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="DASH-流输出"><a href="#DASH-流输出" class="headerlink" title="DASH 流输出"></a>DASH 流输出</h4><blockquote>
+<p><code>ffmpeg -h muxer=dash</code></p>
+</blockquote>
+<p>MPEG-DASH是一种流式传输方法，DASH代表“基于HTTP的动态自适应流式传输”。<br>由于其基于HTTP，任何源服务器都可以配置提供MPEG-DASH流式传输。MPEG-DASH类似于HLS，后者是另一种流式传输协议，<br>MPEG-DASH将视频 <strong>分解成更小的片段</strong> ，并以 <strong>不同的质量级别</strong> 对这些片段进行编码。<br>这使得它可以流式传输 <strong>不同质量级别的视频</strong> ，并可以从一种质量级别切换到另一种质量级别。</p>
+<p>类似HLS，DASH的工作分为以下几步：</p>
+<ol>
+<li>编码和分割：源服务器将视频文件分割成几秒时长的小片段。<br>服务器还会创建一个索引文件，就像视频片段的目录。然后对这些片段进行编码，即以多种设备可以解析的方式进行格式化。<br>MPEG-DASH允许使用任何编码标准，这是相对于HLS的一个优势。</li>
+<li>交付：当用户开始观看流媒体时，已编码的视频片段被通过网络推送到客户端设备。<br>在几乎所有情况下，内容分发网络（CDN）都能更高效地分发流媒体。</li>
+<li>解码和播放：当用户的设备接收到流数据时，它会解码并播放视频。<br>视频播放器会自动切换到较低或较高质量的图像以适应网络条件。<br>例如，当用户当前的带宽极低时，播放器将播放较少带宽、较低质量级别的视频。</li>
+</ol>
+<h4 id="HDS-流输出"><a href="#HDS-流输出" class="headerlink" title="HDS 流输出"></a>HDS 流输出</h4><blockquote>
+<p><code>ffmpeg -h muxer=hds</code></p>
+</blockquote>
+<p>HDS（HTTP Dynamic Streaming）协议目前处于一个萎缩的状态，但其基本原理和HLS、MPEG-DASH等接近，使用FFmpeg可以生成HDS切片。</p>
+<hr>
+<blockquote>
+<p>详细的流媒体参数介绍请见《深入理解ffmpeg》第6章</p>
+</blockquote>
+<hr>
+<h3 id="bitstream过滤器"><a href="#bitstream过滤器" class="headerlink" title="bitstream过滤器"></a>bitstream过滤器</h3><blockquote>
+<p>Bitstream（比特流）就是编码器输出的、压缩后的原始媒体数据流。<br>bitstream filter（比特流过滤器）是 FFmpeg 中一个在不进行解码的前提下，对已编码的音视频码流（Packet）进行格式修正与适配的中间层组件<br>位于 <code>libavcodec</code> 库内，作用于 <code>AVPacket</code></p>
+</blockquote>
+<blockquote>
+<p>为什么需要这一层？<br>之所以需要这层过滤器，是因为codec输出的原始bitstream格式，与muxer&#x2F;protocol所期望的格式，往往是两套不同的“方言”。</p>
+</blockquote>
+<p>在使用FFmpeg处理音视频流的时候，通常有一套 <strong>介于编解码器(codec)输出与封装(muxer)或传输协议(trans protocol)之间</strong> 的 <strong>数据和信息的封装约定</strong> ，<br>这类数据和信息的处理通常 <strong>不需要消耗太多计算空间和时间</strong> ，但是又被编解码器与封装或传输协议所需要，这类内容通常被称为bitstream。</p>
+<p>比特流过滤器是解决编码器输出格式与封装&#x2F;传输协议需求之间不匹配的“适配器”。<br>它让你可以在不重新编码（不损失画质、不消耗大量 CPU）的前提下，自由地在不同容器之间转换码流。实质上是数据格式重新整理的中间层，不会改变内部数据</p>
+<h4 id="解析器-比特流过滤器-音视频滤镜"><a href="#解析器-比特流过滤器-音视频滤镜" class="headerlink" title="解析器 比特流过滤器 音视频滤镜"></a>解析器 比特流过滤器 音视频滤镜</h4><p>实质上是分出了： <strong>媒体数据流</strong> 、 <strong>媒体编码流</strong> 、 <strong>媒体封装流</strong> ，这三个视角</p>
+<p>FFmpeg内部有以下三个容易引起误解的概念</p>
+<ul>
+<li><code>libavcodec</code> 内部的 <code>parser</code><ul>
+<li>在官方的定义中，<code>parser</code> 接收一串输入数据并将其分割成完整的压缩帧，而不丢弃任何数据或增加任何数据（<strong>重新组装和分帧</strong>）<br>（理想状态下；是为了将数据进行分区辅助提取，实质上就是解析 bitstream 并确定 bitstream 中数据包的边界）</li>
+</ul>
+</li>
+<li><code>libavcodec</code> 内部的 <code>bitstream filter</code><ul>
+<li>bitstream filter 被允许 <strong>修改</strong> 数据（并非所有bitstream filter都会修改数据），对数据间部分格式元信息进行整理，为之后的流操作做适配</li>
+<li>不能动纯媒体流数据</li>
+</ul>
+</li>
+<li><code>libavfilter</code> 内部的各种Audio、Video滤镜。<ul>
+<li>它们的输入是未压缩的视频或音频数据，即大部分情况下，滤镜作用在原始未压缩的YUV或者PCM数据之上。</li>
+<li>实质上是在数据上进行修饰</li>
+<li>是唯一操作原始帧的地方</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>bitstream例子：</p>
+<p>AAC 音频依据流式传输或者存储的需求存在多种格式：</p>
+<ul>
+<li>ADTS（Audio Data Transport Stream）<ul>
+<li>ADTS通常应用于直播传输流，文件的每一帧前面都包含ADTS头信息；</li>
+</ul>
+</li>
+<li>ASC（Audio Specific Config）<ul>
+<li>而ASC通常存储在MP4格式中，在全局头部有一个配置，所以比ADTS更节省空间。</li>
+</ul>
+</li>
+</ul>
+<p>由于这两种应用领域所需要的具体格式不同，在转换过程中需要一个中间层进行数据流格式的转换，<br>这就是 bitstream filter 的作用，不修改纯媒体数据的部分，而是在数据流视角下进行格式转换</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用了 -bsf:v h264_mp4toannexb 这个比特流过滤器</span></span><br><span class="line"><span class="comment"># 将一个本地存储格式的视频文件的编码流转换为可以网络传输的编码流</span></span><br><span class="line">ffmpeg -re -i <span class="string">&quot;input.mp4&quot;</span> -c copy -bsf:v h264_mp4toannexb -f mpegts udp://127.0.0.1:8000</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>bitstream filter小结：<br>FFmpeg的bitstream过滤器是一组强大的工具集合，特别是在需要解决编码出来的流和容器格式之间的流的编辑工作这类问题的时候，<br>它使得我们可以灵活地对bitstream进行各种操作。</p>
+</blockquote>
+<h3 id="滤镜使用"><a href="#滤镜使用" class="headerlink" title="滤镜使用"></a>滤镜使用</h3><p>在FFmpeg中除了具有强大的封装解封装、编解码、缩放功能以外，还有一个非常强大的组件—— <strong>滤镜（AVFilter）</strong><br>AVFilter组件经常被用来进行多媒体处理与编辑，FFmpeg中包括多种滤镜。</p>
+<p>FFmpeg通过 <code>libavutil/eval.h</code> 实现了对算术表达式的支持，这使得FFmpeg的滤镜在使用上更为灵活，具备了初步的“可编程”能力，<br>可以视为一个简单的领域特定语言（<em>domain-specific language</em>），但需要注意其并非图灵完备。<br>滤镜的表达式中包含了常量、一元、二元和函数表达式，</p>
+<p>FFmpeg 的表达式可以由多个表达式通过分号组合成一个新的表达式： <code>expr1;expr2</code> ，新的表达式将会分别对expr1、expr2求值，<br>并将expr2的结果作为新表达式的结果返回。<br>FFmpeg的表达式常用于滤镜中，实现 <strong>时间控制</strong> 、 <strong>动态调整</strong> 等。</p>
+<h4 id="滤镜描述格式"><a href="#滤镜描述格式" class="headerlink" title="滤镜描述格式"></a>滤镜描述格式</h4><ul>
+<li><strong>基本排列方式</strong><ul>
+<li><code>[输入流或标记名]滤镜参数[临时标记名];[输入流或标记名]滤镜参数[临时标记名];...</code></li>
+<li>在使用Filter时，不免会遇到根据时间轴进行操作的需求。在使用FFmpeg的Filter时可以使用与时间相关的内置变量<br><img src="/./resource/ffmpeg/FFmpeg-filter-time-var.jpg" alt="FFmpeg-filter-time-var"></li>
+</ul>
+</li>
+</ul>
+<h4 id="视频水印操作"><a href="#视频水印操作" class="headerlink" title="视频水印操作"></a>视频水印操作</h4><p>在视频中增加文字水印的要求比较多，需要有文字的字库处理相关文件，<br>在编译FFmpeg时需要支持FreeType、FontConfig、iconv，系统中要有需要的字库。<br>在FFmpeg中增加纯字母水印可以使用drawtext滤镜进行支持</p>
+<p><img src="/./resource/ffmpeg/FFmpeg-text-filter-arg.jpg" alt="FFmpeg-text-filter-arg"> </p>
+<p><strong>添加文字水印</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -vf <span class="string">&quot;drawtext=fontsize=100:fontfile=FreeSerif.ttf:text=&#x27;hello world&#x27;:x=20:y=20&quot;</span> output.mp4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 让水印每三秒出现一次</span></span><br><span class="line">ffmpeg -re -i input.mp4 -vf <span class="string">&quot;drawtext=fontsize=60:fontfile=FreeSerif.ttf:text=&#x27;test&#x27;:fontcolor=green:box=1:boxcolor=yellow:enable=lt(mod(t,3),1)&quot;</span> output.mp4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 中文水印，需要中文字体支持</span></span><br><span class="line">ffmpeg -re -i input.mp4 -vf <span class="string">&quot;drawtext=fontsize=50:fontfile=/Library/Fonts/Songti.ttc:text=&#x27;文字水印测试&#x27;:fontcolor=green:box=1:boxcolor=yellow&quot;</span> output.mp4</span><br></pre></td></tr></table></figure>
+
+<p><strong>添加图片水印</strong><br><strong>可以使用movie滤镜参数</strong><br><img src="/./resource/ffmpeg/FFmpeg-img-filter-arg.jpg" alt="FFmpeg-img-filter-arg"></p>
+<h4 id="画中画操作"><a href="#画中画操作" class="headerlink" title="画中画操作"></a>画中画操作</h4><p>在 FFmpeg 的滤镜中，可以将多个视频流、多个多媒体采集设备、多个视频文件合并到一个界面中，生成画中画的效果，<br>这可以通过overlay进行操作。</p>
+<p><img src="/./resource/ffmpeg/FFmpeg-filter-overlay-arg.jpg" alt="FFmpeg-filter-overlay-arg"> </p>
+<h4 id="视频多宫格处理"><a href="#视频多宫格处理" class="headerlink" title="视频多宫格处理"></a>视频多宫格处理</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 1.avi -i 2.avi -i 3.avi -i 4.avi -filter_complex <span class="string">&quot;nullsrc=size=640x480 [base]; \</span></span><br><span class="line"><span class="string">[0:v] setpts=PTS-STARTPTS, scale=320x240 [upperleft]; \</span></span><br><span class="line"><span class="string">[1:v]setpts=PTS-STARTPTS, scale=320x240 [upperright]; \</span></span><br><span class="line"><span class="string">[2:v] setpts=PTS-STARTPTS, scale=320x240 [lowerleft]; \</span></span><br><span class="line"><span class="string">[3:v]setpts=PTS-STARTPTS, scale=320x240 [lowerright]; \</span></span><br><span class="line"><span class="string">[base][upperleft]overlay=shortest=1 [tmp1]; \</span></span><br><span class="line"><span class="string">[tmp1][upperright]overlay=shortest=1:x=320 [tmp2]; \</span></span><br><span class="line"><span class="string">[tmp2][lowerleft]overlay=shortest=1:y=240 [tmp3]; \</span></span><br><span class="line"><span class="string">[tmp3][lowerright]overlay=shortest=1:x=320:y=240&quot;</span> \</span><br><span class="line">-c:v libx264 output.flv</span><br></pre></td></tr></table></figure>
+
+<h4 id="视频字幕操作"><a href="#视频字幕操作" class="headerlink" title="视频字幕操作"></a>视频字幕操作</h4><p>为视频添加字幕的方式大概可以分为两种：</p>
+<ul>
+<li>将字幕 <strong>编码进视频流</strong> 作为图像信息的一部分</li>
+<li>在封装容器中加入 <strong>字幕流</strong> 作为视频媒体数据信息的一部分<br>将字幕编码进视频流的方式与为视频增加水印的方式基本相似，而在封装容器中加入字幕流的方式则需要封装容器中支持加入字幕流。</li>
+</ul>
+<p><strong>ASS字幕流</strong><br>使用FFmpeg可以将字幕写入视频流，通过 <strong>ASS滤镜</strong> 即可。首先需要将视频流进行解码，再将ASS字幕写入视频流，然后编码压缩再进行容器封装。</p>
+<blockquote>
+<p>详情请查阅相应资料</p>
+</blockquote>
+<h4 id="视频3D化处理"><a href="#视频3D化处理" class="headerlink" title="视频3D化处理"></a>视频3D化处理</h4><blockquote>
+<p>详情请查阅相应资料</p>
+</blockquote>
+<h4 id="视频截图"><a href="#视频截图" class="headerlink" title="视频截图"></a>视频截图</h4><blockquote>
+<p>详情请查阅 vframe参数与fps滤镜</p>
+</blockquote>
+<h4 id="音频滤镜操作"><a href="#音频滤镜操作" class="headerlink" title="音频滤镜操作"></a>音频滤镜操作</h4><p>除了操作视频，FFmpeg还可以对音频进行操作，例如拆分声道、合并多声道为单声道、调整声道布局及调整音频采样率等。在FFmpeg中，可以通过amix、amerge、pan、channelsplit、volume、volumedetect等滤镜进行常用的音频操作。</p>
+<h4 id="音频音量探测"><a href="#音频音量探测" class="headerlink" title="音频音量探测"></a>音频音量探测</h4><blockquote>
+<p>滤镜volumedetect<br>showwavespic滤镜</p>
+</blockquote>
+<h4 id="生成测试元数据"><a href="#生成测试元数据" class="headerlink" title="生成测试元数据"></a>生成测试元数据</h4><blockquote>
+<p>通过lavfi设备虚拟音视频源数据<br>可以通过lavfi虚拟音频源的abuffer、aevalsrc、anullsrc、flite、anoisesrc、sine滤镜并生成音频流</p>
+</blockquote>
+<h4 id="音频倍速处理"><a href="#音频倍速处理" class="headerlink" title="音频倍速处理"></a>音频倍速处理</h4><blockquote>
+<p>atempo与setpts 滤镜</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>详细滤镜操作请见 《深入理解ffmpeg》 第8章 滤镜的使用</p>
+</blockquote>
+<hr>
+<h3 id="采集设备操作"><a href="#采集设备操作" class="headerlink" title="采集设备操作"></a>采集设备操作</h3><p>在使用FFmpeg作为编码器时，可以使用FFmpeg采集本地音视频采集设备的数据，然后进行编码、封装、传输等操作。<br>例如我们可以采集摄像头的图像作为视频，采集麦克风的数据作为音频，然后对采集到的音视频数据进行编码，最后将编码后的数据封装成多媒体文件或作为音视频流媒体发送到服务器上。</p>
+<blockquote>
+<p>详见相关文档</p>
+</blockquote>
+<h2 id="ffmpeg-c-api"><a href="#ffmpeg-c-api" class="headerlink" title="ffmpeg c api"></a>ffmpeg c api</h2><p>FFmpeg目录包含FFmpeg库代码目录、构建工程目录、自测子系统目录等。<br>具体内容如下:  </p>
+<ul>
+<li>libavcodec：主要包含编码、解码的框架与子模块代码。</li>
+<li>libavdevice：主要包含输入、输出外设框架与设备模块代码。</li>
+<li>libavfilter：主要包含滤镜模块与视频、音频、字幕的特效处理模块代码。</li>
+<li>libavformat：主要包含封装、解封装、传输协议的框架与子模块代码。</li>
+<li>libavutil：主要包含 FFmpeg 提供的基础组件，比如加密解密算法、内存管理代码。</li>
+<li>libswresample：主要包含音频的采样与重采样处理相关的代码。</li>
+<li>libswscale：主要包含视频图像缩放与色彩转换等处理相关的代码。</li>
+<li>libpostproc：视频后处理库。</li>
+<li>fftools：主要包含ffmpeg、ffprobe、ffplay应用程序的代码。</li>
+<li>tests：主要包含FFmpeg项目的自动化自测子系统。</li>
+<li>ffbuild、compat：用以做FFmpeg工程构建的目录。</li>
+<li>doc：主要包含FFmpeg的通用框架的参数、各模块参数的文档，API说明文档以及提供给API用户作为API使用用例的参考代码。</li>
+</ul>
+<p><img src="/./resource/ffmpeg/FFmpeg-project-turn-code-and-play.jpg" alt="FFmpeg-turn-code-and-play"> </p>
+<hr>
+<h2 id="Q-A"><a href="#Q-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h2><blockquote>
+<p>Q: 为什么RIFF有被MPEG容器格式取代的趋势?<br>A: RIFF 是 PC 本地播放时代的容器设计，而 MPEG 系容器是网络流媒体、移动设备和标准化生态时代的容器设计</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">对比项</th>
+<th align="center">RIFF 系（AVI&#x2F;WAV）</th>
+<th align="center">MPEG 系（MP4&#x2F;MPEG-TS&#x2F;fMP4）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">基本单元</td>
+<td align="center">Chunk：FourCC + size + data，小端</td>
+<td align="center">Box&#x2F;Atom：size + type + data，大端</td>
+</tr>
+<tr>
+<td align="center">嵌套方式</td>
+<td align="center">RIFF 可嵌套 LIST，但结构较松散</td>
+<td align="center">严格的层级 Box 树，如 moov &gt; trak &gt; mdia &gt; minf &gt; stbl</td>
+</tr>
+<tr>
+<td align="center">版本机制</td>
+<td align="center">基本没有统一版本机制</td>
+<td align="center">FullBox 有 version + flags，可扩展、可向后兼容</td>
+</tr>
+<tr>
+<td align="center">标准化</td>
+<td align="center">微软&#x2F;IBM 主导，扩展混乱</td>
+<td align="center">ISO&#x2F;IEC 14496-12 等国际标准，持续更新</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -620,381 +2516,8 @@ f_r \in [0,\frac{1}{\pi}]
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/CS/Graphics/Games101/Lecture-13/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/CS/Graphics/Games101/Lecture-13/" class="post-title-link" itemprop="url">Games101 光线追踪</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-08-28 12:00:24" itemprop="dateCreated datePublished" datetime="2026-08-28T12:00:24+08:00">2026-08-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-09-01 13:29:13" itemprop="dateModified" datetime="2026-09-01T13:29:13+08:00">2026-09-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机图形学</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Ray-Tracing-1"><a href="#Ray-Tracing-1" class="headerlink" title="Ray Tracing 1"></a>Ray Tracing 1</h1><blockquote>
-<p><em><strong>光线追踪</strong></em><br><em><strong>Whitted-Sytle Ray Tracing</strong></em></p>
-</blockquote>
-<p>光栅化方法不能很好的处理全局影响</p>
-<ul>
-<li><em><strong>Soft shadows</strong></em> 软阴影</li>
-<li><em><strong>Glossy reflection</strong></em> 镜面表面</li>
-<li><em><strong>Indirect illumination</strong></em> 间接光照</li>
-</ul>
-<p>一般认为，光栅化是一种很快但是很近似的处理方法，但是质量较低</p>
-<p>光线追踪是一种准确的方法，但是很慢</p>
-<ul>
-<li>光栅化应用于实时处理，光线追踪应用于离线处理</li>
-<li>生成一张图一般需要10k GPU核心时间</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/CS/Graphics/Games101/Lecture-13/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Projects/http_server/http-server-perf/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Projects/http_server/http-server-perf/" class="post-title-link" itemprop="url">基于 Boost 的 HTTP 服务器：性能方法论</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-08-08 20:00:00 / 修改时间：19:01:38" itemprop="dateCreated datePublished" datetime="2026-08-08T20:00:00+08:00">2026-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%88%91%E7%9A%84%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">我的项目</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="基于-Boost-的-HTTP-服务器：性能方法论"><a href="#基于-Boost-的-HTTP-服务器：性能方法论" class="headerlink" title="基于 Boost 的 HTTP 服务器：性能方法论"></a>基于 Boost 的 HTTP 服务器：性能方法论</h1><blockquote>
-<p>同一分支代码，中间仅仅进行了Bug修复，前后压测，一次 153k QPS，一次 45k QPS<br>是什么导致了这一“回归性”问题？<br>是构建配置的不同——Debug（-O0）与 Release，导致了该“回归性”问题</p>
-<p>测量方法先于优化方法：本篇从压测设计开始</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/Projects/http_server/http-server-perf/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Projects/http_server/http-server-eng/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Projects/http_server/http-server-eng/" class="post-title-link" itemprop="url">基于 Boost 的 HTTP 服务器：项目工程化</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-08-08 18:00:00 / 修改时间：18:46:30" itemprop="dateCreated datePublished" datetime="2026-08-08T18:00:00+08:00">2026-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%88%91%E7%9A%84%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">我的项目</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="基于-Boost-的-HTTP-服务器：项目工程化"><a href="#基于-Boost-的-HTTP-服务器：项目工程化" class="headerlink" title="基于 Boost 的 HTTP 服务器：项目工程化"></a>基于 Boost 的 HTTP 服务器：项目工程化</h1><blockquote>
-<p>测试、CI、容器、部署——工程化的目的就是<em><strong>可重复的验证</strong></em></p>
-<p>改动可重复验证、构建可重复验证、部署可复现</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/Projects/http_server/http-server-eng/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Projects/http_server/http-server-protocol/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Projects/http_server/http-server-protocol/" class="post-title-link" itemprop="url">基于 Boost 的 HTTP 服务器：HTTP 协议细节</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-08-08 18:00:00 / 修改时间：22:34:15" itemprop="dateCreated datePublished" datetime="2026-08-08T18:00:00+08:00">2026-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%88%91%E7%9A%84%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">我的项目</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="基于-Boost-的-HTTP-服务器：HTTP-协议细节"><a href="#基于-Boost-的-HTTP-服务器：HTTP-协议细节" class="headerlink" title="基于 Boost 的 HTTP 服务器：HTTP 协议细节"></a>基于 Boost 的 HTTP 服务器：HTTP 协议细节</h1><blockquote>
-<p>本文是 http_server 系列的协议篇，对应总览中的功能地图<br>展开四个核心协议特性的语义与实现：304 条件请求、Range 断点续传、gzip 协商、405&#x2F;OPTIONS</p>
-<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lMb2dJbmcvaHR0cF9zZXJ2ZXI=">http_server<i class="fa fa-external-link-alt"></i></span></p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/Projects/http_server/http-server-protocol/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

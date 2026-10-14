@@ -4469,813 +4469,6 @@ CXX = g++CXX_FLAGES = -Wall -gSRC_PATH = ./srcINCLUDE_PATH = includeINCLUDE_SUBD
       </tags>
   </entry>
   <entry>
-    <title>claude code 命令行</title>
-    <url>/CS/AI/Agent/claude-code/</url>
-    <content><![CDATA[开始安装npm 命令行安装
-$ npm install -g @anthropic-ai/claude-code
-模型配置配置默认模型为Opus 4
-$ claude config set model claude-4-opus
-
-配置为Sonnet 4
-$ claude config set model claude-4-sonnet
-
-查看配置查看所有配置
-$ claude config list
-
-查看特定配置
-$ claude config get &lt;component&gt;
-
-
-
-基本命令帮助
-$ claude help
-
-特定帮助
-$ claude help get &lt;component&gt;
-
-配置国内模型配置文件： ~&#x2F;.claude&#x2F;settings.json
-&#123;  &quot;env&quot;: &#123;    &quot;ANTHROPIC_BASE_URL&quot;: &quot;https://api.example.com/v1&quot;,    &quot;ANTHROPIC_AUTH_TOKEN&quot;: &quot;your-api-key-here&quot;  &#125;,  &quot;model&quot;: &quot;glm-4.6&quot;,  &quot;custom-model&quot;: &#123;    &quot;name&quot;: &quot;GLM-4.6&quot;,    &quot;endpoint&quot;: &quot;https://api.example.com/v1/chat/completions&quot;,    &quot;api_key&quot;: &quot;your-api-key-here&quot;,    &quot;model_type&quot;: &quot;code&quot;  &#125;&#125;
-
-配置说明
-
-env.ANTHROPIC_BASE_URL: 国内大模型的API端点URL
-env.ANTHROPIC_AUTH_TOKEN: 您的API密钥
-model: 默认使用的模型名称
-custom-model: 自定义模型配置
-name: 模型名称（自定义）
-endpoint: API端点URL
-api_key: API密钥
-model_type: 模型类型（通常为”code”）
-
-
-
-国内使用
-注意：Claude 母公司 Anthropic 错误的政治倾向，以及对中国的偏见，致使其对中国用户采取严格的禁用策略。
-好好利用工具认清个人立场
-
-配置文件： ~&#x2F;.claude&#x2F;settings.json
-&#123;    &quot;env&quot;: &#123;        &quot;ANTHROPIC_AUTH_TOKEN&quot;: &quot;your_zhipu_api_key&quot;,        &quot;ANTHROPIC_BASE_URL&quot;: &quot;https://open.bigmodel.cn/api/anthropic&quot;,        &quot;API_TIMEOUT_MS&quot;: &quot;3000000&quot;,        &quot;CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC&quot;: 1    &#125;&#125;
-
-
-env.ANTHROPIC_BASE_URL: 国内大模型的API端点URL
-env.ANTHROPIC_AUTH_TOKEN: 您的API密钥
-env.API_TIMEOUT_MD: API的超时时间（毫秒计算）
-env.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: 禁用非必要流量
-
-
-关于URL与API_KEY可以查看所使用大模型官方的API文档
-
-解决claude code无法连接到Anthropic服务可能遇到的报错信息
-Unable to connect to Anthropic servicesFailed to connect to api.anthropic.com: ERR BAD REQUESTlease check your internet connection and network settings.Note: Claude Code might not be available in your country, Check supported countries atnttps://anthropic.com/supported-countriesS E:ltoollclaude code&gt;
-
-需要修改 .claude.json 文件，一般与.claude/目录处于同一目录
-在 .claude.json 中添加以下属性
-&#123;  &quot;hasCompletedOnboarding&quot;: true&#125;
-
-之后可以通过
-$ claude
-
-在项目文件中使用claude code
-提示词工程
-核心公式： 好的提示词 &#x3D; 明确的角色 × 充分的上下文 × 结构化的输出 × 可验证的标准
-提示词不是一次写成的，需要根据 AI 的回复不断修正迭代。
-
-事先声明
-将AI视为 协作者 而非个人的替身
-
-要保证项目代码的最终决策权在我们自己，你需要不断引导它分析约束、评估风险、给出可选方案，而不是直接接受第一个答案。
-
-
-好的架构是分视图、分阶段、分模块的
-
-你必须在提示词里显式要求 AI 从不同架构视图（逻辑、过程、开发、部署、数据）思考，避免它过早陷入细节。
-你最好能事先规范化项目的顶层设计，再与AI进行总体的设计讨论，逐步深入。
-
-
-每一次讨论都是一次 架构评审
-
-把提示词设计成微小的评审会议：输入上下文、假设，要求 AI 输出分析、质疑、建议。
-但是，绝不能被AI牵着鼻子走，在整理AI的建议时需要自己的思考，纠正AI偏离预期设计的想法。
-
-
-
-CLAUDE.md 与对话 Prompt 的分工
-
-
-存储位置
-适合的内容
-特点
-
-
-
-CLAUDE.md
-项目架构、编码规范、测试规范、目录结构、常用命令
-持久化，自动加载到每次对话
-
-
-对话 Prompt
-当前任务上下文、具体需求、临时约束、输出格式
-会话级，一次性，灵活调整
-
-
-如何表述清楚任务
-需要以 架构师 的方式进行思考聚焦于”为什么做”、”如何做”使用层进式的方式进行讨论提出需求 -&gt; 暴露问题 -&gt; 修改架构
-
-1. 上下文构建与约束澄清目标： 让 AI 快速理解项目全貌，产出需求疑点清单和风险假设。
-需要包含：
-
-项目背景
-团队人员信息
-项目摘要
-项目周期
-
-
-项目目标
-目标领域
-核心业务目标
-多个子目标…
-
-
-
-
-项目关键约束
-
-
-产出一份结构化的项目分析清单包含：
-
-结构化的需求疑点清单
-风险假设列表
-
-
-可复用 Prompt 模板：
-
-你是一名资深[架构师&#x2F;领域专家]，请以”评审者”视角分析以下项目信息：
-项目背景
-
-项目名称：[项目名]
-团队规模：[人数]，角色：[前端&#x2F;后端&#x2F;测试&#x2F;PM]
-项目周期：[开始] ~ [结束]
-当前阶段：[需求&#x2F;设计&#x2F;编码&#x2F;测试]
-
-核心目标
-
-业务目标：[一句话]
-关键指标：[如 QPS、响应时间、用户量]
-
-已知约束
-
-技术栈：[语言&#x2F;框架&#x2F;数据库]
-继承系统：[如有，描述]
-合规要求：[如有，指明]
-资源限制：[预算&#x2F;人力&#x2F;时间]
-
-请输出：
-
-一份结构化的需求疑点清单（至少5条）
-一份风险假设列表（按影响程度排序）
-针对疑点给出的补充建议
-
-
-常见反模式：
-
-
-
-反模式
-问题
-正确做法
-
-
-
-一次性堆砌所有信息
-AI 注意力被稀释，关键约束被忽略
-按层进式逐步给出，每一轮聚焦一个层面
-
-
-只给目标不给约束
-AI 可能选一个无法落地的方案
-显式声明否定约束（”不使用XX”）
-
-
-模糊指标
-无法做验收
-给出具体数字和范围
-
-
-自检清单：
-
- 角色定义是否具体？（”10年后端经验的Java架构师” vs “一名开发者”）
- 是否给出了具体数字和范围？（避免”大量用户”、”很快”）
- 是否说明了”不要做什么”？（否定约束同样重要）
- 是否指定了输出格式？
-
-
-2. 架构风格与关键决策目标： 对比多个候选方案，输出决策记录（ADR）草稿。
-
-项目的基础架构
-各个待选的项目架构与现有约束的冲突
-团队的组织能力需要
-
-
-输出格式：针对每个待选架构的风格简述，进行表格化输出，给出推荐理由针对各个待选的架构风格，简述其与现有约束需要的冲突，以及如何权衡冲突为最终的选择编写一份 Architecture Decision Record (ADR) 草稿
-
-可复用 Prompt 模板：
-
-[粘贴阶段一的产出]
-请从可选架构方案中，评估以下候选项：
-
-[方案A：如微服务]
-[方案B：如单体+模块化]
-[方案C：如事件驱动]
-
-评估维度：
-
-与现有约束的匹配程度（低&#x2F;中&#x2F;高）
-团队能力要求
-迁移成本
-长期可维护性
-
-输出格式：
-
-对比表格（方案 × 评估维度）
-每个方案的权衡分析（2-3句话）
-你的推荐方案 + 核心理由
-一份 ADR（Architecture Decision Record）草稿
-
-
-常见反模式：
-
-
-
-反模式
-问题
-正确做法
-
-
-
-直接让 AI 选方案
-失去决策权，难以追溯原因
-要求给出多个选项和权衡分析
-
-
-忽略团队能力
-选了最优方案但团队无法交付
-把团队技术栈作为硬约束
-
-
-自检清单：
-
- 我是否要求了”对比”而非”单一推荐”？
- 我是否给了明确的评估维度？
- 我是否考虑了团队能力约束？
-
-
-3. 结构设计与边界定义目标： 产出模块划分、接口契约和依赖关系。
-该部分用于：
-
-划分模块&#x2F;服务
-定义边界上下文（DDD）
-确定各组件职责和接口契约
-
-该部分是针对各个模块进行设计
-
-产出格式：
-
-模块列表
-接口概要
-初步的模块与服务依赖图（使用mermaid文本输出）
-
-
-可复用 Prompt 模板：
-
-我们已确定采用[架构方案]，请以此为基础进行结构设计。
-设计输入：
-
-核心业务用例：[列表]
-关键实体：[列表]
-跨切面关注点：[日志&#x2F;鉴权&#x2F;监控…]
-
-设计原则：
-
-[如：领域驱动、按业务能力划分]
-[如：模块间松耦合、接口优先]
-
-输出格式：
-
-模块列表（名称 + 职责 + 依赖）
-接口概要（模块间关键 API）
-依赖关系图（使用 mermaid）
-关键设计决策说明
-
-
-常见反模式：
-
-
-
-反模式
-问题
-正确做法
-
-
-
-描述模糊（”设计一个系统”）
-AI 产出过于泛化
-给出明确的模块划分依据和原则
-
-
-不分层直接出细节
-过早陷入代码级实现
-先逻辑视图再过程视图，逐步聚焦
-
-
-自检清单：
-
- 每个模块的职责是否单一、无歧义？
- 接口契约是否包含入参&#x2F;出参&#x2F;异常？
- 是否明确了模块间的依赖方向？
-
-
-4. 技术栈与实现原语定义目标： 确定具体选型和编码规范。
-该部分用于：
-
-深究框架、库、中间件的选择
-定义编码原则
-错误处理模式
-安全策略
-等实现原语
-
-
-产出格式：
-
-选型决策表
-项目实现规范草稿
-
-
-可复用 Prompt 模板：
-
-请为以下模块做出技术选型：[模块列表]
-选型约束：
-
-语言：[强制约束]
-许可协议：[限制性要求]
-团队熟悉度：[现有技术栈]
-性能要求：[具体指标]
-
-请输出：
-
-每个候选技术的对比表（框架 × [性能&#x2F;社区&#x2F;学习成本&#x2F;许可]）
-推荐方案及理由
-编码规范草稿（命名、错误处理、测试策略、安全实践）
-
-
-常见反模式：
-
-
-
-反模式
-问题
-正确做法
-
-
-
-只看技术先进不考虑生态
-选冷门库后期维护困难
-把社区活跃度和许可证纳入评估
-
-
-忽视非功能性约束
-上线后出现性能&#x2F;安全问题
-显式声明性能、安全、合规要求
-
-
-自检清单：
-
- 选型标准是否可量化？
- 是否考虑了长期维护成本？
- 编码规范是否包含”禁止模式”？
-
-
-5. 评估、验证与文档生成目标： 验证设计质量，生成可交付物。
-该部分用于：
-
-使用AI对现有设计进行评审，
-使用AI将设计转化为相应的需求文档
-
-可复用 Prompt 模板：
-
-请以[特定角色，如安全工程师&#x2F;性能专家]视角，评审以下设计：
-设计输入： [粘贴阶段二~四的产出]
-评审重点：
-
-[如：安全漏洞分析]
-[如：性能瓶颈识别]
-[如：边界情况覆盖]
-
-输出格式：
-
-发现的问题列表（严重程度 × 影响范围 × 修改建议）
-未覆盖的场景分析
-改进优先级排序
-
-
-问题确认后，请根据最终设计生成：
-
-技术方案文档
-API 接口文档
-[其他所需的文档类型]
-
-
-常见反模式：
-
-
-
-反模式
-问题
-正确做法
-
-
-
-只让 AI “检查一下”
-输出过于笼统无法落地
-给出具体检查点（安全&#x2F;性能&#x2F;边界）
-
-
-不指定受众
-文档风格与使用者不匹配
-说明文档受众（技术团队&#x2F;管理层）
-
-
-自检清单：
-
- 评审角色是否匹配当前关注点？
- 是否要求了优先级排序？
- 文档受众是谁？
-
-
-项目提示词设计模板以下为完整的可复用模板，整合了上述五个阶段。按顺序使用即可覆盖从需求澄清到文档生成的全流程。
-# 项目提示词设计模板&gt; 使用说明：根据当前阶段选择对应的 Prompt 模板，填充括号内容后与 AI 协作。&gt; 建议按顺序推进，不要跳步。---## 阶段一：上下文与约束澄清### Prompt 模板你是一名资深[架构师/领域专家]，请以”评审者”视角分析以下项目信息：**项目背景**- 项目名称：[项目名]- 团队规模：[人数]，角色：[前端/后端/测试/PM]- 项目周期：[开始] ~ [结束]- 当前阶段：[需求/设计/编码/测试]**核心目标**- 业务目标：[一句话]- 关键指标：[如 QPS、响应时间、用户量]**已知约束**- 技术栈：[语言/框架/数据库]- 继承系统：[如有，描述]- 合规要求：[如有，指明]- 资源限制：[预算/人力/时间]**请输出：**1. 一份结构化的需求疑点清单（至少5条）2. 一份风险假设列表（按影响程度排序）3. 针对疑点给出的补充建议### 自检清单- [ ] 我是否给出了具体数字和范围？- [ ] 我是否说明了”不要做什么”？- [ ] 我是否指定了输出格式？---## 阶段二：架构风格与关键决策### Prompt 模板基于以下约束：[粘贴阶段一的产出]请从可选架构方案中，评估以下候选项：1. [方案A：如微服务]2. [方案B：如单体+模块化]3. [方案C：如事件驱动]**评估维度：**- 与现有约束的匹配程度（低/中/高）- 团队能力要求- 迁移成本- 长期可维护性**输出格式：**1. 对比表格（方案 × 评估维度）2. 每个方案的权衡分析（2-3句话）3. 你的推荐方案 + 核心理由4. 一份 ADR（Architecture Decision Record）草稿### 自检清单- [ ] 我是否要求了”对比”而非”单一推荐”？- [ ] 我是否给了明确的评估维度？- [ ] 我是否要求了权衡分析？---## 阶段三：结构设计与边界定义### Prompt 模板我们已确定采用[架构方案]，请以此为基础进行结构设计。**设计输入：**- 核心业务用例：[列表]- 关键实体：[列表]- 跨切面关注点：[日志/鉴权/监控...]**设计原则：**- [如：领域驱动、按业务能力划分]- [如：模块间松耦合、接口优先]**输出格式：**1. 模块列表（名称 + 职责 + 依赖）2. 接口概要（模块间关键 API）3. 依赖关系图（使用 mermaid）4. 关键设计决策说明### 自检清单- [ ] 每个模块的职责是否单一、无歧义？- [ ] 接口契约是否包含入参/出参/异常？- [ ] 是否明确了模块间的依赖方向？---## 阶段四：技术栈与实现原语### Prompt 模板请为以下模块做出技术选型：[模块列表]**选型约束：**- 语言：[强制约束]- 许可协议：[限制性要求]- 团队熟悉度：[现有技术栈]- 性能要求：[具体指标]**请输出：**1. 每个候选技术的对比表（框架 × [性能/社区/学习成本/许可]）2. 推荐方案及理由3. 编码规范草稿（命名、错误处理、测试策略、安全实践）### 自检清单- [ ] 选型标准是否可量化？- [ ] 是否考虑了长期维护成本？- [ ] 编码规范是否包含”禁止模式”？---## 阶段五：评审与文档生成### Prompt 模板请以[特定角色，如安全工程师/性能专家]视角，评审以下设计：**设计输入：** [粘贴阶段二~四的产出]**评审重点：**1. [如：安全漏洞分析]2. [如：性能瓶颈识别]3. [如：边界情况覆盖]**输出格式：**1. 发现的问题列表（严重程度 × 影响范围 × 修改建议）2. 未覆盖的场景分析3. 改进优先级排序---问题确认后，请根据最终设计生成：1. 技术方案文档2. API 接口文档3. [其他所需的文档类型]### 自检清单- [ ] 评审角色是否匹配当前关注点？- [ ] 是否要求了优先级排序？- [ ] 文档受众是谁？---## 附录：提示词质量通用检查清单| # | 检查项 | 好的例子 | 坏的例子 ||---|--------|----------|----------|| 1 | 角色是否具体？ | “你是一名有10年后端经验的Java架构师” | “你是一名开发者” || 2 | 上下文是否充分？ | 给出背景、目标、约束各3-5条 | “帮我设计一个电商系统” || 3 | 任务是否分解？ | 每一步只聚焦一个层面 | “设计并实现整个系统” || 4 | 输出格式是否指定？ | “表格输出，包含方案、优点、风险三列” | “分析一下” || 5 | 是否要求选项？ | “给出3个候选方案并对比” | “哪个方案最好？” || 6 | 是否有否定约束？ | “不要使用NoSQL数据库” | 无 || 7 | 是否有验收标准？ | “输出的API需包含路径、方法、参数、返回示例” | “输出API设计” |
-
-
-
-]]></content>
-      <categories>
-        <category>AI 智能体</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>AI Agent</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>opencode 使用指南</title>
-    <url>/CS/AI/Agent/opencode/</url>
-    <content><![CDATA[OpenCode 全面使用指南OpenCode 是一个开源的 AI 编程代理（AI Coding Agent），提供终端 TUI、桌面应用和 IDE 扩展三种形态，支持 75+ 家 LLM 提供商和本地模型。以下指南基于官方文档（opencode.ai&#x2F;docs）整理。
-
-一、安装推荐方式（一行脚本）：
-curl -fsSL https://opencode.ai/install | bash
-
-其他方式：
-
-
-
-方式
-命令
-
-
-
-npm
-npm install -g opencode-ai
-
-
-bun
-bun install -g opencode-ai
-
-
-Homebrew
-brew install anomalyco/tap/opencode
-
-
-Arch
-sudo pacman -S opencode 或 paru -S opencode-bin
-
-
-Windows (Scoop)
-scoop install opencode
-
-
-Windows (Chocolatey)
-choco install opencode
-
-
-Docker
-docker run -it --rm ghcr.io/anomalyco/opencode
-
-
-注意： Windows 强烈建议使用 WSL；使用脚本安装时，要使用现代终端模拟器（WezTerm、Alacritty、Ghostty、Kitty 等）。
-升级 &#x2F; 卸载：
-opencode upgrade            # 升级到最新版opencode upgrade v0.1.48    # 升级到指定版本opencode uninstall          # 卸载（-c 保留配置，-d 保留数据）
-
-
-
-
-二、快速上手1. 配置模型提供商在 TUI 中运行 /connect，选择提供商并粘贴 API Key（存储在 ~/.local/share/opencode/auth.json）。新手建议用 OpenCode Zen（官方精选模型，opencode.ai/auth 注册获取 Key）；已有订阅可零配置使用 ChatGPT Plus&#x2F;Pro、GitHub Copilot、GitLab Duo。
-2. 初始化项目cd /path/to/projectopencode/init    # 分析项目并生成 AGENTS.md（建议提交到 Git）
-
-3. 开始对话
-提问代码库：这个项目如何处理认证？@packages/functions/src/api/index.ts（用 @ 模糊搜索引用文件，内容自动加入上下文）
-添加功能：先按 Tab 切到 Plan 模式（左下角有指示器）描述需求 → 满意后再按 Tab 回到 Build 模式让它实现
-撤销&#x2F;重做：/undo、/redo（依赖 Git 仓库）
-分享会话：/share 生成链接复制到剪贴板
-
-
-三、TUI 界面操作核心键位（默认 leader 键为 Ctrl+X）
-
-
-功能
-键位
-
-
-
-切换主代理（Build&#x2F;Plan）
-Tab &#x2F; Shift+Tab
-
-
-切换模型变体（推理强度）
-Ctrl+T
-
-
-新建会话
-Ctrl+X n
-
-
-会话列表
-Ctrl+X l
-
-
-撤销 &#x2F; 重做
-Ctrl+X u &#x2F; Ctrl+X r
-
-
-压缩上下文
-Ctrl+X c
-
-
-模型列表
-Ctrl+X m &#x2F; Ctrl+A
-
-
-主题列表
-Ctrl+X t
-
-
-代理列表
-Ctrl+X a
-
-
-命令面板
-Ctrl+P
-
-
-编辑器写消息
-Ctrl+X e
-
-
-导出会话
-Ctrl+X x
-
-
-退出
-Ctrl+X q 或 Ctrl+C &#x2F; Ctrl+D
-
-
-子会话导航
-主代理调子代理后：Ctrl+X ↓ 进入，←/→ 切换，↑ 返回
-
-
-多行输入
-Shift+Enter
-
-
-内置斜杠命令（/ 开头）/connect（连接提供商）、/init（生成 AGENTS.md）、/compact（压缩上下文）、/details（切换工具执行细节）、/editor（外部编辑器写消息）、/export（导出 Markdown）、/help、/models、/new、/redo、/sessions、/share、/unshare、/themes、/thinking（显示思考块）、/undo、/exit。
-其他技巧
-! 前缀执行 shell 命令：!ls -la，输出会作为工具结果加入对话
-拖拽图片进终端可附加图片参考
-命令面板（Ctrl+P）可切换自动批准权限、隐藏用户名等持久化设置
-
-
-四、CLI 命令（非交互式）
-
-
-命令
-用途
-
-
-
-opencode
-启动 TUI（-c 继续上次会话，-s ID 指定会话，-m 指定模型，--auto 自动批准权限）
-
-
-opencode run &quot;...&quot;
-非交互模式直接提问（脚本&#x2F;自动化）；-f 附加文件，--format json 输出 JSON 事件
-
-
-opencode agent create
-交互式创建自定义代理
-
-
-opencode auth login/list/logout
-管理提供商凭据
-
-
-opencode models [provider]
-列出可用模型（--refresh 刷新缓存，--verbose 显示成本）
-
-
-opencode mcp add/list/auth
-管理 MCP 服务器
-
-
-opencode session list/delete
-管理会话
-
-
-opencode stats
-Token 用量与成本统计（--days、--tools、--models）
-
-
-opencode export/import
-导出&#x2F;导入会话 JSON（--sanitize 脱敏）
-
-
-opencode serve &#x2F; opencode web
-无头服务器 &#x2F; Web 界面（可用 OPENCODE_SERVER_PASSWORD 开启基本认证）
-
-
-opencode attach &lt;url&gt;
-用 TUI 连接远程 opencode 后端
-
-
-opencode pr &lt;number&gt;
-检出 GitHub PR 分支并运行
-
-
-opencode plugin &lt;module&gt;
-安装插件
-
-
-opencode github install/run
-安装&#x2F;运行 GitHub Agent（仓库自动化）
-
-
-opencode acp
-启动 ACP（Agent Client Protocol）服务器
-
-
-opencode db path
-查看数据库路径
-
-
-opencode debug
-调试与排障工具
-
-
-
-五、配置文件配置文件位置与优先级（后加载的覆盖先加载的）
-远程配置（组织的 .well-known/opencode）
-全局配置 ~/.config/opencode/opencode.json
-自定义路径（OPENCODE_CONFIG 环境变量）
-项目配置 opencode.json（在项目根目录）
-.opencode/ 目录（agents、commands、plugins、skills 等）
-内联配置（OPENCODE_CONFIG_CONTENT）
-托管配置（macOS /Library/Application Support/opencode/、Linux /etc/opencode/）
-
-
-配置是合并而非替换；支持 JSON &#x2F; JSONC，schema 在 opencode.ai/config.json（TUI 用 opencode.ai/tui.json）。
-
-常用配置项（opencode.json）&#123;  &quot;$schema&quot;: &quot;https://opencode.ai/config.json&quot;,  &quot;model&quot;: &quot;anthropic/claude-sonnet-4-5&quot;,      // 主模型 provider/model  &quot;small_model&quot;: &quot;anthropic/claude-haiku-4-5&quot;, // 轻量任务（标题生成等）  &quot;default_agent&quot;: &quot;plan&quot;,  &quot;subagent_depth&quot;: 1,                          // 子代理嵌套深度  &quot;autoupdate&quot;: true,                           // 自动更新，可设 &quot;notify&quot;  &quot;share&quot;: &quot;manual&quot;,                            // manual | auto | disabled  &quot;snapshot&quot;: true,                             // 文件变更快照（undo 依赖）  &quot;formatter&quot;: true,                            // 代码格式化  &quot;lsp&quot;: true,                                  // LSP 服务器  &quot;compaction&quot;: &#123; &quot;auto&quot;: true, &quot;prune&quot;: false, &quot;reserved&quot;: 10000 &#125;,  &quot;instructions&quot;: [&quot;CONTRIBUTING.md&quot;, &quot;.cursor/rules/*.md&quot;],  &quot;enabled_providers&quot;: [&quot;anthropic&quot;, &quot;openai&quot;],  &quot;disabled_providers&quot;: [&quot;gemini&quot;],  &quot;plugin&quot;: [&quot;opencode-helicone-session&quot;],  &quot;permission&quot;: &#123; &quot;edit&quot;: &quot;ask&quot;, &quot;bash&quot;: &quot;ask&quot; &#125;,  &quot;provider&quot;: &#123;    &quot;anthropic&quot;: &#123;      &quot;options&quot;: &#123; &quot;baseURL&quot;: &quot;https://...&quot;, &quot;apiKey&quot;: &quot;&#123;env:ANTHROPIC_API_KEY&#125;&quot;, &quot;timeout&quot;: 600000 &#125;    &#125;  &#125;,  &quot;server&quot;: &#123; &quot;port&quot;: 4096, &quot;hostname&quot;: &quot;0.0.0.0&quot; &#125;,  &quot;shell&quot;: &quot;pwsh&quot;&#125;
-
-变量替换
-环境变量：{env:ANTHROPIC_API_KEY}
-文件内容：{file:~/.secrets/openai-key}、{file:./prompts/build.txt}
-
-
-六、模型与提供商配置提供商
-/connect 选择提供商并填 Key（或设置对应环境变量，如 DEEPSEEK_API_KEY、OPENAI_API_KEY）
-/models 选择模型
-可在配置中用 blacklist &#x2F; whitelist 过滤模型列表，用 baseURL 指向代理&#x2F;自建端点
-
-本地模型（OpenAI 兼容协议）支持 Ollama、LM Studio、llama.cpp、Atomic Chat 等：
-&#123;  &quot;provider&quot;: &#123;    &quot;ollama&quot;: &#123;      &quot;npm&quot;: &quot;@ai-sdk/openai-compatible&quot;,      &quot;name&quot;: &quot;Ollama (local)&quot;,      &quot;options&quot;: &#123; &quot;baseURL&quot;: &quot;http://localhost:11434/v1&quot; &#125;,      &quot;models&quot;: &#123; &quot;llama2&quot;: &#123; &quot;name&quot;: &quot;Llama 2&quot; &#125; &#125;    &#125;  &#125;&#125;
-
-本地小模型注意：工具调用不好用时可调大 Ollama 的 num_ctx（16k-32k）。
-
-常用提供商速查
-Anthropic &#x2F; OpenAI：/connect 后可选订阅 OAuth 登录或手动填 API Key
-DeepSeek &#x2F; Moonshot &#x2F; Groq &#x2F; Cerebras &#x2F; OpenRouter 等：平台申请 Key → /connect → /models
-Amazon Bedrock：支持 IAM Key、AWS_PROFILE、Bearer Token
-Azure OpenAI：/connect 填 Key + 设置 AZURE_RESOURCE_NAME 环境变量
-
-
-七、Agents（代理）OpenCode 用不同类型的代理分工协作：
-内置代理
-
-
-代理
-类型
-用途
-
-
-
-build
-primary（默认）
-全工具可用，日常开发
-
-
-plan
-primary
-只读规划：编辑与 bash 默认 ask，分析代码不落地修改
-
-
-general
-subagent
-通用研究、多步任务，可并行执行
-
-
-explore
-subagent
-快速只读探索代码库
-
-
-scout
-subagent
-只读外部文档&#x2F;依赖源码调研
-
-
-另有隐藏系统代理：compaction（压缩）、title（标题）、summary（摘要）。
-使用方式
-Tab 切换主代理；消息中 @explore、@general 等直接调用子代理
-子代理工作在新会话中，用 ←/→ 切换子会话、↑ 返回主会话
-
-自定义代理两种方式：opencode agent create 交互式生成，或写 Markdown 文件（.opencode/agents/ 或 ~/.config/opencode/agents/）：
----description: Reviews code for quality and best practicesmode: subagentmodel: anthropic/claude-sonnet-4-20250514temperature: 0.1permission:  edit: deny  bash: deny---你是代码审查专家，关注安全、性能、可维护性，只提建议不修改代码。
-
-常用选项：description（必填）、mode（primary&#x2F;subagent&#x2F;all）、model、temperature、steps（最大迭代步数）、prompt、permission、hidden、color、top_p；其余参数会直接透传给提供商（如 reasoningEffort）。
-
-八、权限系统默认全部放行，可配置为 allow &#x2F; ask &#x2F; deny：
-&#123;  &quot;permission&quot;: &#123;    &quot;*&quot;: &quot;ask&quot;,    &quot;bash&quot;: &#123;      &quot;*&quot;: &quot;ask&quot;,      &quot;git *&quot;: &quot;allow&quot;,      &quot;rm *&quot;: &quot;deny&quot;    &#125;,    &quot;edit&quot;: &#123; &quot;*&quot;: &quot;deny&quot;, &quot;src/**&quot;: &quot;allow&quot; &#125;  &#125;&#125;
-
-
-规则匹配：支持 *（任意多字符）、?（单字符），最后匹配的规则生效，所以通配放前面、具体规则放后面
-关键权限键：read、edit（覆盖 edit&#x2F;write&#x2F;patch）、bash、glob、grep、task（子代理）、skill、lsp、webfetch、websearch、external_directory（工作目录外路径，默认 ask）、doom_loop（重复工具调用防护，默认 ask）
-安全默认：.env 文件默认禁止读取
-ask 弹窗选项：once（仅本次）&#x2F; always（本次会话内）+ 建议模式 &#x2F; reject
-自动模式：opencode --auto 自动批准未显式 deny 的请求
-每代理覆盖：agent 的 permission 优先级高于全局配置
-
-
-九、自定义命令（重复任务）在 .opencode/commands/ 或 ~/.config/opencode/commands/ 下建 xxx.md，文件名即命令名：
----description: Run tests with coverageagent: buildmodel: anthropic/claude-3-5-sonnet-20241022---Run the full test suite with coverage report and show any failures.Focus on the failing tests and suggest fixes.
-
-TUI 中执行 /test。模板支持特殊语法：
-
-$ARGUMENTS、$1&#x2F;$2…：命令行参数
-!`npm test`：嵌入 shell 命令输出
-@src/components/Button.tsx：引用文件
-自定义命令可覆盖内置命令
-
-
-十、其他重要功能
-Rules &#x2F; AGENTS.md：/init 生成，项目级规则（也可用 instructions 配置项引用多个规则文件）
-MCP 服务器：opencode mcp add 或配置 &quot;mcp&quot;: {}（local&#x2F;remote 类型），opencode mcp list 查看状态
-Skills：.opencode/skills/ 定义可复用技能
-主题：/themes 选择，或 tui.json 中 &quot;theme&quot;: &quot;tokyonight&quot;
-GitHub 集成：opencode github install 在仓库安装 GitHub Actions 工作流，支持自动化 issue&#x2F;PR
-IDE：可安装 IDE 扩展在编辑器内使用
-Web&#x2F;远程：opencode web 起 Web 界面；opencode serve + opencode attach 远程连接
-统计：opencode stats 查看各项目&#x2F;模型的 token 成本
-
-
-十一、环境变量速查常用：OPENCODE_CONFIG（自定义配置路径）、OPENCODE_TUI_CONFIG、OPENCODE_CONFIG_DIR、OPENCODE_SERVER_PASSWORD（server 认证）、OPENCODE_PERMISSION（内联权限）、OPENCODE_MODELS_URL、EDITOR（&#x2F;editor、&#x2F;export 用，GUI 编辑器需带 --wait）。
-
-十二、实用建议
-详细描述需求：像对初级同事说话一样给足上下文和示例；大任务先切 Plan 模式出方案再实现
-善用 @ 引用文件，避免代理猜错代码位置
-善用子代理：@explore 查代码、@general 并行干活，保持主上下文干净
-&#x2F;undo 依赖 Git，项目记得 git init；AGENTS.md 提交进仓库
-控制成本：opencode stats 看用量；用 small_model 跑轻量任务；steps 限制代理迭代
-TUI 体验：tui.json 可开 attention（通知+音效）、调滚动速度；用 Ctrl+X h 打开快捷键帮助
-遇到问题：opencode debug、--print-logs、或查看 https://opencode.ai/troubleshooting；社区在 Discord
-
-官方文档：https://opencode.ai/docs（含中文版），GitHub：https://github.com/anomalyco/opencode
-]]></content>
-      <categories>
-        <category>AI 智能体</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>AI Agent</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Games101 计算机图形学概述</title>
     <url>/CS/Graphics/Games101/Lecture-01/</url>
     <content><![CDATA[Lecture 01 Overview of Computer Graphics
@@ -8363,128 +7556,6 @@ graph TD
       </tags>
   </entry>
   <entry>
-    <title>learn-claude-code s00</title>
-    <url>/CS/AI/Agent/learn-claude-code/s00_start/</url>
-    <content><![CDATA[learn-claude-code 笔记项目路径：github.com&#x2F;learn-claude-code
-
-README.mdAgent &#x3D; LLM + Context + Tools
-Agent 产品 &#x3D; 模型 + Harness
-
-Claude Code 的复杂性不是“另一个 agent 大脑”，而是一个成熟 harness 的复杂性。模型负责判断和行动选择；harness 负责把环境、工具、权限、记忆、团队和外部能力组织好。
-
-
-LLM: 已训练的神经网络参数模型函数Agent: 一个通过训练学会了行动的模型，加上让它能在特定环境中工作的基础设施Agency: 感知、推理、行动
-
-Agent不是过程式的流水线工程，Agency能力是通过模型训练产生的
-Harness 是 agent 在特定领域工作所需要的一切：
-
-Harness &#x3D; Tools + Knowledge + Observation + Action Interfaces + Permissions
-
-
-工具 Tools:          文件读写、Shell、网络、数据库、浏览器
-知识 Knowledge:      产品文档、领域资料、API 规范、风格指南
-检测 Observation:    git diff、错误日志、浏览器状态、传感器数据
-行为 Action:         CLI 命令、API 调用、UI 交互
-许可 Permissions:    沙箱隔离、审批流程、信任边界
-
-模型决策，harness执行模型推理，harness提供上下文此即: Harness &#x3D;&gt; 驾驭工程 | 模型驾驶harness执行任务
-
-
-Harness 工程
-构建Agent的生存环境
-
-
-实现工具              Agent的双手
-文件读写、Shell、API调用、浏览器控制、数据库查询、…
-每个都是Agent在环境中可采取的一个行动
-原子化、可组合、描述清晰
-
-
-策划知识              Agent的领域专长
-产品文档、架构决策记录、风格指南、合规要求、…
-按需加载(s07)，Agent应知道有什么可用，自己拉取所需
-
-
-管理上下文            Agent的干净记忆
-子Agent隔离(s06)，防止噪声泄漏
-上下文压缩(s08)，防止历史淹没
-任务系统(s12)，目标持久化到单词对话之外
-
-
-控制权限              Agent的行为边界
-沙箱化文件访问，对破坏性操作要求审批
-在Agent和外部系统之间实施信任边界
-这是安全工程和harness工程的交汇点
-
-
-收集任务过程数据      Agent的微调材料
-Agent在harness中执行的每一条行动序列都是训练信号
-harness不仅服务于Agent，还可以帮助Agent进化
-
-
-
-
-对于不同领域的Agent，只是它所存在的Harness构建的环境不同，而 循环 不变，仍然是: Agent &#x3D; LLM + Harness
-从小工具的实现，到领域Agent的构建
-
-教程范围本仓库是一个 0-&gt;1 的 harness 工程学习项目 -- 构建围绕 agent 模型的工作环境。 为保证学习路径清晰，仓库有意简化或省略了部分生产机制：- 完整事件 / Hook 总线 (例如 PreToolUse、SessionStart/End、ConfigChange)。 s12 仅提供教学用途的最小 append-only 生命周期事件流。- 基于规则的权限治理与信任流程- 会话生命周期控制 (resume/fork) 与更完整的 worktree 生命周期控制- 完整 MCP 运行时细节 (transport/OAuth/资源订阅/轮询)
-
-学习路径
-第一阶段
-
-s01 Agent Loop
-s02 Tool Use
-s03 Permisssion
-s04 Hooks
-
-
-第二阶段
-
-s05 TodoWrite
-s06 Subagent
-s08 Context Compact
-
-
-第三阶段
-
-s09 Memory
-s10 System Prompt
-s11 Error Recovery
-
-
-第四阶段
-
-s12 Task System
-s13 Background Tasks
-s14 Cron Scheduler
-
-
-第五阶段
-
-s15 Agent Teams
-s16 Team Protocols
-s17 Autonomous Agents
-s18 Worktree Isolation
-
-
-第六阶段
-
-s07 Skill Loading
-s19 MCP Plugin
-s20 Comprehensive Agent
-
-
-
-
-]]></content>
-      <categories>
-        <category>AI 智能体</category>
-      </categories>
-      <tags>
-        <tag>AI Agent</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C++ Boost::Thread</title>
     <url>/Tech/Framworks/c++boost/Boost-Thread/</url>
     <content><![CDATA[Thread
@@ -11381,6 +10452,2542 @@ user&#x2F;
         <tag>Operating System</tag>
         <tag>xv6-project</tag>
         <tag>xv6-kernel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Audio Video Basic</title>
+    <url>/CS/Media/Audio-Video-Basic/</url>
+    <content><![CDATA[
+生活是连续的，数据是离散的，我们通过数学将他们串联  
+
+音视频基础知识
+FFmpeg相关材料: about-ffmpeg
+
+Multi Media BasicsColor &amp; Picture现实生活中的物体靠 吸收 与 反射 光展现其颜色  
+常用的有两种色彩空间
+
+RGB
+R Red 红
+G Green 绿
+B Blue 蓝
+是 加色系统 ，用于 发光体
+
+
+CMYK
+C Cvan 青
+M Magenta 洋红
+Y Yellow 黄
+K blacK 黑
+是 减色系统 ，用于 印刷制品 （现实生活中难以获取纯色，为了与期望的颜色接近，需要在颜色中加入黑色）
+
+
+
+
+在数字显示世界中，处理音视频，一般使用 RGB 色彩空间
+
+计算机中，图像的存储一般使用 位图(Bitmap) ，其中每个点称为 像素(Pixel)对于 RGB 色彩空间，每个颜色分量称为一个 通道(Channel)通常，每个像素的每种颜色分量用 1字节(1Byte &#x3D; 8bit) 表示，存储一个像素的色彩就需要 24位也称为 24位真彩色 ，一共可表示 2^24 种颜色为了描述 透明 的图像，在每个像素上再增加一个表示 透明度 的分量，称为 Alpha通道表示 2^8 种透明度，产生 RGBA 色彩空间，一个像素就需要 4Byte 的空间进行存储，正好可以通过 32位 整数表示由此，通常使用整数来对图像进行计算
+由于计算机在不同架构下其字节序也可能不同，产生数据存储的 大小端* 问题因此出现了多种不同的存储方式 (RGBA ABGR BGRA ARGB 等) 
+
+对于 灰度图 一般使用1Byte进行存储对于 单色图 一般使用1bit进行存储
+
+Film TV &amp; Video视觉暂留：即，余晖效应，人眼在观察景物时，光信号传入大脑神经需经过一段短暂的时间，而光的作用结束后视觉形象并不立即消失，这种残留的视觉称为 后像 ，视觉的这一现象则被称为“视觉暂留”。
+
+人们看到的电影其实是快速闪过的、一帧一帧的不连续的图像
+
+
+CRT, Cathode Ray Tube 阴极射线管，扫描显示一幅图像称为 1场LCD, Liquid Crystal Display 液晶显示器，液晶本身不发光，需要使用背光源OLED, Organic Light-Emitting Diode 有机发光二极管，可以自发光，不需要使用背光源
+
+*帧率 FPS(Frames Per Second)**: 每秒闪过的图像数量
+隔行扫描: 也称，交错扫描，一场扫描奇数行另一场再扫描偶数行（受早期CRT技术的限制）对于LCD，也是一行一行地刷新显示，屏幕的分辨率一般采用 宽*长 来表示如，1080p(19201080)、720p(1280720)，其中 p 指的是 逐行扫描 ，若是 1080i 则 i 表示的是 隔行扫描对于扫描完整的 1帧 图像，主要是由图像的高度决定，即行数决定，所以常常将 1920*1080 称为 1080p
+若一块屏幕的分辨率达到 300ppi 以上，我们称之为 视网膜屏。ppi (Pixel Per Inch, 每英寸像素数，也称 dpi Dots Per Inch) 是描述最高分辨能力的单位  
+
+视力为1.0的人观看离双眼10～12英寸（约25～30厘米）的手机屏时，最高能分辨300ppi。只有当图像与显示器的分辨率匹配时，才能达到最好的显示效果。
+
+目前，视频一般都在 25fps 以上，若要传输一帧为 1080p 的图像，并采用 8位色深的 RGB 格式存储，产生的数据量是 25 * (1920 * 1080) * 3byte &#x3D; 155’520’000byte 约为 150MB视频传输速率一般以 bit&#x2F;s (Bits Per Second) 来计算，则需要至少 1’244’160’000bit&#x2F;s 约为 1200Mbit&#x2F;s 的带宽作为支撑
+为降低存储空间以及传输带宽占用，需要采用视频压缩（视频编码）技术常用的视频压缩原理是 运动估计和运动补偿
+主要原因有两点：
+
+人眼并不是对所有颜色都敏感，因而可以去掉一些颜色，对图像进行压缩，这称为有损压缩，也是一些典型图像如JPEG的主要压缩原理
+一般来说，两帧图像间的差异其实不大，可以根据这个特性，只存储或传输图像间的差异信息，而不是整帧图像。
+由此，我们也可以知道，实际占用的带宽与视频的复杂度（画面细节、运动快慢程度等）和帧率、分辨率都是正相关的
+
+
+
+在音视频应用中，视频在传输到对端后要进行 解码 ，即将压缩过的视频再转换成一帧一帧的图像，才能送到显示器上显示整个过程合起来称为 编解码
+需要 编解码 的视频图像一般不使用RGB色彩空间，而是使用一种称为 YUV 的色彩空间，
+
+两者之间有直接的对应关系，但由于转换过程涉及浮点运算，转换是有损的，但对人眼来说几乎无法分辨，因而是完全可以接受的
+
+YUV也是一种颜色编码方法，Y 表示 明度 ，U 和 V 则分别表示 色度 和 浓度 。不同于RGB图像一般按像素存储（如RGB’RGB’RGB’RGB），YUV图像一般按 平面 存储，即将所有的Y放到一起，所有的U放到一起，所有的V放在一起（如YYYYUUUUVVVV），其中每一部分称为一个平面。这种存储方式的一个好处就是，在广播电视中，当接收到一帧图像时，黑白电视机只需要播放Y平面（黑白图像），而忽略代表颜色的U和V平面。当然，彩色电视机则需要播放所有平面的数据。
+
+
+
+分量
+含义
+说明
+
+
+
+Y
+亮度&#x2F;明度
+表示灰度、明暗
+
+
+U
+蓝色色差，约等于 Cb
+参与表示色度
+
+
+V
+红色色差，约等于 Cr
+参与表示色度
+
+
+U+V
+色度
+共同表示色调和饱和度
+
+
+彩度
+饱和度
+是色度的一部分，不等于 V
+
+
+
+一般所说的 YUV 指的都是 YCbCr而Y来自RGB的加权和，根据人眼的感光能力得到Y &#x3D; 0.299R + 0.587G + 0.114BU &#x3D; B - Y   （蓝色色差）V &#x3D; R - Y   （红色色差）Y是黑白底色，表示像素的明亮程度，U&#x2F;V表示应该向B&#x2F;R偏移多少，若某个像素的色差为0，则它没有偏色，只表现出原RGB对应的黑白灰色  
+
+如，纯红色在YUV色彩空间中表示为
+R = 255, G = 0, B = 0Y ≈ 76B - Y ≈ -76   // 蓝色远低于亮度，偏黄/青方向R - Y ≈ 179   // 红色远高于亮度，偏红方向
+
+YUV和Y’UV通常用来编码电视的模拟信号。Y’表示经过了gamma矫正YCbCr 则用来描述数字影像信号，适合数字化的视频与图片压缩及传输，如MPEG、JPEG  
+
+数字化的 YUV 使用得更加广泛
+
+YUV中UV分量数值分布平面图RGB转YUV平面
+GoP Group of Picture: 分组后的图像，主要是为了解决视频图像编码后的前向依赖问题导致的解码时，若出现前向编码中的某些帧丢失，导致的花屏现象I帧: 可单独解码的图像帧，不依赖前后图像，作为 GoP 的 第一帧 也称为 关键帧 Key Frame （GoP每隔一定数量的图像就会对一幅完整的图像进行编码）  
+
+关键帧 Key Frame: 在H.264中一般称为 IDR帧 Instantaneous Decoding Refresh 即，立即刷新图像I帧: Intra-coded picture ，与IDR帧有所区别，IDR帧是I帧的子集每个GoP里的第1个I帧是IDR帧，后续的I帧虽然能独立解码，但它前&#x2F;后面的P&#x2F;B帧可能会参考I帧后&#x2F;前面的帧，但GoP内的帧参考不会跨越IDR帧P帧: 前向预测编码图像的帧B帧: 双向预测编码图像的帧，压缩率更高由于B帧需要参考后面的帧，收到B帧后不能立即解码，在实时音视频应用中会带来延迟，因而在实时通信中一般不使用B帧  
+
+I P B 帧之间的关系
+The Audio声音由振动产生，为了将现实世界中的音频（连续的）放到数字世界（离散的）中，需要执行一个 模数转换 Analog-Digital Conversion，ADC操作  
+
+DAC 数模转换 &lt;&#x3D;&gt; ADC 模数转换执行的是模拟信号与数字信号之间的相互转换  
+
+波，由 相位 频率 振幅 构成可以通过 傅里叶变换 FTT 将任何波形都分解为有限&#x2F;无限个正弦波的组合  
+声音大小的变化不是线性的，声音的刺激与人耳听到的感觉并不是线性的，而是呈 对数关系  
+通过采样、量化和编码3个步骤，可以将模拟信号转换为数字信号采样: 在时域中按一定时间间隔(T)对信号进行抽样，得到离散值将采样得到的离散值通过量化与编码过程转化为数字信号  
+单位时间内的抽样次数称为 采样率采样率越高，单位时间内采样点越密，得到的离散信号就与原信号越接近
+
+抽样定理 (采样定理或奈奎斯特·香农定理):当抽样频率是模拟信号频率带宽（最高频率与最低频率的差值）的 两倍 时，就能够完全还原原来的模拟信号
+
+数模转换通常使用 PCM Pulse Code Modulation 脉冲编码调制 方法
+
+颜色所使用的位数就称为颜色的 位深  
+*FourCC Four Character Code 四字符编码，一个32位无符号整数，使用大端序编码4个ASCII字符序列  
+数字 YCbCr 中，通常会给色差加上 128 偏移
+
+Cb &#x3D; 128 表示没有蓝色色差
+Cr &#x3D; 128 表示没有红色色差
+
+
+
+
+色差
+大于中性值
+小于中性值
+
+
+
+Cb &#x2F; U
+偏蓝
+偏黄
+
+
+Cr &#x2F; V
+偏红
+偏青
+
+
+实际的数字YUV计算为，其中的RGB值是经过gamma矫正后的：
+
+Y &#x3D; 0.299R + 0.587G + 0.114*B
+U &#x3D; -0.169R - 0.331G + 0.5*B + 128
+V &#x3D; 0.5R - 0.419G - 0.081*B + 128
+
+
+gamma矫正 是一种针对图像或视频帧的预失真校正。CRT显示器所产生的信号强度不是输入电压的线性函数，相反，它与信号幅度的功率成正比，也简称为伽玛。另外，人眼对光的强度的感知程度也不是光的强度的线性函数，人眼在黑暗环境下的辨识能力要强于明亮环境，因此也需要对颜色进行校正。
+
+相对于Y来说，人眼对UV不大敏感，因此，可以在图像存储时 降低UV分量的分辨率（采样率） ，以节省存储空间，而这种降采样后的图像看起来与原图像没有多大差别。YUV的像素存储格式一般采用 A:B:C 表示法（表示采样的方式），根据采样和降采样的程度不同，以及像素排列格式的不同，有很多不同的表示
+像素图像编号示意图
+
+Y 亮度信号尽量保持全分辨率，U&#x2F;V（Cb&#x2F;Cr）色度信号按不同比例降采样表示色度相对于亮度在水平、垂直方向被压缩了多少。
+
+总体原则：
+
+Y：每个像素都保留，不降采样
+U&#x2F;V：成对出现，一个“色度样本”包含一组 Cb、Cr
+采样格式：描述的是每多少个 Y 像素共享一组 Cb&#x2F;Cr
+
+
+Y图层始终保持全尺寸，而U&#x2F;V图层可能变小
+
+
+YUV444
+FourCC: 有YUYV、YVYU、UYVY、VYUY等
+
+
+
+水平，每4个像素中，Y取4个，U取4个，V取4个
+Y平面:Y11 Y12 Y13 Y14Y21 Y22 Y23 Y24Y31 Y32 Y33 Y34Y41 Y42 Y43 Y44  
+U平面:U11 U12 U13 U14U21 U22 U23 U24U31 U32 U33 U34U41 U42 U43 U44  
+V平面:V11 V12 V13 V14V21 V22 V23 V24V31 V32 V33 V34V41 V42 V43 V44  
+
+YUV422
+FourCC: Y422
+
+
+
+Y平面:Y11 Y12 Y13 Y14Y21 Y22 Y23 Y24Y31 Y32 Y33 Y34Y41 Y42 Y43 Y44  
+U平面:U11 ___ U13 ___U21 ___ U23 ___U31 ___ U33 ___U41 ___ U43 ___  
+V平面:V11 ___ V13 ___V21 ___ V23 ___V31 ___ V33 ___V41 ___ V43 ___  
+
+YUV411
+FourCC: Y411
+
+
+
+Y平面:Y11 Y12 Y13 Y14Y21 Y22 Y23 Y24Y31 Y32 Y33 Y34Y41 Y42 Y43 Y44  
+U平面:U11 ___ ___ ___U21 ___ ___ ___U31 ___ ___ ___U41 ___ ___ ___  
+V平面:V11 ___ ___ ___V21 ___ ___ ___V31 ___ ___ ___V41 ___ ___ ___  
+
+YUV420
+实质上是包括了 4:2:0 + 4:0:2 两种情况实际采样邻近4像素的左上角部分
+
+
+
+Y平面:Y11 Y12 Y13 Y14Y21 Y22 Y23 Y24Y31 Y32 Y33 Y34Y41 Y42 Y43 Y44  
+U平面:U11 ___ U13 ______ ___ ___ ___U31 ___ U33 ______ ___ ___ ___  
+V平面:V11 ___ V13 ______ ___ ___ ___V31 ___ V33 ______ ___ ___ ___  
+  
+
+
+
+格式
+Y 平面
+U&#x2F;V 平面
+共享方式
+平均每像素色度样本
+
+
+
+4:4:4
+宽 * 高
+宽 * 高
+每个 Y 独立 U&#x2F;V
+1 个 U + 1 个 V
+
+
+4:2:2
+宽 * 高
+宽&#x2F;2 * 高
+水平每 2 个 Y 共享
+0.5 个 U + 0.5 个 V
+
+
+4:1:1
+宽 * 高
+宽&#x2F;4 * 高
+水平每 4 个 Y 共享
+0.25 个 U + 0.25 个 V
+
+
+4:2:0
+宽 * 高
+宽&#x2F;2 * 高&#x2F;2
+每 2*2 个 Y 共享
+0.25 个 U + 0.25 个 V
+
+
+RGB颜色模型的主要用途是在电子系统中检测、表示和显示图像，其原理是利用 大脑强制视觉生理模糊化（失焦） ，将红、绿、蓝三原色子像素合成一个色彩像素，产生感知色彩（其实此真彩色并非加色法所产生的合成色彩，因为该三原色光 从来没有重叠 在一起，只是人类为了“想”看到色彩，大脑强制眼睛失焦而形成的） 
+
+RGB是一种 依赖于设备 的颜色空间，不同设备对特定RGB值的检测和展现不一样，不同设备的每像素的RGB排列方式不同
+
+
+三原色的原理不是由物理原因，而是由生理原因造成的，人的眼睛内有3种辨别颜色（黄绿、绿和蓝紫）的锥形感光细胞三原色并不足以重现所有的色彩，只有那些在三原色的色度所定义的颜色三角内的颜色，才可以利用三原色的光以非负量相加混合得到所以，人眼看到红光与绿光混合出黄光，仅仅是对视锥细胞的一种等效  
+
+全值域色彩空间：每个原色都能取到 0-255RGB也通常被映射到 [0, 1] 之间由于gamma矫正的非线性影响，每个原色的256个级别不能表示同等间隔的强度  
+
+数字视频的RGB不是全值域的。视频RGB使用有比例和偏移量的约定，即（16，16，16）是黑色，（235，235，235）是白色。
+
+gamma矫正示意图
+
+在CRT显示器中，色彩的亮度跟输入电压的关系不是线性的，而是呈指数关系，这个 指数 就称为gamma伽玛是一个经验值，而不是用数学公式计算出来的一般gamma &#x3D; 2.5 或 2.2，业界通常使用 2.2照相机的感光器件是线性的，得到的是线性的RGB图像经过伽玛校正后的图像所使用的RGB空间是非线性的，称为sRGB（Standard RGB）
+
+矫正后的值 &#x3D; 矫正前的值^0.45 (0.45 &#x3D; 1&#x2F;2.2, 此处值域为[0,1])  
+实际的图像都是使用非线性的sRGB空间（包括使用调色板选择颜色时），而在做图像计算和处理（比如将亮度加倍）时，则使用线性RGB空间更方便  
+HSL 与 HSV 色彩表示RGB色彩空间对人来说并不直观，所以引入HSL&#x2F;HSV模型来表示色彩，更适合人类感知  
+
+H Hue 色相   
+色彩的基本属性，即颜色名称
+
+
+S Saturation 饱和度  
+色彩的纯度，越高色越纯，越低越灰
+
+
+L Lightness 亮度  
+最大通道和最小通道的平均
+更接近人眼的视觉
+
+
+V Value 明度 &#x2F; Brightness  
+最亮通道的亮度
+只表示该颜色离黑色有多远
+HSV也称HSBHSV更偏向于画家调色 1.选纯色 2.加白S 3.加黑VHSL是从明暗角度设计的 L是整体明暗
+
+
+
+
+
+HSL和HSV二者都把颜色描述为圆柱坐标系内的点，这个圆柱的中心轴取值范围为自底部的黑色到顶部的白色，而在它们中间的是灰色，绕这个轴的 角度 对应 色相 ，到这个轴的 距离 对应 饱和度 ，而沿着这个轴的 高度 对应 *亮度 色调 或 明度
+
+这两种表示的目的类似，但在方法上有所区别。二者在数学上都是圆柱，但 HSV 在概念上可以被认为是颜色的 倒圆锥体 （黑色在下顶点，白色在上底面圆心）；而 HSL 在概念上表示一个 双圆锥体和圆球体 （白色在上顶点，黑色在下顶点，最大横切面的圆心是灰色）。注意，尽管在HSL和HSV中“色相”指相同的性质，但它们的 饱和度 的定义是明显不同的。
+
+HSL 与 HSV
+HSV
+HSV色轮
+
+因为HSL和HSV是 设备依赖的RGB的简单变换 ，(h, s, l)或 (h, s, v)三元组定义的颜色依赖于所使用的特定红色、绿色和蓝色“加法原色”。HSV更常用每个独特的RGB设备都伴随着一个 独特的HSL和HSV空间。但是 (h, s, l)或 (h, s, v)三元组在被约束于特定RGB空间比如sRGB的时候就更明确了。 
+
+在互联网上的实时音视频应用中，当网络条件不好时（拥塞、丢包），通信双方会协商降低码率，相应地可能会降低分辨率和帧率，降低分辨率会导致模糊，降低帧率会导致画面跳跃（卡顿）， 但总比花屏或长时间卡住要好。这种 非恒定的 码率 和 帧率 就称为
+
+可变码率（Variable Bit Rate，VBR）
+可变帧率（Variable Frame Rate，VFR）
+
+在视频编码时，每帧被编码的图像都有一个 时间戳 ，以便在播放时能正确地显示时间。时间戳可以是真正的钟表时间（一般使用相对时间），在帧率恒定的情况下也可以直接使用1、2、3、4……这样的连续时间戳，这个时间戳就称为 PTS Presentation Time Stamp ，即 播放时间
+有些视频编码（如H.264和H.265）中有B帧。解码器在收到B帧后不能直接解码，而是要等到收到它后面的与之相关的P、B帧后才能解码，也就是说，如果解码器收到帧的顺序是IBBP，实际的解码顺序是IPBB，但播放顺序仍是IBBP，这就是播放时间和解码时间不一致的现象。每帧图像也有一个 独立的解码时间戳 ，即 DTS（Decode Time Stamp） 。在没有B帧的情况下，PTS和DTS可以是相同的。
+像素密度的数值高，图片和视频的清晰度就高。在提到显示分辨率的时候，人们常常会提到宽高比，即 DAR（Display Aspect Ratio)
+当人们日常看电视和计算机屏幕中或打印机打印出来的视频图像的时候，同一张图像会有颜色差异，甚至不同的计算机屏幕、不同的电视看到的视频图像有时也会存在颜色差异。之所以会出现这样的差异，主要是受到了 色彩空间参数 的影响。这里说的色彩空间也叫 色域 ，就是指某种表色模式所能表达的颜色的范围区域，也指具体设备，如显示器、打印机等印刷和复制所能表现的颜色范围。
+声道 Sound Channel 是指声音在录制或播放时在不同空间位置采集或回放的相互独立的音频信号，声道数也就是声音录制时的音源数量或回放时相应的扬声器数量。
+采样率 使用 Hz 表示比特率(码率) 使用 bps 表示
+在数字音频领域，常用的采样率如下。
+
+8000Hz：电话所用的采样率，对于人说话的声音已经足够。
+11 025Hz：AM调幅广播所用的采样率。
+22 050和24 000Hz：无线电广播（FM调频广播）所用的采样率。
+32 000Hz：MiniDV数码视频Camcorder、DAT（LP模式）所用的采样率。
+44 100Hz：音频CD所用的采样率，也常用于MPEG-1音频（VCD、SVCD、MP3）。
+47 250Hz：Nippon Columbia（Denon）开发的世界上第一款商用PCM录音机所用的采样率。
+48 000Hz：MiniDV、数字电视、DVD、DAT、电影和专业音频所用的数字声音采样率。
+50 000Hz：20世纪70年代后期出现的由3M和Soundstream开发的第一款商用数字录音机所用的采样率。
+50 400Hz：三菱X-80数字录音机所用的采样率。
+96 000或192 000Hz：DVD-Audio、一些LPCM DVD音轨、蓝光光盘音轨和HD-DVD（高清晰度DVD）音轨所用的采样率。
+2.8224MHz：SACD、索尼和飞利浦联合开发的，被称为Direct Stream Digital的1位Sigma-Delta调制过程所用的采样率。
+
+
+44100 &#x3D;&#x3D; 2^2 * 3^2 * 5^2 * 7^2  
+
+
+采样位深: 每个采样点用多少位来表示  
+
+存储空间 &#x3D;&#x3D; 声道数 * 采样率 * 采样位深 * 时长带宽 &#x3D;&#x3D; 存储空间 &#x2F; 60s  
+
+要注意，在一些人工智能应用中需要用到语音识别时，尽量不要重采样或使用有损压缩，那样会影响识别的准确率。
+
+
+所有的概念和原理都来源于人们的生产和生活，而数字化则是对现实世界的抽象和映射。在从现实到抽象的过程中，不可避免地会“丢失”一些信息，但同时也给人们带来了标准化和规范化，以及更多的想象空间。通过数字世界的存储，人们可以“看”到历史上世界的样子；通过远程音视频的传输，人们可以实时地看到远处的世界，并可以与世界各个角落的人实时互动交流。打破时间和空间的限制，这就是音视频数字化最大的意义。
+
+]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>media</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FFmpeg-tool-kit</title>
+    <url>/Tech/Tools/FFmpeg-tool-kit/</url>
+    <content><![CDATA[
+资料：
+
+trac.ffmpeg.org  
+ffmpeg.org&#x2F;documentation
+
+
+FFmpeg Note
+FFmpeg 是 Fabrice Bellard 发起的项目  
+
+FFmpeg 提供以下三种工具
+
+ffmpeg
+处理与转码
+核心工具，用于转码、剪辑、合并、滤镜等几乎所有处理任务
+
+
+ffprobe
+分析信息
+可以快速查看任何媒体文件的容器、流、编码、时长等信息
+
+
+ffplay
+播放验证
+一个极简的媒体播放器，用于快速验证文件是否能正常解码播放
+
+
+
+上述三个工具的命令行都会产生以下文本
+head
+
+版本和版权
+
+ffprobe version 8.1.3 Copyright (c) 2007-2026 the FFmpeg developersffplay version 8.1.3 Copyright (c) 2003-2026 the FFmpeg developersffmpeg version 8.1.3 Copyright (c) 2000-2026 the FFmpeg developers
+
+body
+
+编译器编译配置 是构建这套 FFmpeg（ffmpeg、ffprobe、ffplay 还有其他套件）时的总配置摘要，其中包含 GCC 的编译&#x2F;链接参数内部库版本  其中的库前缀 av: Audio&#x2F;Video 音视频通用基础 | sw: Software 软件处理实现  
+
+built with gcc 16 (GCC)configuration: --prefix=/usr --bindir=/usr/bin --datadir=/usr/share/ffmpeg --docdir=/usr/share/doc/ffmpeg --incdir=/usr/include/ffmpeg --libdir=/usr/lib64 --mandir=/usr/share/man --arch=x86_64 --optflags=&#x27;-O2 -flto=auto -ffat-lto-objects -fexceptions -g -grecord-gcc-switches -pipe -Wall -Wno-complain-wrong-lang -Werror=format-security -Wp,-U_FORTIFY_SOURCE,-D_FORTIFY_SOURCE=3 -Wp,-D_GLIBCXX_ASSERTIONS -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -fstack-protector-strong -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -march=x86-64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -mtls-dialect=gnu2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer&#x27; --extra-ldflags=&#x27;-Wl,-z,relro -Wl,--as-needed -Wl,-z,pack-relative-relocs -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -specs=/usr/lib/rpm/redhat/redhat-hardened-ld-errors -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -Wl,--build-id=sha1 -specs=/usr/lib/rpm/redhat/redhat-package-notes &#x27; --extra-cflags=&#x27; -I/usr/include/rav1e&#x27; --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libvo-amrwbenc --enable-version3 --enable-bzlib --enable-chromaprint --enable-fontconfig --enable-frei0r --enable-gcrypt --enable-gnutls --enable-ladspa --enable-lcms2 --enable-libaom --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libass --enable-libbluray --enable-libbs2b --enable-libcodec2 --enable-cuda --enable-cuda-llvm --enable-cuvid --enable-libcdio --enable-libdrm --enable-libfdk-aac --enable-libjack --enable-libjxl --enable-libklvanc --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libilbc --enable-liblc3 --enable-libmp3lame --enable-libmysofa --enable-nvenc --enable-nvdec --enable-openal --enable-liboapv --enable-opencl --enable-opengl --enable-libopenh264 --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-libplacebo --enable-librsvg --enable-librav1e --enable-librubberband --enable-libqrencode --enable-libsmbclient --enable-version3 --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libtesseract --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libv4l2 --enable-libvidstab --enable-libvmaf --enable-version3 --enable-vapoursynth --enable-libvpx --enable-libvvenc --enable-vulkan --enable-libshaderc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libxml2 --enable-libzimg --enable-libzmq --enable-libzvbi --enable-lv2 --enable-avfilter --enable-libmodplug --enable-pthreads --disable-static --enable-shared --enable-gpl --disable-debug --disable-stripping --shlibdir=/usr/lib64 --enable-lto --enable-libvpl --enable-runtime-cpudetectlibavutil      60. 26.103 / 60. 26.103libavcodec     62. 28.103 / 62. 28.103libavformat    62. 12.103 / 62. 12.103libavdevice    62.  3.103 / 62.  3.103libavfilter    11. 14.103 / 11. 14.103libswscale      9.  5.103 /  9.  5.103libswresample   6.  3.103 /  6.  3.103
+
+tail
+ffprobe 简单多媒体流解析器
+Simple multimedia streams analyzerusage: ffprobe [OPTIONS] INPUT_FILE
+
+ffplay 简单媒体播放器
+Simple media playerusage: ffplay [options] input_file
+
+ffmpeg 通用媒体转换器
+Universal media converterusage: ffmpeg [options] [[infile options] -i infile]... &#123;[outfile options] outfile&#125;...
+
+
+上述信息可以使用-hide_banner 关闭上述信息，保留工具都回显信息-loglevel 控制日志输出级别可以使用 -v quiet 完全静默回显信息  
+
+]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>FFmpeg</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ffprobe-ffplay-note</title>
+    <url>/Tech/Tools/ffprobe-ffplay-note/</url>
+    <content><![CDATA[ffprobe
+是一个非常强大的 多媒体分析工具 ，可以从媒体文件或者媒体流中获得用户想要了解的 媒体信息 ，比如音频的格式、视频的宽高、媒体文件的时长等参数信息等。它除了用于分析媒体容器中音频的 编码格式、采样率、通道数目 ，以及视频的 编码格式、宽高等 以外，还用于分析媒体文件中媒体的 总时长、复合码率等 信息。使用ffprobe还可以深入分析媒体文件中 每个压缩媒体包的长度、包的类型、包对应的帧的信息等
+
+# 查看基本信息ffprobe input.mp4# 以JSON格式输出所有流的详细信息，便于脚本解析ffprobe -v quiet -print_format json -show_format -show_streams input.mp4
+
+
+-v: 指定输出的详细程度 少 0-9 多
+-show_format: 查看媒体文件的容器信息：格式、时长、码率等
+-show_streams: 查看媒体文件的流信息：编码格式、帧率、分辨率等
+-show_chapters: 查看媒体文件的章节信息
+-show_packets: 查看包级别的信息
+-of: 指定输出格式，JSON XML 等
+XML、INI、JSON、CSV、FLAT等
+通过各种格式输出，即可以简单的进行格式解析，又可以使用对应的绘图方式绘制出可视化图形
+
+
+
+# 将输出重定向到 video-info.jsonffprobe -v 9 -show_format -show_streams -show_chapters -of json video.mp4 &gt; video-info.json
+
+ffplay
+主要作用是作为播放测试工具使用，提供音视频显示和播放，也能用于显示音频的波形信息等
+
+# 播放一个文件ffplay input.mp4# 播放网络流ffplay rtmp://server/app/stream# 播放模式 (n = 0 1 2)ffplay -showmode n-an -vn -sn# 排除 音频 视频 字幕 流
+
+对于音频，会生成一个 频谱图(spectrogram):横轴&#x3D;时间（向右推进）、纵轴&#x3D;频率、颜色&#x3D;该频率的能量。每一条水平彩线就是声音里的一个频率成分（分音&#x2F;谐波）；线越亮表示能量越大。所以线条随音乐”推进”，其实是在显示每一刻有哪些频率在响、响多强。
+
+-showmode 1 可以控制波形的输出模式(0 1 2)
+
+# 显示运动补偿与运动估计矢量ffplay -flags2 +export_mvs -vf codecview=mv=pf+bf+bb &quot;video.mp4&quot;# 保存某一帧的帧间运动矢量（此处是跳过前 200 帧，保存之后的 1 帧为frame.png）ffmpeg -flags2 +export_mvs -i &quot;video.avi&quot; -vf &quot;select=gte(n\,200),codecview=mv=pf+bf+bb&quot; -vframes 1 frame.png
+
+]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>FFmpeg</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ffmpeg-note</title>
+    <url>/Tech/Tools/ffmpeg-note/</url>
+    <content><![CDATA[
+资料：
+
+trac.ffmpeg.org  
+ffmpeg.org&#x2F;documentation  
+《深入理解ffmpeg》(刘歧)
+
+
+
+TODO
+
+
+精力占比
+学习方向
+为什么重要
+
+
+
+30%
+FFmpeg 的 libavcodec API 开发
+如果你要做播放器、转码服务，必须懂 avcodec_send_packet &#x2F; avcodec_receive_frame 的调用流程，以及如何处理 B 帧导致的 PTS&#x2F;DTS 倒序。
+
+
+30%
+滤镜（Filter）系统
+笔记只涉及了编码，但实际转码往往需要缩放（scale）、裁剪（crop）、叠加水印（overlay）。需要掌握 libavfilter 的 AVFilterGraph。
+
+
+20%
+自适应码率（ABR）与封装
+把编码与之前的 fMP4&#x2F;HLS 结合，研究如何生成多码率阶梯（如 1080p@5M, 720p@2.5M），并写入 master.m3u8。
+
+
+20%
+编码器调优进阶
+深入 x264&#x2F;x265 的 -x264-params 高级参数（如 ref、me、subme、aq-mode），以及 AV1 编码器（libaom&#x2F;svt-av1）的现状。
+
+
+
+
+ffmpeg
+数据组织
+基础模块
+工作流程
+ffmpeg cli
+封装与解封装
+编码与转码
+流媒体技术
+bitstream过滤器
+解析器-比特流过滤器-音视频滤镜比较
+
+
+采集设备操作
+
+
+ffmpeg c api
+
+Linux 平台编译
+需要nasm汇编器对FFmpeg中的汇编部分进行编译
+
+在 FFmpeg 项目的源码目录中经过配置后执行 make 即可开始编译
+数据组织对于数据组织，需要理解以下概念:
+
+文件
+从操作系统的角度来看，文件就是磁盘上的一串字节，有文件名、扩展名、大小、路径。但是扩展名只是一种约定&#x2F;提示，不决定文件内部的真实内容。
+常使用 ffprobe 来查看真实格式
+
+
+容器&#x2F;封装格式
+container &#x2F; wrapper format
+定义：如何把多条编码后的音视频流、字幕流、元数据、索引、时间戳组织在一个文件里。一般会有一个特定的后缀名标识。
+实际上是数据的一种组织形式，不负责压缩视频和音频 如，mp4实际上是容器，H.264是一种音视频编码，acc是音频编码，而mp4是能够装载这些编码的容器
+
+
+封装&#x2F;解封装
+muxing&#x2F;demuxing 复用&#x2F;解复用
+muxing: 把编码后的视频流、音频流、字幕流，按照某种容器规范，写成一个文件。
+demuxing: 从一个容器文件里，把视频流、音频流、字幕流分离出来。 ffmpeg 中 -f mp4 表示输出容器为 mp4
+-c copy 不重新编码，只是把流从旧容器复制到新容器，这叫做 转封装 ffmpeg -i input.mp4 -c copy output.mkv 不改变容器内的数据与编码形式，通常来讲，数据效果不变
+
+
+编码&#x2F;解码
+encoding&#x2F;decoding 编码&#x2F;解码
+encoding: 把原始音视频数据压缩成更小的码流
+decoding: 把压缩码流还原成原始帧或音频样本，供播放、渲染、处理
+编码格式是规则，编解码器 codec是实现这个规则的库或程序
+大部分请况下指的是一种 压缩标准 如：AVC&#x2F;H.264 HEVC&#x2F;H.265 VCC&#x2F;H.266 等
+
+
+如果重新编码，就叫做 转码 过程慢，可能损失画质，但可以改变编码格式、分辨率、码率等
+
+
+流、轨道、包、帧
+一个容器里可以有多条流，也称为轨道
+流：容器中的一条独立数据通道，存储诸如：音频(Audio)、视频(Video)、字幕(Subtitle)等数据
+包 Packet：编码后的小块数据，带时间戳；
+帧 Frame：解码后的原始图像或音频样本；
+PTS &#x2F; DTS：时间戳，用于同步和播放顺序；
+元数据：一般位于容器之中，传递一些额外信息
+
+
+
+
+
+
+概念
+是什么
+例子
+
+
+
+文件
+字节序列，外层载体
+input.mp4
+
+
+容器格式
+组织多流和元数据的规范
+MP4、MKV、TS
+
+
+封装
+把流写入容器的动作
+muxing
+
+
+编码格式
+压缩音视频的规则
+H.264、AAC
+
+
+编解码器
+实现编码格式的库&#x2F;程序
+libx264、libx265
+
+
+流
+容器里的独立通道
+视频流、音频流
+
+
+帧&#x2F;包
+解码后帧 &#x2F; 编码后包
+frame、packet
+
+
+
+容器 ≠ 编码：MP4 不是编码，H.264 不是容器；
+封装 ≠ 编码：封装不改变压缩数据；
+转封装 ≠ 转码：-c copy 是转封装，-c:v libx264 是转码；
+扩展名 ≠ 实际格式：要用 ffprobe 探测。
+
+文件  └── 容器 / 封装格式        └── 流 / 轨道              └── 编码格式                    └── 包 / 帧 / 样本
+
+基础模块ffmpeg 基础模块
+有以下基本模块:
+
+AVFormat
+是封装模块，实现了目前多媒体领域中的绝大多数媒体封装格式，包括封装器(Muxer)和解封装器(Demuxer)
+FFmpeg是否支持某种媒体封装格式，取决于编译时是否包含该格式的Muxer&#x2F;Demuxer
+FFmpeg也支持根据框架要求添加自己的Muxer&#x2F;Demuxer
+
+
+AVCodec
+是编解码模块，实现了目前多媒体领域绝大多数常用的编解码格式，既支持编码(Encoding)，也支持解码(Decoding)
+FFmpeg也支持根据自己的需要添加新的编解码模块
+
+
+AVFilter
+滤镜模块，是一个通用的音频、视频、字幕等滤镜处理框架，可以有多个输入和输出
+构成规则
+相同滤镜的线性链用逗号,分隔，将前一个滤镜的输出给后一个滤镜使用
+不同滤镜的线性链之间用分号;分隔，分隔不同的滤镜或分支
+方括号[name]，给连接点打标签，相当于变量名
+有些过滤器的输入是一个参数列表，参数列表被指定在过滤器名称和一个等号之后，并且用冒号分开。也存在没有音频、视频输入的源过滤器（即source filter），以及不会有音频、视频输出的汇集过滤器（即sink filter）
+可以通过 ffmpeg -filters 列出所有支持的滤镜，通过 ffmpeg -h filter=filter_name 列出某个滤镜的参数
+
+
+
+
+AVDevice
+提供了一些常用的输入输出设备的处理框架
+AVDevice还有一个名为 lavfi 的 虚拟输入设备 ，它允许使用libavfilter的滤镜链或表达式作为 8输入或输出设备*。通过它，可以很方便地生成很多“假”的音频（如某一频率的声音或高斯白噪声）和视频流（如纯色或渐变的RGB图像序列等）。该设备在作为示例或测试时很常用
+
+
+AVUtil
+swresample
+音频转换计算模块
+重采样：执行 改变音频采样率 的处理，例如从44 100Hz的高采样率转换到8000Hz的低采样率。从高采样率到低采样率的音频转换是一个有损失的过程，该库有多个重采样选项和算法可用。
+格式转换：执行 采样类型的转换过程 ，例如从16位有符号采样格式转换为无符号8位或浮点类型的采样格式。它还处理 打包转换 ，如从打包布局变换到平面布局。
+Rematrixing: 改变通道布局的过程，例如从立体声到单声道。当输入通道数量 多于 输出通道数量时，这个过程是 有损失的 ，因为它涉及不同的增益因子和混合。
+
+
+swscale
+视频图像转换计算模块
+提供了底层的图像转换API接口，它允许进行图像缩放和像素格式转换
+重新缩放：即改变视频尺寸的处理，其有几个重新缩放的选项和算法可用。与此同时，需要注意缩放通常是一个有损失的过程，缩放也需要在图像质量、缩放性能等限定条件下进行折中权衡。
+像素格式转换：这是 转换图像格式和图像色彩空间 的过程，例如从平面格式的YUV420P到RGB24打包格式。它还处理 打包转换 ，即从打包布局（所有属于不同平面的像素交错在同一个缓冲区，如RGB格式）转换为平面布局（所有属于同一平面的采样数据存储在一个专门的缓冲区或“平面”，如YUV420P）。如果源和目的 色彩空间不同 ，这通常也是一个 有损失 的过程。
+
+
+
+工作流程
+主要流程
+解封装 Demuxing (解复用)
+解码 Decoding
+[流处理]
+编码 Encoding
+封装 Muxing (复用)
+
+
+
+ffmpeg主要工作流程
+
+制作文件
+
+原始视频帧 -&gt; 视频编码器 -&gt; 视频码流
+原始音频样本 -&gt; 音频编码器 -&gt; 音频码流
+视频码流 + 音频码流 + 字幕 + 元数据 -&gt; 封装器 -&gt; 容器文件
+
+
+播放文件
+
+容器文件 -&gt; 解封装器 -&gt; 视频码流 &#x2F; 音频码流
+视频码流 -&gt; 视频解码器 -&gt; 原始视频帧 -&gt; 渲染
+音频码流 -&gt; 音频解码器 -&gt; PCM 样本 -&gt; 播放
+
+
+转码
+
+解封装 -&gt; 解码 -&gt; 滤镜处理 -&gt; 重新编码 -&gt; 重新封装
+
+
+转封装
+
+解封装 -&gt; 再直接封装，不需要重新编码
+
+
+
+FFmpeg特性的选择与定制FFmpeg所做的是提供一套基础的框架，所有的编码格式、文件封装格式与流媒体协议可以作为FFmpeg的模块挂载在FFmpeg框架中，这些模块可以以第三方外部库的方式提供支持，也可以选择直接与FFmpeg一体，成为FFmpeg原生实现的一部分。通过FFmpeg源码的configure命令，可以查看FFmpeg支持的音视频编码格式、文件封装格式与流媒体传输协议，对于FFmpeg不支持的格式，可以通过configure –help查看是否有第三方外部库支持，然后通过增加对应的编译参数选项进行支持。
+FFmpeg默认支持的音视频编码格式、文件封装格式与流媒体传输协议比较多，因此编译的FFmpeg文件较大。而在有些应用场景中并不需要FFmpeg支持如此多的编码、封装或者协议，为了减小最终编译出来的库的体积（如在手机端等须注意最终包大小的场景等），这时候可以通过configure –help查看一些有用的选项以用作后续的裁减。
+ffmpeg cliffmpeg的常见命令大概分为以下6个部分
+
+ffmpeg信息查询 部分
+ffmpeg -formats/encoders/decoders/codecs/filters 的方式，查看支持的容器&#x2F;编解码器&#x2F;滤镜的简介
+ffmpeg -h encoder/decoder/muxer/demuxer/ filter=xxx 的方式，查看具体容器、编解码器、滤镜的详细参数
+
+
+公共操作参数 部分
+文件主要操作参数 部分
+视频操作参数 部分
+音频操作参数 部分
+字幕操作参数 部分
+
+封装与解封装
+(format) muxer &amp; demuxer
+
+
+目前的网络流容器格式以 MPEG 容器格式为主流MPEG容器格式是一个 树形 Box 结构
+
+容器格式是一种允许将单个或多个音频、视频、字幕等数据流存入单个文件的文件格式，通常伴随着用于识别和进一步详细说明这些数据流的元数据，元数据一般被存储在文件的头部，有时候也被称为音视频关键数据索引。
+较简单的容器格式可以包含不同类型的音频、视频流，而更高级的容器格式可以支持多个音频和视频流、字幕、章节信息、元数据（或称为标签），以及播放各种类型的流所需的同步信息。
+容器需要解决的问题
+容器设计至少需要考虑以下问题:
+
+捕获视频图像、音频信号。
+文件的交换与下载，包括增量下载与播放。
+本地播放。
+编辑、组合、快速定位与搜索等。
+流式播放及拉流录制。
+
+视频文件转 MP4 格式MP4文件分为两个主要部分：
+
+元数据 (moov)
+包含通用信息
+如：每个音频、视频帧的时间信息和偏移量等
+
+
+
+
+音视频数据 (mdat)
+包含视频和音频帧，通常以交错顺序存放
+
+
+
+MP4 中没有以 起始码 作为前缀，而是使用长度MP4 文件格式的基础是 ISO BMFF (ISO Basic Media File Format) ，最初源自于苹果的 QuickTime 文件格式MP4 文件格式中包括多个子容器，每个子容器在标准中都称为 box 或 atom 在交流时通常不翻译为容器、盒子、箱子。(moov mdat 都是box)
+
+ISO BMFF文件格式包含结构和媒体数据信息，主要用于媒体数据的时序化展示，如音频、视频等；也支持非时序化的数据，如元数据。
+
+MP4标准间的关系
+
+MP4（ISO Base Media File Format，ISO&#x2F;IEC 14496-12）中所有多字节整数字段都按大端序（Big-Endian）序列化包括 box 头里的 size、largesize，以及各种 box 内部的 16&#x2F;32&#x2F;64 位整数字段。没有 little-endian 的标准变体
+
+MP4文件由许多box与FullBox组成，基本结构如下  
+
+|size|type| 组成共8Byte的header
+size 是块包含头的总大小
+type 是 FourCC 标签，moov与mdat存放在这里
+
+
+|data| 是box块的实际数据，可以是媒体数据，也可以是多个子box
+box 可以分层嵌套，此时，该box也称为 Container box (容器box)
+
+
+header包含了整个box的长度大小（size）和类型（type），类型是一个典型的4字符的标签，一般被称为 FourCC当size等于0时，代表这个box是文件的最后一个box；当size等于1时，说明box长度需要更多的位来描述，在后面会定义一个64位的largesize来描述box的长度当type为uuid时，说明这个box中的数据是用户自定义扩展类型  
+FullBox是box的扩展，以box结构为基础，在header中添加8bit的version标志和24bit的flags标志，以确保能灵活扩展(version)，flags标志在特定的FullBox中定义
+
+box
+
+
+
+4Byte
+4Byte
+size - 8Byte Byte
+
+
+
+size
+type
+data
+
+
+扩展box
+
+
+
+4Byte
+4Byte
+8Byte
+largesize - 16Byte Byte
+
+
+
+size &#x3D;&#x3D; 0x01
+type
+largesize
+data
+
+
+嵌套box
+
+
+
+4Byte
+4Byte
+size - 8Byte Byte
+
+
+
+size
+type
+data:(|box|box|box|…|)
+
+
+
+box的大小至少是 4+4&#x3D;8 Byte (size+type)
+
+
+在互联网的视频点播中，如果希望MP4文件被快速打开，则需要将moov存放在mdat的前面，如果放在后面，需要将MP4文件下载完成后才可以进行播放。从实践的角度看，moov放在文件头部更为合适一些。当然，在实际生成MP4文件时，由于moov中的一些信息事先无法预测，需要在文件即将结束时才能获取到，所以一般都是在生成完毕后再移动到文件头部的。
+
+box与FullBox的严格定义
+aligned(8)class Box(unsigned int(32) boxtype, optional unsigned int(8)[16] extended_type)&#123;    unsigned int(32) size;    unsigned int(32) type = boxtype;    if (size == 1) &#123;        unsigned int(64) largesize;    &#125; else if (size == 0) &#123;        // box extends to end of file    &#125;    if (boxtype == &#x27;uuid&#x27;) &#123;        unsigned int(8)[16] usertype = extended_type;    &#125;&#125;;aligned(8)class FullBox(unsigned int(32) boxtype, unsigned int(8) v, bit(24) f)extends Box(boxtype)&#123;    unsigned int(8) version = v;    bit(24) flags = f;&#125;
+
+
+MP4 解析就是不断读取 size 和 type，用 size 确定当前 box 的边界；如果是容器 box，就进入内部继续解析子 box；如果是叶子 box，就按 size 跳到末尾，继续下一个同级 box。
+
+moov (movie box) 解析
+在标准的 MP4&#x2F;ISO BMFF 文件中，moov box 内绝对没有纯媒体流数据（音视频帧），它里面全部都是元数据（以及索引信息）
+
+moov定义了MP4文件的元数据信息，在MP4文件中 moov box 有且仅有一个 ，moov里面包含的子box作为描述媒体数据的信息的容器。这些元数据信息被存储在不同类型的子box中。一般来说，元数据被存储在moov box中，而多媒体的实际数据，如音频或视频数据，则在moov box中被引用，但不包含在其中。
+moov至少包含以下3种box中的一种。
+
+mvhd：Movie Header box ，存放多媒体信息头的容器，这是最常见的形式。
+cmov：Compressed Movie box* ，压缩过的电影信息容器。
+rmra：Reference Movie box* ，参考电影信息容器。
+
+moov本质上是其他box的一个容器，这些box组合在一起描述了多媒体的内容。从高层结构看，moov通常包含trak box，而trak box又包含mdia box。最低层的子box则包含非box格式的数据，通常以表格或一组数据元素的形式出现。
+
+moov中最为常见的是mvhd，它定义了整个多媒体文件的timescale、duration等显示特性。而trak中定义了多媒体文件中的一个track的信息，track指的是多媒体文件中 可以独立操作 的媒体单位，例如一个声道是一个track，一个视频流也是一个track。
+
+trak box有两种
+
+media track
+用于保存media相关信息
+
+
+hint track
+包含用于流媒体的打包信息
+
+
+
+mvhd (movie header box) 解析mvhd box包裹在moov box中，包含了与整个播放展示相关的元数据诸如文件的创建和修改时间等信息，它告诉我们视频播放器总时长、time scale、播放速度和初始音量
+mvhd参数
+trak 解析trak定义了媒体文件中一个 track(轨道) 的信息。一个媒体文件可以包含多个track，每个track都是独立的，有自己的时间和空间占用的信息。每个trak容器都有与它关联的媒体容器描述信息。使用trak的主要目的如下：
+
+包含媒体数据的 引用和描述 (media track)
+包含modifier track信息
+包含 流媒体协议的打包信息(hint track) ，hint track(提示轨道)可以引用或者复制对应的媒体采样数据
+
+hint track和modifier track必须保证完整性，与至少一个media track同时存在一个trak中要求必须有一个Track Header box（tkhd）、一个Media box（mdia），其他的box都是可选的。
+tkhd (tracker header box) 解析
+由 mvhd 与 tkhd 的 size 我们看到，在一定版本下，在规范中的size字段的参数大小是一定的，标识的块数据长度也是一定的
+
+tkhd放在trak box里，每个track只能有一个tkhd。它是强制性的，包含描述单个轨道的特性的元数据。可以看到tkhd中的很多字段信息与mvhd有些类似，原因其实容易理解，mvhd描述整个文件的公共信息，而thkd描述整个文件中 某个track 的信息。
+
+mdia 解析
+是 trak 的子容器
+
+Media box的类型是mdia，是一个容器box，其必须包含如下容器：
+
+媒体头容器：Media Header box（mdhd）
+句柄参考容器：Handler Reference box（hdlr）
+媒体信息容器：Media Information box（minf）
+用户数据容器：User Data box（udta）
+
+hdlr 解析描述了媒体流的媒体类型，可以根据这个box的内容，确定对应track的具体类型是Video、Audio或者其他
+minf 解析minf包含了很多重要的子容器，例如与音视频采样等信息相关的容器。minf容器中的信息将作为音视频数据的映射存在
+其内容信息如下:
+
+视频信息头：Video Media Information Header（vmhd子容器）
+音频信息头：Sound Media Information Header（smhd子容器）
+数据信息：Data Information（dinf子容器）
+采样表：Sample Table（stbl子容器，描述具体的数据与时间、位置等信息的对应关系）
+
+dinf 解析dinf是一个描述数据信息的容器，定义了音视频数据的信息，它包含子容器dref。
+stbl 解析stbl为采样列表容器（Sample Table box），该容器包含转化媒体时间到实际的sample（样本或者采样点）的信息，也表征了如何进一步解析sample的信息，例如，视频数据是否需要解压缩、解压缩采用的是什么编码算法等  
+它包含的子容器如下:
+
+采样描述容器：Sample Description box（stsd）
+采样时间容器：Time To Sample box（stts）
+采样同步容器：Sync Sample box（stss）
+Chunk采样容器：Sample To Chunk box（stsc）
+采样大小容器：Sample Size box（stsz）
+Chunk偏移容器：Chunk Offset box（stco）
+Shadow同步容器：Shadow Sync box（stsh）
+
+stbl包含track中media sample的 所有时间和数据索引 ，利用stbl，就可以 定位sample到媒体时间、文件位置的映射关系 ，决定其类型、大小，以及如何在其他容器中找到紧邻的sample。如果它所在的track没有引用任何数据，那么它就不是一个有用的media track，不需要包含任何子box。  
+如果它 所在的track引用了数据 ，那么必须包含以下子box:
+
+采样描述容器（stsd）：它主要包含解码器所需要的基本信息，里面的细节规定一般与特定的编码器相关。一般新的Codec需要注册一下，可以参考mp4ra.org，从中查到已经注册的Codec的描述信息及对应的标准。
+采样大小容器（stsz）。
+Chunk采样容器（stsc）。
+Chunk偏移容器（stco）。所有的子表都有相同的sample数目。
+
+stbl是必不可少的一个box ，而且 必须包含至少一个条目 ，因为它包含了检索media sample的索引信息。没有sample description就不能计算出media sample存储的位置。采样同步容器（stss）是可选的，如果没有，规范上规定这表明所有的sample都是采样同步的。
+
+但是很可惜，很多MP4文件并未遵循这个规定，使得我们无法很好地使用stss，以及在没有这个box时认为所有sample都是可同步的。
+
+
+track：轨道，表示一些sample的集合，对于媒体数据来说，表示一个视频或者音频序列。
+chunk：块，一个track的几个连续sample组成的单元称为一个chunk，同一chunk内的sample是连续的，它是一个逻辑概念。在fMP4格式中，则使用run来表征类似的意思。
+sample：采样，与一个时间戳相关的所有数据，一般对应视频中的一个帧，或对应Audio中一段压缩的音频。一般而言，同一个track中不可能有两个或者多个sample具有相同的时间戳。
+
+
+((track (chunks (samples …) …) …) …)
+
+一个track由连续的chunk组成，而chunk则包含多个连续的sample。track和sample的概念比较容易理解，chunk这个概念则需要多思考一下，其原因主要是 增加了一个中间层这样的好处是不用直接做track到sample的映射，这些box的大小可以通过增加的chunk层得以 可控每个轨道都有一个stbl容器，因此每个track有自己的一套完整的采样表。chunk在轨道间并非完美的交错  
+
+使用chunk、sample这样的两级结构，使得描述最终sample所需要的数据量大为减少，这是通过增加一个间接的层chunk实现的。
+
+
+毕竟Butler Lampson很早就告诉我们，“计算机科学领域的任何问题都可以通过增加一个间接的中间层来解决”
+
+一个给定sample的解码时间是由轨道中所有前面sample的累积时间确定的，这其实带来了一个潜在的依赖问题，这意味着解码显示当前帧，会依赖前面的帧的时间数据。在fMP4&#x2F;CMAF场景，因为有可能从中间任意位置解码，使用了绝对时间而非这种有依赖关系的方式来描述时间。
+采样delta是以什么单位来衡量的呢？我们可以通过查看媒体box中定义的时间尺度（timescale）值，即轨道对应的mdhd box来了解。
+
+
+
+名称
+全称
+含义
+作用
+
+
+
+DTS
+Decoding Time Stamp
+解码时间戳
+指示这一帧何时被解码（送入解码器的顺序）
+
+
+PTS
+Presentation Time Stamp
+显示时间戳
+指示这一帧何时被显示（在屏幕上呈现的时间）
+
+
+edts 解析edts定义了创建Movie媒体文件中的一个track的一部分媒体，所有的edts数据都在一个表里，包括每一部分的时间偏移量和长度。如果没有该表，这个track就会被立即播放。一个空的edts用来定位到track的起始时间偏移位置。
+
+对edts box特别是elst box做一个更一步的说明，elst因为在逻辑上把trak做了一个偏移，很多播放器或者对应的工具支持得并不是很好，所以碰到这个box需要注意兼容性问题。
+
+stbl 如何构建出一个视频帧（AVPacket）？
+
+
+需要的信息
+对应的子 Box
+FFmpeg 内部变量
+实际用途
+
+
+
+帧大小
+stsz (Sample Size Box)
+MOVStreamContext-&gt;sample_sizes[]
+决定 pkt-&gt;size
+
+
+文件偏移
+stco/co64 + stsc
+MOVStreamContext-&gt;chunk_offsets[]
+avio_seek 到文件对应位置读取数据
+
+
+解码时间(DTS)
+stts (Time To Sample Box)
+MOVStreamContext-&gt;stts_data[]
+累加 sample_delta 得到 pkt-&gt;dts
+
+
+显示时间(PTS)
+ctts (Composition Offset)
+MOVStreamContext-&gt;ctts_data[]
+pkt-&gt;pts = pkt-&gt;dts + ctts_offset (解决B帧)
+
+
+关键帧标记
+stss (Sync Sample Box)
+MOVStreamContext-&gt;keyframe_pts[]
+设置 &#96;pkt-&gt;flags
+
+
+编解码参数
+stsd (Sample Description)
+st-&gt;codecpar
+初始化解码器（如 HEVC 的 VPS&#x2F;SPS&#x2F;PPS）
+
+
+
+FFmpeg 源码入口：mov_read_stsz() &#x2F; mov_read_stts() &#x2F; mov_read_stco() &#x2F; mov_read_stsc() &#x2F; mov_build_index()调试验证：ffprobe -v trace input.mp4 查看 Box 解析顺序；ffprobe -show_packets input.mp4 查看计算出的 DTS&#x2F;PTS&#x2F;Size&#x2F;Flags。
+
+
+
+详细的 容器&#x2F;子容器 内部细节，参见《深入理解ffmpeg》第4章封装与解封装部分
+
+
+以上是 点播场景 下的MP4容器格式针对于 直播场景 ，其传输是流式的，于是诞生了 Fragment MP4 (fMP4) 容器格式，以及后来的 CMAF 容器格式
+fMP4为什么点播、直播场景需要使用不同形式的容器？
+
+在普通模式下，MP4的单一moov box导致在所有数据完成写入之前，不能写入该box，对于直播环境下的 捕获&#x2F;实时录制 是一个很大的挑战并且，若传输中出现了意外的损坏，也无法修复
+对于动辄小时起步的电影来说，moov box的大小可能相当大，对内存优化有不小的挑战。在网络场景中，moov box的存在意味着需要预传输大量的数据才能开始播放
+
+fMP4以及CMAF的基本原理是:将一部电影或直播流划分为较小的片段，称为分片，分片这种能力是流媒体应用的关键。与原来等待一个完整的MP4文件的下载相比，我们更希望每次下载的时间不超过几秒钟，这样就可以在下载的过程中同时播放。此外，随着网络条件的变化，我们还希望能够在不同版本的流媒体之间无缝切换，以便得到更高或更低的分辨率，或者更多或更小的压缩比。这就是自适应比特率流媒体的特点。同时，分片越短，就越能快速地适应网络环境的变化。但不幸的是，这给压缩和分发也带来一些挑战。
+一个 fMP4 流由一个 初始化段 和一连串的 媒体段 组成。初始化段类似于一个未分片文件的开始，它由一个ftyp box和一个moov box组成。moov box包含额外的信息，以表明流是切片的，主要包括一个mvex box。不过与上面的传统MP4相比较，fMP4的moov box只存储了文件级别的媒体信息，因此比传统MP4文件的moov box要小很多。mvex是fMP4的标准box，它的作用是告诉Demuxer端这是一个fMP4文件，具体的sample信息内容不再放到trak里，而是放到每一个moof中。
+音视频切片文件由一个 moof（movie fragment）box 和一个 mdat box 组成，前者包含该片段的元数据，后者包含部分音频、视频的有效载荷。moof box 存放的是 fragment（分片） 级别的元信息，用于描述所在的fragment。该类型的box在普通的MP4文件中是 不存在的 ，而 在fMP4文件中，每个fragment都会有一个moof类型的boxmoof和moov类似，它包含了当前片段中MP4的相关元信息，但 将moov的部分信息变成了多个moof这样的方式另外，一般而言，普通的MP4文件只有一个mdat box，而 fMP4&#x2F;CMAF文件则有多个mdat box它也可能在开始时有一个styp box，styp就像ftyp一样，但针对的是一个音视频切片片段。在一个正确编码的流中，每个媒体fragment都可以被解码和播放，除去需要所依赖的初始化片段外，任何其他片段的信息都不再需要。粗略来讲，fMP4的构成如下：
+
+1 ftyp
+1 moov
+N [moof mdat] &#x2F;&#x2F; 一起构成分片
+1 mfra
+
+fMP4与分片
+上面的mvex box是可选的，其由mehd和trex组成，其中，mehd是可选的，它指定整个文件的持续时间，整个文件的持续时间对应于 最长的轨道持续时间（包含所有分片） ；trex是必选的（如果mvex存在），每个轨道都有一个单独的trex，这个box为其轨道（track_ID）指定默认的标志和值。在moof box中，对应特性如果没有被标识或设置对应的值，解码器将从trex box中获取对应轨道的默认值。
+
+通常每个封闭的GoP都作为一个单独的分片来存储，这种分片模式被称为基于关键帧的分片。使用的FFmpeg命令一般如下：ffmpeg -i in.h264 -c:v copy -f mp4 -movflags frag_keyframe+empty_moov frag_out.mp4命令只是把原有的编码帧重新封装到 fMP4 容器里，并没有对视频进行重新编码
+
+CMAFCMAF（通用媒体应用格式，Common Media Application Format），它是一种可扩展的格式，用于打包分段的媒体对象，以便在自适应媒体流中在终端用户设备上传输和解码。使用CMAF的最初目的是简化基于HTTP的流媒体的交付。它是一个新兴的标准，有助于降低成本和复杂性，并可以结合其他技术来减少端到端的延迟。CMAF通过与HLS和DASH协议合作，在一个统一的传输容器文件下打包数据，简化了播放设备的媒体传输过程。
+CMAF本身不是一个协议，而是一种 格式 ，它包含一套容器和标准，用于统一HLS和MPEG-DASH等协议底层的单一媒体流。CMAF以ISO BMFF为基础，为分片的内容定义两个基础的brand（品牌）：cmfc和cmf2。其限定主要如下:cmfc品牌的约束如下：
+
+定义了ISO BMFF box中的一些默认值。
+每个文件只包含一个媒体，这意味着音频和视频存储在不同的文件中，这个特性带来了灵活性，但也带来了一些挑战。
+每个分片有一个单一的轨道片段（moof）。
+视频轨道中存在ColorInformation box和PixelAspectRatio box。
+在每个轨道分片中存在一个tfdt box，在MPEG DASH格式中，分片在时间上可能是不连续的。因此，DASH要求每个分片（即每个traf box）中都要有tfdt box。注意，tfdt box指定了当前分片的解码时间（以mvhd时间尺度为单位，当前分片中第1个样本的解码时间，实际上tfdt是分片的一个时间锚点）
+edit list被限定为仅在媒体跳过时使用。在cmfc品牌的基础上，cmf2品牌进一步限定如下：
+不应使用edit list。
+可以使用负的composition偏移。
+样本默认值应在每个轨道分片中重复出现。
+
+视频文件转 FIV在网络直播与点播场景中，FLV也是一种常见的格式。FLV是Adobe发布的一种可作为直播也可以作为点播的封装格式。其封装格式非常简单，均以FLVTAG的形式存在，并且每一个TAG都是独立存在的。
+FLV文件格式分为两部分：
+
+FLV文件头
+FLV文件内容。
+
+
+对于整型数据，按小端方式进行存储FLV文件头 
+
+FLV文件内容格式主要为FLVTAG。FLVTAG分为两部分，分别为 Header 部分与 Body 部分
+FLV文件TAG排列方式 
+FLVTAG格式 
+VideoTag数据格式
+
+如果从FLVTAG的Header中读取到TagType为0x09，则该TAG为视频数据TAG，FLV支持多种视频格式 
+
+AudioTag数据格式
+
+从FLVTAG的Header中解析到TagType为0x08，则这个TAG为音频TAG，与视频TAG类似，音频TAG里面可以封装的压缩音频编码也可以有很多种 
+
+ScriptData数据格式
+
+当FLVTAG读取的TagType为0x12时，这个数据位表征是ScriptData类型。ScriptData常见的展现方式为FLV的Metadata，里面存储的一般为AMF数据
+
+
+如果原媒体文件中的音视频编码格式本身就是FLV标准所支持的格式，那么只用转封装（通常称为Remuxing）即可，无须执行转码操作。
+
+MPEG-TS
+详情请见
+
+MPEG-TS在MPEG-2第1部分中被标准化 ，最初专门为 数字视频广播（DVB） 应用而设计，与其对应的MPEG-PS多用于存储媒体，并在DVD中得到应用。相较而言，MPEG-TS 面向传输 ，它将流 划分为基本流 ，这些流被分割成小块。同时，系统信息以固定的时间间隔发送，因此接收器可以随时播放流。此外，该格式使用 前向纠错（Forward Error Correction，FEC）技术 ， 允许在 接收器 处纠正传输错误MPEG-TS格式显然是为在 有损传输通道 上使用而设计的。  
+从系统层面定义，TS&#x2F;PS文件可以分成3层: 
+
+ES层：由单独的音频流（如MP3）、视频流（如H.264）组成基本数据流（Elementary Stream，ES）。
+PES层：将ES按一定的规则进行封装，例如H.264以访问单元（Access Unit，AU）作为拆分单元，并打上时间戳，组成分组的基本数据流（Packetized Elementary Stream，PES）。
+TS&#x2F;PS层：将PES包进行切分后再封装成固定大小（通常为188字节）的 传输流（Transport Stream，TS）包 ，同时还将一些节目信息也封装成TS包，又称为 片段（section） , 两者共同组成TS层。
+
+MPEG-TS&#x2F;PS打包流程 
+
+每个TS数据包头都带有PID（packet identifier，数据包标识符），PID将TS数据包和TS数据包中的基本流联系起来
+
+
+MPEG-TS标准的包长度是188字节。日本通过在标准的188字节的数据包中增加一个4字节的时间码（TimeCode，TC）字段，使之变为192字节的数据包，一般用于数字摄像机、录音机和播放器。还有一种是204字节的，是在188字节的基础上加上16字节的FEC构成。FFmpeg同时支持这3种格式变种。
+
+MPEG-TS包的基本结构
+MPEG-TS没有像许多其他文件类型（包括程序流）那样使用全局文件头，而是在 每个数据包前都有一个头部这个数据包的头部结构设计非常清晰，并且正好占4字节，这使得流式的解析会非常便利。
+**MPEG-TS重要的格式头数据
+
+MPEG-payload部分见《深入理解ffmpeg》所述
+
+PES结构
+MPEG-TS的特性：由于MPEG-TS是在以太网诞生之前建立的服务于数字无线广播的容器格式，包括失序的数据包检测和远程时间同步等功能。在当今互联网环境下，TCP协议与设备高精度时钟也能承担该功能。由于MPEG-TS使用定长的188byte数据包，导致可能会需要额外更多的字节传输一个小数据，极限情况就是仅包含pkg_payload + 1byte载荷（载荷字段的利用率是 1&#x2F;170 或 1&#x2F;184)，可以看出，需要花费一倍的带宽来传输原来的数据，有效利用率跌落到了 45% 左右MPEG-TS格式并未考虑seek问题，没有对应的全局索引，需要各端自行解决（HLS场景下是使用I帧播放列表的方式来解决这个问题的）
+视频文件转HLS
+HTTP实时流(HTTP Live Streaming, HLS) 基于HTTP的自适应码率流媒体通信协议HLS类似MPEG-DASH，它的工作方式是将整个流分解为一连串基于HTTP的小文件来下载，每个文件下载一个可能无限制的整体传输流的短块。同时，它使用扩展的M3U播放列表描述相关的信息，将不同码率编码的可用数据流列表发送给客户端。
+
+HLS的基本架构
+HLS在标准上只支持TS格式的切片
+
+服务器端先对流进行切分（离线预处理或实时生成），生成索引文件（.m3u8）和一连串媒体流的切片文件；客户端先通过 HTTP 获取索引，再按需通过 HTTP 逐个获取切片文件，经过解码、重组后播放。
+
+HLS使用的m3u8格式基于M3U播放列表扩展而来，主要用于将分片文件以列表的形式描述，即支持直播又支持点播。
+##EXTM3U##EXT-X-VERSION:3##EXT-X-TARGETDURATION:4##EXT-X-MEDIA-SEQUENCE:0##EXTINF:3.760000,out0.ts##EXTINF:1.880000,out1.ts##EXTINF:1.760000,out2.ts##EXTINF:1.040000,out3.ts##EXTINF:1.560000,out4.ts
+
+
+EXTM3U M3U8格式必须包含的标签，必须在文件的第一行
+EXT-X-VERSION M3U8文件的版本，常见的是3
+EXT-X-TARGETDURATION 每一个分片都会有一个自己的duration（时长），这个标签是最大分片浮点数时长四舍五入后的整数值，这个值是所有分片时长的整数部分的上限，而较长的分片片段则可能触发播放卡顿或其他错误。
+EXT-X-MEDIA-SEQUENCE M3U8直播时的直播切片序列，当打开M3U8时，以这个标签的值为参考，播放对应的序列号的切片。分片必须是动态改变的，并且序列号不能相同，为递增序。当M3U8列表中没有出现EXT-X-ENDLIST标签时，无论这个M3U8列表中有多少分片，播放分片都从倒数第3片开始播放，如果不满3片则不播放。
+XTINF EXTINF为M3U8列表中每一个分片的duration，在EXTINF标签中除了duration值，还可以包含可选的描述信息，主要为标注切片信息，使用逗号分隔开。EXTINF下面的信息为具体的分片信息，分片存储路径可以为相对路径，也可以为绝对路径，还可以为互联网的URL链接地址。
+EXT-X-ENDLIST 表明这个M3U8文件不会再有更多的切片产生，可以理解为这个M3U8已停止更新，并且播放分片到这个标签后结束。M3U8 不仅可以作为直播，也可以作为点播形式存在，在M3U8文件中保留所有切片信息，最后使用EXT-X-ENDLIST结尾，这个M3U8即为点播M3U8。
+
+文件转HLS直播ffmpeg -i input.mp4 -c copy -f hls -bsf:v h264_mp4toannexb output.m3u8
+视频文件的音视频流抽取在某些情况下，除了分析封装数据，我们还需要分析音视频流部分。
+
+除了转封装、转码，FFmpeg还可以提取音频流，例如需要提取音频流并保存到另一个封装中。
+
+提取AAC音频流
+## 输入 input.mp4## 输出 output.aac## -vn 不产生视频图像数据## -acodec 使用音频编解码器ffmpeg -i input.mp4 -vn -acodec copy output.aac
+
+
+有时在视频编辑场景中需要提取视频流，或者与另一路视频流进行合并等，此时也可以使用FFmpeg来完成。
+
+提取H.264视频流
+## 输入 input.mp4## 输出 output.h264## -an 不产生音频图像数据## -vcodec 使用视频编解码器ffmpeg -i input.mp4 -vcodec copy -an output.h264
+
+提取H.265视频流
+ffmpeg -i input.mp4 -vcodec copy -an -bsf hevc_mp4toannexb -f hevc output.hevc
+
+
+在使用FFmpeg进行格式转换、编码转换操作时，所占用的系统资源各有不同。如果使用FFmpeg仅仅转换封装格式而非转换编码，所使用的CPU资源并不多。使用FFmpeg进行封装转换时并不会占用大量的CPU资源，因为此时主要以读取、写入音视频数据为主，并不涉及复杂的计算。如果使用FFmpeg进行编码转换，则需要进行大量的计算，从而会占用大量的CPU资源。
+
+
+媒体容器格式小结任何编码格式的使用都面临存储、分发、编辑、overhead等挑战，一般而言，我们需要关注容器中数据的组织结构、音视频编码格式、时间戳、元信息、如何支持seek操作，以及是否支持流化和录制等。另外，也需要有合适的工具来分析容器格式异常或者错误。
+
+编码与转码
+(codec) encoding &amp; decodingtrans coding
+
+所有在互联网上传播的媒体文件都需要被压缩，以便快速地从一个地方传输到另一个地方。提供高质量的媒体内容是有成本的，无论是处理、存储还是传输。这就是编解码器(Codec)发挥作用的地方
+
+Codec在不同场景下表征的意义不大一样，可以视为压缩设备、程序或者标准。但在不同的上下文场景下，我们能很容易地区分。并不是每个视频编解码器都是基于混合编码方案的，但当前使用最为广泛的视频编解码器都是基于混合方案。
+
+编解码器是一种压缩媒体数据的 设备、程序或者标准 ，以实现更快的传输或者降低存储空间。
+
+codec &#x3D;&#x3D; enCOde + DECode一般认为第一个标准化的视频编解码器是H.261，由国际电信联盟（ITU）视频编码专家组于1988年批准，并于1990年公开推出。
+
+迄今为止的每一个主流使用的编解码器都基于混合编码方案，在 空间域 利用 预测（使用内部预测以及运动补偿），在 变换域 对产生的 残差信号 进行编码。在实际应用中，最常使用的变换方法是 离散余弦变换（Discrete Cosine Transform，DCT）
+HEVC混合编码框架
+
+视频混合编码主要涉及的流程包含分区、预测、变换、量化、环路滤波、熵编码等关键技术
+
+使用分区的主要原因是精确地处理预测。
+
+一般而言，在移动较多的区域使用较小的块，而在静态背景上使用较大的块。(保持静态区块的大小)
+一旦分区完成，就可以在它们之上做出预测。主要有两类预测：
+一是 帧间预测 ，主要考虑 时间冗余 ，需要发送 运动向量和残差 ；
+二是 帧内预测 ，考虑 空间冗余 ，需要发送 预测方向和残差 。
+
+
+在预测之后，就得到残差块（预测分区与真实分区的差值），然后用某种方式对残差块进行变换，就得到一些结果。这样在随后的步骤中，对这些变换后的结果进行分析，就可以知道哪些像素丢弃后依然能保持图像的整体质量了。DCT 无疑是最重要的变换方式之一，可以使用它将一张图像转换到 频域 ，这时候大多数能量就会集中到 低频部分 ，所以丢掉高频系数能减少描述图像所需的数据量，同时不会牺牲太多的图像质量。
+接下来 对系数进行量化 以达到压缩的目的，最后一步则是对量化后的数据执行无损的熵编码，这主要是利用了语法元素间的相关性以进一步压缩，这样就产生了适合存储或者传输的码流。
+以上就是编码的基本流程，解码流程反其道而行之即可。
+
+
+
+编解码器的发展基本上分为几个“流派”，以解决没有一个编解码器能适合所有使用情况的问题。下面是几个主要的视频编码标准制定的“流派”: 
+
+标准制定组织。ITU-T视频编码专家组（VCEG）和ISO&#x2F;IEC JTC1运动图像专家组（MPEG）。
+基于公司&#x2F;联盟的组织。典型的如开放媒体联盟（AOMedia）。
+国标。典型如AVS系列，包含AVS、AVS+、AVS2、AVS3等。
+
+
+虽然几派都专注于改善媒体传输，但它们之间的关键区别在于：ITU-T和ISO&#x2F;IEC JTC1标准制定组织创造了专利技术，需要为编解码器的部署支付专利费；开放媒体联盟则是开发开源的编解码器；而AVS系列则着重于自主编码标准和国产化问题。然而需要注意的是，尽管如此，对于这些编解码器的“开放”程度一直存在一些争议。
+
+软编码H.264  
+当前网络中常见的视频编码格式要数H.264（AVC）。持H.264的封装格式很多，如RTMP、FLV、MP4、HLS（M3U8）、MKV、TS等。FFmpeg本身并 不支持H.264编码器 ，而是采用了 集成第三方模块的方式进行支持 ，如x264和OpenH264。x264和OpenH264二者各有各的优势，OpenH264开源比较晚，最初主要是为了让RTC等低延迟场景且版权更为宽松一些。不过目前x264还是最常用的H.264编码器，主要因为其优异的压缩性能和良好的工程实践。
+
+H.264即AVC（Advanced Video Coding），H.265即HEVC（High-Efficiency Video Coding），它们都有两个名称，主要是因为是这两个编解码器标准都是由MPEG和国际电信联盟（ITU）联合标准化的。H.266即VVC（Versatile Video Coding），原因相同。
+
+
+使用x264进行H.264编码时，所支持的像素格式主要包括：yuv420p、yuvj420p、yuv422p、yuvj422p、yuv444p、yuvj444p、nv12、nv16、nv21、yuv420p10le、yuv422p10le、yuv444p10le、nv20le、gray、gray10le。通过 ffmpeg -h encoder=libx264 可以查看。
+
+Encoder libx264 [libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10]:    General capabilities: dr1 delay threads    Threading capabilities: other    Supported pixel formats: yuv420p yuvj420p yuv422p yuvj422p yuv444p yuvj444p nv12 nv16 nv21 yuv420p10le yuv422p10le yuv444p10le nv20le gray gray10le...
+
+FFmpeg推荐使用编码器特定参数的方式向libx264参数进行传参，具体参数可参考 ffmpeg -h encoder=libx264 的输出
+# skyfall2-trailer.mp4 文件使用 H.264 编码格式压缩为 output.mp4 文件# ultrafast 最快的压缩（但是质量低）# -b:v 2000k 将目标码率定为 2000kffmpeg -i skyfall2-trailer.mp4 -c:v libx264 -preset ultrafast -b:v 2000k output.mp4
+
+
+使用 -preset 选项以启用预设
+通过指定一个tune进行H.264编码优化
+
+控制场景切换时关键帧的插入可以通过 -g 参数设置最大帧数间隔GoP的长度，但是当遇到场景切换时，如从一个画面场景突变为另一个画面场景时，会插入一个关键帧，此时GoP的间隔将会重新开始计算。以上情况在视频点播中时常会遇到。如果将点播文件进行M3U8切片，或者将点播文件进行串流虚拟直播，GoP的间隔也会有相同的情况。在有些情况下，我们不希望因为场景变动而产生可变的GoP，这时可以使用 sc_threshold 参数进行调整来控制场景切换时是否插入关键帧。
+
+在固定码率下，GOP 越长，P&#x2F;B 帧越多，帧间信息丢失（漂移）的风险越大。但如果编码器使用固定质量模式（CRF），GOP 长短对画质的影响会小得多。I 帧：只做帧内压缩，丢掉的是高频细节（类似 JPEG），但保留了完整的画面结构。P&#x2F;B 帧：只记录与参考帧的残差（差异）。如果残差很小，编码器就会用极少的比特去描述它（甚至直接 skip，不传数据）。
+
+编码能够设置VBR、CBR、CRF等码控模式，其中VBR（Variable Bitrate）为可变码率，CBR（Constant Bitrate）为恒定码率，CRF则表示以质量为目标。尽管现在互联网中所看到的视频以VBR居多，但CBR依然存在，它主要用于广电领域等使用固定传输通道的场景。
+
+FFmpeg中进行H.265编码时，可以采用x265进行编码，H.265编码参数与x264的编码参数相差不多，基本可以通用，所以我们不再单独介绍FFmpeg怎么使用x265来进行编码。
+
+硬件加速专用视频加速硬件可以使得解码、编码或过滤等操作更快完成且使用更少的其他资源（特别是CPU）。但也需要注意，其可能会存在额外的限制，而这些限制在仅使用软件Codec时一般不存在。比如，各种视频加速硬件支持的特性各不相同，所以在使用的时候，建议多阅读相关文档及咨询相应的公司。对于具有多种不同profile的复杂的Codec，硬件解码器很少能实现全部功能（例如，对于H.264，硬件解码器往往只支持8位的YUV 4:2:0格式）。
+通常认为硬件编码器的输出比x264等优秀软件编码器的输出质量 差一些 ，但编码速度则 通常更快 ，且不会占用太多的CPU资源。也就是说，硬件编码器一般需要更高的码率来达到相同的视觉感知质量，或者说它们在相同码率的情况下以更低的视觉感知质量输出。具有解码或编码能力的硬件系统还可以提供其他相关过滤器加速功能，比如常见的缩放和去隔行等。是否支持后处理功能取决于不同的硬件系统。
+FFmpeg所支持的硬件加速方案，粗略以各OS厂商和芯片厂商特定方案及行业联盟定义的标准来区分可分为以下3类。
+
+以操作系统分：Windows、Linux、macOS&#x2F;iOS、Android。
+以芯片厂商的特定方案分：Intel、AMD、NVIDIA等。
+以行业标准或事实标准分：着重OpenMAX与OpenCL、Vulkan、OpenGL及CUDA等。
+
+# NVIDIA 硬件解码 + 硬件编码ffmpeg -hwaccel cuda -i input.mp4 -c:v h264_nvenc -preset p4 -b:v 5M output.mp4# Intel 硬件解码 + 硬件编码 (QSV)ffmpeg -hwaccel qsv -i input.mp4 -c:v h264_qsv -b:v 5M output.mp4
+
+
+深入的硬件解码相关内容，见 《深入理解ffmpeg》一书，第五章
+
+FFmpeg对音频的支持MP3
+
+MPEG-1 Audio Layer III 很多人以为它是MPEG3的缩写，但明显并不是。MP3在1994年由运动图像专家组（MPEG）创建，是一种有损压缩算法MP3同时使用了基于心理声学领域的思想。其基本想法是，人耳只能辨别20Hz～20kHz的声音，所以任何超出这个阈值的数据都可以丢弃，以使文件更小。
+
+整个算法部分可以粗略地分成如下4个主要部分:
+
+将音频信号分成小块，这些被称为帧。然后对输出进行MDCT滤波
+将采样传入一个1024点的FFT，然后应用心理声学模型。另一个MDCT滤波器在输出上执行。
+对每个采样进行量化和编码。这也被称为噪声&#x2F;位分配。噪声&#x2F;位分配会自我调整，以满足码率和声音屏蔽的要求。
+对码流进行格式化，称为音频帧。一个音频帧由4部分组成：头部、错误检查、音频数据和辅助数据。
+
+
+MDCT，即修改后的离散余弦变换（Modified Discrete Cosine Transform），是一种线性正交拉氏变换，基于时域混叠消除（TDAC）的思想。它在J.Princen、A.Bradley于1986年发表的论文“Analysis&#x2F;Synthesis Filter Bank Design Based on Time Domain Aliasing Cancellation”中被首次提出，随后得到进一步发展。现行的很多音频编码格式都使用了MDCT技术。
+
+MP3编码
+使用FFmpeg可以解码MP3，同样也可以支持MP3编码。FFmpeg并未原生支持MP3编码，需要使用第三方库libmp3lame。不但如此，MP3编码还是低延迟的编码，可以支持的采样率比较多，包含44100、48000、32000、22050、24000、16000、11025、12000、8000多种采样率，采样格式也比较多，包含s32p、fltp、s16p多种格式，声道布局方式支持包含mono（单声道模式）、stereo（环绕立体声模式）。
+MP3编码参数
+在FFmpeg中进行MP3编码采用的是第三方库libmp3lame，所以进行MP3编码时，需要设置编码参数acodec为libmp3lame。ffmpeg -i INPUT -acodec libmp3lame OUTPUT.mp3
+MP3 可以设置为 VBR(variable bitrate mode) 可变码率模式，CBR(constant bitrate mode) 恒定码率模式，ABR(Average bitrate mode) 平均码率模式
+
+CBR编码压缩效率并不高，VBR和ABR模式可以为复杂的音乐段落提供更多的比特，为简单的段落节省比特，而CBR则以相同的码率对每一帧进行编码。CBR只推荐在流媒体情况下使用，在这种情况下必须严格执行最高码率。通过LAME对MP3格式的比特存储功能的使用，虽然在幕后仍有一些码率的变化，但它比实际的VBR灵活得多。
+
+AAC编码
+AAC（Advanced Audio Coding）和MP3都是音频编码的有损压缩技术。MP3于1993年首次发布，比AAC早4年，现在已经成为流媒体和存储音乐的普遍标准。AAC被设计为MP3的继承者。它摆脱了MP3的固有缺陷，在码率接近的情况下实现了比MP3更好的音质，特别是在低码率的情况下，它在ISO&#x2F;IEC 13818-7及ISO&#x2F;IEC 14496-3中被标准化
+在音视频流媒体中，无论直播与点播，AAC都是目前最常用的一种音频编码格式，如RTMP直播、HLS直播、RTSP直播、FLV直播、FLV点播、MP4点播文件等，一般都是采用AAC的音频格式。其原因主要在于与MP3相比，AAC的 编码效率更高，编码音质更好 。AAC相较于MP3的改进主要包含以下内容：
+
+支持了更多采样率（8kHz～96kHz，而MP3为16kHz～48kHz），更多的声道数（达48个，MP3在MPEG-1模式下为最多双声道，MPEG-2模式下为5.1声道）及任意的码率和可变帧长度。
+更高效率的滤波器（AAC使用纯粹的MDCT，MP3则使用较复杂的混和滤波器）。
+对平稳的信号有更高的编码效率（AAC使用1024&#x2F;960点区块长度，MP3则为576点），对暂态变化的信号有更高编码准确度（AAC使用128&#x2F;120点区块长度，MP3则为192点）。
+对于频率在16kHz的声音频号成分有更好的处理。
+有额外的模块如噪声移频、后向预测、感知噪声替代等，这些特性能组合成不同的编码规格。
+
+目前有两种常见的AAC版本：AAC-LD（低延迟），也被称为AAC-LC（低复杂度）和AAC-HE（高效率），AAC-LD&#x2F;AAC-LC用于双向通信，它结合了足够高的音频质量和足够低的延迟，以促进通信；AAC-HE（或HE-AAC）用于流媒体音频，通常用于数字广播之类的场景。
+
+AAC音频分为LC、HE和HEv2三种
+
+在FFmpeg中可以支持以下两个AAC编码器：
+
+原生AAC编码器：FFmpeg本身的AAC编码实现，实现的特性和支持的Profile相对比较少，好处在于不需要额外的第三方AAC编码库。
+
+集成第三方的 libfdk_aac ：第三方的Fraunhofer FDK AAC编解码库，一般认为编码质量好于原生AAC编码库。
+
+编码器延迟是在编码过程中产生的延迟，以产生正确编码的音频数据包。它通常指添加到AAC码流前面的无声媒体样本（priming sample）的数量。
+
+解码器延迟是指在给定的时间指数下重现一个编码的源音频信号所需的pre-roll音频样本的数量。对于AAC来说，这个数字通常是1024，本身与编码算法相关。与编码器延迟相反，后者是由所用的编码器和编码配置决定的。然而，解码器延迟决定了可能的最小编码器延迟（也就是AAC的1024）。
+
+
+
+音视频转码与音视频转封装的不同在于音视频转码会占用大量计算资源，而转封装主要是将音频数据或者视频数据取出，然后封装成另外一种封装格式。转封装主要占用 IO资源 ，而转码主要占用 CPU资源 ，同时转码也会使用更多的内存资源。
+
+码率并非对视频时长的控制，而是编码器为了在“特定画质目标”和“网络传输&#x2F;存储限制”之间取得平衡，而设定或产生的每秒数据量（带宽需求），因为每秒的媒体数据帧数需要稳定
+
+对于点播（如 MP4 文件）：我们往往追求“固定质量（CRF）”，容忍码率波动，因为文件可以下载。
+以固定质量为目标，允许短时码率剧烈波动，用缓冲区和文件大小来吸收波动。
+为什么会波动？
+固定质量保证的是各个媒体帧的数据质量，对于编码而言，就是更少的数据损耗，而每个媒体帧之间保持质量后的存储空间（数据大小）差别可以很大&#x2F;很小，那么，为了满足每秒输出帧数的稳定这一硬性需要（保证用户的观看体验），又由于每单位时间虽然包含相同帧数，但是每单位时间的数据量不同，每单位时间所需的带宽也不同，导致了可能的数据的剧烈波动
+
+
+
+
+对于直播（如 HLS&#x2F;TS）：我们往往需要“限制码率（ABR&#x2F;CBR）”，容忍画质波动，因为网络带宽是硬约束，不能断流。
+以稳定带宽为约束，允许短时画质波动，用码率阶梯和实时编码控制来保证流不中断。
+为什么带宽是硬性约束？而容忍画质波动？
+由上文的问题可以知道，若保证质量每单位时间所需的带宽一般不同，并可能产生剧烈抖动，对于直播媒体，用户更期望的是连续的媒体流体验，而网络环境中不同的物理链路，不同的网络层之间的数据&#x2F;报文交换环境下，每个用户所分配的带宽是动态的，为了保证媒体流的稳定（包含输出帧率的稳定），需要将每单位时间的数据以此刻的带宽作为传输能力上限进行编码（一般会有不同码率的切片），所以每单位时间的媒体流质量不同，也就是画质波动
+
+
+
+
+
+
+
+
+笔记概念
+FFmpeg 内部实现&#x2F;变量
+实战验证命令
+
+
+
+分区&#x2F;宏块
+AVCodecContext-&gt;mb_decision
+ffmpeg -h encoder=libx264
+
+
+帧间&#x2F;帧内预测
+AVFrame-&gt;pict_type (I&#x2F;P&#x2F;B)
+ffprobe -show_frames input.mp4
+
+
+DCT变换&#x2F;量化
+AVCodecContext-&gt;qmin&#x2F;qmax
+-qp 23 (恒定量化参数)
+
+
+GOP&#x2F;关键帧
+AVCodecContext-&gt;gop_size
+-g 60
+
+
+B帧
+AVCodecContext-&gt;max_b_frames
+-bf 3
+
+
+码控模式
+AVCodecContext-&gt;rc_*
+-crf 23 &#x2F; -b:v 2M &#x2F; -maxrate + -bufsize
+
+
+硬件加速
+AVHWDeviceType &#x2F; AVCodecContext-&gt;hw_device_ctx
+-hwaccel cuda &#x2F; -c:v h264_nvenc
+
+
+
+编解码小结libx264是使用最广泛的开源编码器，在业界影响力巨大，也影响了后来一众编码器。与此同时，H.264编码标准也是使用最为广泛的编码标准。使用好FFmpeg的libx264编码器，对使用好其他编码器有很大的帮助。另外，随着编码标准复杂度的提升及编码密度和功耗的考虑，硬件加速的编解码屡见不鲜，在很多情况下甚至是唯一的选择。
+
+流媒体技术流媒体是指以连续的方式从一个源头传递和消费多媒体，其在网络环节（指传输节点和通道）中很少或没有中间存储。需要注意，流媒体指的是 内容的传输方法，而不是内容本身 。
+
+什么是流式实时传输？
+
+流式传输是人们在互联网上观看视频（包括听音频）时使用的 数据传输方法 。这是一种一次从 远程存储 交付 少许媒体数据 的方式，通过一次在互联网上传输 少量（如几秒钟） 的媒体数据，客户端设备 不必在开始播放之前等待下载整个媒体文件 。实时流式传输是指流媒体视频通过网络实时发送，无须预先进行录制和存储。如今，电视广播、视频游戏流和社交媒体视频都可以进行实时流式传输。
+常规流式传输和实时流式传输之间的区别可以类比演员背诵独白和即兴演讲之间的区别。前者是预先创建内容，存储下来并转播给观众；后者则是观众在演员创建内容的同时接收内容，就如实时流式传输一样。
+
+
+术语“实时流式传输”通常是指广播实时流，即同时传给多个用户的一对多连接。Skype、FaceTime和Google Hangouts Meet等视频会议技术采用的是 实时通信（RTC）协议 ，而不是一对多实时流广播所使用的协议。
+
+
+在技术层面，实时流式传输如何工作？
+
+以下是实时流式传输幕后发生的主要步骤:
+采集：实时流式传输 始于原始视频数据 ，即摄像机捕捉的视觉信息、麦克风捕捉到听觉信息。在摄像机所连接的计算设备中，此视觉信息表示为数字数据（最终表示为1和0）
+编码：对采集到的视频数据进行 压缩 和 编码 。通过删除多余的视觉、统计信息来压缩数据。实时流式传输视频数据编码为各种不同设备可以识别的 可解释数字格式 。常见的视频编码标准包括MPEG2、H.264、H.265、VP8&#x2F;9、AV1等。
+分段：视频包含许多数字信息，这就是为什么下载视频文件要比下载简短的PDF或图像耗费更久的时间。由于一次将所有视频数据通过Internet发送出去需要消耗的时间较长，因此流式传输时视频会被 分割 成若 干个几秒长的小片段 。
+内容交付网络（CDN）与缓存：实时流一旦完成采集和编码（所有过程仅需几秒甚至几毫秒），就需要提供给成千上万的观众。为了在 最小延迟的同时保持高品质 ，并且将流媒体提供给不同位置的多个用户，需要使用CDN进行 分发 。CDN是分布式服务器网络，代替源站服务器为用户缓存和提供内容。使用CDN可以实现更快的性能，因为用户请求不再需要直接行进到源站服务器，而是可以通过附近的CDN服务器进行处理。以这种方式处理请求和交付内容还可以 减轻源站服务器的工作量（专注于流处理） 。由于CDN服务器遍布世界各地，而不是聚集在单个地理区域内，CDN可以高效地向全球用户提供内容。CDN还将缓存（临时保存）实时流的各个片段（作为web cache存在），因此大多数用户将 从CDN缓存而不是源站服务器获取实时流 。即使缓存数据会延迟一段时间，这实际上可以使实时流 更接近于实时 ，因为它 削减 了来回于源站服务器的往返时间（ RTT ）。
+解码以及视频播放：实时流传送至所有正在观看流媒体的用户，通过每个用户的观看设备接收、解码分段的视频数据。最后，用户设备上的媒体播放器（专门的应用或浏览器内的视频播放器）将数据 解释 为视觉信息，然后播放。
+
+
+
+
+
+
+CDN Content Distribution Network, 内容分发网络
+
+录制与发布RTMP流
+ffmpeg -h protocol=rtmp
+
+
+Real Time Messaging Protocol
+
+
+在流媒体中，RTMP直播为实时直播中最为常见的一种。由于是实时直播，精彩画面错过了就永远不会再出现了。为了解决这个问题，可以考虑将实时直播的RTMP流录制下来。RTMP相关协议经过不断演化实际上已经变成了一个 协议族 ，包括RTMP、RTMPS、RTMPE、RTMFP等，其差别主要在于是否加密、使用隧道，以及是否使用UDP或者TCP来传输等。
+
+协议中的 基本数据单元 被称为 消息（Message） ，传输的过程中消息会被分割为更小的 消息块（Chunk）单元 ，最后将分割后的消息块通过 TCP 传输到接收端，接收端再将接收到的消息块恢复成流媒体数据。
+
+需要注意，RTMP的协议格式与FLV容器格式有千丝万缕的联系。
+
+RTMP主要有以下几个优点：
+
+专为流媒体开发的协议。
+最初和FLV的生态相得益彰（虽然现在FLV相关技术已经日薄西山，但当时它的影响力巨大）。
+RTMP的延迟相对较低，一般延时为1～3秒，对于延迟不是特别敏感的场景，其延迟是可以接受的。
+
+当然RTMP并非尽善尽美，它也有不足的地方:
+
+一方面是它基于TCP传输，导致链路抖动时并不能很好地使用带宽，且使用非公共端口，可能会被防火墙阻拦；
+另一方面是它是Adobe私有协议，对于浏览器生态并不友好。目前业界一直在探索各种方向以替换该协议，主要的原因是Adobe拥有该协议的版权，但又放弃了该协议的发展，在对新Codec及其他特性的支持上也停滞不前。
+在下行分发领域，RTMP面临着HLS、MPEG-DASH等基于HTTP传输协议的竞争，
+在上行领域也面临一些新的技术方案比如DASH-IF Live Media Ingest Protocol、WebRTC-HTTP Ingestion Protocol（WHIP）等协议的竞争。
+不过即便这样，从市场占有率来说，RTMP依旧是值得研究的技术之一，它也是第一个被广泛使用的流媒体协议。
+
+
+
+
+
+RTMP URL基本格式及意义 
+FFmpeg拉取RTMP直播流可以使用的参考参数：   
+录制并发布RTSP流
+Real Time Streaming Protocolffmpeg -h demuxer=RTSP
+
+
+
+信令（Signaling）：RTSP 负责 发号施令 。它定义了客户端和服务器之间 如何沟通 ，比如：
+DESCRIBE：客户端问服务器：“这个流里有什么？编码是 H.264 还是 H.265？分辨率多少？”
+SETUP：客户端说：“我要建立连接了，用 RTP 传输，端口号是多少？”
+PLAY：客户端说：“开始播放！”
+PAUSE：客户端说：“暂停。”
+TEARDOWN：客户端说：“再见，断开连接。”
+
+
+传输（Transport）：RTSP 不负责  搬运 具体的音视频数据（比如 H.264 的 NALU 单元）。它只负责“控制”，不负责“搬砖”。
+
+
+
+RTP 专门负责在网络上实时传输音视频数据。是“搬运工”：它它给每个数据包打上时间戳（Timestamp）和序列号（Sequence Number），这样接收端才能按顺序、同步地还原出视频和音频。
+
+是一种信令协议，是曾经最常见的直播方式，目前常用于 安防等领域FFmpeg 目前仅支持 RTSP1.0，目前协议已发展至2.0版本RTSP本身定义了信令，其传输协议并未确定。在当前的实现中，大部分情况下都使用 RTP 来传输数据，但实际上，仍然有Real Data Transport（RDT）这样的私有传输协议被使用。RTSP是一个典型的CS架构，其基本交互流程如图： 
+
+RTSP是以demuxer实现的，而RTMP是以protocol实现的。   
+
+FFmpeg默认使用的拉取RTSP流方式为 UDP 传输方式，为了避免丢包导致的花屏、绿屏、灰屏、马赛克等问题，可以考虑将UDP改为TCP方式。
+RSTP demuxer可以支持UDP或者TCP传输数据，当通过UDP接收数据时，解封装器会尝试对收到的数据包重新排序（因为它们可能不按顺序到达，或者数据包完全丢失）。这可以通过将最大的解封装延迟设置为0来禁用该功能，这样可以控制RTSP demuxer带来的延迟（通过设置AVFormatContext的max_delay字段）。
+录制HTTP流
+ffmpeg -h protocol=http
+
+在流媒体服务当中，HTTP服务最为常见，尤其是点播。当然，直播也支持HTTP服务，例如使用HTTP传输FLV、TS直播流，或者使用HTTP传输使用M3U8及TS文件的HLS格式等。FFmpeg的HTTP既可以作为客户端使用，又可以作为服务端使用，但作为客户端使用的场景更多
+录制与发布UDP&#x2F;TCP流
+ffmpeg -h protocol=udpffmpeg -h protocol=tcp  
+
+FFmpeg不仅支持RTMP、HTTP这类高层协议，同样支持UDP、TCP这类较为底层的协议，而且可以支持UDP、TCP流媒体的录制与发布。
+多路流输出早期FFmpeg在转码后输出直播流时并不支持一次编码后同时输出多路直播流，需要使用管道方式输出。而在新版本的FFmpeg中已经支持tee文件封装及协议输出，可以使用tee进行多路流输出。
+管道方式
+# 将输出发送至 标准输出# 产生三个输出流 output%dffmpeg -i input -acodec aac -vcodec libx264 -f flv - | ffmpeg -f mpegts -i - -c copy output1 -c copy output2 -c copy output3
+
+tee封装格式
+
+关于 tee 请详见 man tee
+
+ffmpeg -re -i input.mp4 -vcodec libx264 -acodec aac -map 0 -f tee &quot;[f=flv]rtmp://publish.chinaffmpeg.com/live/stream1 | [f=flv]rtmp:// publish.chinaffmpeg.com/live/stream2&quot;# FFmpeg 3.1 后ffmpeg -re -i input.mp4 -vcodec libx264 -acodec aac -f flv &quot;tee:rtmp://publish.chinaffmpeg.com/live/stream1|rtmp://publish.chinaffmpeg.com/live/stream2&quot;
+
+DASH 流输出
+ffmpeg -h muxer=dash
+
+MPEG-DASH是一种流式传输方法，DASH代表“基于HTTP的动态自适应流式传输”。由于其基于HTTP，任何源服务器都可以配置提供MPEG-DASH流式传输。MPEG-DASH类似于HLS，后者是另一种流式传输协议，MPEG-DASH将视频 分解成更小的片段 ，并以 不同的质量级别 对这些片段进行编码。这使得它可以流式传输 不同质量级别的视频 ，并可以从一种质量级别切换到另一种质量级别。
+类似HLS，DASH的工作分为以下几步：
+
+编码和分割：源服务器将视频文件分割成几秒时长的小片段。服务器还会创建一个索引文件，就像视频片段的目录。然后对这些片段进行编码，即以多种设备可以解析的方式进行格式化。MPEG-DASH允许使用任何编码标准，这是相对于HLS的一个优势。
+交付：当用户开始观看流媒体时，已编码的视频片段被通过网络推送到客户端设备。在几乎所有情况下，内容分发网络（CDN）都能更高效地分发流媒体。
+解码和播放：当用户的设备接收到流数据时，它会解码并播放视频。视频播放器会自动切换到较低或较高质量的图像以适应网络条件。例如，当用户当前的带宽极低时，播放器将播放较少带宽、较低质量级别的视频。
+
+HDS 流输出
+ffmpeg -h muxer=hds
+
+HDS（HTTP Dynamic Streaming）协议目前处于一个萎缩的状态，但其基本原理和HLS、MPEG-DASH等接近，使用FFmpeg可以生成HDS切片。
+
+
+详细的流媒体参数介绍请见《深入理解ffmpeg》第6章
+
+
+bitstream过滤器
+Bitstream（比特流）就是编码器输出的、压缩后的原始媒体数据流。bitstream filter（比特流过滤器）是 FFmpeg 中一个在不进行解码的前提下，对已编码的音视频码流（Packet）进行格式修正与适配的中间层组件位于 libavcodec 库内，作用于 AVPacket
+
+
+为什么需要这一层？之所以需要这层过滤器，是因为codec输出的原始bitstream格式，与muxer&#x2F;protocol所期望的格式，往往是两套不同的“方言”。
+
+在使用FFmpeg处理音视频流的时候，通常有一套 介于编解码器(codec)输出与封装(muxer)或传输协议(trans protocol)之间 的 数据和信息的封装约定 ，这类数据和信息的处理通常 不需要消耗太多计算空间和时间 ，但是又被编解码器与封装或传输协议所需要，这类内容通常被称为bitstream。
+比特流过滤器是解决编码器输出格式与封装&#x2F;传输协议需求之间不匹配的“适配器”。它让你可以在不重新编码（不损失画质、不消耗大量 CPU）的前提下，自由地在不同容器之间转换码流。实质上是数据格式重新整理的中间层，不会改变内部数据
+解析器 比特流过滤器 音视频滤镜实质上是分出了： 媒体数据流 、 媒体编码流 、 媒体封装流 ，这三个视角
+FFmpeg内部有以下三个容易引起误解的概念
+
+libavcodec 内部的 parser
+在官方的定义中，parser 接收一串输入数据并将其分割成完整的压缩帧，而不丢弃任何数据或增加任何数据（重新组装和分帧）（理想状态下；是为了将数据进行分区辅助提取，实质上就是解析 bitstream 并确定 bitstream 中数据包的边界）
+
+
+libavcodec 内部的 bitstream filter
+bitstream filter 被允许 修改 数据（并非所有bitstream filter都会修改数据），对数据间部分格式元信息进行整理，为之后的流操作做适配
+不能动纯媒体流数据
+
+
+libavfilter 内部的各种Audio、Video滤镜。
+它们的输入是未压缩的视频或音频数据，即大部分情况下，滤镜作用在原始未压缩的YUV或者PCM数据之上。
+实质上是在数据上进行修饰
+是唯一操作原始帧的地方
+
+
+
+
+bitstream例子：
+AAC 音频依据流式传输或者存储的需求存在多种格式：
+
+ADTS（Audio Data Transport Stream）
+ADTS通常应用于直播传输流，文件的每一帧前面都包含ADTS头信息；
+
+
+ASC（Audio Specific Config）
+而ASC通常存储在MP4格式中，在全局头部有一个配置，所以比ADTS更节省空间。
+
+
+
+由于这两种应用领域所需要的具体格式不同，在转换过程中需要一个中间层进行数据流格式的转换，这就是 bitstream filter 的作用，不修改纯媒体数据的部分，而是在数据流视角下进行格式转换
+
+# 使用了 -bsf:v h264_mp4toannexb 这个比特流过滤器# 将一个本地存储格式的视频文件的编码流转换为可以网络传输的编码流ffmpeg -re -i &quot;input.mp4&quot; -c copy -bsf:v h264_mp4toannexb -f mpegts udp://127.0.0.1:8000
+
+
+bitstream filter小结：FFmpeg的bitstream过滤器是一组强大的工具集合，特别是在需要解决编码出来的流和容器格式之间的流的编辑工作这类问题的时候，它使得我们可以灵活地对bitstream进行各种操作。
+
+滤镜使用在FFmpeg中除了具有强大的封装解封装、编解码、缩放功能以外，还有一个非常强大的组件—— 滤镜（AVFilter）AVFilter组件经常被用来进行多媒体处理与编辑，FFmpeg中包括多种滤镜。
+FFmpeg通过 libavutil/eval.h 实现了对算术表达式的支持，这使得FFmpeg的滤镜在使用上更为灵活，具备了初步的“可编程”能力，可以视为一个简单的领域特定语言（domain-specific language），但需要注意其并非图灵完备。滤镜的表达式中包含了常量、一元、二元和函数表达式，
+FFmpeg 的表达式可以由多个表达式通过分号组合成一个新的表达式： expr1;expr2 ，新的表达式将会分别对expr1、expr2求值，并将expr2的结果作为新表达式的结果返回。FFmpeg的表达式常用于滤镜中，实现 时间控制 、 动态调整 等。
+滤镜描述格式
+基本排列方式
+[输入流或标记名]滤镜参数[临时标记名];[输入流或标记名]滤镜参数[临时标记名];...
+在使用Filter时，不免会遇到根据时间轴进行操作的需求。在使用FFmpeg的Filter时可以使用与时间相关的内置变量
+
+
+
+视频水印操作在视频中增加文字水印的要求比较多，需要有文字的字库处理相关文件，在编译FFmpeg时需要支持FreeType、FontConfig、iconv，系统中要有需要的字库。在FFmpeg中增加纯字母水印可以使用drawtext滤镜进行支持
+ 
+添加文字水印
+ffmpeg -i input.mp4 -vf &quot;drawtext=fontsize=100:fontfile=FreeSerif.ttf:text=&#x27;hello world&#x27;:x=20:y=20&quot; output.mp4# 让水印每三秒出现一次ffmpeg -re -i input.mp4 -vf &quot;drawtext=fontsize=60:fontfile=FreeSerif.ttf:text=&#x27;test&#x27;:fontcolor=green:box=1:boxcolor=yellow:enable=lt(mod(t,3),1)&quot; output.mp4# 中文水印，需要中文字体支持ffmpeg -re -i input.mp4 -vf &quot;drawtext=fontsize=50:fontfile=/Library/Fonts/Songti.ttc:text=&#x27;文字水印测试&#x27;:fontcolor=green:box=1:boxcolor=yellow&quot; output.mp4
+
+添加图片水印可以使用movie滤镜参数
+画中画操作在 FFmpeg 的滤镜中，可以将多个视频流、多个多媒体采集设备、多个视频文件合并到一个界面中，生成画中画的效果，这可以通过overlay进行操作。
+ 
+视频多宫格处理ffmpeg -i 1.avi -i 2.avi -i 3.avi -i 4.avi -filter_complex &quot;nullsrc=size=640x480 [base]; \[0:v] setpts=PTS-STARTPTS, scale=320x240 [upperleft]; \[1:v]setpts=PTS-STARTPTS, scale=320x240 [upperright]; \[2:v] setpts=PTS-STARTPTS, scale=320x240 [lowerleft]; \[3:v]setpts=PTS-STARTPTS, scale=320x240 [lowerright]; \[base][upperleft]overlay=shortest=1 [tmp1]; \[tmp1][upperright]overlay=shortest=1:x=320 [tmp2]; \[tmp2][lowerleft]overlay=shortest=1:y=240 [tmp3]; \[tmp3][lowerright]overlay=shortest=1:x=320:y=240&quot; \-c:v libx264 output.flv
+
+视频字幕操作为视频添加字幕的方式大概可以分为两种：
+
+将字幕 编码进视频流 作为图像信息的一部分
+在封装容器中加入 字幕流 作为视频媒体数据信息的一部分将字幕编码进视频流的方式与为视频增加水印的方式基本相似，而在封装容器中加入字幕流的方式则需要封装容器中支持加入字幕流。
+
+ASS字幕流使用FFmpeg可以将字幕写入视频流，通过 ASS滤镜 即可。首先需要将视频流进行解码，再将ASS字幕写入视频流，然后编码压缩再进行容器封装。
+
+详情请查阅相应资料
+
+视频3D化处理
+详情请查阅相应资料
+
+视频截图
+详情请查阅 vframe参数与fps滤镜
+
+音频滤镜操作除了操作视频，FFmpeg还可以对音频进行操作，例如拆分声道、合并多声道为单声道、调整声道布局及调整音频采样率等。在FFmpeg中，可以通过amix、amerge、pan、channelsplit、volume、volumedetect等滤镜进行常用的音频操作。
+音频音量探测
+滤镜volumedetectshowwavespic滤镜
+
+生成测试元数据
+通过lavfi设备虚拟音视频源数据可以通过lavfi虚拟音频源的abuffer、aevalsrc、anullsrc、flite、anoisesrc、sine滤镜并生成音频流
+
+音频倍速处理
+atempo与setpts 滤镜
+
+
+
+详细滤镜操作请见 《深入理解ffmpeg》 第8章 滤镜的使用
+
+
+采集设备操作在使用FFmpeg作为编码器时，可以使用FFmpeg采集本地音视频采集设备的数据，然后进行编码、封装、传输等操作。例如我们可以采集摄像头的图像作为视频，采集麦克风的数据作为音频，然后对采集到的音视频数据进行编码，最后将编码后的数据封装成多媒体文件或作为音视频流媒体发送到服务器上。
+
+详见相关文档
+
+ffmpeg c apiFFmpeg目录包含FFmpeg库代码目录、构建工程目录、自测子系统目录等。具体内容如下:  
+
+libavcodec：主要包含编码、解码的框架与子模块代码。
+libavdevice：主要包含输入、输出外设框架与设备模块代码。
+libavfilter：主要包含滤镜模块与视频、音频、字幕的特效处理模块代码。
+libavformat：主要包含封装、解封装、传输协议的框架与子模块代码。
+libavutil：主要包含 FFmpeg 提供的基础组件，比如加密解密算法、内存管理代码。
+libswresample：主要包含音频的采样与重采样处理相关的代码。
+libswscale：主要包含视频图像缩放与色彩转换等处理相关的代码。
+libpostproc：视频后处理库。
+fftools：主要包含ffmpeg、ffprobe、ffplay应用程序的代码。
+tests：主要包含FFmpeg项目的自动化自测子系统。
+ffbuild、compat：用以做FFmpeg工程构建的目录。
+doc：主要包含FFmpeg的通用框架的参数、各模块参数的文档，API说明文档以及提供给API用户作为API使用用例的参考代码。
+
+ 
+
+Q&amp;A
+Q: 为什么RIFF有被MPEG容器格式取代的趋势?A: RIFF 是 PC 本地播放时代的容器设计，而 MPEG 系容器是网络流媒体、移动设备和标准化生态时代的容器设计
+
+
+
+
+对比项
+RIFF 系（AVI&#x2F;WAV）
+MPEG 系（MP4&#x2F;MPEG-TS&#x2F;fMP4）
+
+
+
+基本单元
+Chunk：FourCC + size + data，小端
+Box&#x2F;Atom：size + type + data，大端
+
+
+嵌套方式
+RIFF 可嵌套 LIST，但结构较松散
+严格的层级 Box 树，如 moov &gt; trak &gt; mdia &gt; minf &gt; stbl
+
+
+版本机制
+基本没有统一版本机制
+FullBox 有 version + flags，可扩展、可向后兼容
+
+
+标准化
+微软&#x2F;IBM 主导，扩展混乱
+ISO&#x2F;IEC 14496-12 等国际标准，持续更新
+
+
+]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>FFmpeg</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>claude code 命令行</title>
+    <url>/CS/ML/AI/Agent/claude-code/</url>
+    <content><![CDATA[开始安装npm 命令行安装
+$ npm install -g @anthropic-ai/claude-code
+模型配置配置默认模型为Opus 4
+$ claude config set model claude-4-opus
+
+配置为Sonnet 4
+$ claude config set model claude-4-sonnet
+
+查看配置查看所有配置
+$ claude config list
+
+查看特定配置
+$ claude config get &lt;component&gt;
+
+
+
+基本命令帮助
+$ claude help
+
+特定帮助
+$ claude help get &lt;component&gt;
+
+配置国内模型配置文件： ~&#x2F;.claude&#x2F;settings.json
+&#123;  &quot;env&quot;: &#123;    &quot;ANTHROPIC_BASE_URL&quot;: &quot;https://api.example.com/v1&quot;,    &quot;ANTHROPIC_AUTH_TOKEN&quot;: &quot;your-api-key-here&quot;  &#125;,  &quot;model&quot;: &quot;glm-4.6&quot;,  &quot;custom-model&quot;: &#123;    &quot;name&quot;: &quot;GLM-4.6&quot;,    &quot;endpoint&quot;: &quot;https://api.example.com/v1/chat/completions&quot;,    &quot;api_key&quot;: &quot;your-api-key-here&quot;,    &quot;model_type&quot;: &quot;code&quot;  &#125;&#125;
+
+配置说明
+
+env.ANTHROPIC_BASE_URL: 国内大模型的API端点URL
+env.ANTHROPIC_AUTH_TOKEN: 您的API密钥
+model: 默认使用的模型名称
+custom-model: 自定义模型配置
+name: 模型名称（自定义）
+endpoint: API端点URL
+api_key: API密钥
+model_type: 模型类型（通常为”code”）
+
+
+
+国内使用
+注意：Claude 母公司 Anthropic 错误的政治倾向，以及对中国的偏见，致使其对中国用户采取严格的禁用策略。
+好好利用工具认清个人立场
+
+配置文件： ~&#x2F;.claude&#x2F;settings.json
+&#123;    &quot;env&quot;: &#123;        &quot;ANTHROPIC_AUTH_TOKEN&quot;: &quot;your_zhipu_api_key&quot;,        &quot;ANTHROPIC_BASE_URL&quot;: &quot;https://open.bigmodel.cn/api/anthropic&quot;,        &quot;API_TIMEOUT_MS&quot;: &quot;3000000&quot;,        &quot;CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC&quot;: 1    &#125;&#125;
+
+
+env.ANTHROPIC_BASE_URL: 国内大模型的API端点URL
+env.ANTHROPIC_AUTH_TOKEN: 您的API密钥
+env.API_TIMEOUT_MD: API的超时时间（毫秒计算）
+env.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: 禁用非必要流量
+
+
+关于URL与API_KEY可以查看所使用大模型官方的API文档
+
+解决claude code无法连接到Anthropic服务可能遇到的报错信息
+Unable to connect to Anthropic servicesFailed to connect to api.anthropic.com: ERR BAD REQUESTlease check your internet connection and network settings.Note: Claude Code might not be available in your country, Check supported countries atnttps://anthropic.com/supported-countriesS E:ltoollclaude code&gt;
+
+需要修改 .claude.json 文件，一般与.claude/目录处于同一目录
+在 .claude.json 中添加以下属性
+&#123;  &quot;hasCompletedOnboarding&quot;: true&#125;
+
+之后可以通过
+$ claude
+
+在项目文件中使用claude code
+提示词工程
+核心公式： 好的提示词 &#x3D; 明确的角色 × 充分的上下文 × 结构化的输出 × 可验证的标准
+提示词不是一次写成的，需要根据 AI 的回复不断修正迭代。
+
+事先声明
+将AI视为 协作者 而非个人的替身
+
+要保证项目代码的最终决策权在我们自己，你需要不断引导它分析约束、评估风险、给出可选方案，而不是直接接受第一个答案。
+
+
+好的架构是分视图、分阶段、分模块的
+
+你必须在提示词里显式要求 AI 从不同架构视图（逻辑、过程、开发、部署、数据）思考，避免它过早陷入细节。
+你最好能事先规范化项目的顶层设计，再与AI进行总体的设计讨论，逐步深入。
+
+
+每一次讨论都是一次 架构评审
+
+把提示词设计成微小的评审会议：输入上下文、假设，要求 AI 输出分析、质疑、建议。
+但是，绝不能被AI牵着鼻子走，在整理AI的建议时需要自己的思考，纠正AI偏离预期设计的想法。
+
+
+
+CLAUDE.md 与对话 Prompt 的分工
+
+
+存储位置
+适合的内容
+特点
+
+
+
+CLAUDE.md
+项目架构、编码规范、测试规范、目录结构、常用命令
+持久化，自动加载到每次对话
+
+
+对话 Prompt
+当前任务上下文、具体需求、临时约束、输出格式
+会话级，一次性，灵活调整
+
+
+如何表述清楚任务
+需要以 架构师 的方式进行思考聚焦于”为什么做”、”如何做”使用层进式的方式进行讨论提出需求 -&gt; 暴露问题 -&gt; 修改架构
+
+1. 上下文构建与约束澄清目标： 让 AI 快速理解项目全貌，产出需求疑点清单和风险假设。
+需要包含：
+
+项目背景
+团队人员信息
+项目摘要
+项目周期
+
+
+项目目标
+目标领域
+核心业务目标
+多个子目标…
+
+
+
+
+项目关键约束
+
+
+产出一份结构化的项目分析清单包含：
+
+结构化的需求疑点清单
+风险假设列表
+
+
+可复用 Prompt 模板：
+
+你是一名资深[架构师&#x2F;领域专家]，请以”评审者”视角分析以下项目信息：
+项目背景
+
+项目名称：[项目名]
+团队规模：[人数]，角色：[前端&#x2F;后端&#x2F;测试&#x2F;PM]
+项目周期：[开始] ~ [结束]
+当前阶段：[需求&#x2F;设计&#x2F;编码&#x2F;测试]
+
+核心目标
+
+业务目标：[一句话]
+关键指标：[如 QPS、响应时间、用户量]
+
+已知约束
+
+技术栈：[语言&#x2F;框架&#x2F;数据库]
+继承系统：[如有，描述]
+合规要求：[如有，指明]
+资源限制：[预算&#x2F;人力&#x2F;时间]
+
+请输出：
+
+一份结构化的需求疑点清单（至少5条）
+一份风险假设列表（按影响程度排序）
+针对疑点给出的补充建议
+
+
+常见反模式：
+
+
+
+反模式
+问题
+正确做法
+
+
+
+一次性堆砌所有信息
+AI 注意力被稀释，关键约束被忽略
+按层进式逐步给出，每一轮聚焦一个层面
+
+
+只给目标不给约束
+AI 可能选一个无法落地的方案
+显式声明否定约束（”不使用XX”）
+
+
+模糊指标
+无法做验收
+给出具体数字和范围
+
+
+自检清单：
+
+ 角色定义是否具体？（”10年后端经验的Java架构师” vs “一名开发者”）
+ 是否给出了具体数字和范围？（避免”大量用户”、”很快”）
+ 是否说明了”不要做什么”？（否定约束同样重要）
+ 是否指定了输出格式？
+
+
+2. 架构风格与关键决策目标： 对比多个候选方案，输出决策记录（ADR）草稿。
+
+项目的基础架构
+各个待选的项目架构与现有约束的冲突
+团队的组织能力需要
+
+
+输出格式：针对每个待选架构的风格简述，进行表格化输出，给出推荐理由针对各个待选的架构风格，简述其与现有约束需要的冲突，以及如何权衡冲突为最终的选择编写一份 Architecture Decision Record (ADR) 草稿
+
+可复用 Prompt 模板：
+
+[粘贴阶段一的产出]
+请从可选架构方案中，评估以下候选项：
+
+[方案A：如微服务]
+[方案B：如单体+模块化]
+[方案C：如事件驱动]
+
+评估维度：
+
+与现有约束的匹配程度（低&#x2F;中&#x2F;高）
+团队能力要求
+迁移成本
+长期可维护性
+
+输出格式：
+
+对比表格（方案 × 评估维度）
+每个方案的权衡分析（2-3句话）
+你的推荐方案 + 核心理由
+一份 ADR（Architecture Decision Record）草稿
+
+
+常见反模式：
+
+
+
+反模式
+问题
+正确做法
+
+
+
+直接让 AI 选方案
+失去决策权，难以追溯原因
+要求给出多个选项和权衡分析
+
+
+忽略团队能力
+选了最优方案但团队无法交付
+把团队技术栈作为硬约束
+
+
+自检清单：
+
+ 我是否要求了”对比”而非”单一推荐”？
+ 我是否给了明确的评估维度？
+ 我是否考虑了团队能力约束？
+
+
+3. 结构设计与边界定义目标： 产出模块划分、接口契约和依赖关系。
+该部分用于：
+
+划分模块&#x2F;服务
+定义边界上下文（DDD）
+确定各组件职责和接口契约
+
+该部分是针对各个模块进行设计
+
+产出格式：
+
+模块列表
+接口概要
+初步的模块与服务依赖图（使用mermaid文本输出）
+
+
+可复用 Prompt 模板：
+
+我们已确定采用[架构方案]，请以此为基础进行结构设计。
+设计输入：
+
+核心业务用例：[列表]
+关键实体：[列表]
+跨切面关注点：[日志&#x2F;鉴权&#x2F;监控…]
+
+设计原则：
+
+[如：领域驱动、按业务能力划分]
+[如：模块间松耦合、接口优先]
+
+输出格式：
+
+模块列表（名称 + 职责 + 依赖）
+接口概要（模块间关键 API）
+依赖关系图（使用 mermaid）
+关键设计决策说明
+
+
+常见反模式：
+
+
+
+反模式
+问题
+正确做法
+
+
+
+描述模糊（”设计一个系统”）
+AI 产出过于泛化
+给出明确的模块划分依据和原则
+
+
+不分层直接出细节
+过早陷入代码级实现
+先逻辑视图再过程视图，逐步聚焦
+
+
+自检清单：
+
+ 每个模块的职责是否单一、无歧义？
+ 接口契约是否包含入参&#x2F;出参&#x2F;异常？
+ 是否明确了模块间的依赖方向？
+
+
+4. 技术栈与实现原语定义目标： 确定具体选型和编码规范。
+该部分用于：
+
+深究框架、库、中间件的选择
+定义编码原则
+错误处理模式
+安全策略
+等实现原语
+
+
+产出格式：
+
+选型决策表
+项目实现规范草稿
+
+
+可复用 Prompt 模板：
+
+请为以下模块做出技术选型：[模块列表]
+选型约束：
+
+语言：[强制约束]
+许可协议：[限制性要求]
+团队熟悉度：[现有技术栈]
+性能要求：[具体指标]
+
+请输出：
+
+每个候选技术的对比表（框架 × [性能&#x2F;社区&#x2F;学习成本&#x2F;许可]）
+推荐方案及理由
+编码规范草稿（命名、错误处理、测试策略、安全实践）
+
+
+常见反模式：
+
+
+
+反模式
+问题
+正确做法
+
+
+
+只看技术先进不考虑生态
+选冷门库后期维护困难
+把社区活跃度和许可证纳入评估
+
+
+忽视非功能性约束
+上线后出现性能&#x2F;安全问题
+显式声明性能、安全、合规要求
+
+
+自检清单：
+
+ 选型标准是否可量化？
+ 是否考虑了长期维护成本？
+ 编码规范是否包含”禁止模式”？
+
+
+5. 评估、验证与文档生成目标： 验证设计质量，生成可交付物。
+该部分用于：
+
+使用AI对现有设计进行评审，
+使用AI将设计转化为相应的需求文档
+
+可复用 Prompt 模板：
+
+请以[特定角色，如安全工程师&#x2F;性能专家]视角，评审以下设计：
+设计输入： [粘贴阶段二~四的产出]
+评审重点：
+
+[如：安全漏洞分析]
+[如：性能瓶颈识别]
+[如：边界情况覆盖]
+
+输出格式：
+
+发现的问题列表（严重程度 × 影响范围 × 修改建议）
+未覆盖的场景分析
+改进优先级排序
+
+
+问题确认后，请根据最终设计生成：
+
+技术方案文档
+API 接口文档
+[其他所需的文档类型]
+
+
+常见反模式：
+
+
+
+反模式
+问题
+正确做法
+
+
+
+只让 AI “检查一下”
+输出过于笼统无法落地
+给出具体检查点（安全&#x2F;性能&#x2F;边界）
+
+
+不指定受众
+文档风格与使用者不匹配
+说明文档受众（技术团队&#x2F;管理层）
+
+
+自检清单：
+
+ 评审角色是否匹配当前关注点？
+ 是否要求了优先级排序？
+ 文档受众是谁？
+
+
+项目提示词设计模板以下为完整的可复用模板，整合了上述五个阶段。按顺序使用即可覆盖从需求澄清到文档生成的全流程。
+# 项目提示词设计模板&gt; 使用说明：根据当前阶段选择对应的 Prompt 模板，填充括号内容后与 AI 协作。&gt; 建议按顺序推进，不要跳步。---## 阶段一：上下文与约束澄清### Prompt 模板你是一名资深[架构师/领域专家]，请以”评审者”视角分析以下项目信息：**项目背景**- 项目名称：[项目名]- 团队规模：[人数]，角色：[前端/后端/测试/PM]- 项目周期：[开始] ~ [结束]- 当前阶段：[需求/设计/编码/测试]**核心目标**- 业务目标：[一句话]- 关键指标：[如 QPS、响应时间、用户量]**已知约束**- 技术栈：[语言/框架/数据库]- 继承系统：[如有，描述]- 合规要求：[如有，指明]- 资源限制：[预算/人力/时间]**请输出：**1. 一份结构化的需求疑点清单（至少5条）2. 一份风险假设列表（按影响程度排序）3. 针对疑点给出的补充建议### 自检清单- [ ] 我是否给出了具体数字和范围？- [ ] 我是否说明了”不要做什么”？- [ ] 我是否指定了输出格式？---## 阶段二：架构风格与关键决策### Prompt 模板基于以下约束：[粘贴阶段一的产出]请从可选架构方案中，评估以下候选项：1. [方案A：如微服务]2. [方案B：如单体+模块化]3. [方案C：如事件驱动]**评估维度：**- 与现有约束的匹配程度（低/中/高）- 团队能力要求- 迁移成本- 长期可维护性**输出格式：**1. 对比表格（方案 × 评估维度）2. 每个方案的权衡分析（2-3句话）3. 你的推荐方案 + 核心理由4. 一份 ADR（Architecture Decision Record）草稿### 自检清单- [ ] 我是否要求了”对比”而非”单一推荐”？- [ ] 我是否给了明确的评估维度？- [ ] 我是否要求了权衡分析？---## 阶段三：结构设计与边界定义### Prompt 模板我们已确定采用[架构方案]，请以此为基础进行结构设计。**设计输入：**- 核心业务用例：[列表]- 关键实体：[列表]- 跨切面关注点：[日志/鉴权/监控...]**设计原则：**- [如：领域驱动、按业务能力划分]- [如：模块间松耦合、接口优先]**输出格式：**1. 模块列表（名称 + 职责 + 依赖）2. 接口概要（模块间关键 API）3. 依赖关系图（使用 mermaid）4. 关键设计决策说明### 自检清单- [ ] 每个模块的职责是否单一、无歧义？- [ ] 接口契约是否包含入参/出参/异常？- [ ] 是否明确了模块间的依赖方向？---## 阶段四：技术栈与实现原语### Prompt 模板请为以下模块做出技术选型：[模块列表]**选型约束：**- 语言：[强制约束]- 许可协议：[限制性要求]- 团队熟悉度：[现有技术栈]- 性能要求：[具体指标]**请输出：**1. 每个候选技术的对比表（框架 × [性能/社区/学习成本/许可]）2. 推荐方案及理由3. 编码规范草稿（命名、错误处理、测试策略、安全实践）### 自检清单- [ ] 选型标准是否可量化？- [ ] 是否考虑了长期维护成本？- [ ] 编码规范是否包含”禁止模式”？---## 阶段五：评审与文档生成### Prompt 模板请以[特定角色，如安全工程师/性能专家]视角，评审以下设计：**设计输入：** [粘贴阶段二~四的产出]**评审重点：**1. [如：安全漏洞分析]2. [如：性能瓶颈识别]3. [如：边界情况覆盖]**输出格式：**1. 发现的问题列表（严重程度 × 影响范围 × 修改建议）2. 未覆盖的场景分析3. 改进优先级排序---问题确认后，请根据最终设计生成：1. 技术方案文档2. API 接口文档3. [其他所需的文档类型]### 自检清单- [ ] 评审角色是否匹配当前关注点？- [ ] 是否要求了优先级排序？- [ ] 文档受众是谁？---## 附录：提示词质量通用检查清单| # | 检查项 | 好的例子 | 坏的例子 ||---|--------|----------|----------|| 1 | 角色是否具体？ | “你是一名有10年后端经验的Java架构师” | “你是一名开发者” || 2 | 上下文是否充分？ | 给出背景、目标、约束各3-5条 | “帮我设计一个电商系统” || 3 | 任务是否分解？ | 每一步只聚焦一个层面 | “设计并实现整个系统” || 4 | 输出格式是否指定？ | “表格输出，包含方案、优点、风险三列” | “分析一下” || 5 | 是否要求选项？ | “给出3个候选方案并对比” | “哪个方案最好？” || 6 | 是否有否定约束？ | “不要使用NoSQL数据库” | 无 || 7 | 是否有验收标准？ | “输出的API需包含路径、方法、参数、返回示例” | “输出API设计” |
+
+
+
+]]></content>
+      <categories>
+        <category>AI 智能体</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>AI Agent</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>opencode 使用指南</title>
+    <url>/CS/ML/AI/Agent/opencode/</url>
+    <content><![CDATA[OpenCode 全面使用指南OpenCode 是一个开源的 AI 编程代理（AI Coding Agent），提供终端 TUI、桌面应用和 IDE 扩展三种形态，支持 75+ 家 LLM 提供商和本地模型。以下指南基于官方文档（opencode.ai&#x2F;docs）整理。
+
+一、安装推荐方式（一行脚本）：
+curl -fsSL https://opencode.ai/install | bash
+
+其他方式：
+
+
+
+方式
+命令
+
+
+
+npm
+npm install -g opencode-ai
+
+
+bun
+bun install -g opencode-ai
+
+
+Homebrew
+brew install anomalyco/tap/opencode
+
+
+Arch
+sudo pacman -S opencode 或 paru -S opencode-bin
+
+
+Windows (Scoop)
+scoop install opencode
+
+
+Windows (Chocolatey)
+choco install opencode
+
+
+Docker
+docker run -it --rm ghcr.io/anomalyco/opencode
+
+
+注意： Windows 强烈建议使用 WSL；使用脚本安装时，要使用现代终端模拟器（WezTerm、Alacritty、Ghostty、Kitty 等）。
+升级 &#x2F; 卸载：
+opencode upgrade            # 升级到最新版opencode upgrade v0.1.48    # 升级到指定版本opencode uninstall          # 卸载（-c 保留配置，-d 保留数据）
+
+
+
+
+二、快速上手1. 配置模型提供商在 TUI 中运行 /connect，选择提供商并粘贴 API Key（存储在 ~/.local/share/opencode/auth.json）。新手建议用 OpenCode Zen（官方精选模型，opencode.ai/auth 注册获取 Key）；已有订阅可零配置使用 ChatGPT Plus&#x2F;Pro、GitHub Copilot、GitLab Duo。
+2. 初始化项目cd /path/to/projectopencode/init    # 分析项目并生成 AGENTS.md（建议提交到 Git）
+
+3. 开始对话
+提问代码库：这个项目如何处理认证？@packages/functions/src/api/index.ts（用 @ 模糊搜索引用文件，内容自动加入上下文）
+添加功能：先按 Tab 切到 Plan 模式（左下角有指示器）描述需求 → 满意后再按 Tab 回到 Build 模式让它实现
+撤销&#x2F;重做：/undo、/redo（依赖 Git 仓库）
+分享会话：/share 生成链接复制到剪贴板
+
+
+三、TUI 界面操作核心键位（默认 leader 键为 Ctrl+X）
+
+
+功能
+键位
+
+
+
+切换主代理（Build&#x2F;Plan）
+Tab &#x2F; Shift+Tab
+
+
+切换模型变体（推理强度）
+Ctrl+T
+
+
+新建会话
+Ctrl+X n
+
+
+会话列表
+Ctrl+X l
+
+
+撤销 &#x2F; 重做
+Ctrl+X u &#x2F; Ctrl+X r
+
+
+压缩上下文
+Ctrl+X c
+
+
+模型列表
+Ctrl+X m &#x2F; Ctrl+A
+
+
+主题列表
+Ctrl+X t
+
+
+代理列表
+Ctrl+X a
+
+
+命令面板
+Ctrl+P
+
+
+编辑器写消息
+Ctrl+X e
+
+
+导出会话
+Ctrl+X x
+
+
+退出
+Ctrl+X q 或 Ctrl+C &#x2F; Ctrl+D
+
+
+子会话导航
+主代理调子代理后：Ctrl+X ↓ 进入，←/→ 切换，↑ 返回
+
+
+多行输入
+Shift+Enter
+
+
+内置斜杠命令（/ 开头）/connect（连接提供商）、/init（生成 AGENTS.md）、/compact（压缩上下文）、/details（切换工具执行细节）、/editor（外部编辑器写消息）、/export（导出 Markdown）、/help、/models、/new、/redo、/sessions、/share、/unshare、/themes、/thinking（显示思考块）、/undo、/exit。
+其他技巧
+! 前缀执行 shell 命令：!ls -la，输出会作为工具结果加入对话
+拖拽图片进终端可附加图片参考
+命令面板（Ctrl+P）可切换自动批准权限、隐藏用户名等持久化设置
+
+
+四、CLI 命令（非交互式）
+
+
+命令
+用途
+
+
+
+opencode
+启动 TUI（-c 继续上次会话，-s ID 指定会话，-m 指定模型，--auto 自动批准权限）
+
+
+opencode run &quot;...&quot;
+非交互模式直接提问（脚本&#x2F;自动化）；-f 附加文件，--format json 输出 JSON 事件
+
+
+opencode agent create
+交互式创建自定义代理
+
+
+opencode auth login/list/logout
+管理提供商凭据
+
+
+opencode models [provider]
+列出可用模型（--refresh 刷新缓存，--verbose 显示成本）
+
+
+opencode mcp add/list/auth
+管理 MCP 服务器
+
+
+opencode session list/delete
+管理会话
+
+
+opencode stats
+Token 用量与成本统计（--days、--tools、--models）
+
+
+opencode export/import
+导出&#x2F;导入会话 JSON（--sanitize 脱敏）
+
+
+opencode serve &#x2F; opencode web
+无头服务器 &#x2F; Web 界面（可用 OPENCODE_SERVER_PASSWORD 开启基本认证）
+
+
+opencode attach &lt;url&gt;
+用 TUI 连接远程 opencode 后端
+
+
+opencode pr &lt;number&gt;
+检出 GitHub PR 分支并运行
+
+
+opencode plugin &lt;module&gt;
+安装插件
+
+
+opencode github install/run
+安装&#x2F;运行 GitHub Agent（仓库自动化）
+
+
+opencode acp
+启动 ACP（Agent Client Protocol）服务器
+
+
+opencode db path
+查看数据库路径
+
+
+opencode debug
+调试与排障工具
+
+
+
+五、配置文件配置文件位置与优先级（后加载的覆盖先加载的）
+远程配置（组织的 .well-known/opencode）
+全局配置 ~/.config/opencode/opencode.json
+自定义路径（OPENCODE_CONFIG 环境变量）
+项目配置 opencode.json（在项目根目录）
+.opencode/ 目录（agents、commands、plugins、skills 等）
+内联配置（OPENCODE_CONFIG_CONTENT）
+托管配置（macOS /Library/Application Support/opencode/、Linux /etc/opencode/）
+
+
+配置是合并而非替换；支持 JSON &#x2F; JSONC，schema 在 opencode.ai/config.json（TUI 用 opencode.ai/tui.json）。
+
+常用配置项（opencode.json）&#123;  &quot;$schema&quot;: &quot;https://opencode.ai/config.json&quot;,  &quot;model&quot;: &quot;anthropic/claude-sonnet-4-5&quot;,      // 主模型 provider/model  &quot;small_model&quot;: &quot;anthropic/claude-haiku-4-5&quot;, // 轻量任务（标题生成等）  &quot;default_agent&quot;: &quot;plan&quot;,  &quot;subagent_depth&quot;: 1,                          // 子代理嵌套深度  &quot;autoupdate&quot;: true,                           // 自动更新，可设 &quot;notify&quot;  &quot;share&quot;: &quot;manual&quot;,                            // manual | auto | disabled  &quot;snapshot&quot;: true,                             // 文件变更快照（undo 依赖）  &quot;formatter&quot;: true,                            // 代码格式化  &quot;lsp&quot;: true,                                  // LSP 服务器  &quot;compaction&quot;: &#123; &quot;auto&quot;: true, &quot;prune&quot;: false, &quot;reserved&quot;: 10000 &#125;,  &quot;instructions&quot;: [&quot;CONTRIBUTING.md&quot;, &quot;.cursor/rules/*.md&quot;],  &quot;enabled_providers&quot;: [&quot;anthropic&quot;, &quot;openai&quot;],  &quot;disabled_providers&quot;: [&quot;gemini&quot;],  &quot;plugin&quot;: [&quot;opencode-helicone-session&quot;],  &quot;permission&quot;: &#123; &quot;edit&quot;: &quot;ask&quot;, &quot;bash&quot;: &quot;ask&quot; &#125;,  &quot;provider&quot;: &#123;    &quot;anthropic&quot;: &#123;      &quot;options&quot;: &#123; &quot;baseURL&quot;: &quot;https://...&quot;, &quot;apiKey&quot;: &quot;&#123;env:ANTHROPIC_API_KEY&#125;&quot;, &quot;timeout&quot;: 600000 &#125;    &#125;  &#125;,  &quot;server&quot;: &#123; &quot;port&quot;: 4096, &quot;hostname&quot;: &quot;0.0.0.0&quot; &#125;,  &quot;shell&quot;: &quot;pwsh&quot;&#125;
+
+变量替换
+环境变量：{env:ANTHROPIC_API_KEY}
+文件内容：{file:~/.secrets/openai-key}、{file:./prompts/build.txt}
+
+
+六、模型与提供商配置提供商
+/connect 选择提供商并填 Key（或设置对应环境变量，如 DEEPSEEK_API_KEY、OPENAI_API_KEY）
+/models 选择模型
+可在配置中用 blacklist &#x2F; whitelist 过滤模型列表，用 baseURL 指向代理&#x2F;自建端点
+
+本地模型（OpenAI 兼容协议）支持 Ollama、LM Studio、llama.cpp、Atomic Chat 等：
+&#123;  &quot;provider&quot;: &#123;    &quot;ollama&quot;: &#123;      &quot;npm&quot;: &quot;@ai-sdk/openai-compatible&quot;,      &quot;name&quot;: &quot;Ollama (local)&quot;,      &quot;options&quot;: &#123; &quot;baseURL&quot;: &quot;http://localhost:11434/v1&quot; &#125;,      &quot;models&quot;: &#123; &quot;llama2&quot;: &#123; &quot;name&quot;: &quot;Llama 2&quot; &#125; &#125;    &#125;  &#125;&#125;
+
+本地小模型注意：工具调用不好用时可调大 Ollama 的 num_ctx（16k-32k）。
+
+常用提供商速查
+Anthropic &#x2F; OpenAI：/connect 后可选订阅 OAuth 登录或手动填 API Key
+DeepSeek &#x2F; Moonshot &#x2F; Groq &#x2F; Cerebras &#x2F; OpenRouter 等：平台申请 Key → /connect → /models
+Amazon Bedrock：支持 IAM Key、AWS_PROFILE、Bearer Token
+Azure OpenAI：/connect 填 Key + 设置 AZURE_RESOURCE_NAME 环境变量
+
+
+七、Agents（代理）OpenCode 用不同类型的代理分工协作：
+内置代理
+
+
+代理
+类型
+用途
+
+
+
+build
+primary（默认）
+全工具可用，日常开发
+
+
+plan
+primary
+只读规划：编辑与 bash 默认 ask，分析代码不落地修改
+
+
+general
+subagent
+通用研究、多步任务，可并行执行
+
+
+explore
+subagent
+快速只读探索代码库
+
+
+scout
+subagent
+只读外部文档&#x2F;依赖源码调研
+
+
+另有隐藏系统代理：compaction（压缩）、title（标题）、summary（摘要）。
+使用方式
+Tab 切换主代理；消息中 @explore、@general 等直接调用子代理
+子代理工作在新会话中，用 ←/→ 切换子会话、↑ 返回主会话
+
+自定义代理两种方式：opencode agent create 交互式生成，或写 Markdown 文件（.opencode/agents/ 或 ~/.config/opencode/agents/）：
+---description: Reviews code for quality and best practicesmode: subagentmodel: anthropic/claude-sonnet-4-20250514temperature: 0.1permission:  edit: deny  bash: deny---你是代码审查专家，关注安全、性能、可维护性，只提建议不修改代码。
+
+常用选项：description（必填）、mode（primary&#x2F;subagent&#x2F;all）、model、temperature、steps（最大迭代步数）、prompt、permission、hidden、color、top_p；其余参数会直接透传给提供商（如 reasoningEffort）。
+
+八、权限系统默认全部放行，可配置为 allow &#x2F; ask &#x2F; deny：
+&#123;  &quot;permission&quot;: &#123;    &quot;*&quot;: &quot;ask&quot;,    &quot;bash&quot;: &#123;      &quot;*&quot;: &quot;ask&quot;,      &quot;git *&quot;: &quot;allow&quot;,      &quot;rm *&quot;: &quot;deny&quot;    &#125;,    &quot;edit&quot;: &#123; &quot;*&quot;: &quot;deny&quot;, &quot;src/**&quot;: &quot;allow&quot; &#125;  &#125;&#125;
+
+
+规则匹配：支持 *（任意多字符）、?（单字符），最后匹配的规则生效，所以通配放前面、具体规则放后面
+关键权限键：read、edit（覆盖 edit&#x2F;write&#x2F;patch）、bash、glob、grep、task（子代理）、skill、lsp、webfetch、websearch、external_directory（工作目录外路径，默认 ask）、doom_loop（重复工具调用防护，默认 ask）
+安全默认：.env 文件默认禁止读取
+ask 弹窗选项：once（仅本次）&#x2F; always（本次会话内）+ 建议模式 &#x2F; reject
+自动模式：opencode --auto 自动批准未显式 deny 的请求
+每代理覆盖：agent 的 permission 优先级高于全局配置
+
+
+九、自定义命令（重复任务）在 .opencode/commands/ 或 ~/.config/opencode/commands/ 下建 xxx.md，文件名即命令名：
+---description: Run tests with coverageagent: buildmodel: anthropic/claude-3-5-sonnet-20241022---Run the full test suite with coverage report and show any failures.Focus on the failing tests and suggest fixes.
+
+TUI 中执行 /test。模板支持特殊语法：
+
+$ARGUMENTS、$1&#x2F;$2…：命令行参数
+!`npm test`：嵌入 shell 命令输出
+@src/components/Button.tsx：引用文件
+自定义命令可覆盖内置命令
+
+
+十、其他重要功能
+Rules &#x2F; AGENTS.md：/init 生成，项目级规则（也可用 instructions 配置项引用多个规则文件）
+MCP 服务器：opencode mcp add 或配置 &quot;mcp&quot;: {}（local&#x2F;remote 类型），opencode mcp list 查看状态
+Skills：.opencode/skills/ 定义可复用技能
+主题：/themes 选择，或 tui.json 中 &quot;theme&quot;: &quot;tokyonight&quot;
+GitHub 集成：opencode github install 在仓库安装 GitHub Actions 工作流，支持自动化 issue&#x2F;PR
+IDE：可安装 IDE 扩展在编辑器内使用
+Web&#x2F;远程：opencode web 起 Web 界面；opencode serve + opencode attach 远程连接
+统计：opencode stats 查看各项目&#x2F;模型的 token 成本
+
+
+十一、环境变量速查常用：OPENCODE_CONFIG（自定义配置路径）、OPENCODE_TUI_CONFIG、OPENCODE_CONFIG_DIR、OPENCODE_SERVER_PASSWORD（server 认证）、OPENCODE_PERMISSION（内联权限）、OPENCODE_MODELS_URL、EDITOR（&#x2F;editor、&#x2F;export 用，GUI 编辑器需带 --wait）。
+
+十二、实用建议
+详细描述需求：像对初级同事说话一样给足上下文和示例；大任务先切 Plan 模式出方案再实现
+善用 @ 引用文件，避免代理猜错代码位置
+善用子代理：@explore 查代码、@general 并行干活，保持主上下文干净
+&#x2F;undo 依赖 Git，项目记得 git init；AGENTS.md 提交进仓库
+控制成本：opencode stats 看用量；用 small_model 跑轻量任务；steps 限制代理迭代
+TUI 体验：tui.json 可开 attention（通知+音效）、调滚动速度；用 Ctrl+X h 打开快捷键帮助
+遇到问题：opencode debug、--print-logs、或查看 https://opencode.ai/troubleshooting；社区在 Discord
+
+官方文档：https://opencode.ai/docs（含中文版），GitHub：https://github.com/anomalyco/opencode
+]]></content>
+      <categories>
+        <category>AI 智能体</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>AI Agent</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>learn-claude-code s00</title>
+    <url>/CS/ML/AI/Agent/learn-claude-code/s00_start/</url>
+    <content><![CDATA[learn-claude-code 笔记项目路径：github.com&#x2F;learn-claude-code
+
+README.mdAgent &#x3D; LLM + Context + Tools
+Agent 产品 &#x3D; 模型 + Harness
+
+Claude Code 的复杂性不是“另一个 agent 大脑”，而是一个成熟 harness 的复杂性。模型负责判断和行动选择；harness 负责把环境、工具、权限、记忆、团队和外部能力组织好。
+
+
+LLM: 已训练的神经网络参数模型函数Agent: 一个通过训练学会了行动的模型，加上让它能在特定环境中工作的基础设施Agency: 感知、推理、行动
+
+Agent不是过程式的流水线工程，Agency能力是通过模型训练产生的
+Harness 是 agent 在特定领域工作所需要的一切：
+
+Harness &#x3D; Tools + Knowledge + Observation + Action Interfaces + Permissions
+
+
+工具 Tools:          文件读写、Shell、网络、数据库、浏览器
+知识 Knowledge:      产品文档、领域资料、API 规范、风格指南
+检测 Observation:    git diff、错误日志、浏览器状态、传感器数据
+行为 Action:         CLI 命令、API 调用、UI 交互
+许可 Permissions:    沙箱隔离、审批流程、信任边界
+
+模型决策，harness执行模型推理，harness提供上下文此即: Harness &#x3D;&gt; 驾驭工程 | 模型驾驶harness执行任务
+
+
+Harness 工程
+构建Agent的生存环境
+
+
+实现工具              Agent的双手
+文件读写、Shell、API调用、浏览器控制、数据库查询、…
+每个都是Agent在环境中可采取的一个行动
+原子化、可组合、描述清晰
+
+
+策划知识              Agent的领域专长
+产品文档、架构决策记录、风格指南、合规要求、…
+按需加载(s07)，Agent应知道有什么可用，自己拉取所需
+
+
+管理上下文            Agent的干净记忆
+子Agent隔离(s06)，防止噪声泄漏
+上下文压缩(s08)，防止历史淹没
+任务系统(s12)，目标持久化到单词对话之外
+
+
+控制权限              Agent的行为边界
+沙箱化文件访问，对破坏性操作要求审批
+在Agent和外部系统之间实施信任边界
+这是安全工程和harness工程的交汇点
+
+
+收集任务过程数据      Agent的微调材料
+Agent在harness中执行的每一条行动序列都是训练信号
+harness不仅服务于Agent，还可以帮助Agent进化
+
+
+
+
+对于不同领域的Agent，只是它所存在的Harness构建的环境不同，而 循环 不变，仍然是: Agent &#x3D; LLM + Harness
+从小工具的实现，到领域Agent的构建
+
+教程范围本仓库是一个 0-&gt;1 的 harness 工程学习项目 -- 构建围绕 agent 模型的工作环境。 为保证学习路径清晰，仓库有意简化或省略了部分生产机制：- 完整事件 / Hook 总线 (例如 PreToolUse、SessionStart/End、ConfigChange)。 s12 仅提供教学用途的最小 append-only 生命周期事件流。- 基于规则的权限治理与信任流程- 会话生命周期控制 (resume/fork) 与更完整的 worktree 生命周期控制- 完整 MCP 运行时细节 (transport/OAuth/资源订阅/轮询)
+
+学习路径
+第一阶段
+
+s01 Agent Loop
+s02 Tool Use
+s03 Permisssion
+s04 Hooks
+
+
+第二阶段
+
+s05 TodoWrite
+s06 Subagent
+s08 Context Compact
+
+
+第三阶段
+
+s09 Memory
+s10 System Prompt
+s11 Error Recovery
+
+
+第四阶段
+
+s12 Task System
+s13 Background Tasks
+s14 Cron Scheduler
+
+
+第五阶段
+
+s15 Agent Teams
+s16 Team Protocols
+s17 Autonomous Agents
+s18 Worktree Isolation
+
+
+第六阶段
+
+s07 Skill Loading
+s19 MCP Plugin
+s20 Comprehensive Agent
+
+
+
+
+]]></content>
+      <categories>
+        <category>AI 智能体</category>
+      </categories>
+      <tags>
+        <tag>AI Agent</tag>
       </tags>
   </entry>
 </search>

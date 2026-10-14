@@ -289,7 +289,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">59</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -300,7 +300,7 @@ mjx-container[display="true"] + br {
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">34</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -325,6 +325,412 @@ mjx-container[display="true"] + br {
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/CS/ML/AI/Agent/learn-claude-code/s00_start/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/CS/ML/AI/Agent/learn-claude-code/s00_start/" class="post-title-link" itemprop="url">learn-claude-code s00</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-08-05 18:30:13" itemprop="dateCreated datePublished" datetime="2026-08-05T18:30:13+08:00">2026-08-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-13 22:49:51" itemprop="dateModified" datetime="2026-08-13T22:49:51+08:00">2026-08-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI-%E6%99%BA%E8%83%BD%E4%BD%93/" itemprop="url" rel="index"><span itemprop="name">AI 智能体</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="learn-claude-code-笔记"><a href="#learn-claude-code-笔记" class="headerlink" title="learn-claude-code 笔记"></a>learn-claude-code 笔记</h1><p>项目路径：<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2Rl">github.com&#x2F;learn-claude-code<i class="fa fa-external-link-alt"></i></span></p>
+<hr>
+<h2 id="README-md"><a href="#README-md" class="headerlink" title="README.md"></a><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2RlL2Jsb2IvbWFpbi9SRUFETUUtemgubWQ=">README.md<i class="fa fa-external-link-alt"></i></span></h2><p><em><strong>Agent &#x3D; LLM + Context + Tools</strong></em></p>
+<p><em><strong>Agent 产品 &#x3D; 模型 + Harness</strong></em></p>
+<blockquote>
+<p>Claude Code 的复杂性不是“另一个 agent 大脑”，而是一个成熟 harness 的复杂性。<br>模型负责判断和行动选择；harness 负责把环境、工具、权限、记忆、团队和外部能力组织好。</p>
+</blockquote>
+<blockquote>
+<p><strong>LLM: 已训练的神经网络参数模型函数</strong><br><strong>Agent: 一个通过训练学会了行动的模型，加上让它能在特定环境中工作的基础设施</strong><br><strong>Agency: 感知、推理、行动</strong></p>
+</blockquote>
+<p><strong>Agent不是过程式的流水线工程，Agency能力是通过模型训练产生的</strong></p>
+<p><strong>Harness 是 agent 在特定领域工作所需要的一切：</strong></p>
+<blockquote>
+<p><strong>Harness &#x3D; Tools + Knowledge + Observation + Action Interfaces + Permissions</strong></p>
+</blockquote>
+<ul>
+<li>工具 Tools:          文件读写、Shell、网络、数据库、浏览器</li>
+<li>知识 Knowledge:      产品文档、领域资料、API 规范、风格指南</li>
+<li>检测 Observation:    git diff、错误日志、浏览器状态、传感器数据</li>
+<li>行为 Action:         CLI 命令、API 调用、UI 交互</li>
+<li>许可 Permissions:    沙箱隔离、审批流程、信任边界</li>
+</ul>
+<p><strong>模型决策，harness执行</strong><br><strong>模型推理，harness提供上下文</strong><br><strong>此即: <em>Harness</em> &#x3D;&gt; <em>驾驭工程</em> | 模型驾驶harness执行任务</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/CS/ML/AI/Agent/learn-claude-code/s00_start/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Tech/Tools/gitaction-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Tech/Tools/gitaction-note/" class="post-title-link" itemprop="url">github action-note</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-07-27 13:57:11" itemprop="dateCreated datePublished" datetime="2026-07-27T13:57:11+08:00">2026-07-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-08 12:30:50" itemprop="dateModified" datetime="2026-08-08T12:30:50+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>gitaction CI/CD workflow</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Tech/Tools/gitaction-note/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Tech/Container/podman-astrbot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Tech/Container/podman-astrbot/" class="post-title-link" itemprop="url">podman-quadlet</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-07-27 11:42:31" itemprop="dateCreated datePublished" datetime="2026-07-27T11:42:31+08:00">2026-07-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">容器技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>podman quadlet 使用笔记</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Tech/Container/podman-astrbot/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Tech/Container/docker-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Tech/Container/docker-note/" class="post-title-link" itemprop="url">docker note</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-07-13 20:26:00" itemprop="dateCreated datePublished" datetime="2026-07-13T20:26:00+08:00">2026-07-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">容器技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Docker-Note"><a href="#Docker-Note" class="headerlink" title="Docker Note"></a>Docker Note</h1><p><em><strong><span class="exturl" data-url="aHR0cHM6Ly93d3cuZG9ja2VyLmNvbS8=">Docker<i class="fa fa-external-link-alt"></i></span></strong></em></p>
+<p><strong>容器化： 是一种 <em>轻量级</em> 的操作系统虚拟化方法。将应用、依赖、配置等集成为一个专有环境</strong><br><strong>具有：</strong></p>
+<ul>
+<li><em><strong>可移植性</strong></em><ul>
+<li>在一次构建与配置后，可以在任何装有Docker引擎的环境中一致运行</li>
+</ul>
+</li>
+<li><em><strong>更轻量化</strong></em><ul>
+<li>通过直接共享主机的操作系统内核，达到了相对于完整的虚拟机模拟程序， <em><strong>更快的启动速度</strong></em> 、 <strong>更低的资源占用</strong> 的效果</li>
+<li>一台物理机可同时运行上千个容器</li>
+</ul>
+</li>
+<li><em><strong>资源隔离</strong></em><ul>
+<li>每个容器都拥有其自己独立的文件系统、网络和进程空间，互不干扰，安全性更高</li>
+</ul>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Tech/Container/docker-note/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -662,453 +1068,8 @@ mjx-container[display="true"] + br {
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/CS/OS/xv6-labs/concurrency-sort/psort/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/CS/OS/xv6-labs/concurrency-sort/psort/" class="post-title-link" itemprop="url">concurrency-sort</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-06-08 17:06:00" itemprop="dateCreated datePublished" datetime="2026-06-08T17:06:00+08:00">2026-06-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="psort-程序设计"><a href="#psort-程序设计" class="headerlink" title="psort 程序设计"></a>psort 程序设计</h1><h2 id="项目文件结构"><a href="#项目文件结构" class="headerlink" title="项目文件结构"></a>项目文件结构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">concurrency-sort/</span><br><span class="line">├── Makefile              # 构建文件</span><br><span class="line">├── psort.md              # 程序设计文档</span><br><span class="line">├── README-zh.md          # 项目说明</span><br><span class="line">│</span><br><span class="line">├── Record.h              # 记录类型定义</span><br><span class="line">├── psort_utils.h/.c      # 内存文件映射 mfilemap</span><br><span class="line">├── test_utils.h          # 测试工具（随机文件生成、排序校验）</span><br><span class="line">├── thread_pool.h/.c      # 通用线程池</span><br><span class="line">│</span><br><span class="line">├── psort.h               # 排序组 &amp; 快速排序 &amp; 线性归并</span><br><span class="line">└── psort.c               # 主程序 &amp; 最小堆 k 路归并</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="可用例程"><a href="#可用例程" class="headerlink" title="可用例程"></a>可用例程</h2><ul>
-<li><em><strong>get_nprocs()</strong></em></li>
-<li><em><strong>get_nprocs_conf()</strong></em></li>
-<li><em><strong>mmap()</strong></em></li>
-<li><em><strong>fsync()</strong></em></li>
-<li><em><strong>read()</strong></em></li>
-<li><em><strong>fread()</strong></em></li>
-</ul>
-<hr>
-<h2 id="程序要求"><a href="#程序要求" class="headerlink" title="程序要求"></a>程序要求</h2><ul>
-<li>并行排序接收两个命令行参数<ul>
-<li><code>input</code></li>
-<li><code>output</code></li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prompt&gt; ./psort input output</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>输入文件格式</p>
-<ul>
-<li><em><strong>record:</strong></em> <strong><em>key</em> 4byte</strong> | <strong><em>value</em> 96byte</strong></li>
-</ul>
-</li>
-<li><p>程序操作</p>
-<ul>
-<li>将所有记录读入内存，对记录进行排序，随后将其写入输出文件</li>
-<li>在完成之前，通过调用 <code>fsync()</code> 对输出文件进行强制写入</li>
-<li>可以假设为一次性排序</li>
-</ul>
-</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/CS/OS/xv6-labs/concurrency-sort/psort/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/CS/OS/xv6-labs/concurrency-mapreduce/mapreduce/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/CS/OS/xv6-labs/concurrency-mapreduce/mapreduce/" class="post-title-link" itemprop="url">concurrency-mapreduce</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-06-06 17:00:00" itemprop="dateCreated datePublished" datetime="2026-06-06T17:00:00+08:00">2026-06-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="MapReduce-程序设计"><a href="#MapReduce-程序设计" class="headerlink" title="MapReduce 程序设计"></a>MapReduce 程序设计</h1><blockquote>
-<p><span class="exturl" data-url="aHR0cHM6Ly9zdGF0aWMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL21lZGlhL3Jlc2VhcmNoLmdvb2dsZS5jb20vZW4vYXJjaGl2ZS9tYXByZWR1Y2Utb3NkaTA0LnBkZg==">原始论文<i class="fa fa-external-link-alt"></i></span></p>
-</blockquote>
-<hr>
-<h2 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h2><ul>
-<li>学习 MapReduce 范式的通用特性</li>
-<li>使用线程和相关函数实现一个正确且高效的 MapReduce 框架</li>
-<li>获得更多编写并发代码的经验</li>
-</ul>
-<hr>
-<h2 id="MapReduce框架总体思路"><a href="#MapReduce框架总体思路" class="headerlink" title="MapReduce框架总体思路"></a>MapReduce框架总体思路</h2><p>用户只需要定义 <code>Map()</code> 与 <code>Reduce()</code> 函数，交由框架处理该函数指针即可</p>
-<ul>
-<li><code>Map()</code>: 接受一个输入对，并产生一组中间键值对。</li>
-<li><code>Reduce()</code>: <code>MapReduce库</code> 将具有相同中间键K的中间值分组在一起，传入该函数<ul>
-<li>接受一个中间键K和该键的一组值。将这些值进行合并为更小的集合</li>
-<li>通常，每次对 <code>Reduce()</code> 的调用产生零个或一个输出值</li>
-<li>中间值通过迭代器提供给用户的reduce函数</li>
-</ul>
-</li>
-</ul>
-<p>MapReduce 可将许多不同类型的相关计算映射到该框架上。<br>并且多个 mapper 可以同时运行，多个 reducer 也可以同时运行。<br>用户不必亲自操作编写并行化程序，只需要编写 <code>Map()</code> 与 <code>Reduce()</code> 函数，并交由该框架提供的相关基础设施即可。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/CS/OS/xv6-labs/concurrency-mapreduce/mapreduce/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Tech/Tools/gcc-note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Tech/Tools/gcc-note/" class="post-title-link" itemprop="url">gcc note</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-06-03 11:29:23" itemprop="dateCreated datePublished" datetime="2026-06-03T11:29:23+08:00">2026-06-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="GNU-Compiler-Collection"><a href="#GNU-Compiler-Collection" class="headerlink" title="GNU Compiler Collection"></a>GNU Compiler Collection</h1><h2 id="参考手册"><a href="#参考手册" class="headerlink" title="参考手册"></a>参考手册</h2><h3 id="本地手册"><a href="#本地手册" class="headerlink" title="本地手册"></a>本地手册</h3><ul>
-<li>man gcc   GCC手册</li>
-<li>man g++   通常指向gcc手册</li>
-<li>info gcc  更结构化的Info格式文档</li>
-</ul>
-<h3 id="内置帮助"><a href="#内置帮助" class="headerlink" title="内置帮助"></a>内置帮助</h3><ul>
-<li>gcc –help              gcc帮助</li>
-<li>gcc –help&#x3D;common       常用选项帮助</li>
-<li>gcc –help&#x3D;warnings     只看警告相关的选项</li>
-<li>gcc –help&#x3D;optimizers   优化选项</li>
-<li>gcc -v –help           显示更详细的内部选项</li>
-</ul>
-<h3 id="官方在线文档"><a href="#官方在线文档" class="headerlink" title="官方在线文档"></a>官方在线文档</h3><ul>
-<li><strong>GCC在线手册</strong>: <span class="exturl" data-url="aHR0cHM6Ly9nY2MuZ251Lm9yZy9vbmxpbmVkb2NzLw==">https://gcc.gnu.org/onlinedocs/<i class="fa fa-external-link-alt"></i></span></li>
-<li><strong>GCC命令行选项索引</strong>: <span class="exturl" data-url="aHR0cHM6Ly9nY2MuZ251Lm9yZy9vbmxpbmVkb2NzL2djYy9PcHRpb24tSW5kZXguaHRtbA==">Option Index<i class="fa fa-external-link-alt"></i></span></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/Tech/Tools/gcc-note/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/CS/OS/xv6-labs/concurrency-mapreduce/lab-guid/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/CS/OS/xv6-labs/concurrency-mapreduce/lab-guid/" class="post-title-link" itemprop="url">concurrency-mapreduce 实验指导</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-06-03 11:00:00" itemprop="dateCreated datePublished" datetime="2026-06-03T11:00:00+08:00">2026-06-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>该实验指导文档在实验编写完成后进行了修缮与逆向更新<br>更贴合实际的项目进度</p>
-</blockquote>
-<h1 id="MapReduce-实验指导"><a href="#MapReduce-实验指导" class="headerlink" title="MapReduce 实验指导"></a>MapReduce 实验指导</h1><h2 id="实验分析"><a href="#实验分析" class="headerlink" title="实验分析"></a>实验分析</h2><p>本项目是 <strong>OSTEP（Operating Systems: Three Easy Pieces）</strong> 的并发 MapReduce 实验。目标是实现一个<strong>单机多线程简化版 MapReduce 框架</strong>，核心是实现 <code>mapreduce.h</code> 中声明的函数并设计线程安全的中心数据结构。</p>
-<hr>
-<h2 id="1-理解数据流"><a href="#1-理解数据流" class="headerlink" title="1. 理解数据流"></a>1. 理解数据流</h2><p>整个框架的数据流是：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">argv[1..n] 文件列表</span><br><span class="line">  → Mapper 线程池 (num_mappers 个线程) → 调用用户的 Map()</span><br><span class="line">    → Map() 内部调用 MR_Emit(key, value) 发射中间数据</span><br><span class="line">      → 中间数据按 Partitioner 分区 → MR_Emit 内部完成 key 去重与 value 聚合</span><br><span class="line">        → map 全部完成后，每个分区按 key 升序排序</span><br><span class="line">          → Reducer 线程池 (num_reducers 个线程) → 每个唯一 key 调用一次 Reduce()</span><br></pre></td></tr></table></figure>
-
-<p>在写代码之前，建议把这条数据流画在纸上，标注每一步的<strong>输入和输出</strong>。这是理解后续所有实现细节的基础。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/CS/OS/xv6-labs/concurrency-mapreduce/lab-guid/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
