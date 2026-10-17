@@ -289,18 +289,18 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">61</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -325,6 +325,223 @@ mjx-container[display="true"] + br {
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/Self/Resume/%E5%BC%A0%E6%99%AF%E6%9F%AF-%E9%95%BF%E6%98%A5%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6-%E7%AE%80%E5%8E%86-%E5%86%85%E5%AE%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Self/Resume/%E5%BC%A0%E6%99%AF%E6%9F%AF-%E9%95%BF%E6%98%A5%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6-%E7%AE%80%E5%8E%86-%E5%86%85%E5%AE%B9/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-10-17 15:16:53" itemprop="dateCreated datePublished" datetime="2026-10-17T15:16:53+08:00">2026-10-17</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>张景柯<br>联系方式：13512780256 | 电子邮件：<span class="exturl" data-url="bWFpbHRvOiYjMTIyOyYjeDY4OyYjOTc7JiN4NmU7JiMxMDM7JiN4NmE7JiN4NmI7JiM1MzsmI3gzMjsmI3gzMzsmIzY0OyYjeDcxOyYjMTEzOyYjNDY7JiM5OTsmI3g2ZjsmIzEwOTs=">zhangjk523@qq.com<i class="fa fa-external-link-alt"></i></span> | 博客：iLogIng.github.io | GitHub：github.com&#x2F;iLogIng</p>
+<p>教育经历<br>长春理工大学 | 软件工程专业 | 本科 | 2024.8 - 2028.6<br>方向：C&#x2F;C++ 系统编程与多媒体处理<br>主修课程：数据结构、操作系统、计算机网络、计算机组成原理</p>
+<p>项目经历</p>
+<p>WAV 容器解析与编解码库 WavProcesser | C++17、CMake、GTest | 2026.10 | 独立开发<br>    • 以 header-only 方式实现 RIFF&#x2F;WAVE 容器的解析与写出，按职责拆分为布局定义、字节 IO、四字符码、样本格式、流抽象等 12 个模块。<br>    • 覆盖 U8&#x2F;S16&#x2F;S24&#x2F;S32&#x2F;F32&#x2F;F64 六种采样格式的读写与相互转换，支持 WAVE_FORMAT_EXTENSIBLE 扩展头（有效位深 &#x2F; 通道掩码 &#x2F; GUID）解析。<br>    • 实现 IMA ADPCM 编解码：块头解析、跨块 predictor 状态延续、奇数字节 pad，并以 PCM 往返比对校验解码正确性。<br>    • 5 个测试模块覆盖容器解析、样本编解码、ADPCM、文件 IO 与往返一致性。</p>
+<p>异步 HTTP 服务器 | C++17、Boost(Asio &#x2F; Beast)、Docker、CMake | 2026.04 - 2026.08 | 独立开发<br>    • 基于 Proactor 模型实现异步 HTTP&#x2F;1.1 服务器，支持多线程 I&#x2F;O 复用、连接超时控制与优雅关闭（信号捕获 + 会话排空 + 强制超时）。<br>    • 以 RAII 管理连接生命周期；实现路由分发、静态文件服务与动态 API 端点注册表（method + path 自由注册）。<br>    • 安全与限流：路径穿越双重校验、请求体大小限制（413）、连接限流（503 + Retry-After 头）。<br>    • 实现 gzip 内容协商（Accept-Encoding + Vary，Range 请求不压缩）与线程安全的 LRU 文件缓存；支持配置优先级：命令行 &gt; JSON &gt; 默认值。<br>    • Google Test 单元测试与端到端集成测试共 140 用例；wrk 压测（8 线程 &#x2F; 400 连接）峰值约 150k QPS，测试环境与数据留档于 docs&#x2F;stress-test。</p>
+<p>内存键值存储 tinyKVCache | C++17、CMake、GTest、epoll | 2026.09 | 独立开发<br>    • 零依赖实现有界 LRU 缓存：槽位池 + 侵入式双向链表，O(1) 复杂度内完成缓存单元的定位与淘汰。<br>    • 实现 AOF 持久化：长度前缀记录格式（支持任意字节值的存储）、三种 fsync 策略（always 立即写盘 &#x2F; group 批量合并 &#x2F; os 交由操作系统控制回写），写失败不修改内存以保证日志与内存一致。<br>    • 启动时按写序回放 AOF 重建缓存；末尾不完整记录自动截断恢复。<br>    • 网络层自实现帧编解码 + 事件循环服务端 + 客户端库，支持 pipeline 批量发送接收，兼容 RESP2 子集（能够与redis服务器进行简单交互）。<br>    • 8 个测试模块覆盖 LRU 缓存、分词解析、日志回放、帧编解码与客户端集成。</p>
+<p>专业技能<br>    • 语言：熟练应用 C++11&#x2F;14&#x2F;17（智能指针、移动语义、Lambda、constexpr、模板），掌握 C、Python、Shell&#x2F;Bash；有 Java、SQL 使用经验。<br>    • 音视频与二进制格式：熟悉 WAV&#x2F;RIFF 容器结构、PCM 与 IMA ADPCM 编解码；了解 MP4&#x2F;FLV&#x2F;MPEG-TS 容器结构，熟悉 FFmpeg CLI 全流程（封装解封装、转码、滤镜、流媒体）。<br>    • 网络：深入理解 TCP&#x2F;IP 协议栈，掌握 HTTP、TCP&#x2F;UDP、ICMP 协议格式与分析方法，熟练使用 Wireshark 分析网络报文。<br>    • 构建与工具链：熟练运用 CMake、Makefile 构建项目，掌握 GDB 调试、GTest 测试框架、vcpkg 依赖管理，使用 Git 进行分支协同开发。<br>    • 系统与部署：熟练使用 Linux（Fedora &#x2F; Ubuntu）开发环境，掌握 systemd、podman 容器与 quadlet 部署，编写 Shell&#x2F;Bash 脚本自动化编译、测试与部署。<br>    • 数据库：MySQL、Redis 使用经验。<br>    • 机器学习：理解前向&#x2F;反向传播与梯度下降，以 C 手写过多层感知机与反向传播实现；了解 PyTorch 基础与 Mel 频谱特征。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/CS/ML/Neural-Network-with-loss-and-gridient/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/CS/ML/Neural-Network-with-loss-and-gridient/" class="post-title-link" itemprop="url">Neural Network with loss and gridient</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-10-17 13:53:23 / 修改时间：14:41:03" itemprop="dateCreated datePublished" datetime="2026-10-17T13:53:23+08:00">2026-10-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="一些关于神经网络的理解"><a href="#一些关于神经网络的理解" class="headerlink" title="一些关于神经网络的理解"></a>一些关于神经网络的理解</h2><blockquote>
+<p>一些基于深度学习前馈网络的理解</p>
+</blockquote>
+<p>在深度神经网络中</p>
+<ul>
+<li>神经网络形状<ul>
+<li>输入矩阵是 <strong>特征</strong> 是 <strong>数据的张量表示</strong></li>
+<li>输出是 <strong>模型对标签的 <em>预测值</em></strong> <mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: -0.464ex;" xmlns="http://www.w3.org/2000/svg" width="1.109ex" height="2.333ex" role="img" focusable="false" viewBox="0 -826 490 1031"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="\hat{y}"><g data-mml-node="TeXAtom" data-latex="\hat{y}" data-mjx-texclass="ORD"><g data-mml-node="mover"><g data-mml-node="mi" data-latex="y"><path data-c="1D466" d="M163 442C118 442 83 417 58 367C39 328 29 301 29 286C29 277 34 272 45 272C59 272 60 278 64 293C87 372 119 412 160 412C173 412 180 403 180 385C180 369 175 346 164 317C126 214 107 145 107 108C107 32 154-13 231-13C264-13 295-1 323 23C288-109 233-175 158-175C124-175 101-164 89-142C129-140 149-121 149-85C149-60 136-47 109-47C72-47 50-78 50-115C50-170 100-205 158-205C273-205 367-99 392-1L486 377C489 388 490 396 490 401C490 421 479 431 458 431C442 431 429 423 420 408C414 387 409 369 406 354L342 97C332 61 279 16 234 16C196 16 177 41 177 92C177 134 194 198 227 284C240 319 247 343 247 357C247 406 212 442 163 442Z"></path></g><g data-mml-node="mo" transform="translate(304,32) translate(-250 0)"><path data-c="2C6" d="M386 515L403 533L250 694L97 533L114 515L250 618Z"></path></g></g></g></g></g></svg></mjx-container></li>
+<li>计算的损失函数(loss)是针对网络最后的输出，网络中各个神经元根据该loss通过链式法则进行梯度下降（总趋势是向loss最小的方向下降，所以每个神经元的方向可能不同）</li>
+<li>每个神经元都是数据的一种表示 <strong>x</strong></li>
+<li>神经网络中的各个边代表的是 <strong>权重(weight) w</strong></li>
+<li>神经网络中，每个神经元的 <strong>偏置(bias) b</strong> 对该神经元产生的所有加权特征进行平移，以提供更精确的拟合</li>
+<li>神经网络中，每个神经元的输出 a <strong>都是标量</strong></li>
+<li>每层的 wx + b = y 得到的都是该层神经元的线性输出 z=y ，通过激活函数得到该层的输出，即下一层的 x=a=activation(z)（激活后的z）</li>
+</ul>
+</li>
+<li>激活函数是在神经元输出前将线性输入非线性化的一种方式<ul>
+<li>激活函数就是将神经元内部线性变换得到的线性输出（wx + b = y = z）通过非线性变换激活为神经元输出的一种函数，得到下一层的 x</li>
+</ul>
+</li>
+<li>每次反向传播计算梯度前，都需要进行前向传播（计算图），计算当前损失值<ul>
+<li>在前向传播的过程中，会保存中间产生的每层的输出值(activation(wx… + b))，</li>
+<li>反向传播时，从输出层向输入层按链式法则传播</li>
+<li>每层神经元根据求导，层层向外求导，activation’ -&gt; (wx… + b)’，同时计算梯度，但不修改权重<ul>
+<li><strong>梯度</strong> 是一个 <strong>向量</strong> ，其分量是对 <strong>每个参数的</strong> 偏导数<mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="3.425ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 1514 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="\Delta L = \begin{bmatrix} \frac{\partial L}{\partial w_1}, \frac{\partial L}{\partial w_2}, \dots, \frac{\partial L}{\partial b} \end{bmatrix}"><g data-mml-node="mi" data-latex="\Delta"><path data-c="394" d="M759 0C776 0 785 4 785 13L445 696C438 709 429 716 416 716C403 716 394 709 387 696L52 25C49 18 47 14 47 12C47 4 56 0 73 0M384 604L644 83L124 83Z"></path></g><g data-mml-node="mi" data-latex="L" transform="translate(833,0)"><path data-c="1D43F" d="M520 667C520 678 513 683 500 683L354 680L223 683C208 684 200 676 200 659C200 652 203 647 209 646C218 645 226 644 231 644C262 643 279 641 284 640C289 639 292 636 292 631C292 629 291 623 288 613L156 82C150 60 140 47 125 42C119 40 101 39 70 39C49 39 39 31 39 15C39 5 49 0 70 0L527 0C552 0 554 0 561 19L639 233C642 240 643 245 643 248C643 258 638 263 627 263C617 263 612 254 607 240C588 191 570 154 555 131C518 75 455 39 363 39L270 39C259 39 252 39 249 40C242 40 239 42 239 45C239 47 241 54 244 67L377 601C383 624 396 637 415 642C421 643 442 644 478 644C506 644 520 644 520 667Z"></path></g></g></g></svg><mjx-break size="4"> </mjx-break><svg style="vertical-align: -1.075ex;" xmlns="http://www.w3.org/2000/svg" width="20.167ex" height="3.281ex" role="img" focusable="false" viewBox="0 -975 8913.6 1450"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="\Delta L = \begin{bmatrix} \frac{\partial L}{\partial w_1}, \frac{\partial L}{\partial w_2}, \dots, \frac{\partial L}{\partial b} \end{bmatrix}"><g data-mml-node="mo" data-latex="="><path data-c="3D" d="M698 367L80 367C64 367 56 359 56 344C56 329 64 321 80 321L698 321C714 321 722 329 722 344C722 356 711 367 698 367M698 179L80 179C64 179 56 171 56 156C56 141 64 133 80 133L698 133C714 133 722 141 722 156C722 169 711 179 698 179Z"></path></g><g data-mml-node="mrow" data-latex="{bmatrix}" transform="translate(1055.8,0)"><g data-mml-node="mo"><path data-c="5B" d="M387-475C405-475 414-466 414-447C414-428 405-419 387-419L280-419L280 919L387 919C405 919 414 928 414 947C414 966 405 975 387 975L226 975L226-475Z"></path></g><g data-mml-node="mtable" transform="translate(444,0)"><g data-mml-node="mtr" transform="translate(0,26)"><g data-mml-node="mtd"><g data-mml-node="mfrac" data-latex="\frac{\partial L}{\partial w_1}"><g data-mml-node="mrow" transform="translate(386.7,394) scale(0.707)" data-latex="\partial L"><g data-mml-node="mi" data-latex="\partial"><path data-c="1D715" d="M256 574C256 597 241 610 212 612C243 659 288 683 347 683C439 683 484 606 484 508C484 467 476 417 461 356C444 425 401 460 334 460C257 460 190 428 130 366C70 304 40 235 40 158C40 121 53 83 79 45C110 0 158-22 225-22C315-22 390 20 449 105C505 187 566 329 566 456C566 527 548 587 512 635C473 689 418 716 349 716C282 716 232 693 198 646C171 609 157 579 157 556C157 530 171 517 199 517C229 517 256 544 256 574M439 303C439 240 420 178 381 117C338 48 287 14 228 14C162 14 124 57 124 121C124 149 131 188 145 238C159 288 173 323 188 344C228 401 277 430 334 430C407 430 439 376 439 303Z"></path></g><g data-mml-node="mi" data-latex="L" transform="translate(566,0)"><path data-c="1D43F" d="M520 667C520 678 513 683 500 683L354 680L223 683C208 684 200 676 200 659C200 652 203 647 209 646C218 645 226 644 231 644C262 643 279 641 284 640C289 639 292 636 292 631C292 629 291 623 288 613L156 82C150 60 140 47 125 42C119 40 101 39 70 39C49 39 39 31 39 15C39 5 49 0 70 0L527 0C552 0 554 0 561 19L639 233C642 240 643 245 643 248C643 258 638 263 627 263C617 263 612 254 607 240C588 191 570 154 555 131C518 75 455 39 363 39L270 39C259 39 252 39 249 40C242 40 239 42 239 45C239 47 241 54 244 67L377 601C383 624 396 637 415 642C421 643 442 644 478 644C506 644 520 644 520 667Z"></path></g></g><g data-mml-node="mrow" transform="translate(220,-346.3) scale(0.707)" data-latex="\partial w_1"><g data-mml-node="mi" data-latex="\partial"><path data-c="1D715" d="M256 574C256 597 241 610 212 612C243 659 288 683 347 683C439 683 484 606 484 508C484 467 476 417 461 356C444 425 401 460 334 460C257 460 190 428 130 366C70 304 40 235 40 158C40 121 53 83 79 45C110 0 158-22 225-22C315-22 390 20 449 105C505 187 566 329 566 456C566 527 548 587 512 635C473 689 418 716 349 716C282 716 232 693 198 646C171 609 157 579 157 556C157 530 171 517 199 517C229 517 256 544 256 574M439 303C439 240 420 178 381 117C338 48 287 14 228 14C162 14 124 57 124 121C124 149 131 188 145 238C159 288 173 323 188 344C228 401 277 430 334 430C407 430 439 376 439 303Z"></path></g><g data-mml-node="msub" data-latex="w_1" transform="translate(566,0)"><g data-mml-node="mi" data-latex="w"><path data-c="1D464" d="M590 391C590 382 595 372 606 362C629 340 641 313 641 281C641 264 635 237 623 198C586 78 539 18 482 18C435 18 412 45 412 100C412 119 416 142 423 171C441 243 460 314 477 387C479 394 480 398 480 401C480 421 469 431 447 431C427 431 414 421 407 401L367 245C352 187 341 167 341 115C341 107 341 101 342 98C319 45 290 18 255 18C205 18 180 47 180 104C180 141 197 204 231 293C242 323 248 344 248 357C248 406 212 442 163 442C118 442 84 417 59 367C39 328 29 301 29 287C29 278 34 273 45 273C58 273 60 279 64 293C88 373 120 413 160 413C174 413 181 403 181 384C181 369 175 347 164 317C127 220 108 154 108 117C108 32 165-11 252-11C294-11 328 10 355 53C375 10 416-11 479-11C541-11 590 30 625 112C648 164 691 302 691 369C691 384 690 394 689 399C685 418 666 442 644 442C618 442 590 417 590 391Z"></path></g><g data-mml-node="mn" transform="translate(749,-150) scale(0.707)" data-latex="1"><path data-c="31" d="M269 666C228 624 168 603 89 603L89 564C141 564 184 572 217 588L217 82C217 64 213 52 204 47C195 42 170 39 130 39L95 39L95 0C120 2 174 3 257 3C340 3 394 2 419 0L419 39L384 39C343 39 318 42 310 47C302 52 297 64 297 82L297 636C297 660 295 666 269 666Z"></path></g></g></g><rect width="1415.2" height="60" x="120" y="220"></rect></g><g data-mml-node="mo" data-latex="," transform="translate(1655.2,0)"><path data-c="2C" d="M139 106C107 106 86 82 86 50C86 20 109-5 139-5C153-5 165-1 174 8L175 0C175-63 154-117 112-160C105-168 101-174 101-178C101-188 105-193 114-193C123-193 135-181 152-158C186-110 203-57 203 0C203 53 185 106 139 106Z"></path></g><g data-mml-node="mfrac" data-latex="\frac{\partial L}{\partial w_2}" transform="translate(2099.9,0)"><g data-mml-node="mrow" transform="translate(386.7,394) scale(0.707)" data-latex="\partial L"><g data-mml-node="mi" data-latex="\partial"><path data-c="1D715" d="M256 574C256 597 241 610 212 612C243 659 288 683 347 683C439 683 484 606 484 508C484 467 476 417 461 356C444 425 401 460 334 460C257 460 190 428 130 366C70 304 40 235 40 158C40 121 53 83 79 45C110 0 158-22 225-22C315-22 390 20 449 105C505 187 566 329 566 456C566 527 548 587 512 635C473 689 418 716 349 716C282 716 232 693 198 646C171 609 157 579 157 556C157 530 171 517 199 517C229 517 256 544 256 574M439 303C439 240 420 178 381 117C338 48 287 14 228 14C162 14 124 57 124 121C124 149 131 188 145 238C159 288 173 323 188 344C228 401 277 430 334 430C407 430 439 376 439 303Z"></path></g><g data-mml-node="mi" data-latex="L" transform="translate(566,0)"><path data-c="1D43F" d="M520 667C520 678 513 683 500 683L354 680L223 683C208 684 200 676 200 659C200 652 203 647 209 646C218 645 226 644 231 644C262 643 279 641 284 640C289 639 292 636 292 631C292 629 291 623 288 613L156 82C150 60 140 47 125 42C119 40 101 39 70 39C49 39 39 31 39 15C39 5 49 0 70 0L527 0C552 0 554 0 561 19L639 233C642 240 643 245 643 248C643 258 638 263 627 263C617 263 612 254 607 240C588 191 570 154 555 131C518 75 455 39 363 39L270 39C259 39 252 39 249 40C242 40 239 42 239 45C239 47 241 54 244 67L377 601C383 624 396 637 415 642C421 643 442 644 478 644C506 644 520 644 520 667Z"></path></g></g><g data-mml-node="mrow" transform="translate(220,-346.3) scale(0.707)" data-latex="\partial w_2"><g data-mml-node="mi" data-latex="\partial"><path data-c="1D715" d="M256 574C256 597 241 610 212 612C243 659 288 683 347 683C439 683 484 606 484 508C484 467 476 417 461 356C444 425 401 460 334 460C257 460 190 428 130 366C70 304 40 235 40 158C40 121 53 83 79 45C110 0 158-22 225-22C315-22 390 20 449 105C505 187 566 329 566 456C566 527 548 587 512 635C473 689 418 716 349 716C282 716 232 693 198 646C171 609 157 579 157 556C157 530 171 517 199 517C229 517 256 544 256 574M439 303C439 240 420 178 381 117C338 48 287 14 228 14C162 14 124 57 124 121C124 149 131 188 145 238C159 288 173 323 188 344C228 401 277 430 334 430C407 430 439 376 439 303Z"></path></g><g data-mml-node="msub" data-latex="w_2" transform="translate(566,0)"><g data-mml-node="mi" data-latex="w"><path data-c="1D464" d="M590 391C590 382 595 372 606 362C629 340 641 313 641 281C641 264 635 237 623 198C586 78 539 18 482 18C435 18 412 45 412 100C412 119 416 142 423 171C441 243 460 314 477 387C479 394 480 398 480 401C480 421 469 431 447 431C427 431 414 421 407 401L367 245C352 187 341 167 341 115C341 107 341 101 342 98C319 45 290 18 255 18C205 18 180 47 180 104C180 141 197 204 231 293C242 323 248 344 248 357C248 406 212 442 163 442C118 442 84 417 59 367C39 328 29 301 29 287C29 278 34 273 45 273C58 273 60 279 64 293C88 373 120 413 160 413C174 413 181 403 181 384C181 369 175 347 164 317C127 220 108 154 108 117C108 32 165-11 252-11C294-11 328 10 355 53C375 10 416-11 479-11C541-11 590 30 625 112C648 164 691 302 691 369C691 384 690 394 689 399C685 418 666 442 644 442C618 442 590 417 590 391Z"></path></g><g data-mml-node="mn" transform="translate(749,-150) scale(0.707)" data-latex="2"><path data-c="32" d="M237 666C186 666 143 648 106 612C69 576 50 534 50 483C50 449 75 424 106 424C136 424 161 450 161 480C161 513 137 536 105 536C102 536 100 536 98 535C117 584 161 627 224 627C306 627 352 556 352 470C352 403 318 331 250 255L62 43C49 28 50 29 50 0L421 0L450 180L417 180C409 129 402 100 396 91C391 86 361 84 306 84L139 84L236 179C304 243 390 312 419 365C439 400 449 435 449 470C449 588 357 666 237 666Z"></path></g></g></g><rect width="1415.2" height="60" x="120" y="220"></rect></g><g data-mml-node="mo" data-latex="," transform="translate(3755.1,0)"><path data-c="2C" d="M139 106C107 106 86 82 86 50C86 20 109-5 139-5C153-5 165-1 174 8L175 0C175-63 154-117 112-160C105-168 101-174 101-178C101-188 105-193 114-193C123-193 135-181 152-158C186-110 203-57 203 0C203 53 185 106 139 106Z"></path></g><g data-mml-node="mo" transform="translate(4199.7,0)"><path data-c="2026" d="M751 53C751 83 725 106 695 106C664 106 638 83 638 53C638 23 664 0 695 0C725 0 751 23 751 53M475 53C475 83 449 106 419 106C388 106 363 83 363 53C363 23 388 0 419 0C449 0 475 23 475 53M200 53C200 83 174 106 143 106C113 106 87 83 87 53C87 23 113 0 143 0C173 0 200 23 200 53Z"></path></g><g data-mml-node="mo" data-latex="," transform="translate(5203.4,0)"><path data-c="2C" d="M139 106C107 106 86 82 86 50C86 20 109-5 139-5C153-5 165-1 174 8L175 0C175-63 154-117 112-160C105-168 101-174 101-178C101-188 105-193 114-193C123-193 135-181 152-158C186-110 203-57 203 0C203 53 185 106 139 106Z"></path></g><g data-mml-node="mfrac" data-latex="\frac{\partial L}{\partial b}" transform="translate(5648.1,0)"><g data-mml-node="mrow" transform="translate(220,394) scale(0.707)" data-latex="\partial L"><g data-mml-node="mi" data-latex="\partial"><path data-c="1D715" d="M256 574C256 597 241 610 212 612C243 659 288 683 347 683C439 683 484 606 484 508C484 467 476 417 461 356C444 425 401 460 334 460C257 460 190 428 130 366C70 304 40 235 40 158C40 121 53 83 79 45C110 0 158-22 225-22C315-22 390 20 449 105C505 187 566 329 566 456C566 527 548 587 512 635C473 689 418 716 349 716C282 716 232 693 198 646C171 609 157 579 157 556C157 530 171 517 199 517C229 517 256 544 256 574M439 303C439 240 420 178 381 117C338 48 287 14 228 14C162 14 124 57 124 121C124 149 131 188 145 238C159 288 173 323 188 344C228 401 277 430 334 430C407 430 439 376 439 303Z"></path></g><g data-mml-node="mi" data-latex="L" transform="translate(566,0)"><path data-c="1D43F" d="M520 667C520 678 513 683 500 683L354 680L223 683C208 684 200 676 200 659C200 652 203 647 209 646C218 645 226 644 231 644C262 643 279 641 284 640C289 639 292 636 292 631C292 629 291 623 288 613L156 82C150 60 140 47 125 42C119 40 101 39 70 39C49 39 39 31 39 15C39 5 49 0 70 0L527 0C552 0 554 0 561 19L639 233C642 240 643 245 643 248C643 258 638 263 627 263C617 263 612 254 607 240C588 191 570 154 555 131C518 75 455 39 363 39L270 39C259 39 252 39 249 40C242 40 239 42 239 45C239 47 241 54 244 67L377 601C383 624 396 637 415 642C421 643 442 644 478 644C506 644 520 644 520 667Z"></path></g></g><g data-mml-node="mrow" transform="translate(309.1,-346.3) scale(0.707)" data-latex="\partial b"><g data-mml-node="mi" data-latex="\partial"><path data-c="1D715" d="M256 574C256 597 241 610 212 612C243 659 288 683 347 683C439 683 484 606 484 508C484 467 476 417 461 356C444 425 401 460 334 460C257 460 190 428 130 366C70 304 40 235 40 158C40 121 53 83 79 45C110 0 158-22 225-22C315-22 390 20 449 105C505 187 566 329 566 456C566 527 548 587 512 635C473 689 418 716 349 716C282 716 232 693 198 646C171 609 157 579 157 556C157 530 171 517 199 517C229 517 256 544 256 574M439 303C439 240 420 178 381 117C338 48 287 14 228 14C162 14 124 57 124 121C124 149 131 188 145 238C159 288 173 323 188 344C228 401 277 430 334 430C407 430 439 376 439 303Z"></path></g><g data-mml-node="mi" data-latex="b" transform="translate(566,0)"><path data-c="1D44F" d="M281 445C245 445 209 428 174 394L243 679C241 688 238 694 226 694C193 694 120 685 107 684C92 682 84 675 84 660C84 650 93 645 112 645C131 645 157 646 157 632C157 628 152 608 143 571L63 249C52 207 47 173 47 148C47 62 93-11 175-11C240-11 297 22 347 89C392 151 415 216 415 283C415 370 364 445 281 445M279 415C318 415 337 385 337 326C337 299 331 263 319 218C297 133 268 75 233 44C213 27 194 19 175 19C134 19 114 51 114 115C114 137 119 170 129 214L151 304C154 319 159 330 165 338C204 389 242 415 279 415Z"></path></g></g><rect width="1081.8" height="60" x="120" y="220"></rect></g></g></g></g><g data-mml-node="mo" transform="translate(7413.8,0)"><path data-c="5D" d="M57-475L218-475L218 975L57 975C39 975 30 966 30 947C30 928 39 919 57 919L164 919L164-419L57-419C39-419 30-428 30-447C30-466 39-475 57-475Z"></path></g></g></g></g></svg></mjx-container>
+用于分别更新各个参数</li>
+</ul>
+</li>
+<li>每个神经元的梯度计算完成后，通过 <strong>优化器(一般选择SGD)</strong> 根据选定的 <strong>学习率</strong> 与 <strong>求导中产生的梯度</strong> 相乘 <strong>控制下降步长</strong> 进行统一的权重/偏置更新<ul>
+<li>（优化器实际上是通过<code>DataLoader</code> <strong>无干扰选择的部分样本进行前向传播</strong> 并更新梯度，以优化反向传播的计算速度的）<ul>
+<li>网络权重的权重更新仍然的全量的，只不过进行梯度下降更新权重所参考的样本量更精简</li>
+<li>得到的梯度值是全样本梯度的一个近似，是无偏估计的应用</li>
+</ul>
+</li>
+<li>（学习率，控制了梯度的下降步长）</li>
+</ul>
+</li>
+<li>每层神经元的梯度下降的更新过程是并发的<ul>
+<li><strong>统一求导，统一更新</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>损失函数不是网络的一部分</strong> ，而是 <strong>网络训练的一部分</strong><ul>
+<li>构成神经网络输出的就是内部的线性变换与激活函数</li>
+<li>损失函数是训练时网络预测与真实参数的度量，是与网络计算分离的<ul>
+<li>我们的目的是希望损失函数最小，所以在反向传播求导更新参数时需要以损失函数作为起点</li>
+<li>损失函数只需要传入两个参数 <mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: -0.464ex;" xmlns="http://www.w3.org/2000/svg" width="4.448ex" height="2.333ex" role="img" focusable="false" viewBox="0 -826 1965.9 1031"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="\hat{y}_i \space y_i"><g data-mml-node="msub" data-latex="\hat{y}_i"><g data-mml-node="TeXAtom" data-latex="\hat{y}" data-mjx-texclass="ORD"><g data-mml-node="mover"><g data-mml-node="mi" data-latex="y"><path data-c="1D466" d="M163 442C118 442 83 417 58 367C39 328 29 301 29 286C29 277 34 272 45 272C59 272 60 278 64 293C87 372 119 412 160 412C173 412 180 403 180 385C180 369 175 346 164 317C126 214 107 145 107 108C107 32 154-13 231-13C264-13 295-1 323 23C288-109 233-175 158-175C124-175 101-164 89-142C129-140 149-121 149-85C149-60 136-47 109-47C72-47 50-78 50-115C50-170 100-205 158-205C273-205 367-99 392-1L486 377C489 388 490 396 490 401C490 421 479 431 458 431C442 431 429 423 420 408C414 387 409 369 406 354L342 97C332 61 279 16 234 16C196 16 177 41 177 92C177 134 194 198 227 284C240 319 247 343 247 357C247 406 212 442 163 442Z"></path></g><g data-mml-node="mo" transform="translate(304,32) translate(-250 0)"><path data-c="2C6" d="M386 515L403 533L250 694L97 533L114 515L250 618Z"></path></g></g></g><g data-mml-node="mi" transform="translate(523,-150) scale(0.707)" data-latex="i"><path data-c="1D456" d="M284 621C284 648 271 661 244 661C216 661 188 633 188 605C188 578 202 565 229 565C257 565 284 593 284 621M259 138C237 59 205 19 164 19C151 19 144 28 144 47C144 64 173 150 232 306C240 329 244 347 244 360C244 409 210 445 161 445C118 445 84 420 59 369C39 328 29 301 29 288C29 279 34 275 45 275C58 275 60 281 64 295C87 375 118 415 158 415C171 415 178 406 178 387C178 373 175 357 168 338C145 275 121 208 101 155C86 115 78 88 78 74C78 25 114-11 162-11C205-11 239 14 264 64C283 103 293 130 293 145C293 154 288 159 277 159C274 159 259 150 259 138Z"></path></g></g><g data-mml-node="mtext" data-latex="\space" transform="translate(817,0)"><path data-c="A0" d=""></path></g><g data-mml-node="msub" data-latex="y_i" transform="translate(1149,0)"><g data-mml-node="mi" data-latex="y"><path data-c="1D466" d="M163 442C118 442 83 417 58 367C39 328 29 301 29 286C29 277 34 272 45 272C59 272 60 278 64 293C87 372 119 412 160 412C173 412 180 403 180 385C180 369 175 346 164 317C126 214 107 145 107 108C107 32 154-13 231-13C264-13 295-1 323 23C288-109 233-175 158-175C124-175 101-164 89-142C129-140 149-121 149-85C149-60 136-47 109-47C72-47 50-78 50-115C50-170 100-205 158-205C273-205 367-99 392-1L486 377C489 388 490 396 490 401C490 421 479 431 458 431C442 431 429 423 420 408C414 387 409 369 406 354L342 97C332 61 279 16 234 16C196 16 177 41 177 92C177 134 194 198 227 284C240 319 247 343 247 357C247 406 212 442 163 442Z"></path></g><g data-mml-node="mi" transform="translate(523,-150) scale(0.707)" data-latex="i"><path data-c="1D456" d="M284 621C284 648 271 661 244 661C216 661 188 633 188 605C188 578 202 565 229 565C257 565 284 593 284 621M259 138C237 59 205 19 164 19C151 19 144 28 144 47C144 64 173 150 232 306C240 329 244 347 244 360C244 409 210 445 161 445C118 445 84 420 59 369C39 328 29 301 29 288C29 279 34 275 45 275C58 275 60 281 64 295C87 375 118 415 158 415C171 415 178 406 178 387C178 373 175 357 168 338C145 275 121 208 101 155C86 115 78 88 78 74C78 25 114-11 162-11C205-11 239 14 264 64C283 103 293 130 293 145C293 154 288 159 277 159C274 159 259 150 259 138Z"></path></g></g></g></g></svg></mjx-container> ，这也是为什么反向传播时会深入网络内部进行参数修改<ul>
+<li>因为 <mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: -0.464ex;" xmlns="http://www.w3.org/2000/svg" width="1.848ex" height="2.333ex" role="img" focusable="false" viewBox="0 -826 817 1031"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="\hat{y}_i"><g data-mml-node="msub" data-latex="\hat{y}_i"><g data-mml-node="TeXAtom" data-latex="\hat{y}" data-mjx-texclass="ORD"><g data-mml-node="mover"><g data-mml-node="mi" data-latex="y"><path data-c="1D466" d="M163 442C118 442 83 417 58 367C39 328 29 301 29 286C29 277 34 272 45 272C59 272 60 278 64 293C87 372 119 412 160 412C173 412 180 403 180 385C180 369 175 346 164 317C126 214 107 145 107 108C107 32 154-13 231-13C264-13 295-1 323 23C288-109 233-175 158-175C124-175 101-164 89-142C129-140 149-121 149-85C149-60 136-47 109-47C72-47 50-78 50-115C50-170 100-205 158-205C273-205 367-99 392-1L486 377C489 388 490 396 490 401C490 421 479 431 458 431C442 431 429 423 420 408C414 387 409 369 406 354L342 97C332 61 279 16 234 16C196 16 177 41 177 92C177 134 194 198 227 284C240 319 247 343 247 357C247 406 212 442 163 442Z"></path></g><g data-mml-node="mo" transform="translate(304,32) translate(-250 0)"><path data-c="2C6" d="M386 515L403 533L250 694L97 533L114 515L250 618Z"></path></g></g></g><g data-mml-node="mi" transform="translate(523,-150) scale(0.707)" data-latex="i"><path data-c="1D456" d="M284 621C284 648 271 661 244 661C216 661 188 633 188 605C188 578 202 565 229 565C257 565 284 593 284 621M259 138C237 59 205 19 164 19C151 19 144 28 144 47C144 64 173 150 232 306C240 329 244 347 244 360C244 409 210 445 161 445C118 445 84 420 59 369C39 328 29 301 29 288C29 279 34 275 45 275C58 275 60 281 64 295C87 375 118 415 158 415C171 415 178 406 178 387C178 373 175 357 168 338C145 275 121 208 101 155C86 115 78 88 78 74C78 25 114-11 162-11C205-11 239 14 264 64C283 103 293 130 293 145C293 154 288 159 277 159C274 159 259 150 259 138Z"></path></g></g></g></g></svg></mjx-container> 是通过网络得到的预测量</li>
+<li>损失函数 <strong>loss</strong> 复合了代表了神经网络的函数 <mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="4.76ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 2104 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="Loss = L(f_{network}(\mathbf{X};\mathbf{W},b),\mathbf{Y})"><g data-mml-node="mi" data-latex="L"><path data-c="1D43F" d="M520 667C520 678 513 683 500 683L354 680L223 683C208 684 200 676 200 659C200 652 203 647 209 646C218 645 226 644 231 644C262 643 279 641 284 640C289 639 292 636 292 631C292 629 291 623 288 613L156 82C150 60 140 47 125 42C119 40 101 39 70 39C49 39 39 31 39 15C39 5 49 0 70 0L527 0C552 0 554 0 561 19L639 233C642 240 643 245 643 248C643 258 638 263 627 263C617 263 612 254 607 240C588 191 570 154 555 131C518 75 455 39 363 39L270 39C259 39 252 39 249 40C242 40 239 42 239 45C239 47 241 54 244 67L377 601C383 624 396 637 415 642C421 643 442 644 478 644C506 644 520 644 520 667Z"></path></g><g data-mml-node="mi" data-latex="o" transform="translate(681,0)"><path data-c="1D45C" d="M308 442C239 442 176 412 122 353C68 294 41 229 41 159C41 63 106-11 202-11C272-11 334 19 388 78C442 137 469 201 469 272C469 369 405 442 308 442M389 310C389 287 384 255 374 213C353 130 319 73 272 42C248 26 225 18 203 18C149 18 121 65 121 122C121 180 155 288 178 324C216 383 259 413 307 413C361 413 389 367 389 310Z"></path></g><g data-mml-node="mi" data-latex="s" transform="translate(1166,0)"><path data-c="1D460" d="M420 354C420 411 362 442 300 442C237 442 192 423 165 385C142 352 130 322 130 295C130 242 165 208 234 193C263 188 285 181 302 173C323 164 333 147 333 123C333 105 325 85 308 62C287 33 250 18 197 18C143 18 108 33 92 62C124 61 151 87 151 119C151 144 138 157 111 157C75 157 52 124 52 88C52 22 124-11 196-11C271-11 325 11 357 56C384 93 397 126 397 156C397 199 376 231 335 252C304 263 280 270 265 273C230 282 194 285 194 328C194 381 244 413 300 413C342 413 369 400 382 375C360 371 337 352 337 327C337 306 348 295 371 295C402 295 420 323 420 354Z"></path></g><g data-mml-node="mi" data-latex="s" transform="translate(1635,0)"><path data-c="1D460" d="M420 354C420 411 362 442 300 442C237 442 192 423 165 385C142 352 130 322 130 295C130 242 165 208 234 193C263 188 285 181 302 173C323 164 333 147 333 123C333 105 325 85 308 62C287 33 250 18 197 18C143 18 108 33 92 62C124 61 151 87 151 119C151 144 138 157 111 157C75 157 52 124 52 88C52 22 124-11 196-11C271-11 325 11 357 56C384 93 397 126 397 156C397 199 376 231 335 252C304 263 280 270 265 273C230 282 194 285 194 328C194 381 244 413 300 413C342 413 369 400 382 375C360 371 337 352 337 327C337 306 348 295 371 295C402 295 420 323 420 354Z"></path></g></g></g></svg><mjx-break size="4"> </mjx-break><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="25.116ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 11101.4 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="Loss = L(f_{network}(\mathbf{X};\mathbf{W},b),\mathbf{Y})"><g data-mml-node="mo" data-latex="="><path data-c="3D" d="M698 367L80 367C64 367 56 359 56 344C56 329 64 321 80 321L698 321C714 321 722 329 722 344C722 356 711 367 698 367M698 179L80 179C64 179 56 171 56 156C56 141 64 133 80 133L698 133C714 133 722 141 722 156C722 169 711 179 698 179Z"></path></g><g data-mml-node="mi" data-latex="L" transform="translate(1055.8,0)"><path data-c="1D43F" d="M520 667C520 678 513 683 500 683L354 680L223 683C208 684 200 676 200 659C200 652 203 647 209 646C218 645 226 644 231 644C262 643 279 641 284 640C289 639 292 636 292 631C292 629 291 623 288 613L156 82C150 60 140 47 125 42C119 40 101 39 70 39C49 39 39 31 39 15C39 5 49 0 70 0L527 0C552 0 554 0 561 19L639 233C642 240 643 245 643 248C643 258 638 263 627 263C617 263 612 254 607 240C588 191 570 154 555 131C518 75 455 39 363 39L270 39C259 39 252 39 249 40C242 40 239 42 239 45C239 47 241 54 244 67L377 601C383 624 396 637 415 642C421 643 442 644 478 644C506 644 520 644 520 667Z"></path></g><g data-mml-node="mo" data-latex="(" transform="translate(1736.8,0)"><path data-c="28" d="M318-248C327-248 332-243 332-234C332-231 330-227 327-223C275-183 233-117 202-26C175 53 161 131 161 208L161 292C161 369 175 447 202 526C233 617 275 683 327 723C330 726 332 730 332 734C332 743 327 748 318 748C317 748 314 747 311 745C251 699 201 631 160 540C121 453 101 371 101 292L101 208C101 129 121 47 160-40C201-131 251-199 311-245C314-247 317-248 318-248Z"></path></g><g data-mml-node="msub" data-latex="f_{n e t w o r k}" transform="translate(2125.8,0)"><g data-mml-node="mi" data-latex="f"><path data-c="1D453" d="M552 633C552 677 509 705 462 705C400 705 357 665 334 586C329 568 318 517 302 433L237 433C215 433 204 432 204 411C204 400 214 395 235 395L295 395L222 8C211-49 201-91 192-119C180-156 163-175 141-175C126-175 114-171 103-164C135-159 151-140 151-108C151-82 138-69 111-69C77-69 53-99 53-133C53-177 94-205 141-205C166-205 189-195 208-174C240-141 265-94 283-31C294 8 304 46 311 84L369 395L451 395C474 395 484 396 484 419C484 428 474 433 454 433L377 433C383 474 411 625 420 644C430 665 444 675 462 675C477 675 490 671 501 664C470 657 454 639 454 608C454 582 467 569 494 569C528 569 552 599 552 633Z"></path></g><g data-mml-node="TeXAtom" transform="translate(523,-150) scale(0.707)" data-latex="{n e t w o r k}" data-mjx-texclass="ORD"><g data-mml-node="mi" data-latex="n"><path data-c="1D45B" d="M537 137C514 58 481 18 440 18C427 18 420 28 420 47C420 61 426 84 438 115C478 224 498 296 498 333C498 403 451 442 381 442C322 442 271 416 230 363C222 407 187 442 136 442C80 442 58 390 44 345C34 313 29 294 29 287C29 278 34 273 45 273C50 273 53 274 56 276C61 285 64 292 65 299C83 375 106 413 133 413C151 413 160 399 160 371C160 358 155 331 144 290L87 63C84 50 78 24 78 19C78-1 89-11 111-11C130-11 144-1 151 19C153 24 159 49 170 92L191 181L221 295C232 318 249 341 270 365C299 397 335 413 378 413C411 413 427 391 427 348C427 310 406 234 363 120C356 102 353 87 353 74C353 25 390-11 438-11C482-11 517 14 542 64C561 104 571 131 571 144C571 153 566 158 555 158C552 158 537 149 537 137Z"></path></g><g data-mml-node="mi" data-latex="e" transform="translate(600,0)"><path data-c="1D452" d="M124 129C124 153 129 186 139 227L188 227C253 227 303 235 339 250C372 264 394 284 405 309C412 326 415 342 415 355C415 410 363 442 307 442C268 442 229 432 190 412C113 372 46 281 46 171C46 69 105-11 204-11C257-11 304 2 345 27C379 48 404 69 420 90C427 99 430 106 430 109C430 120 425 126 414 126C409 126 404 122 398 114C365 70 324 42 277 30C246 22 223 18 206 18C149 18 124 72 124 129M375 355C375 289 311 256 182 256L147 256C166 322 194 366 232 387C262 404 287 413 307 413C343 413 375 391 375 355Z"></path></g><g data-mml-node="mi" data-latex="t" transform="translate(1066,0)"><path data-c="1D461" d="M330 419C330 428 320 433 299 433L218 433C244 537 257 591 257 595C257 616 246 626 225 626C202 626 188 613 182 587L145 433L56 433C34 433 23 432 23 411C23 400 33 395 54 395L135 395C86 200 62 97 62 84C62 28 100-11 156-11C194-11 227 6 256 41C280 70 297 98 308 125C312 136 314 142 314 145C314 154 309 159 299 159C291 159 285 154 281 143C247 60 206 19 157 19C140 19 131 33 131 60C131 75 133 91 137 107L208 395L297 395C323 395 330 397 330 419Z"></path></g><g data-mml-node="mi" data-latex="w" transform="translate(1427,0)"><path data-c="1D464" d="M590 391C590 382 595 372 606 362C629 340 641 313 641 281C641 264 635 237 623 198C586 78 539 18 482 18C435 18 412 45 412 100C412 119 416 142 423 171C441 243 460 314 477 387C479 394 480 398 480 401C480 421 469 431 447 431C427 431 414 421 407 401L367 245C352 187 341 167 341 115C341 107 341 101 342 98C319 45 290 18 255 18C205 18 180 47 180 104C180 141 197 204 231 293C242 323 248 344 248 357C248 406 212 442 163 442C118 442 84 417 59 367C39 328 29 301 29 287C29 278 34 273 45 273C58 273 60 279 64 293C88 373 120 413 160 413C174 413 181 403 181 384C181 369 175 347 164 317C127 220 108 154 108 117C108 32 165-11 252-11C294-11 328 10 355 53C375 10 416-11 479-11C541-11 590 30 625 112C648 164 691 302 691 369C691 384 690 394 689 399C685 418 666 442 644 442C618 442 590 417 590 391Z"></path></g><g data-mml-node="mi" data-latex="o" transform="translate(2143,0)"><path data-c="1D45C" d="M308 442C239 442 176 412 122 353C68 294 41 229 41 159C41 63 106-11 202-11C272-11 334 19 388 78C442 137 469 201 469 272C469 369 405 442 308 442M389 310C389 287 384 255 374 213C353 130 319 73 272 42C248 26 225 18 203 18C149 18 121 65 121 122C121 180 155 288 178 324C216 383 259 413 307 413C361 413 389 367 389 310Z"></path></g><g data-mml-node="mi" data-latex="r" transform="translate(2628,0)"><path data-c="1D45F" d="M436 374C436 416 395 442 351 442C302 442 261 419 227 372C217 411 183 442 136 442C95 442 65 410 44 345C34 312 29 293 29 287C29 278 34 273 45 273C50 273 53 274 56 276C61 285 64 292 65 299C83 375 106 413 133 413C150 413 159 399 159 371C159 358 154 331 144 290L87 63C84 50 78 24 78 19C78-1 89-11 110-11C130-11 143-1 150 19L169 91C180 134 187 162 190 175L221 303C223 311 231 324 244 343C271 381 302 413 351 413C363 413 373 411 382 406C352 397 337 378 337 351C337 325 351 312 378 312C411 312 436 341 436 374Z"></path></g><g data-mml-node="mi" data-latex="k" transform="translate(3079,0)"><path data-c="1D458" d="M409 353C409 327 423 314 450 314C485 314 508 345 508 379C508 418 476 445 437 445C392 445 344 415 291 356C250 311 217 282 190 269L291 679C289 688 287 694 274 694C242 694 166 685 154 684C139 682 132 675 132 660C132 650 141 645 159 645C178 645 204 646 204 632L59 43C56 32 55 25 55 21C55 0 66-11 87-11C104-11 117-3 124 12C129 21 147 92 179 226C231 221 286 196 286 146C286 131 279 101 279 91C279 34 316-11 373-11C431-11 470 41 490 145C490 154 485 159 475 159C466 159 460 152 457 138C435 59 408 19 375 19C357 19 348 33 348 61C348 77 360 131 360 147C360 204 314 239 221 253C244 269 270 292 298 322C326 352 346 371 359 382C386 404 412 415 435 415C445 415 453 413 459 409C432 404 409 379 409 353Z"></path></g></g></g><g data-mml-node="mo" data-latex="(" transform="translate(5244.4,0)"><path data-c="28" d="M318-248C327-248 332-243 332-234C332-231 330-227 327-223C275-183 233-117 202-26C175 53 161 131 161 208L161 292C161 369 175 447 202 526C233 617 275 683 327 723C330 726 332 730 332 734C332 743 327 748 318 748C317 748 314 747 311 745C251 699 201 631 160 540C121 453 101 371 101 292L101 208C101 129 121 47 160-40C201-131 251-199 311-245C314-247 317-248 318-248Z"></path></g><g data-mml-node="TeXAtom" data-latex="\mathbf{X}" data-mjx-texclass="ORD" transform="translate(5633.4,0)"><g data-mml-node="mi" data-latex="X"><path data-c="1D417" d="M835 0L835 47L737 47L484 397L652 618C663 632 664 633 699 636C723 639 729 639 757 639L786 639L786 686C744 683 695 683 652 683C613 683 536 683 500 686L500 639C518 639 557 639 592 628C591 626 586 620 584 617L452 442L309 639L392 639L392 686C351 683 256 683 211 683C171 683 84 683 49 686L49 639L147 639L369 332L167 67C158 55 156 53 124 50C104 48 83 47 63 47L34 47L34 0C76 3 125 3 168 3C207 3 284 3 320 0L320 47C302 47 263 47 228 58C229 60 234 66 236 69L401 288L575 47L492 47L492 0C533 3 628 3 673 3C713 3 800 3 835 0Z"></path></g></g><g data-mml-node="mo" data-latex=";" transform="translate(6502.4,0)"><path data-c="3B" d="M192 375C192 405 169 431 139 431C109 431 86 405 86 375C86 344 109 318 139 318C169 318 192 345 192 375M86 54C86 22 107-2 139-2C150-2 160 1 167 5C166-61 146-117 108-163C103-169 101-174 101-178C101-188 105-193 114-193C119-193 128-185 141-168C177-121 195-64 195 4C195 75 176 110 139 110C107 110 86 86 86 54Z"></path></g><g data-mml-node="TeXAtom" data-latex="\mathbf{W}" data-mjx-texclass="ORD" transform="translate(6947,0)"><g data-mml-node="mi" data-latex="W"><path data-c="1D416" d="M1164 639L1164 686C1137 685 1102 683 1057 683C1019 683 957 683 921 686L921 639C946 639 994 639 1023 628L851 181L674 639L770 639L770 686C732 683 638 683 595 683C556 683 477 683 442 686L442 639L528 639L569 533L433 181L256 639L352 639L352 686C314 683 220 683 177 683C138 683 59 683 24 686L24 639L110 639L350 18C356 2 360-8 385-8C410-8 414 2 420 18L594 468L768 18C774 2 778-8 803-8C828-8 832 2 838 18L1069 615C1075 632 1076 634 1107 637C1127 639 1148 639 1164 639Z"></path></g></g><g data-mml-node="mo" data-latex="," transform="translate(8136,0)"><path data-c="2C" d="M139 106C107 106 86 82 86 50C86 20 109-5 139-5C153-5 165-1 174 8L175 0C175-63 154-117 112-160C105-168 101-174 101-178C101-188 105-193 114-193C123-193 135-181 152-158C186-110 203-57 203 0C203 53 185 106 139 106Z"></path></g><g data-mml-node="mi" data-latex="b" transform="translate(8580.7,0)"><path data-c="1D44F" d="M281 445C245 445 209 428 174 394L243 679C241 688 238 694 226 694C193 694 120 685 107 684C92 682 84 675 84 660C84 650 93 645 112 645C131 645 157 646 157 632C157 628 152 608 143 571L63 249C52 207 47 173 47 148C47 62 93-11 175-11C240-11 297 22 347 89C392 151 415 216 415 283C415 370 364 445 281 445M279 415C318 415 337 385 337 326C337 299 331 263 319 218C297 133 268 75 233 44C213 27 194 19 175 19C134 19 114 51 114 115C114 137 119 170 129 214L151 304C154 319 159 330 165 338C204 389 242 415 279 415Z"></path></g><g data-mml-node="mo" data-latex=")" transform="translate(9009.7,0)"><path data-c="29" d="M78-245C138-199 188-131 229-40C268 47 288 129 288 208L288 292C288 371 268 453 229 540C188 631 138 699 78 745C75 747 72 748 71 748C62 748 57 743 57 734C57 730 59 726 62 723C114 683 156 617 187 526C214 447 228 369 228 292L228 208C228 131 214 53 187-26C156-117 114-183 62-223C59-227 57-231 57-234C57-243 62-248 71-248C72-248 75-247 78-245Z"></path></g><g data-mml-node="mo" data-latex="," transform="translate(9398.7,0)"><path data-c="2C" d="M139 106C107 106 86 82 86 50C86 20 109-5 139-5C153-5 165-1 174 8L175 0C175-63 154-117 112-160C105-168 101-174 101-178C101-188 105-193 114-193C123-193 135-181 152-158C186-110 203-57 203 0C203 53 185 106 139 106Z"></path></g><g data-mml-node="TeXAtom" data-latex="\mathbf{Y}" data-mjx-texclass="ORD" transform="translate(9843.4,0)"><g data-mml-node="mi" data-latex="Y"><path data-c="1D418" d="M849 639L849 686L735 683C696 683 640 683 603 686L603 639C626 639 653 639 679 629C677 625 677 623 672 617L485 342L282 639L367 639L367 686C326 683 229 683 184 683C144 683 54 683 19 686L19 639L117 639L366 274L366 47L258 47L258 0C294 3 392 3 434 3C477 3 573 3 611 0L611 47L502 47L502 274L737 619C746 633 754 633 776 636C793 638 811 639 828 639Z"></path></g></g><g data-mml-node="mo" data-latex=")" transform="translate(10712.4,0)"><path data-c="29" d="M78-245C138-199 188-131 229-40C268 47 288 129 288 208L288 292C288 371 268 453 229 540C188 631 138 699 78 745C75 747 72 748 71 748C62 748 57 743 57 734C57 730 59 726 62 723C114 683 156 617 187 526C214 447 228 369 228 292L228 208C228 131 214 53 187-26C156-117 114-183 62-223C59-227 57-231 57-234C57-243 62-248 71-248C72-248 75-247 78-245Z"></path></g></g></g></svg></mjx-container></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>最终，神经网络得到的是一个 <strong>高度复杂的复合非线性函数</strong><ul>
+<li>因为神经网络中神经元每层的参数传递，都是一次函数嵌套/复合</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">([x0...n]: sigmoid(x)) --w00, w01,...,w0n--&gt; +b ([w0x0...wnxn + b = x1]: sigmoid(x1)) --w10,w11,...,w1n--&gt; activation(w10x10 + w11x11 + ... + w1nx1n + b1) = ans(得到神经元输出)</span><br><span class="line">所以神经网络中一个单元的结构应该是</span><br><span class="line">-----[x]</span><br><span class="line">若出现在输出层，则就是一个输出单元</span><br><span class="line">输入层的特征数据就是一个 [x]</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2295,205 +2512,6 @@ f_r \in [0,\frac{1}{\pi}]
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/CS/Graphics/Games101/Lecture-17/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/CS/Graphics/Games101/Lecture-16/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/CS/Graphics/Games101/Lecture-16/" class="post-title-link" itemprop="url">Games101 光线追踪 4</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-08-29 11:00:00" itemprop="dateCreated datePublished" datetime="2026-08-29T11:00:00+08:00">2026-08-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-09-01 14:45:54" itemprop="dateModified" datetime="2026-09-01T14:45:54+08:00">2026-09-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机图形学</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Ray-Tracing-4"><a href="#Ray-Tracing-4" class="headerlink" title="Ray Tracing 4"></a>Ray Tracing 4</h1><blockquote>
-<p><em><strong>Monte Carlo Path Tracing</strong></em> 蒙特卡洛路径追踪  </p>
-</blockquote>
-<blockquote>
-<p><strong><em>Probability Density Function, PDF</em> 概率密度函数</strong></p>
-</blockquote>
-<h2 id="蒙特卡洛积分"><a href="#蒙特卡洛积分" class="headerlink" title="蒙特卡洛积分"></a>蒙特卡洛积分</h2><blockquote>
-<p>通常的常用定积分形式为 <mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: -0.789ex;" xmlns="http://www.w3.org/2000/svg" width="9.656ex" height="3.104ex" role="img" focusable="false" viewBox="0 -1023.3 4268 1371.9"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="\int_a^bf(x)dx"><g data-mml-node="msubsup" data-latex="\int_a^b"><g data-mml-node="mo" data-latex="\int" transform="translate(0 0.5)"><path data-c="222B" d="M497 805C421 805 370 747 344 630C340 613 335 578 328 526L315 425C301 313 292 230 288 175L269-72C262-169 246-276 168-276C147-276 129-271 114-261C135-255 146-241 146-219C146-192 128-173 101-173C71-173 56-189 56-220C56-273 111-306 168-306C249-306 305-246 335-127C356-43 375 107 391 324L410 571C414 628 421 673 430 705C443 747 452 775 498 775C519 775 537 770 551 760C530 754 519 740 519 718C519 691 537 672 564 672C594 672 609 688 609 719C609 772 554 805 497 805Z"></path></g><g data-mml-node="mi" transform="translate(754,532.6) scale(0.707)" data-latex="b"><path data-c="1D44F" d="M281 445C245 445 209 428 174 394L243 679C241 688 238 694 226 694C193 694 120 685 107 684C92 682 84 675 84 660C84 650 93 645 112 645C131 645 157 646 157 632C157 628 152 608 143 571L63 249C52 207 47 173 47 148C47 62 93-11 175-11C240-11 297 22 347 89C392 151 415 216 415 283C415 370 364 445 281 445M279 415C318 415 337 385 337 326C337 299 331 263 319 218C297 133 268 75 233 44C213 27 194 19 175 19C134 19 114 51 114 115C114 137 119 170 129 214L151 304C154 319 159 330 165 338C204 389 242 415 279 415Z"></path></g><g data-mml-node="mi" transform="translate(578,-340.9) scale(0.707)" data-latex="a"><path data-c="1D44E" d="M498 144C498 153 493 158 482 158C474 158 468 151 465 137C445 58 421 18 394 18C377 18 368 32 368 60C368 73 372 97 381 132L438 357C443 376 445 387 445 392C445 412 434 422 412 422C391 422 377 410 370 387C349 424 319 442 281 442C216 442 159 409 109 343C63 281 40 217 40 150C40 63 91-11 175-11C218-11 260 12 300 58C311 20 345-11 392-11C461-11 482 70 498 144M341 374C350 353 355 339 355 330C355 326 354 321 353 314L304 122C301 111 294 99 285 87C248 41 212 18 177 18C138 18 118 48 118 107C118 131 124 167 136 215C157 300 187 357 224 388C244 405 263 413 282 413C309 413 329 400 341 374Z"></path></g></g><g data-mml-node="mi" data-latex="f" transform="translate(1274,0)"><path data-c="1D453" d="M552 633C552 677 509 705 462 705C400 705 357 665 334 586C329 568 318 517 302 433L237 433C215 433 204 432 204 411C204 400 214 395 235 395L295 395L222 8C211-49 201-91 192-119C180-156 163-175 141-175C126-175 114-171 103-164C135-159 151-140 151-108C151-82 138-69 111-69C77-69 53-99 53-133C53-177 94-205 141-205C166-205 189-195 208-174C240-141 265-94 283-31C294 8 304 46 311 84L369 395L451 395C474 395 484 396 484 419C484 428 474 433 454 433L377 433C383 474 411 625 420 644C430 665 444 675 462 675C477 675 490 671 501 664C470 657 454 639 454 608C454 582 467 569 494 569C528 569 552 599 552 633Z"></path></g><g data-mml-node="mo" data-latex="(" transform="translate(1826,0)"><path data-c="28" d="M318-248C327-248 332-243 332-234C332-231 330-227 327-223C275-183 233-117 202-26C175 53 161 131 161 208L161 292C161 369 175 447 202 526C233 617 275 683 327 723C330 726 332 730 332 734C332 743 327 748 318 748C317 748 314 747 311 745C251 699 201 631 160 540C121 453 101 371 101 292L101 208C101 129 121 47 160-40C201-131 251-199 311-245C314-247 317-248 318-248Z"></path></g><g data-mml-node="mi" data-latex="x" transform="translate(2215,0)"><path data-c="1D465" d="M527 373C527 419 482 442 432 442C389 442 355 419 329 373C308 419 273 442 222 442C173 442 133 419 101 374C74 335 60 306 60 287C60 278 65 273 75 273C84 273 90 278 92 287C111 345 153 413 220 413C253 413 269 392 269 351C269 330 251 252 216 118C199 51 169 18 126 18C112 18 99 21 88 26C114 36 127 54 127 80C127 106 114 119 87 119C54 119 29 91 29 58C29 12 76-11 125-11C167-11 201 12 228 58C247 12 283-11 335-11C383-11 423 12 455 57C482 96 496 125 496 144C496 153 491 158 481 158C472 158 467 153 464 144C447 87 402 18 337 18C304 18 287 38 287 79C287 92 292 120 303 165L337 300C356 375 387 413 431 413C445 413 458 410 469 405C442 396 429 378 429 351C429 325 443 312 470 312C502 312 527 341 527 373Z"></path></g><g data-mml-node="mo" data-latex=")" transform="translate(2787,0)"><path data-c="29" d="M78-245C138-199 188-131 229-40C268 47 288 129 288 208L288 292C288 371 268 453 229 540C188 631 138 699 78 745C75 747 72 748 71 748C62 748 57 743 57 734C57 730 59 726 62 723C114 683 156 617 187 526C214 447 228 369 228 292L228 208C228 131 214 53 187-26C156-117 114-183 62-223C59-227 57-231 57-234C57-243 62-248 71-248C72-248 75-247 78-245Z"></path></g><g data-mml-node="mi" data-latex="d" transform="translate(3176,0)"><path data-c="1D451" d="M429 632L370 389C349 426 320 445 281 445C216 445 159 412 109 345C63 283 40 218 40 151C40 63 91-11 175-11C218-11 260 12 300 59C311 21 345-11 392-11C461-11 483 71 498 145C498 154 493 159 483 159C474 159 468 152 465 138C445 59 421 19 394 19C377 19 368 33 368 60C368 75 370 91 374 107L516 679L516 683C513 690 507 694 499 694C476 694 434 690 374 683C363 682 357 674 357 660C357 650 366 645 384 645C403 645 429 646 429 632M341 376C351 355 356 341 356 332C355 328 354 323 353 316L304 122C301 111 294 99 285 87C248 42 212 19 177 19C138 19 118 49 118 108C118 132 124 168 136 216C157 301 187 359 224 390C244 407 263 415 282 415C309 415 329 402 341 376Z"></path></g><g data-mml-node="mi" data-latex="x" transform="translate(3696,0)"><path data-c="1D465" d="M527 373C527 419 482 442 432 442C389 442 355 419 329 373C308 419 273 442 222 442C173 442 133 419 101 374C74 335 60 306 60 287C60 278 65 273 75 273C84 273 90 278 92 287C111 345 153 413 220 413C253 413 269 392 269 351C269 330 251 252 216 118C199 51 169 18 126 18C112 18 99 21 88 26C114 36 127 54 127 80C127 106 114 119 87 119C54 119 29 91 29 58C29 12 76-11 125-11C167-11 201 12 228 58C247 12 283-11 335-11C383-11 423 12 455 57C482 96 496 125 496 144C496 153 491 158 481 158C472 158 467 153 464 144C447 87 402 18 337 18C304 18 287 38 287 79C287 92 292 120 303 165L337 300C356 375 387 413 431 413C445 413 458 410 469 405C442 396 429 378 429 351C429 325 443 312 470 312C502 312 527 341 527 373Z"></path></g></g></g></svg></mjx-container> 以表示函数 <mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: -0.561ex;" xmlns="http://www.w3.org/2000/svg" width="4.303ex" height="2.253ex" role="img" focusable="false" viewBox="0 -748 1902 996"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="f(x)"><g data-mml-node="mi" data-latex="f"><path data-c="1D453" d="M552 633C552 677 509 705 462 705C400 705 357 665 334 586C329 568 318 517 302 433L237 433C215 433 204 432 204 411C204 400 214 395 235 395L295 395L222 8C211-49 201-91 192-119C180-156 163-175 141-175C126-175 114-171 103-164C135-159 151-140 151-108C151-82 138-69 111-69C77-69 53-99 53-133C53-177 94-205 141-205C166-205 189-195 208-174C240-141 265-94 283-31C294 8 304 46 311 84L369 395L451 395C474 395 484 396 484 419C484 428 474 433 454 433L377 433C383 474 411 625 420 644C430 665 444 675 462 675C477 675 490 671 501 664C470 657 454 639 454 608C454 582 467 569 494 569C528 569 552 599 552 633Z"></path></g><g data-mml-node="mo" data-latex="(" transform="translate(552,0)"><path data-c="28" d="M318-248C327-248 332-243 332-234C332-231 330-227 327-223C275-183 233-117 202-26C175 53 161 131 161 208L161 292C161 369 175 447 202 526C233 617 275 683 327 723C330 726 332 730 332 734C332 743 327 748 318 748C317 748 314 747 311 745C251 699 201 631 160 540C121 453 101 371 101 292L101 208C101 129 121 47 160-40C201-131 251-199 311-245C314-247 317-248 318-248Z"></path></g><g data-mml-node="mi" data-latex="x" transform="translate(941,0)"><path data-c="1D465" d="M527 373C527 419 482 442 432 442C389 442 355 419 329 373C308 419 273 442 222 442C173 442 133 419 101 374C74 335 60 306 60 287C60 278 65 273 75 273C84 273 90 278 92 287C111 345 153 413 220 413C253 413 269 392 269 351C269 330 251 252 216 118C199 51 169 18 126 18C112 18 99 21 88 26C114 36 127 54 127 80C127 106 114 119 87 119C54 119 29 91 29 58C29 12 76-11 125-11C167-11 201 12 228 58C247 12 283-11 335-11C383-11 423 12 455 57C482 96 496 125 496 144C496 153 491 158 481 158C472 158 467 153 464 144C447 87 402 18 337 18C304 18 287 38 287 79C287 92 292 120 303 165L337 300C356 375 387 413 431 413C445 413 458 410 469 405C442 396 429 378 429 351C429 325 443 312 470 312C502 312 527 341 527 373Z"></path></g><g data-mml-node="mo" data-latex=")" transform="translate(1513,0)"><path data-c="29" d="M78-245C138-199 188-131 229-40C268 47 288 129 288 208L288 292C288 371 268 453 229 540C188 631 138 699 78 745C75 747 72 748 71 748C62 748 57 743 57 734C57 730 59 726 62 723C114 683 156 617 187 526C214 447 228 369 228 292L228 208C228 131 214 53 187-26C156-117 114-183 62-223C59-227 57-231 57-234C57-243 62-248 71-248C72-248 75-247 78-245Z"></path></g></g></g></svg></mjx-container> 上从<mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: -0.025ex;" xmlns="http://www.w3.org/2000/svg" width="1.197ex" height="1.025ex" role="img" focusable="false" viewBox="0 -442 529 453"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="a"><g data-mml-node="mi" data-latex="a"><path data-c="1D44E" d="M498 144C498 153 493 158 482 158C474 158 468 151 465 137C445 58 421 18 394 18C377 18 368 32 368 60C368 73 372 97 381 132L438 357C443 376 445 387 445 392C445 412 434 422 412 422C391 422 377 410 370 387C349 424 319 442 281 442C216 442 159 409 109 343C63 281 40 217 40 150C40 63 91-11 175-11C218-11 260 12 300 58C311 20 345-11 392-11C461-11 482 70 498 144M341 374C350 353 355 339 355 330C355 326 354 321 353 314L304 122C301 111 294 99 285 87C248 41 212 18 177 18C138 18 118 48 118 107C118 131 124 167 136 215C157 300 187 357 224 388C244 405 263 413 282 413C309 413 329 400 341 374Z"></path></g></g></g></svg></mjx-container>到<mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: -0.025ex;" xmlns="http://www.w3.org/2000/svg" width="0.971ex" height="1.595ex" role="img" focusable="false" viewBox="0 -694 429 705"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="b"><g data-mml-node="mi" data-latex="b"><path data-c="1D44F" d="M281 445C245 445 209 428 174 394L243 679C241 688 238 694 226 694C193 694 120 685 107 684C92 682 84 675 84 660C84 650 93 645 112 645C131 645 157 646 157 632C157 628 152 608 143 571L63 249C52 207 47 173 47 148C47 62 93-11 175-11C240-11 297 22 347 89C392 151 415 216 415 283C415 370 364 445 281 445M279 415C318 415 337 385 337 326C337 299 331 263 319 218C297 133 268 75 233 44C213 27 194 19 175 19C134 19 114 51 114 115C114 137 119 170 129 214L151 304C154 319 159 330 165 338C204 389 242 415 279 415Z"></path></g></g></g></svg></mjx-container>的积分<br>采用随机方法，对包含目标函数的固定区域内进行随机采样，计算采样点与总采样次数之间的比值（ <mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: -1.158ex;" xmlns="http://www.w3.org/2000/svg" width="7.395ex" height="3.447ex" role="img" focusable="false" viewBox="0 -1011.8 3268.4 1523.5"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="\frac{\text{函数区域}}{\text{固定区域}}"><g data-mml-node="mfrac" data-latex="\frac{\text{函数区域}}{\text{固定区域}}"><g data-mml-node="mtext" transform="translate(220,481.4) scale(0.707)" data-latex="\text{函数区域}"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">函数区域</text></g><g data-mml-node="mtext" transform="translate(220,-370.3) scale(0.707)" data-latex="\text{固定区域}"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">固定区域</text></g><rect width="3028.4" height="60" x="120" y="220"></rect></g></g></g></svg></mjx-container> ），并由此计算出该函数的积分</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/CS/Graphics/Games101/Lecture-16/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/CS/Graphics/Games101/Lecture-14-15/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/CS/Graphics/Games101/Lecture-14-15/" class="post-title-link" itemprop="url">Games101 光线追踪 2 3</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-08-28 16:00:00" itemprop="dateCreated datePublished" datetime="2026-08-28T16:00:00+08:00">2026-08-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-31 19:23:31" itemprop="dateModified" datetime="2026-08-31T19:23:31+08:00">2026-08-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机图形学</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Ray-Tracing-2"><a href="#Ray-Tracing-2" class="headerlink" title="Ray Tracing 2"></a>Ray Tracing 2</h1><blockquote>
-<p><strong>Acceleration &amp; Radiometry</strong><br>加速结构 &amp; 辐射度量学</p>
-</blockquote>
-<p><strong>如何使用 <em>AABB</em> 加速光线追踪</strong></p>
-<ul>
-<li><strong><em>Uniform grids</em> 均匀格</strong></li>
-<li><strong><em>Spatial partitions</em> 空间划分</strong></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/CS/Graphics/Games101/Lecture-14-15/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
