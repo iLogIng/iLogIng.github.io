@@ -2,15 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://iloging.github.io/Self/Resume/%E5%BC%A0%E6%99%AF%E6%9F%AF-%E9%95%BF%E6%98%A5%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6-%E7%AE%80%E5%8E%86-%E5%86%85%E5%AE%B9/</loc>
-    
-    <lastmod>2026-10-17</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://iloging.github.io/CS/ML/Neural-Network-with-loss-and-gridient/</loc>
     
     <lastmod>2026-10-17</lastmod>

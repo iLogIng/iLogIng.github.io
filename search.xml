@@ -13067,16 +13067,4 @@ s20 Comprehensive Agent
         <tag>thought</tag>
       </tags>
   </entry>
-  <entry>
-    <title></title>
-    <url>/Self/Resume/%E5%BC%A0%E6%99%AF%E6%9F%AF-%E9%95%BF%E6%98%A5%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6-%E7%AE%80%E5%8E%86-%E5%86%85%E5%AE%B9/</url>
-    <content><![CDATA[张景柯联系方式：13512780256 | 电子邮件：zhangjk523@qq.com | 博客：iLogIng.github.io | GitHub：github.com&#x2F;iLogIng
-教育经历长春理工大学 | 软件工程专业 | 本科 | 2024.8 - 2028.6方向：C&#x2F;C++ 系统编程与多媒体处理主修课程：数据结构、操作系统、计算机网络、计算机组成原理
-项目经历
-WAV 容器解析与编解码库 WavProcesser | C++17、CMake、GTest | 2026.10 | 独立开发    • 以 header-only 方式实现 RIFF&#x2F;WAVE 容器的解析与写出，按职责拆分为布局定义、字节 IO、四字符码、样本格式、流抽象等 12 个模块。    • 覆盖 U8&#x2F;S16&#x2F;S24&#x2F;S32&#x2F;F32&#x2F;F64 六种采样格式的读写与相互转换，支持 WAVE_FORMAT_EXTENSIBLE 扩展头（有效位深 &#x2F; 通道掩码 &#x2F; GUID）解析。    • 实现 IMA ADPCM 编解码：块头解析、跨块 predictor 状态延续、奇数字节 pad，并以 PCM 往返比对校验解码正确性。    • 5 个测试模块覆盖容器解析、样本编解码、ADPCM、文件 IO 与往返一致性。
-异步 HTTP 服务器 | C++17、Boost(Asio &#x2F; Beast)、Docker、CMake | 2026.04 - 2026.08 | 独立开发    • 基于 Proactor 模型实现异步 HTTP&#x2F;1.1 服务器，支持多线程 I&#x2F;O 复用、连接超时控制与优雅关闭（信号捕获 + 会话排空 + 强制超时）。    • 以 RAII 管理连接生命周期；实现路由分发、静态文件服务与动态 API 端点注册表（method + path 自由注册）。    • 安全与限流：路径穿越双重校验、请求体大小限制（413）、连接限流（503 + Retry-After 头）。    • 实现 gzip 内容协商（Accept-Encoding + Vary，Range 请求不压缩）与线程安全的 LRU 文件缓存；支持配置优先级：命令行 &gt; JSON &gt; 默认值。    • Google Test 单元测试与端到端集成测试共 140 用例；wrk 压测（8 线程 &#x2F; 400 连接）峰值约 150k QPS，测试环境与数据留档于 docs&#x2F;stress-test。
-内存键值存储 tinyKVCache | C++17、CMake、GTest、epoll | 2026.09 | 独立开发    • 零依赖实现有界 LRU 缓存：槽位池 + 侵入式双向链表，O(1) 复杂度内完成缓存单元的定位与淘汰。    • 实现 AOF 持久化：长度前缀记录格式（支持任意字节值的存储）、三种 fsync 策略（always 立即写盘 &#x2F; group 批量合并 &#x2F; os 交由操作系统控制回写），写失败不修改内存以保证日志与内存一致。    • 启动时按写序回放 AOF 重建缓存；末尾不完整记录自动截断恢复。    • 网络层自实现帧编解码 + 事件循环服务端 + 客户端库，支持 pipeline 批量发送接收，兼容 RESP2 子集（能够与redis服务器进行简单交互）。    • 8 个测试模块覆盖 LRU 缓存、分词解析、日志回放、帧编解码与客户端集成。
-专业技能    • 语言：熟练应用 C++11&#x2F;14&#x2F;17（智能指针、移动语义、Lambda、constexpr、模板），掌握 C、Python、Shell&#x2F;Bash；有 Java、SQL 使用经验。    • 音视频与二进制格式：熟悉 WAV&#x2F;RIFF 容器结构、PCM 与 IMA ADPCM 编解码；了解 MP4&#x2F;FLV&#x2F;MPEG-TS 容器结构，熟悉 FFmpeg CLI 全流程（封装解封装、转码、滤镜、流媒体）。    • 网络：深入理解 TCP&#x2F;IP 协议栈，掌握 HTTP、TCP&#x2F;UDP、ICMP 协议格式与分析方法，熟练使用 Wireshark 分析网络报文。    • 构建与工具链：熟练运用 CMake、Makefile 构建项目，掌握 GDB 调试、GTest 测试框架、vcpkg 依赖管理，使用 Git 进行分支协同开发。    • 系统与部署：熟练使用 Linux（Fedora &#x2F; Ubuntu）开发环境，掌握 systemd、podman 容器与 quadlet 部署，编写 Shell&#x2F;Bash 脚本自动化编译、测试与部署。    • 数据库：MySQL、Redis 使用经验。    • 机器学习：理解前向&#x2F;反向传播与梯度下降，以 C 手写过多层感知机与反向传播实现；了解 PyTorch 基础与 Mel 频谱特征。
-]]></content>
-  </entry>
 </search>

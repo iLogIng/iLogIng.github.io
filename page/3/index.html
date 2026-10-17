@@ -289,7 +289,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -325,142 +325,6 @@ mjx-container[display="true"] + br {
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/CS/ML/AI/Agent/opencode/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="iLogIng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Volador235's blog">
-      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Volador235's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/CS/ML/AI/Agent/opencode/" class="post-title-link" itemprop="url">opencode 使用指南</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-08-07 12:00:00" itemprop="dateCreated datePublished" datetime="2026-08-07T12:00:00+08:00">2026-08-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/AI-%E6%99%BA%E8%83%BD%E4%BD%93/" itemprop="url" rel="index"><span itemprop="name">AI 智能体</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="OpenCode-全面使用指南"><a href="#OpenCode-全面使用指南" class="headerlink" title="OpenCode 全面使用指南"></a>OpenCode 全面使用指南</h1><p>OpenCode 是一个开源的 AI 编程代理（AI Coding Agent），提供终端 TUI、桌面应用和 IDE 扩展三种形态，支持 75+ 家 LLM 提供商和本地模型。以下指南基于官方文档（opencode.ai&#x2F;docs）整理。</p>
-<hr>
-<h2 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h2><p><strong>推荐方式（一行脚本）：</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://opencode.ai/install | bash</span><br></pre></td></tr></table></figure>
-
-<p><strong>其他方式：</strong></p>
-<table>
-<thead>
-<tr>
-<th>方式</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>npm</td>
-<td><code>npm install -g opencode-ai</code></td>
-</tr>
-<tr>
-<td>bun</td>
-<td><code>bun install -g opencode-ai</code></td>
-</tr>
-<tr>
-<td>Homebrew</td>
-<td><code>brew install anomalyco/tap/opencode</code></td>
-</tr>
-<tr>
-<td>Arch</td>
-<td><code>sudo pacman -S opencode</code> 或 <code>paru -S opencode-bin</code></td>
-</tr>
-<tr>
-<td>Windows (Scoop)</td>
-<td><code>scoop install opencode</code></td>
-</tr>
-<tr>
-<td>Windows (Chocolatey)</td>
-<td><code>choco install opencode</code></td>
-</tr>
-<tr>
-<td>Docker</td>
-<td><code>docker run -it --rm ghcr.io/anomalyco/opencode</code></td>
-</tr>
-</tbody></table>
-<p><strong>注意：</strong> Windows 强烈建议使用 WSL；使用脚本安装时，要使用现代终端模拟器（WezTerm、Alacritty、Ghostty、Kitty 等）。</p>
-<p><strong>升级 &#x2F; 卸载：</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">opencode upgrade            <span class="comment"># 升级到最新版</span></span><br><span class="line">opencode upgrade v0.1.48    <span class="comment"># 升级到指定版本</span></span><br><span class="line">opencode uninstall          <span class="comment"># 卸载（-c 保留配置，-d 保留数据）</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/CS/ML/AI/Agent/opencode/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -1103,6 +967,90 @@ mjx-container[display="true"] + br {
             </div>
           <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://iloging.github.io/CS/OS/xv6-labs/xv6-riscv/initial-xv6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="iLogIng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Volador235's blog">
+      <meta itemprop="description" content="Volador235 的博客：技术学习与个人生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Volador235's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/CS/OS/xv6-labs/xv6-riscv/initial-xv6/" class="post-title-link" itemprop="url">initial xv6</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-06-09 19:19:00" itemprop="dateCreated datePublished" datetime="2026-06-09T19:19:00+08:00">2026-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-08 03:55:51" itemprop="dateModified" datetime="2026-08-08T03:55:51+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="initial-xv6"><a href="#initial-xv6" class="headerlink" title="initial xv6"></a>initial xv6</h1>
       
     </div>
 
