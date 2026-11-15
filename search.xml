@@ -1520,12 +1520,12 @@ return  这时  就是P到AB的垂段
     <title>Audio Video Basic</title>
     <url>/CS/Media/Audio-Video-Basic/</url>
     <content><![CDATA[
-生活是连续的，数据是离散的，我们通过数学将他们串联  
+生活是连续的，数据是离散的，我们通过数学将他们串联
 
 音视频基础知识
 FFmpeg相关材料: about-ffmpeg
 
-Multi Media BasicsColor &amp; Picture现实生活中的物体靠 吸收 与 反射 光展现其颜色  
+Multi Media BasicsColor &amp; Picture现实生活中的物体靠 吸收 与 反射 光展现其颜色
 常用的有两种色彩空间
 
 RGB
@@ -1548,9 +1548,11 @@ K blacK 黑
 在数字显示世界中，处理音视频，一般使用 RGB 色彩空间
 
 计算机中，图像的存储一般使用 位图(Bitmap) ，其中每个点称为 像素(Pixel)对于 RGB 色彩空间，每个颜色分量称为一个 通道(Channel)通常，每个像素的每种颜色分量用 1字节(1Byte &#x3D; 8bit) 表示，存储一个像素的色彩就需要 24位也称为 24位真彩色 ，一共可表示 2^24 种颜色为了描述 透明 的图像，在每个像素上再增加一个表示 透明度 的分量，称为 Alpha通道表示 2^8 种透明度，产生 RGBA 色彩空间，一个像素就需要 4Byte 的空间进行存储，正好可以通过 32位 整数表示由此，通常使用整数来对图像进行计算
-由于计算机在不同架构下其字节序也可能不同，产生数据存储的 大小端* 问题因此出现了多种不同的存储方式 (RGBA ABGR BGRA ARGB 等) 
+由于计算机在不同架构下其字节序也可能不同，产生数据存储的 大小端* 问题因此出现了多种不同的存储方式 (RGBA ABGR BGRA ARGB 等)
 
 对于 灰度图 一般使用1Byte进行存储对于 单色图 一般使用1bit进行存储
+
+
 
 Film TV &amp; Video视觉暂留：即，余晖效应，人眼在观察景物时，光信号传入大脑神经需经过一段短暂的时间，而光的作用结束后视觉形象并不立即消失，这种残留的视觉称为 后像 ，视觉的这一现象则被称为“视觉暂留”。
 
@@ -1559,9 +1561,9 @@ Film TV &amp; Video视觉暂留：即，余晖效应，人眼在观察景物时�
 
 CRT, Cathode Ray Tube 阴极射线管，扫描显示一幅图像称为 1场LCD, Liquid Crystal Display 液晶显示器，液晶本身不发光，需要使用背光源OLED, Organic Light-Emitting Diode 有机发光二极管，可以自发光，不需要使用背光源
 
-*帧率 FPS(Frames Per Second)**: 每秒闪过的图像数量
+帧率 FPS(Frames Per Second)*: 每秒闪过的图像数量
 隔行扫描: 也称，交错扫描，一场扫描奇数行另一场再扫描偶数行（受早期CRT技术的限制）对于LCD，也是一行一行地刷新显示，屏幕的分辨率一般采用 宽*长 来表示如，1080p(19201080)、720p(1280720)，其中 p 指的是 逐行扫描 ，若是 1080i 则 i 表示的是 隔行扫描对于扫描完整的 1帧 图像，主要是由图像的高度决定，即行数决定，所以常常将 1920*1080 称为 1080p
-若一块屏幕的分辨率达到 300ppi 以上，我们称之为 视网膜屏。ppi (Pixel Per Inch, 每英寸像素数，也称 dpi Dots Per Inch) 是描述最高分辨能力的单位  
+若一块屏幕的分辨率达到 300ppi 以上，我们称之为 视网膜屏。ppi (Pixel Per Inch, 每英寸像素数，也称 dpi Dots Per Inch) 是描述最高分辨能力的单位
 
 视力为1.0的人观看离双眼10～12英寸（约25～30厘米）的手机屏时，最高能分辨300ppi。只有当图像与显示器的分辨率匹配时，才能达到最好的显示效果。
 
@@ -1571,9 +1573,9 @@ CRT, Cathode Ray Tube 阴极射线管，扫描显示一幅图像称为 1场LCD, 
 
 人眼并不是对所有颜色都敏感，因而可以去掉一些颜色，对图像进行压缩，这称为有损压缩，也是一些典型图像如JPEG的主要压缩原理
 一般来说，两帧图像间的差异其实不大，可以根据这个特性，只存储或传输图像间的差异信息，而不是整帧图像。
+
+
 由此，我们也可以知道，实际占用的带宽与视频的复杂度（画面细节、运动快慢程度等）和帧率、分辨率都是正相关的
-
-
 
 在音视频应用中，视频在传输到对端后要进行 解码 ，即将压缩过的视频再转换成一帧一帧的图像，才能送到显示器上显示整个过程合起来称为 编解码
 需要 编解码 的视频图像一般不使用RGB色彩空间，而是使用一种称为 YUV 的色彩空间，
@@ -1616,36 +1618,36 @@ U+V
 
 
 
-一般所说的 YUV 指的都是 YCbCr而Y来自RGB的加权和，根据人眼的感光能力得到Y &#x3D; 0.299R + 0.587G + 0.114BU &#x3D; B - Y   （蓝色色差）V &#x3D; R - Y   （红色色差）Y是黑白底色，表示像素的明亮程度，U&#x2F;V表示应该向B&#x2F;R偏移多少，若某个像素的色差为0，则它没有偏色，只表现出原RGB对应的黑白灰色  
+一般所说的 YUV 指的都是 YCbCr而Y来自RGB的加权和，根据人眼的感光能力得到Y &#x3D; 0.299R + 0.587G + 0.114BU &#x3D; B - Y （蓝色色差）V &#x3D; R - Y （红色色差）Y是黑白底色，表示像素的明亮程度，U&#x2F;V表示应该向B&#x2F;R偏移多少，若某个像素的色差为0，则它没有偏色，只表现出原RGB对应的黑白灰色
 
 如，纯红色在YUV色彩空间中表示为
 R = 255, G = 0, B = 0Y ≈ 76B - Y ≈ -76   // 蓝色远低于亮度，偏黄/青方向R - Y ≈ 179   // 红色远高于亮度，偏红方向
 
-YUV和Y’UV通常用来编码电视的模拟信号。Y’表示经过了gamma矫正YCbCr 则用来描述数字影像信号，适合数字化的视频与图片压缩及传输，如MPEG、JPEG  
+YUV和Y’UV通常用来编码电视的模拟信号。Y’表示经过了gamma矫正YCbCr 则用来描述数字影像信号，适合数字化的视频与图片压缩及传输，如MPEG、JPEG
 
 数字化的 YUV 使用得更加广泛
 
 YUV中UV分量数值分布平面图RGB转YUV平面
-GoP Group of Picture: 分组后的图像，主要是为了解决视频图像编码后的前向依赖问题导致的解码时，若出现前向编码中的某些帧丢失，导致的花屏现象I帧: 可单独解码的图像帧，不依赖前后图像，作为 GoP 的 第一帧 也称为 关键帧 Key Frame （GoP每隔一定数量的图像就会对一幅完整的图像进行编码）  
+GoP Group of Picture: 分组后的图像，主要是为了解决视频图像编码后的前向依赖问题导致的解码时，若出现前向编码中的某些帧丢失，导致的花屏现象I帧: 可单独解码的图像帧，不依赖前后图像，作为 GoP 的 第一帧 也称为 关键帧 Key Frame （GoP每隔一定数量的图像就会对一幅完整的图像进行编码）
 
-关键帧 Key Frame: 在H.264中一般称为 IDR帧 Instantaneous Decoding Refresh 即，立即刷新图像I帧: Intra-coded picture ，与IDR帧有所区别，IDR帧是I帧的子集每个GoP里的第1个I帧是IDR帧，后续的I帧虽然能独立解码，但它前&#x2F;后面的P&#x2F;B帧可能会参考I帧后&#x2F;前面的帧，但GoP内的帧参考不会跨越IDR帧P帧: 前向预测编码图像的帧B帧: 双向预测编码图像的帧，压缩率更高由于B帧需要参考后面的帧，收到B帧后不能立即解码，在实时音视频应用中会带来延迟，因而在实时通信中一般不使用B帧  
+关键帧 Key Frame: 在H.264中一般称为 IDR帧 Instantaneous Decoding Refresh 即，立即刷新图像I帧: Intra-coded picture ，与IDR帧有所区别，IDR帧是I帧的子集每个GoP里的第1个I帧是IDR帧，后续的I帧虽然能独立解码，但它前&#x2F;后面的P&#x2F;B帧可能会参考I帧后&#x2F;前面的帧，但GoP内的帧参考不会跨越IDR帧P帧: 前向预测编码图像的帧B帧: 双向预测编码图像的帧，压缩率更高由于B帧需要参考后面的帧，收到B帧后不能立即解码，在实时音视频应用中会带来延迟，因而在实时通信中一般不使用B帧
 
 I P B 帧之间的关系
-The Audio声音由振动产生，为了将现实世界中的音频（连续的）放到数字世界（离散的）中，需要执行一个 模数转换 Analog-Digital Conversion，ADC操作  
+The Audio声音由振动产生，为了将现实世界中的音频（连续的）放到数字世界（离散的）中，需要执行一个 模数转换 Analog-Digital Conversion，ADC操作
 
-DAC 数模转换 &lt;&#x3D;&gt; ADC 模数转换执行的是模拟信号与数字信号之间的相互转换  
+DAC 数模转换 &lt;&#x3D;&gt; ADC 模数转换执行的是模拟信号与数字信号之间的相互转换
 
-波，由 相位 频率 振幅 构成可以通过 傅里叶变换 FTT 将任何波形都分解为有限&#x2F;无限个正弦波的组合  
-声音大小的变化不是线性的，声音的刺激与人耳听到的感觉并不是线性的，而是呈 对数关系  
-通过采样、量化和编码3个步骤，可以将模拟信号转换为数字信号采样: 在时域中按一定时间间隔(T)对信号进行抽样，得到离散值将采样得到的离散值通过量化与编码过程转化为数字信号  
+波，由 相位 频率 振幅 构成可以通过 傅里叶变换 FTT 将任何波形都分解为有限&#x2F;无限个正弦波的组合
+声音大小的变化不是线性的，声音的刺激与人耳听到的感觉并不是线性的，而是呈 对数关系
+通过采样、量化和编码3个步骤，可以将模拟信号转换为数字信号采样: 在时域中按一定时间间隔(T)对信号进行抽样，得到离散值将采样得到的离散值通过量化与编码过程转化为数字信号
 单位时间内的抽样次数称为 采样率采样率越高，单位时间内采样点越密，得到的离散信号就与原信号越接近
 
 抽样定理 (采样定理或奈奎斯特·香农定理):当抽样频率是模拟信号频率带宽（最高频率与最低频率的差值）的 两倍 时，就能够完全还原原来的模拟信号
 
 数模转换通常使用 PCM Pulse Code Modulation 脉冲编码调制 方法
 
-颜色所使用的位数就称为颜色的 位深  
-*FourCC Four Character Code 四字符编码，一个32位无符号整数，使用大端序编码4个ASCII字符序列  
+颜色所使用的位数就称为颜色的 位深
+*FourCC Four Character Code 四字符编码，一个32位无符号整数，使用大端序编码4个ASCII字符序列
 数字 YCbCr 中，通常会给色差加上 128 偏移
 
 Cb &#x3D; 128 表示没有蓝色色差
@@ -1695,42 +1697,42 @@ Y图层始终保持全尺寸，而U&#x2F;V图层可能变小
 
 
 YUV444
+
+
 FourCC: 有YUYV、YVYU、UYVY、VYUY等
 
-
-
 水平，每4个像素中，Y取4个，U取4个，V取4个
-Y平面:Y11 Y12 Y13 Y14Y21 Y22 Y23 Y24Y31 Y32 Y33 Y34Y41 Y42 Y43 Y44  
-U平面:U11 U12 U13 U14U21 U22 U23 U24U31 U32 U33 U34U41 U42 U43 U44  
-V平面:V11 V12 V13 V14V21 V22 V23 V24V31 V32 V33 V34V41 V42 V43 V44  
+Y平面:Y11 Y12 Y13 Y14Y21 Y22 Y23 Y24Y31 Y32 Y33 Y34Y41 Y42 Y43 Y44
+U平面:U11 U12 U13 U14U21 U22 U23 U24U31 U32 U33 U34U41 U42 U43 U44
+V平面:V11 V12 V13 V14V21 V22 V23 V24V31 V32 V33 V34V41 V42 V43 V44
 
 YUV422
+
+
 FourCC: Y422
 
-
-
-Y平面:Y11 Y12 Y13 Y14Y21 Y22 Y23 Y24Y31 Y32 Y33 Y34Y41 Y42 Y43 Y44  
-U平面:U11 ___ U13 ___U21 ___ U23 ___U31 ___ U33 ___U41 ___ U43 ___  
-V平面:V11 ___ V13 ___V21 ___ V23 ___V31 ___ V33 ___V41 ___ V43 ___  
+Y平面:Y11 Y12 Y13 Y14Y21 Y22 Y23 Y24Y31 Y32 Y33 Y34Y41 Y42 Y43 Y44
+U平面:U11 ___ U13 ___U21 ___ U23 ___U31 ___ U33 ___U41 ___ U43 ___
+V平面:V11 ___ V13 ___V21 ___ V23 ___V31 ___ V33 ___V41 ___ V43 ___
 
 YUV411
+
+
 FourCC: Y411
 
-
-
-Y平面:Y11 Y12 Y13 Y14Y21 Y22 Y23 Y24Y31 Y32 Y33 Y34Y41 Y42 Y43 Y44  
-U平面:U11 ___ ___ ___U21 ___ ___ ___U31 ___ ___ ___U41 ___ ___ ___  
-V平面:V11 ___ ___ ___V21 ___ ___ ___V31 ___ ___ ___V41 ___ ___ ___  
+Y平面:Y11 Y12 Y13 Y14Y21 Y22 Y23 Y24Y31 Y32 Y33 Y34Y41 Y42 Y43 Y44
+U平面:U11 ___ ___ ___U21 ___ ___ ___U31 ___ ___ ___U41 ___ ___ ___
+V平面:V11 ___ ___ ___V21 ___ ___ ___V31 ___ ___ ___V41 ___ ___ ___
 
 YUV420
+
+
 实质上是包括了 4:2:0 + 4:0:2 两种情况实际采样邻近4像素的左上角部分
 
+Y平面:Y11 Y12 Y13 Y14Y21 Y22 Y23 Y24Y31 Y32 Y33 Y34Y41 Y42 Y43 Y44
+U平面:U11 ___ U13 ______ ___ ___ ___U31 ___ U33 ______ ___ ___ ___
+V平面:V11 ___ V13 ______ ___ ___ ___V31 ___ V33 ______ ___ ___ ___
 
-
-Y平面:Y11 Y12 Y13 Y14Y21 Y22 Y23 Y24Y31 Y32 Y33 Y34Y41 Y42 Y43 Y44  
-U平面:U11 ___ U13 ______ ___ ___ ___U31 ___ U33 ______ ___ ___ ___  
-V平面:V11 ___ V13 ______ ___ ___ ___V31 ___ V33 ______ ___ ___ ___  
-  
 
 
 
@@ -1770,14 +1772,14 @@ U&#x2F;V 平面
 0.25 个 U + 0.25 个 V
 
 
-RGB颜色模型的主要用途是在电子系统中检测、表示和显示图像，其原理是利用 大脑强制视觉生理模糊化（失焦） ，将红、绿、蓝三原色子像素合成一个色彩像素，产生感知色彩（其实此真彩色并非加色法所产生的合成色彩，因为该三原色光 从来没有重叠 在一起，只是人类为了“想”看到色彩，大脑强制眼睛失焦而形成的） 
+RGB颜色模型的主要用途是在电子系统中检测、表示和显示图像，其原理是利用 大脑强制视觉生理模糊化（失焦） ，将红、绿、蓝三原色子像素合成一个色彩像素，产生感知色彩（其实此真彩色并非加色法所产生的合成色彩，因为该三原色光 从来没有重叠 在一起，只是人类为了“想”看到色彩，大脑强制眼睛失焦而形成的）
 
 RGB是一种 依赖于设备 的颜色空间，不同设备对特定RGB值的检测和展现不一样，不同设备的每像素的RGB排列方式不同
 
 
-三原色的原理不是由物理原因，而是由生理原因造成的，人的眼睛内有3种辨别颜色（黄绿、绿和蓝紫）的锥形感光细胞三原色并不足以重现所有的色彩，只有那些在三原色的色度所定义的颜色三角内的颜色，才可以利用三原色的光以非负量相加混合得到所以，人眼看到红光与绿光混合出黄光，仅仅是对视锥细胞的一种等效  
+三原色的原理不是由物理原因，而是由生理原因造成的，人的眼睛内有3种辨别颜色（黄绿、绿和蓝紫）的锥形感光细胞三原色并不足以重现所有的色彩，只有那些在三原色的色度所定义的颜色三角内的颜色，才可以利用三原色的光以非负量相加混合得到所以，人眼看到红光与绿光混合出黄光，仅仅是对视锥细胞的一种等效
 
-全值域色彩空间：每个原色都能取到 0-255RGB也通常被映射到 [0, 1] 之间由于gamma矫正的非线性影响，每个原色的256个级别不能表示同等间隔的强度  
+全值域色彩空间：每个原色都能取到 0-255RGB也通常被映射到 [0, 1] 之间由于gamma矫正的非线性影响，每个原色的256个级别不能表示同等间隔的强度
 
 数字视频的RGB不是全值域的。视频RGB使用有比例和偏移量的约定，即（16，16，16）是黑色，（235，235，235）是白色。
 
@@ -1785,33 +1787,33 @@ gamma矫正示意图
 
 在CRT显示器中，色彩的亮度跟输入电压的关系不是线性的，而是呈指数关系，这个 指数 就称为gamma伽玛是一个经验值，而不是用数学公式计算出来的一般gamma &#x3D; 2.5 或 2.2，业界通常使用 2.2照相机的感光器件是线性的，得到的是线性的RGB图像经过伽玛校正后的图像所使用的RGB空间是非线性的，称为sRGB（Standard RGB）
 
-矫正后的值 &#x3D; 矫正前的值^0.45 (0.45 &#x3D; 1&#x2F;2.2, 此处值域为[0,1])  
-实际的图像都是使用非线性的sRGB空间（包括使用调色板选择颜色时），而在做图像计算和处理（比如将亮度加倍）时，则使用线性RGB空间更方便  
-HSL 与 HSV 色彩表示RGB色彩空间对人来说并不直观，所以引入HSL&#x2F;HSV模型来表示色彩，更适合人类感知  
+矫正后的值 &#x3D; 矫正前的值^0.45 (0.45 &#x3D; 1&#x2F;2.2, 此处值域为[0,1])
+实际的图像都是使用非线性的sRGB空间（包括使用调色板选择颜色时），而在做图像计算和处理（比如将亮度加倍）时，则使用线性RGB空间更方便
+HSL 与 HSV 色彩表示RGB色彩空间对人来说并不直观，所以引入HSL&#x2F;HSV模型来表示色彩，更适合人类感知
 
-H Hue 色相   
+H Hue 色相
 色彩的基本属性，即颜色名称
 
 
-S Saturation 饱和度  
+S Saturation 饱和度
 色彩的纯度，越高色越纯，越低越灰
 
 
-L Lightness 亮度  
+L Lightness 亮度
 最大通道和最小通道的平均
 更接近人眼的视觉
 
 
-V Value 明度 &#x2F; Brightness  
+V Value 明度 &#x2F; Brightness
 最亮通道的亮度
 只表示该颜色离黑色有多远
+
+
+
+
 HSV也称HSBHSV更偏向于画家调色 1.选纯色 2.加白S 3.加黑VHSL是从明暗角度设计的 L是整体明暗
 
-
-
-
-
-HSL和HSV二者都把颜色描述为圆柱坐标系内的点，这个圆柱的中心轴取值范围为自底部的黑色到顶部的白色，而在它们中间的是灰色，绕这个轴的 角度 对应 色相 ，到这个轴的 距离 对应 饱和度 ，而沿着这个轴的 高度 对应 *亮度 色调 或 明度
+HSL和HSV二者都把颜色描述为圆柱坐标系内的点，这个圆柱的中心轴取值范围为自底部的黑色到顶部的白色，而在它们中间的是灰色，绕这个轴的 角度 对应 色相 ，到这个轴的 距离 对应 饱和度 ，而沿着这个轴的 高度 对应 *_亮度_ 色调 或 明度
 
 这两种表示的目的类似，但在方法上有所区别。二者在数学上都是圆柱，但 HSV 在概念上可以被认为是颜色的 倒圆锥体 （黑色在下顶点，白色在上底面圆心）；而 HSL 在概念上表示一个 双圆锥体和圆球体 （白色在上顶点，黑色在下顶点，最大横切面的圆心是灰色）。注意，尽管在HSL和HSV中“色相”指相同的性质，但它们的 饱和度 的定义是明显不同的。
 
@@ -1819,7 +1821,7 @@ HSL 与 HSV
 HSV
 HSV色轮
 
-因为HSL和HSV是 设备依赖的RGB的简单变换 ，(h, s, l)或 (h, s, v)三元组定义的颜色依赖于所使用的特定红色、绿色和蓝色“加法原色”。HSV更常用每个独特的RGB设备都伴随着一个 独特的HSL和HSV空间。但是 (h, s, l)或 (h, s, v)三元组在被约束于特定RGB空间比如sRGB的时候就更明确了。 
+因为HSL和HSV是 设备依赖的RGB的简单变换 ，(h, s, l)或 (h, s, v)三元组定义的颜色依赖于所使用的特定红色、绿色和蓝色“加法原色”。HSV更常用每个独特的RGB设备都伴随着一个 独特的HSL和HSV空间。但是 (h, s, l)或 (h, s, v)三元组在被约束于特定RGB空间比如sRGB的时候就更明确了。
 
 在互联网上的实时音视频应用中，当网络条件不好时（拥塞、丢包），通信双方会协商降低码率，相应地可能会降低分辨率和帧率，降低分辨率会导致模糊，降低帧率会导致画面跳跃（卡顿）， 但总比花屏或长时间卡住要好。这种 非恒定的 码率 和 帧率 就称为
 
@@ -1847,12 +1849,12 @@ HSV色轮
 2.8224MHz：SACD、索尼和飞利浦联合开发的，被称为Direct Stream Digital的1位Sigma-Delta调制过程所用的采样率。
 
 
-44100 &#x3D;&#x3D; 2^2 * 3^2 * 5^2 * 7^2  
+44100 &#x3D;&#x3D; 2^2 * 3^2 * 5^2 * 7^2
 
 
-采样位深: 每个采样点用多少位来表示  
+采样位深: 每个采样点用多少位来表示
 
-存储空间 &#x3D;&#x3D; 声道数 * 采样率 * 采样位深 * 时长带宽 &#x3D;&#x3D; 存储空间 &#x2F; 60s  
+存储空间 &#x3D;&#x3D; 声道数 * 采样率 * 采样位深 * 时长带宽 &#x3D;&#x3D; 存储空间 &#x2F; 60s
 
 要注意，在一些人工智能应用中需要用到语音识别时，尽量不要重采样或使用有损压缩，那样会影响识别的准确率。
 
@@ -3937,12 +3939,12 @@ flowchart TD    Start([事件循环初始化]) --&gt; CheckMacro&#123;1. 检查�
     <content><![CDATA[
 资料：
 
-trac.ffmpeg.org  
+trac.ffmpeg.org
 ffmpeg.org&#x2F;documentation
 
 
 FFmpeg Note
-FFmpeg 是 Fabrice Bellard 发起的项目  
+FFmpeg 是 Fabrice Bellard 发起的项目
 
 FFmpeg 提供以下三种工具
 
@@ -3969,9 +3971,11 @@ head
 
 ffprobe version 8.1.3 Copyright (c) 2007-2026 the FFmpeg developersffplay version 8.1.3 Copyright (c) 2003-2026 the FFmpeg developersffmpeg version 8.1.3 Copyright (c) 2000-2026 the FFmpeg developers
 
+
+
 body
 
-编译器编译配置 是构建这套 FFmpeg（ffmpeg、ffprobe、ffplay 还有其他套件）时的总配置摘要，其中包含 GCC 的编译&#x2F;链接参数内部库版本  其中的库前缀 av: Audio&#x2F;Video 音视频通用基础 | sw: Software 软件处理实现  
+编译器编译配置 是构建这套 FFmpeg（ffmpeg、ffprobe、ffplay 还有其他套件）时的总配置摘要，其中包含 GCC 的编译&#x2F;链接参数内部库版本其中的库前缀 av: Audio&#x2F;Video 音视频通用基础 | sw: Software 软件处理实现
 
 built with gcc 16 (GCC)configuration: --prefix=/usr --bindir=/usr/bin --datadir=/usr/share/ffmpeg --docdir=/usr/share/doc/ffmpeg --incdir=/usr/include/ffmpeg --libdir=/usr/lib64 --mandir=/usr/share/man --arch=x86_64 --optflags=&#x27;-O2 -flto=auto -ffat-lto-objects -fexceptions -g -grecord-gcc-switches -pipe -Wall -Wno-complain-wrong-lang -Werror=format-security -Wp,-U_FORTIFY_SOURCE,-D_FORTIFY_SOURCE=3 -Wp,-D_GLIBCXX_ASSERTIONS -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -fstack-protector-strong -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -march=x86-64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -mtls-dialect=gnu2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer&#x27; --extra-ldflags=&#x27;-Wl,-z,relro -Wl,--as-needed -Wl,-z,pack-relative-relocs -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -specs=/usr/lib/rpm/redhat/redhat-hardened-ld-errors -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -Wl,--build-id=sha1 -specs=/usr/lib/rpm/redhat/redhat-package-notes &#x27; --extra-cflags=&#x27; -I/usr/include/rav1e&#x27; --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libvo-amrwbenc --enable-version3 --enable-bzlib --enable-chromaprint --enable-fontconfig --enable-frei0r --enable-gcrypt --enable-gnutls --enable-ladspa --enable-lcms2 --enable-libaom --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libass --enable-libbluray --enable-libbs2b --enable-libcodec2 --enable-cuda --enable-cuda-llvm --enable-cuvid --enable-libcdio --enable-libdrm --enable-libfdk-aac --enable-libjack --enable-libjxl --enable-libklvanc --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libilbc --enable-liblc3 --enable-libmp3lame --enable-libmysofa --enable-nvenc --enable-nvdec --enable-openal --enable-liboapv --enable-opencl --enable-opengl --enable-libopenh264 --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-libplacebo --enable-librsvg --enable-librav1e --enable-librubberband --enable-libqrencode --enable-libsmbclient --enable-version3 --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libtesseract --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libv4l2 --enable-libvidstab --enable-libvmaf --enable-version3 --enable-vapoursynth --enable-libvpx --enable-libvvenc --enable-vulkan --enable-libshaderc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libxml2 --enable-libzimg --enable-libzmq --enable-libzvbi --enable-lv2 --enable-avfilter --enable-libmodplug --enable-pthreads --disable-static --enable-shared --enable-gpl --disable-debug --disable-stripping --shlibdir=/usr/lib64 --enable-lto --enable-libvpl --enable-runtime-cpudetectlibavutil      60. 26.103 / 60. 26.103libavcodec     62. 28.103 / 62. 28.103libavformat    62. 12.103 / 62. 12.103libavdevice    62.  3.103 / 62.  3.103libavfilter    11. 14.103 / 11. 14.103libswscale      9.  5.103 /  9.  5.103libswresample   6.  3.103 /  6.  3.103
 
@@ -3986,7 +3990,7 @@ ffmpeg 通用媒体转换器
 Universal media converterusage: ffmpeg [options] [[infile options] -i infile]... &#123;[outfile options] outfile&#125;...
 
 
-上述信息可以使用-hide_banner 关闭上述信息，保留工具都回显信息-loglevel 控制日志输出级别可以使用 -v quiet 完全静默回显信息  
+上述信息可以使用-hide_banner 关闭上述信息，保留工具都回显信息-loglevel 控制日志输出级别可以使用 -v quiet 完全静默回显信息
 
 ]]></content>
       <categories>
