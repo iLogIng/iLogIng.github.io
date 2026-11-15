@@ -1358,6 +1358,12 @@ return  这时  就是P到AB的垂段
     <content><![CDATA[一些关于神经网络的理解
 一些基于深度学习前馈网络的理解
 
+
+目标函数（Objective Function） 是在整个训练过程中真正想要最小化（或最大化）的终极目标。损失函数（Loss Function） 是衡量预测错误的基础度量。目标函数 = 损失函数 + 正则化项。工程实践上通常混合使用
+
+
+残差连接 和 LayerNorm、Multi-Head Attention
+
 在深度神经网络中
 
 神经网络形状
@@ -1371,11 +1377,16 @@ return  这时  就是P到AB的垂段
 每层的 wx + b = y 得到的都是该层神经元的线性输出 z=y ，通过激活函数得到该层的输出，即下一层的 x=a=activation(z)（激活后的z）
 
 
-激活函数是在神经元输出前将线性输入非线性化的一种方式
+激活函数 是在神经元输出前将线性输入非线性化的一种方式
 激活函数就是将神经元内部线性变换得到的线性输出（wx + b = y = z）通过非线性变换激活为神经元输出的一种函数，得到下一层的 x
 
 
+
+
+
+
 每次反向传播计算梯度前，都需要进行前向传播（计算图），计算当前损失值
+
 在前向传播的过程中，会保存中间产生的每层的输出值(activation(wx… + b))，
 反向传播时，从输出层向输入层按链式法则传播
 每层神经元根据求导，层层向外求导，activation’ -&gt; (wx… + b)’，同时计算梯度，但不修改权重
@@ -1399,6 +1410,7 @@ return  这时  就是P到AB的垂段
 
 
 损失函数不是网络的一部分 ，而是 网络训练的一部分
+
 构成神经网络输出的就是内部的线性变换与激活函数
 损失函数是训练时网络预测与真实参数的度量，是与网络计算分离的
 我们的目的是希望损失函数最小，所以在反向传播求导更新参数时需要以损失函数作为起点
@@ -1411,14 +1423,89 @@ return  这时  就是P到AB的垂段
 
 
 
+正则化
+
+是一种在训练过程中削减/控制过拟合的方法，核心是限制模型复杂度，使隐藏层中的神经元学习不同特征间的隐含联系，防止死记硬背训练数据的噪声。
+权重衰减 其中，基于参数的 Ln正则化（L1/L2） 在工程上常被称为 权重衰减(Weight Decay) 。
+作用机制：它不影响神经网络的前向传播（计算图不变），而是作用于反向传播的参数更新阶段。通过在梯度中增加一个正比于当前权重值的惩罚项（如 L2 的 ），在每次更新时把权重向 0 的方向拉拽。
+当权重无限趋近于 0 时，输入的特征参数 x 对应失效（在此处体现了模型的简单性趋向）
+降低了模型所依赖的 有效特征维度
+
+
+效果：这迫使模型的权重无法变得过大，从而让模型函数变得更平滑（降低了对特定训练样本的敏感度），最终提升了模型的泛化能力。
+注：这与“减小学习率（降低梯度下降速度）”是两种不同的策略。权重衰减的含义，实际上是，通过在梯度更新时增加一个惩罚性质的补偿，将权重向 0 的方向拉拽，保证对于某一个样本的突出特征在更新时不会特别明显而导致针对于该特征的过拟合同时也防止两个特征通过巨大的正负权重相互抵消（是在训练时的一种保守的权重更新策略）
+
+
+暂退法
+作用机制：通过影响前向传播时各个节点的层间参数传递
+用于 特征 之间， 减少特征的参与量
+通常使用  概率为概率为的方式 随机断开神经元的层间连接 ，制造 随机的特征缺失 ，为保证神经网络在这种随机打断条件下的预测准确性，网络被迫让多个神经元共同承担特征表示，各个神经元节点都被迫学习到其他特征的性质，使最终的神经网络模型有更好的 泛化性 。
+
+
+效果：这迫使网络为保证在 随机打断条件下 网络预测的准确性，让其中各个神经元节点 被迫 学习到其他特征的性质，使得最终训练的神经网络模型能够具有更好的 泛化性 。
+这实际上是通过让多个神经元节点承担更多的特征预测能力，使每个神经元学习到的是 隐含在不同特征间的联系
+
+
+与线性代数间可能的联系：
+可能与 表示学习(Representation Learning) 这一层面有关
+通过随机断连，加强某些特征间的线性组合(神经元网络所选定的输入特征的基变换)，使神经元网络中的各节点更好的利用这种 隐含的额外特征 表示
+我理解为 身高 体重 这两个显式的输入特征，通过变换，得到特征间隐含的 食量 这一特征维度（在现有维度中的一个空间）
+目前深度学习中所说的 隐层特征(Latent Feature)
+与 特征解耦(Feature Disentanglement) 可能有关
+降低 特征共适应(Feature Co-adaptation) 对模型鲁棒性的影响
+
+
+就是让网络发现 未观测到的潜在变量 强迫网络在降维/残缺的 子空间 中 重建 原来的信息
+
+
+
+
+
+
+共享参数 (共享层)
+作用机制：让多层由一个参数矩阵控制，并在反向传播中累积各共享层的梯度，在梯度下降时使用累积的梯度对各层同时进行更新
+用于各层之上， 减少 独立参数 的数量
+
+
+效果：累积的梯度中，增减可能相互牵制，最后的梯度值可能很小，这迫使 不同层 之间、多条共享的计算路径之间，有更加普适的特征表示共享层强迫学习的是 空间/时间上的平移不变性（通用模式） ，强迫学习参数的规律，以逼近现实情况以提升模型的 泛化能力
+会存在梯度累加无限变大的情况（方向相同）
+其实在数学期望上，由于不同路径的方向往往是不同的，所以每次梯度累加时往往会 相互抵消 一部分，而非永远的成倍增加
+为防止这个问题，有以下方式：
+激活函数与归一化 将梯度的累加拉回一个可控的范围之内（均值为0,方差为1的分布上）
+优化器的自适应缩放(Adam) 如 Adam 在更新参数时，不直接使用梯度的原始值。它维护了梯度的“历史移动平均”和“历史平方平均”。自动压缩了步长
+梯度裁剪(gradient clipping) 不管梯度累加后有多大，只要超过一个设定的阈值（比如 1.0），就按比例把梯度等比缩放下去
+
+
+
+
+
+
+
+
+训练数据的 批量规范化 （是一种 跨样本统计 ，需要一个合适的 batch size ）
+
+原因：当网络嵌套层数更深后，深度学习网络拟合为 高复杂度的高阶复合函数 训练时 更难收敛 更容易发生 梯度消失在深层网络中，前面层的参数一更新，后面层的输入分布就跟着变，导致后面层得不断地去适应这种变化，使训练极慢甚至梯度消失/爆炸。而 BN(Batch Norm) 强行将每一层的输入拉回均值 0、方差 1 的分布，让后面的层能稳定地学习。
+作用机制：通过对输入的批量特征数据，对各批进行标准化处理，使其 均值  ， 方差 将该标准化与优化器配合使用，将参数的量级统一（归化为类似于 高斯分布 的分布特征）
+效果：通过小批量规范化 Undefined control sequence \Beta由于 强行标准化会破坏原本网络学到的特征 ，所以 为了保留网络原本的表达能力 ，所以引入两个 可学习的参数  缩放，  偏移，来重新拟合原分布
+
+
+残差连接
+
+动机：为解决深层网络的 退化问题 和 梯度消失
+机制：在原有的路径上，添加一条旁路捷径   
+通过引入  让网络只需要学习目标输出与输入之间的差异，并在梯度下降时，能够保证恒等映射作为基础传递方式
+
+
+原理：让梯度在反向传播时多出一个 +1 的通路，从而无需担心深层网络梯度传递时的梯度消失问题，也不引入会导致梯度爆炸的变量，同时让深层网络更容易学习 恒等映射
+
+
 最终，神经网络得到的是一个 高度复杂的复合非线性函数
+
 因为神经网络中神经元每层的参数传递，都是一次函数嵌套/复合
 
 
 
 ([x0...n]: sigmoid(x)) --w00, w01,...,w0n--&gt; +b ([w0x0...wnxn + b = x1]: sigmoid(x1)) --w10,w11,...,w1n--&gt; activation(w10x10 + w11x11 + ... + w1nx1n + b1) = ans(得到神经元输出)所以神经网络中一个单元的结构应该是-----[x]若出现在输出层，则就是一个输出单元输入层的特征数据就是一个 [x]
-
-
 ]]></content>
       <categories>
         <category>机器学习</category>
@@ -1778,236 +1865,6 @@ HSV色轮
       </categories>
       <tags>
         <tag>media</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>应用层杂记</title>
-    <url>/CS/Network/application-layer/</url>
-    <content><![CDATA[
-基于 《计算机网络：自顶向下方法》
-
-
-]]></content>
-      <categories>
-        <category>计算机网络</category>
-      </categories>
-      <tags>
-        <tag>NetWorking</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>计算机网络概观</title>
-    <url>/CS/Network/computer-network-overview/</url>
-    <content><![CDATA[
-基于 《计算机网络：自顶向下方法》
-
-
-因特网是一个世界范围内的计算机网络
-
-入网设备 被称为 主机(host) 或 段系统(end system)
-端系统通过
-
-通信链路 (communication link)
-分组交换机 (packet switch)
-
-的网络连接在一起。
-
-通信链路 是一组物理媒介，是信息流的载体。
-
-
-链路 有由其性质决定的 传输速率(transmission rate) 以 bit&#x2F;s (bps) 为度量。
-
-网络中的信息是以信息包的形式被 分组(packet) 流通的，从始端由网络传送至目的端，并在目的端装配复原。
-当今，因特网中有两种常见的交换机：
-
-路由器 (router) 通常用于网络核心中
-链路层交换机 (link-layer switch) 通常用于接入网中
-
-
-
-二者的功能都是向目的端转发分组。
-
-路径 (route &#x2F; path) 从 发送端系统 到 接收端系统 ，一个分组所经历的 一系列通信链路 和 分组交换机
-
-
-端系统 通过 因特网服务商 (Internet Service Provider , IPS) 接入因特网。
-
-端系统，分组交换机和其他英特网组件都要运行多个 协议（protocol） 这些协议控制英特网中信息的接收和发送。
-因特网的主题协议统称为 TCP&#x2F;IP
-
-TCP (Transmission Control Protocol, 传输控制协议)
-IP (Internet Protocol, 网际协议) 定义了在路由器和端系统之间，发送和接收分组的格式。
-
-因特网标准 (Internet Standard) 由 因特网工程任务组 (Internet Engineering Task Fore, IETF) 研发。其标准文档称为 请求评论 (Requst For Comment, RFC)
-涉及多个相互交换数据的应用称为 分布式应用 (distributed application) 。（如：社交媒体、多人游戏、交通信息… …）
-与因特网相连的端系统提供了一个 套接字接口 (Socket interface) 套接字接口规定了运行在一端系统上的程序 请求 因特网基础设施向运行在另一台端系统上的 特定目的程序 交付数据 的方式，是入网设备必须遵守的规则集合。
-协议（protocol）
-因特网广泛使用协议，不同协议用于完成不同的通信任务为完成一项工作，要求两个（或多个） 通信实体 运行相同的协议。
-
-
-协议 定义了在两个（或多个）通信实体之间交换报文的格式和顺序 ，以及报文的 发送&#x2F;接收 或遇到其他事件时应采取的操作。
-
-边缘网络
-端系统身处因特网边缘，故有此称谓。
-
-端系统，因其容纳应用程序，故可称作 主机（host），分为两类：
-
-客户端（client）
-服务器（server）
-
-
-接入网： 将端系统物理连接到 边缘路由器 (Edge router) 的网络。该路由器是端系统接入网络后的第一台路由器。
-
-对于每个 传输器-接收器 对，一比特(1 bit)通过传播电磁波或光脉冲的方式，跨越物理媒介 (physical medium) 进行发送。且对于路径上的每个 传输器-接收器 对而言，不必具有相同类型。物理媒介分为两种类型：
-
-导引型媒介 (guided media)
-非导引型媒介 (unguided media)
-
-
-物理链路的成本与其他网络成本相比是最小的，但是其安装与铺设成本才是其昂贵的原因。
-
-网络核心
-端系统间彼此交换 报文 (message) ，该报文可以 执行某种控制功能 或 承载某些数据。
-
-为了从 源端系统 向 目标端系统 发送一个 报文 ，源将 长报文 划分为较小的数据块，这一划分报文，使其适于网络传送的过程成为 分组 (packet) 。在源于目的之间，每个分组都通过 通信链路 和 分组交换机 (packet switch) 传送，交换主机主要有 路由器 (router) 和 链路层交换机 (link-layer switch) 两类。
-文分组以 等于 该链路最大传输速率的速度通过通信链路。即，若发送一个 *L bit 的分组，链路的传输速率为 R bit ，则分组通过链路的时间为 L&#x2F;R sec
-多数交换机在 输入端 使用 存储转发器 (store-and-forward transmission) 机制。先缓存一个接收的分组后，再将其发出。即，接收-转发 时间延迟为：
-
-d_{end-end} &#x3D; N * L&#x2F;R
-总时间延迟为：L&#x2F;R + (N-2) * L&#x2F;R + L&#x2F;R &#x3D; N * L&#x2F;RP 个分组经过N条链路的时间延迟为 (N + P - 1) * L&#x2F;R
-
-
-
-每台交换机有多条链路与之相连，对于每条相连的链路，该分组交换机具有一个 （输出缓存, output buffer 也称为 输出队列 output queue） 用于存储路由器准备发往某条链路的分组。
-即，一个分组在链路中存在：
-
-转发时延
-排队时延 (queuing delay)在缓存占满后，将出现 分组丢失 (丢包 packet loss) 问题，从到达分组或已排队分组之一选择丢弃。
-
-因特网中所采用的转发方式
-根据网络包中的 源端系统 的 IP地址 ，相同一台 相邻路由器 进行转发，由每台路由器自己维护 转发表 (forwarding table) 进行控制。每个分组包括每台路由器在传输中都不知道某一个分组在网络中的完整路径，路由器仅知道某个分组发往的下一台 路由器&#x2F;交换机（网络节点）。
-路由器的 转发表 (forwarding table) 由 路由选择协议 (routing protocol) 来规范其 自动设置转发表的行为。
-
-以上为 分组交换 (packet switching) 机制
-
-
-频分复用 (Frequency-Division Multiplexing, FDM) 
-链路的频谱由跨越链路创建的所有连接共享。特别的，在连接期间，链路对每条连接专门设定一个 频段 （电话网络中通常是 4Hz 宽）。该频段宽度就是 带宽 (bandwidth) 链路频谱中按带宽分有多个不同的频段。（每条链路持续得到部分带宽）
-
-
-时分复用 (Time-Division Multiplexing, TDM)
-时间被划分为固定时段的 帧 ，每个帧有被划分为固定数量的 时隙 。网络跨越一条链路，创建一条链接，网络在每个帧中为该连接指定一个时隙。
-[帧 是一系列任务的集合] 每条电路得到一个时隙，在 **静默期（silent period）**专用电路处于空闲状态，并不被利用。
-
-
-
-
-段系统经由一个 接入 ISP 与因特网相连，但为使各入网端系统互联互通，则需要 接入ISP 自身互联 组建 网络的网络（因特网）
-因特网网络结构的构成发展
-
-网络结构 1
-使用单一的 全球传输ISP(供应商) 互联所有的 接入ISP(客户)
-
-
-网络结构 2 两层结构
-多个公司建立并运营各自的全球传输LSP，相互竞争各自争取接入ISP。且多个全球传输ISP之间，必须互联。
-
-
-网络结构 3 等级化网络结构（两层客户端-供应端关系）
-任何给定的区域有其自身的 区域ISP(reginal ISP) 。每个区域ISP都与 第一层ISP(tier-1 ISP) 相连。（第一层ISP位于该等级结构的顶部）
-
-
-网络结构 4
-在等级话网络结构3上增加， 存在点(Point of Presence, PoP) 、 多宿(multi-home) 、 对等(peer to peer) 、 英特网交换点(Internet Exchange Point, IXP) 构成的一个生态系统
-PoP
-存在于等级结构的 所有层次 中,底层（接入ISP）除外。PoP是 供应商网络 中的一台或一组路由器（在相同位置）群组。其中， 客户ISP 与 供应商ISP 连接，从第三方电信供应商租用高速链路并将其路由器之一直接与PoP的一台路由器相连
-
-
-多宿
-除第一层ISP，其他任何ISP都可以选择多宿，与 多个供应商ISP 相连，以保障其与其它网络的连接
-
-
-对等
-不与上层供应商产生通信流量，而是与 平级ISP 相连，将两个平级ISP的网络相连，跨网传输不需要向上层供应商ISP产生路由成本。平级ISP间传输，无流量结算。
-
-
-IXP
-是一个汇合点，多个ISP可以在此处一起对等
-
-
-
-
-网络结构 5
-在网络结构4的顶部增加 内容供应商网络(content provider network) 构建而成
-
-
-
-
-网络时延在分组从一台主机经历通信链路传输到另一台主机的过程中，其必定在每个节点都会受到集中不同类型的时延制约。
-
-total modal delay
-节点处理时延(nodal processing delay)
-排队时延(queuing delay)
-是最复杂的成分，受某时刻的网络环境影响
-分组大小，到达顺序，相对位置等都会产生影响
-在表征排队时延时，通常使用统计量进行度量
-
-
-传输时延(transmission delay)
-节点向链路发送整个分组的时间
-
-
-传播时延(propagation delay)
-分组在两个节点间链路中传播的时间，受制于传播媒介的物理性质
-
-
-…
-
-
-
-
-协议栈OSI网络分层(7层)
-
-应用层
-表示层
-会话层
-传输层
-网络层
-数据链路层
-物理层
-
-目前常使用的是 5层 协议栈（TCP&#x2F;IP协议簇）
-
-应用层
-网络应用程序和应用层协议所在之处，位于应用层的消息分组成为 报文(message)
-
-
-运输层
-英特网中的运输层在程序端点之间传送应用层报文，位于运输层的分组称为 报文段(segment)
-
-
-网络层
-英特网的网络层负责将称为 数据报(datagram) 的网络层分组从一台主机传输到另一端主机
-
-
-链路层
-为了将分组从一个节点移动到路径上的下一个节点，网络层必须依靠 链路层的服务
-链路层提供的服务取决于应用于该链路的特定的链路层协议
-链路层的分组称为 帧(frame)
-
-
-物理层
-将 帧 中的一个个 bit 从一个节点移动到下一个节点
-
-
-
-在各个层中，使用上一层传来的分组，加上该层的 首部 ，即， 首部字段 + 有效载荷字段(来自上一层的分组)
-]]></content>
-      <categories>
-        <category>计算机网络</category>
-      </categories>
-      <tags>
-        <tag>NetWorking</tag>
       </tags>
   </entry>
   <entry>
@@ -3952,6 +3809,9 @@ JS为每个被调用的函数创建一个 函数上下文 并依次压入调用�
 class Person&#123;    private username: string = &#x27;join&#x27;;    public getUserName(): string &#123;        return this.username;    &#125;    private email: string = &#x27;[email protected]&#x27;;    public getEmail(): string &#123;        return this.email;    &#125;    public constructor(n: string, e: string) &#123;        this.username = n;        this.email = e;    &#125;&#125;;function getUsers(): Person[] &#123;    let users : Person[] = [];    setTimeout(() =&gt; &#123;        users = [            new Person(&#x27;name1&#x27;, &#x27;email2&#x27;),            new Person(&#x27;name2&#x27;, &#x27;email2&#x27;),            new Person(&#x27;name3&#x27;, &#x27;email3&#x27;),            new Person(&#x27;name4&#x27;, &#x27;email4&#x27;),            new Person(&#x27;name5&#x27;, &#x27;email5&#x27;),        ];    &#125;, 1000);    return users;&#125;function findUser(username: string): Person | undefined &#123;    const users: Person[] = getUsers();    const user: Person | undefined = users.find((user) =&gt; user.getUserName() === username);    return user;&#125;console.log(findUser(&#x27;name1&#x27;));
 
 
+此处，由于 setTimeout 函数是异步执行的，在调用后直接返回，又由于在执行到 console.log() 时，几乎没有用到 1’000ms ，导致 findUser 函数根本无法找到指定对象
+
+
 JS非阻塞I&#x2F;O的核心理解
   JS调用其Web API是否是向宿主环境发送一份消息（包括注册的回调函数），然后将所期望的操作移交宿主环境运行，该JS Web API函数调用返回到全局上下文，由宿主环境将被期望的行为执行后传回回调函数给JS 引擎的事件队列机制的任务队列，在全局上下文的合适时刻调用
   即，Web API 函数调用本身会很快从调用栈中弹出
@@ -4030,12 +3890,38 @@ Promise.prototype.finally()
 promise.withResolvers()
 
 
+宏任务(Macrotask)与微任务(Microtask)
+优先级机制
+
+
+微任务 的 插队 特权
+
+事件循环在从 任务队列 (Task Queue) 取出一个宏任务执行完后， 不会立刻执行下一个宏任务它会先检查 微任务队列 (Microtask Queue) ，把里面所有的微任务全部清空（哪怕在清空过程中又产生了新的微任务，也会一并在本轮执行完），直到微任务队列彻底为空 ，才会去拿下一个 宏任务 
+分类：
+宏任务：setTimeout, setInterval, 浏览器 I&#x2F;O, 用户交互事件
+微任务：Promise.then/catch/finally , MutationObserver , queueMicrotask
+
+
+
+
+async&#x2F;await 的底层真相（协程模型）
+
+await 只能用在 async 内，但底层上，async 函数本质上是 Generator（生成器） + Promise 的语法糖
+引擎在执行到 await 时，实际上是将当前函数的执行上下文保存了起来 挂起 ，把 await 后面的代码打包成一个 微任务(Microtask) 放入队列，然后把控制权交还给调用栈。等 Promise 状态敲定，再从微任务队列里把那个微任务拿出来，恢复上下文（类似线程恢复）。这就是 JS 单线程实现并发（协程）的核心机密。
+
+
+
 async &#x2F; await
 async 关键字允许定义一个处理异步操作的函数
   async function sayHi(): Promise&lt;string&gt; &#123;	return &#x27;Hi&#x27;;&#125;
 
 await 使用await等待一个Promise解决。只能在async函数内使用await关键字。
 
+
+
+附录：
+JS事件循环状态机
+flowchart TD    Start([事件循环初始化]) --&gt; CheckMacro&#123;1. 检查宏任务队列&lt;br&gt;是否有任务?&#125;    %% 宏任务处理分支    CheckMacro -- 是 --&gt; PopMacro[&quot;取出一个宏任务&lt;br&gt;(如 setTimeout, 事件回调)&quot;]    PopMacro --&gt; RunMacro[&quot;执行该宏任务&lt;br&gt;(压入调用栈)&quot;]    RunMacro --&gt; StackEmpty&#123;调用栈是否清空?&#125;    StackEmpty -- 否 --&gt; RunMacro    %% 微任务处理分支（核心铁律）    StackEmpty -- 是 --&gt; CheckMicro&#123;2. 检查微任务队列&lt;br&gt;是否有任务?&#125;    CheckMicro -- 是 --&gt; PopMicro[&quot;依次取出并执行所有微任务&lt;br&gt;(如 Promise.then)&quot;]    PopMicro --&gt; CheckMicro    %% 渲染与空闲分支    CheckMicro -- 否 --&gt; CheckRender&#123;&quot;3. 是否需要渲染?&lt;br&gt;(接近或达到 60Hz 刷新率)&quot;&#125;    CheckMacro -- 否 --&gt; CheckRender    CheckRender -- 是 --&gt; RenderPipeline[&quot;4. 执行渲染管线:&lt;br&gt;执行 requestAnimationFrame&lt;br&gt;↓&lt;br&gt;Style 计算&lt;br&gt;↓&lt;br&gt;Layout 布局&lt;br&gt;↓&lt;br&gt;Paint 绘制&lt;br&gt;↓&lt;br&gt;Composite 合成&quot;]    RenderPipeline --&gt; CheckMacro    CheckRender -- 否 --&gt; CheckMacro    %% 样式定义    classDef macro fill:#d9edf7,stroke:#31708f,stroke-width:2px;    classDef micro fill:#dff0d8,stroke:#3c763d,stroke-width:2px;    classDef render fill:#fcf8e3,stroke:#8a6d3b,stroke-width:2px;    classDef core fill:#f2dede,stroke:#a94442,stroke-width:2px;    class CheckMacro,PopMacro,RunMacro macro;    class CheckMicro,PopMicro micro;    class CheckRender,RenderPipeline render;    class StackEmpty,Start core;
 
 ]]></content>
       <categories>
@@ -5397,22 +5283,6 @@ atempo与setpts 滤镜
 
 详见相关文档
 
-ffmpeg c apiFFmpeg目录包含FFmpeg库代码目录、构建工程目录、自测子系统目录等。具体内容如下:  
-
-libavcodec：主要包含编码、解码的框架与子模块代码。
-libavdevice：主要包含输入、输出外设框架与设备模块代码。
-libavfilter：主要包含滤镜模块与视频、音频、字幕的特效处理模块代码。
-libavformat：主要包含封装、解封装、传输协议的框架与子模块代码。
-libavutil：主要包含 FFmpeg 提供的基础组件，比如加密解密算法、内存管理代码。
-libswresample：主要包含音频的采样与重采样处理相关的代码。
-libswscale：主要包含视频图像缩放与色彩转换等处理相关的代码。
-libpostproc：视频后处理库。
-fftools：主要包含ffmpeg、ffprobe、ffplay应用程序的代码。
-tests：主要包含FFmpeg项目的自动化自测子系统。
-ffbuild、compat：用以做FFmpeg工程构建的目录。
-doc：主要包含FFmpeg的通用框架的参数、各模块参数的文档，API说明文档以及提供给API用户作为API使用用例的参考代码。
-
- 
 
 Q&amp;A
 Q: 为什么RIFF有被MPEG容器格式取代的趋势?A: RIFF 是 PC 本地播放时代的容器设计，而 MPEG 系容器是网络流媒体、移动设备和标准化生态时代的容器设计
@@ -8434,30 +8304,6 @@ glsl 着色程序#version 330// 使用的 glsl 版本// input: 从顶点着色�
       </tags>
   </entry>
   <entry>
-    <title>xv6-catalog</title>
-    <url>/CS/OS/xv6-labs/xv6-catalog/</url>
-    <content><![CDATA[
-关于编写 C&#x2F;Linux 实验（流程设计）：
-
-建立一个自己的项目目录
-阅读各个实验子项的 README.md 文档
-阅读 man page 分析各个程序的功能实现
-设计程序流程
-编写程序
-
-
-CATALOG
-
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C++ Boost::Asio</title>
     <url>/Tech/Framworks/c++boost/Boost-Asio/</url>
     <content><![CDATA[Asio
@@ -10047,2154 +9893,6 @@ TUI 体验：tui.json 可开 attention（通知+音效）、调滚动速度；�
       </tags>
   </entry>
   <entry>
-    <title>concurrency-mapreduce 实验指导</title>
-    <url>/CS/OS/xv6-labs/concurrency-mapreduce/lab-guid/</url>
-    <content><![CDATA[
-该实验指导文档在实验编写完成后进行了修缮与逆向更新更贴合实际的项目进度
-
-MapReduce 实验指导实验分析本项目是 OSTEP（Operating Systems: Three Easy Pieces） 的并发 MapReduce 实验。目标是实现一个单机多线程简化版 MapReduce 框架，核心是实现 mapreduce.h 中声明的函数并设计线程安全的中心数据结构。
-
-1. 理解数据流整个框架的数据流是：
-argv[1..n] 文件列表  → Mapper 线程池 (num_mappers 个线程) → 调用用户的 Map()    → Map() 内部调用 MR_Emit(key, value) 发射中间数据      → 中间数据按 Partitioner 分区 → MR_Emit 内部完成 key 去重与 value 聚合        → map 全部完成后，每个分区按 key 升序排序          → Reducer 线程池 (num_reducers 个线程) → 每个唯一 key 调用一次 Reduce()
-
-在写代码之前，建议把这条数据流画在纸上，标注每一步的输入和输出。这是理解后续所有实现细节的基础。
-
-
-
-2. 设计核心数据结构（最关键的难点）需要一个线程安全的数据结构来承接 MR_Emit() 发射的键&#x2F;值对，并能被 reducer 线程按分区、按键排序地读取。
-实际采用方案：分区内按 key 聚合 + 延迟分配采用三层嵌套结构：
-MR_master &#123;    partitions[] &#123;                    // 顶层：分区数组        MR_partition &#123;               // 分区层：一把互斥锁 + 动态数组            mutex            kvs_groups[] &#123;           // 键-值列表对层                key                  // 深拷贝的键                values[]             // 深拷贝的值列表（动态扩容）                values_iter          // 迭代器指针（reduce 阶段消费用）                mutex                // 键级锁（保护迭代器）            &#125;        &#125;    &#125;&#125;
-
-关键特性：
-
-分区粒度锁：每个 MR_partition 持有独立的 pthread_mutex_t，不同分区的并发写入天然无竞争。
-键级锁：每个 MR_key_values 内部持有独立的 pthread_mutex_t，保护 values_iter 迭代器，保证 reducer 线程安全消费。
-写入时去重：MR_Emit 阶段即完成 key 去重——同一 key 的多次 emit 会将 value 追加到同一个 MR_key_values.values[] 中，无需 map 后额外合并。
-延迟分配：kvs_groups 数组预分配骨架（raw memory），仅在 key 首次出现时才调用 MR_key_values_init 初始化对应 slot。未使用的 slot 仅占裸内存，无资源泄漏。
-深拷贝：框架对 key 和 value 均进行 malloc + strcpy，不依赖用户内存生命周期。
-
-数据结构类型定义// 中间键-值列表对单元typedef struct MR_key_values &#123;    char *key;              // 键（深拷贝）    char **values;          // 值列表（动态数组）    int values_size;        // 当前值数量    int values_capacity;    // 值列表容量    int values_iter;        // 迭代器索引    pthread_mutex_t mutex;  // 键级互斥锁&#125; MR_key_values;// 分区typedef struct MR_partition &#123;    pthread_mutex_t mutex;          // 分区级互斥锁    MR_key_values *kvs_groups;      // 键值列表对数组    int groups_capacity;            // 数组容量    int num_kvs_groups;             // 当前已使用的唯一 key 数量&#125; MR_partition;// 中心数据结构typedef struct MR_master &#123;    MR_partition *partitions;       // 分区数组    int num_partitions;             // 分区数量&#125; MR_master;
-
-
-3. 实现步骤
-
-
-步骤
-内容
-涉及文件
-
-
-
-Step 1
-实现线程池 — thread_pool.h/.c，生产者-消费者模型，支持创建&#x2F;添加任务&#x2F;销毁
-thread_pool.c
-
-
-Step 2
-实现中心数据结构 — MR_key_values、MR_partition、MR_master 的 init&#x2F;destroy&#x2F;push 操作
-MR_master.c
-
-
-Step 3
-实现 MR_DefaultHashPartition() — djb2 哈希算法，hash = hash * 33 + c
-mapreduce.c
-
-
-Step 4
-实现 MR_Emit() — 通过 Partitioner 计算分区索引，调用 MR_partition_push() 写入
-mapreduce.c
-
-
-Step 5
-实现 MR_Run() 的 mapper 阶段 — 创建线程池，为每个文件创建一个 map 任务，等待全部完成
-mapreduce.c
-
-
-Step 6
-实现排序 — quick_kv_sort() 对每个分区内的 kvs_groups 按 key 字典序排序
-MR_master.c
-
-
-Step 7
-实现 MR_partition_iter_get() — Getter 迭代器：按 key 查找 MR_key_values，加锁返回下一个 value
-mapreduce.c
-
-
-Step 8
-实现 MR_Run() 的 reducer 阶段 — 为每个唯一 key 创建 reduce 任务，等待全部完成
-mapreduce.c
-
-
-Step 9
-实现释放链 — MR_master_destroy → MR_partition_destroy → MR_key_values_destroy
-MR_master.c
-
-
-Step 10
-编写 wordcount 测试 + 编译运行验证
-main.c
-
-
-
-4. 并发控制要点两级锁设计
-分区级锁（MR_partition.mutex）：保护 kvs_groups 数组的结构变更（添加新 key、扩容）。多个 mapper 线程并发写入不同分区时天然无竞争；写入同一分区时互斥。
-键级锁（MR_key_values.mutex）：保护 values_iter 迭代器。reduce 阶段 reducer 线程迭代消费 value 时加锁。
-
-同步点
-Map → Sort：thread_pool_destroy(map_pool) 内部 pthread_join 等待所有 mapper 完成后，才开始排序。
-Sort → Reduce：排序在单线程中完成（MR_Run 主线程），之后才创建 reduce 任务。
-Reduce 只读：reduce 阶段不再有写入，MR_partition_has_key() 无锁查找是安全的。
-
-为什么不在 map 阶段就开始排序（流水线化）第一版不做流水线是正确性优先的选择。map 全部完成再统一排序和 reduce，避免了”排序中又有新 key 插入”的复杂同步问题。如果需要性能优化，可以在后续版本中引入条件变量做流水线。
-
-5. 内存管理要点
-深拷贝：MR_Emit 传入的 key&#x2F;value 可能来自用户的栈或短期堆内存（如 strsep 返回的指针），框架必须在 MR_key_values_init 和 MR_key_values_push_value 中进行 malloc + strcpy。
-释放链：释放顺序与创建顺序相反。MR_key_values_destroy 释放 key 和 values 的内部内存，但不释放 kvs 结构体本身——它由 partition-&gt;kvs_groups 数组统一 free。
-延迟分配：MR_partition_init 仅分配数组骨架，不初始化内部 slot。未使用的 slot 不会泄漏 mutex 或 values 数组。扩容时 (realloc) 新增的 slot 同样是 raw memory，在取用时才 MR_key_values_init。
-排序注意事项：quick_kv_sort 对 MR_key_values 做原地交换（struct swap）。由于 MR_key_values 包含 pthread_mutex_t，在 Linux NPTL 实现下 pthread_mutex_t 是清零内存，realloc 的逐字节拷贝和排序中的 struct swap 在实际运行中安全。从标准严格角度看，包含 mutex 的结构体不应逐字节拷贝——可考虑将 mutex 改为指针或单独分配来规避，但在本实验中保持简洁。
-
-
-6. 测试程序main.c 中实现了 Word Count：
-
-Map：逐行读取文件，strsep 按空白字符分词，对每个 token 调用 MR_Emit(token, &quot;1&quot;)
-Reduce：通过 Getter 迭代计数 &quot;1&quot; 的出现次数，输出 &quot;%s %d\n&quot;
-
-# 编译make# 运行./mapreduce test.txt           # 单文件./mapreduce file1.txt file2.txt # 多文件并发
-
-Makefile 关键配置：
-CC = gccCFLAGS = -g -Wall -Werror -OLINK = -lpthread -lc
-
-
-7. 总结
-线程池 — 可复用的通用组件，先实现并验证
-中心数据结构 — MR_key_values → MR_partition → MR_master，自底向上
-MR_DefaultHashPartition() + MR_Emit() — 数据能写入
-MR_Run() mapper 阶段 — 多线程 map 跑通
-排序 — quick_kv_sort 按 key 字典序
-MR_partition_iter_get() — Getter 迭代器实现
-MR_Run() reducer 阶段 — 多线程 reduce 跑通
-释放链 — 全部 destroy 正确调用
-wordcount 测试 — ./mapreduce test.txt 验证输出
-
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>concurrency-mapreduce</title>
-    <url>/CS/OS/xv6-labs/concurrency-mapreduce/mapreduce/</url>
-    <content><![CDATA[MapReduce 程序设计
-原始论文
-
-
-实验目标
-学习 MapReduce 范式的通用特性
-使用线程和相关函数实现一个正确且高效的 MapReduce 框架
-获得更多编写并发代码的经验
-
-
-MapReduce框架总体思路用户只需要定义 Map() 与 Reduce() 函数，交由框架处理该函数指针即可
-
-Map(): 接受一个输入对，并产生一组中间键值对。
-Reduce(): MapReduce库 将具有相同中间键K的中间值分组在一起，传入该函数
-接受一个中间键K和该键的一组值。将这些值进行合并为更小的集合
-通常，每次对 Reduce() 的调用产生零个或一个输出值
-中间值通过迭代器提供给用户的reduce函数
-
-
-
-MapReduce 可将许多不同类型的相关计算映射到该框架上。并且多个 mapper 可以同时运行，多个 reducer 也可以同时运行。用户不必亲自操作编写并行化程序，只需要编写 Map() 与 Reduce() 函数，并交由该框架提供的相关基础设施即可。
-
-
-
-框架总体流程
-argv[1..n] 文件列表作为输入分片
-Mapper 线程池 (num_mappers 个线程) -&gt; 并发调用用户的 Map()
-Map() 内部调用 MR_Emit(key, value) 发射中间数据
-MR_Emit 根据 Partitioner 将 key 路由到目标分区，在分区内部完成 key 去重与 value 聚合（同一 key 的多个 value 归入同一 MR_key_values）
-所有 map 任务完成后，每个分区内的 kvs_groups 按 key 字典序升序排序
-Reducer 线程池 (num_reducers 个线程) -&gt; 为每个唯一 key 创建一个 reduce 任务，调用 Reduce()
-
-
-框架结构用户侧
-定义 Map 函数
-将传入的 (k0, v0) 转化为中间键值对 (k1, v1)
-调用 MR_Emit() 函数，发送中间键值对
-
-
-定义 Reduce 函数
-通过 Getter 函数迭代获取分区中该 key 对应的所有 value
-对 values 进行归并，输出最终结果
-
-
-
-数据结构层中心数据结构——三层嵌套
-MR_master &#123;    partitions[] &#123;               // 分区层：按 Partitioner 哈希分桶        MR_partition &#123;           // 每个分区持有独立的互斥锁            kvs_groups[] &#123;       // 键-值列表对层：每个唯一 key 对应一个 MR_key_values                key              // 键（深拷贝）                values[]         // 该键对应的所有值（深拷贝）            &#125;        &#125;    &#125;&#125;
-
-
-MR_master：顶层中心数据结构，持有一个 MR_partition 数组。分区数量 &#x3D; 输入文件数量。
-MR_partition：每个分区通过独立的 pthread_mutex_t 实现分区级别的并发保护——不同分区的写操作天然无竞争。内部通过 MR_key_values *kvs_groups 动态数组管理该分区内的所有唯一 key。
-MR_key_values：每个唯一 key 对应一个 MR_key_values 实例。内部持有该 key 的所有 value（动态 char **values 数组扩容），以及一个 values_iter 迭代器指针和独立的 pthread_mutex_t，供 reducer 线程安全地迭代消费。
-
-框架层mapreduce.h 提供的公共接口
-
-
-
-函数
-说明
-
-
-
-MR_Run()
-启动 MapReduce 框架，创建线程池、调度 map&#x2F;reduce 任务
-
-
-MR_Emit()
-被 Map 函数调用，发射中间键值对到分区
-
-
-MR_DefaultHashPartition()
-默认哈希分区函数（DJB hash）
-
-
-MR_master.h 提供的数据结构操作
-
-
-
-函数
-说明
-
-
-
-MR_key_values_init()
-初始化一个 MR_key_values 实例（深拷贝 key、预分配 values 数组、初始化互斥锁）
-
-
-MR_key_values_destroy()
-释放 key 和所有 value、销毁互斥锁（不释放 kvs 结构体本身——由所属数组统一管理）
-
-
-MR_key_values_push_value()
-向 MR_key_values 追加一个 value（深拷贝、自动扩容）
-
-
-MR_partition_init()
-初始化分区（延迟分配：仅分配 kvs_groups 数组骨架，不初始化内部 slot）
-
-
-MR_partition_destroy()
-释放分区内所有已使用的 MR_key_values 及其数组
-
-
-MR_partition_has_key()
-在分区内线性查找指定 key，返回其 MR_key_values 指针或 NULL
-
-
-MR_partition_push()
-线程安全地将 (key, value) 写入分区：查重 → 添加新 key 或追加 value
-
-
-MR_master_create()
-创建中心数据结构，初始化所有分区
-
-
-MR_master_destroy()
-销毁所有分区并释放中心结构
-
-
-quick_kv_sort()
-对分区内的 kvs_groups 按 key 字典序升序进行快速排序
-
-
-内部静态函数
-
-
-
-函数
-说明
-
-
-
-MR_partition_add_key()
-在分区内添加一个新 key（检查重复、扩容 kvs_groups、初始化新 slot）
-
-
-MR_partition_iter_get()
-Getter 实现：通过 key 查找 MR_key_values，加锁返回下一个 value，value 耗尽时返回 NULL 并解锁
-
-
-map_task_worker()
-线程池任务包装：调用用户的 Map 函数
-
-
-reduce_task_worker()
-线程池任务包装：调用用户的 Reduce 函数
-
-
-
-原头文件提供的声明// MapReduce使用的不同的函数指针类型typedef char *(*Getter)(char *key, int partition_number);typedef void (*Mapper)(char *file_name);typedef void (*Reducer)(char *key, Getter get_func, int partition_number);typedef unsigned long (*Partitioner)(char *key, int num_partitions);// 需要实现的外部函数void MR_Emit(char *key, char *value);unsigned long MR_DefaultHashPartition(char *key, int num_partitions);/** * 接收: * - 给定程序的命令行参数 * - 指向Map函数的指针 * - MapReduce库创建的线程数量 * - 指向Reduce函数的指针 * - reducer数量 * - 指向分区函数的指针*/void MR_Run(int argc, char *argv[], 	    Mapper map, int num_mappers, 	    Reducer reduce, int num_reducers, 	    Partitioner partition);
-
-
-该库需要创建 num_mappers 个线程（线程池）执行map任务
-
-创建 num_reducers 个线程执行reduce任务
-
-该库需要创建一种内部数据结构将键值对从mapper传递到reducer
-
-MR_Emit() 函数，从许多不同的mapper接收键值对，并以一种后续reducer可访问的方式存储
-
-该实验的关键就在于如何设计这个数据结构
-
-
-MR_DefaultHashPartition() 函数，接收一个key，将其映射为 0 到 num_partitions - 1 的数字
-
-在MapReduce内部使用
-
-
-对于每个分区，键应该按照键的升序排列；当特定的reducer线程工作时，Reduce函数应按顺序对该分区的每个键进行调用
-
-
-
-关键设计决策线程安全策略采用两级锁设计：
-
-分区级锁（MR_partition.mutex）：保护 kvs_groups 数组的结构变更（添加新 key、扩容）。map 阶段多个 mapper 线程并发写入不同分区时天然无竞争；写入同一分区时互斥。
-键级锁（MR_key_values.mutex）：保护 values_iter 迭代器。reduce 阶段多个 reducer 线程迭代不同 key 时天然无竞争；理论上同一 key 不会被多个 reducer 消费，但锁保证了防御性安全。
-
-MR_partition_has_key() 本身不加锁——在 map 阶段它仅在 MR_partition_push() 持有分区锁时调用；在 reduce 阶段数据已只读，无需锁。
-内存管理策略深拷贝：MR_Emit 传入的 key 和 value 均为用户栈&#x2F;堆内存（可能在 Map 返回后失效），框架在 MR_key_values_init 和 MR_key_values_push_value 中一律 malloc + strcpy 进行深拷贝。框架拥有所有数据副本的生命周期。
-延迟分配：MR_partition_init 仅分配 kvs_groups 数组的骨架内存（raw memory），不调用 MR_key_values_init 初始化内部 slot。当 key 首次出现时，MR_partition_add_key 才对对应 slot 进行初始化（MR_key_values_init(kvs, key, 1)）。未被使用的 slot 仅占裸内存，无资源泄漏。kvs_groups 初始容量为 0 时首次扩容设为 4，之后按 2 倍扩容。
-释放链：MR_master_destroy → MR_partition_destroy → MR_key_values_destroy → free 各层内存。MR_key_values_destroy 不释放 kvs 结构体自身——它由 partition-&gt;kvs_groups 数组统一释放。
-排序对每个分区内的 kvs_groups（MR_key_values 数组）按 key 字段字典序进行快速排序。排序在 map 全部完成、reduce 启动之前执行，保证 reduce 按 key 升序遍历。
-
-线程池实现通用的生产者-消费者线程池（与 concurrency-webserver 实验相同）：
-
-thread_pool_create(n)：创建 n 个工作线程 + 任务队列
-thread_pool_add_task(task, arg, pool)：将任务节点入队，pthread_cond_signal 唤醒一个等待线程
-thread_pool_destroy(pool)：设置 shutdown 标志，pthread_cond_broadcast 唤醒所有线程，pthread_join 等待全部退出
-
-
-测试用例main.c 实现了 Word Count(实验项目README.md文件中提供)：
-
-Map：逐行读取文件，strsep 按空白字符分词，对每个 token 调用 MR_Emit(token, &quot;1&quot;)
-Reduce：通过 Getter 迭代计数 “1” 的出现次数，输出 key count
-
-./mapreduce test.txt         # 单文件./mapreduce file1 file2 ...  # 多文件并发
-
-
-项目文件结构concurrency-mapreduce/├── mapreduce.h          # 公共接口声明（MR_Run, MR_Emit, MR_DefaultHashPartition）├── mapreduce.c          # 框架主逻辑（MR_Run 调度、迭代器、线程任务包装）├── MR_master.h          # 中心数据结构声明（MR_key_values, MR_partition, MR_master）├── MR_master.c          # 数据结构操作实现（init/destroy/push/sort）├── thread_pool.h        # 线程池声明├── thread_pool.c        # 线程池实现├── main.c               # 测试用例：Word Count├── Makefile└── mapreduce.md         # 本文档
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>concurrency-pzip</title>
-    <url>/CS/OS/xv6-labs/concurrency-pzip/concurrency-pzip/</url>
-    <content><![CDATA[pzip程序设计实验目标
-熟悉 Linux pthreads。
-学习如何并行化程序。
-学习如何为高性能编程。
-
-程序要求
-参考 initial-utilities&#x2F;wzip (wunzip) 游程压缩 原理，编写 pzip 程序
-考虑使用 mmap 调用，将文件映射至内存中进行处理
-
-
-
-合适例程
-get_nprocs()
-
-get_nproces_conf()
-
-read()
-
-fread()
-
-mmap()
-
-
-调用方式prompt&gt; ./pzip file &gt; file.z
-
-程序流程
-并行化配置
-
-使用 get_nprocs() 例程，获得逻辑线程总数，表征可用线程
-
-
-并行化处理
-
-文件读取
-
-使用 struct stat 获得文件列表中各个文件的大小
-调用 mmap 分配文件总大小空间，将文件内容写入该缓存
-将所有文件读入同一个缓冲区
-
-
-文件压缩
-
-将 mmap 的总体缓冲进行均分分片处理
-针对各片建立mmap并行进行压缩
-子线程
-task 处理压缩内存映射
-
-
-主线程
-将各片的缓冲进行合并，将各片的头、尾进行对比，合并相同字符信息
-合并各线程缓存 merge_zip_buf()
-
-
-
-
-
-
-
-
-文件输出
-
-默认输出至 stdout
-
-
-尾后处理
-
-释放线程资源
-munmap 释放虚拟页映射缓冲
-
-
-
-高性能编程理解
-通过 mmap 建立内存-文件映射，减少IO操作，转换为内存操作
-通过编写 thread_pool 统一管理任务线程
-
-
-Source Codethread_pool.h#ifndef THREAD_POOL_H#define THREAD_POOL_H#include &lt;pthread.h&gt;/* 任务结点 */typedef struct task_node_t &#123;    void *(*task)(void *);    void *args;    struct task_node_t *next;&#125; task_node_t;/* 线程池类型 */typedef struct &#123;    pthread_mutex_t mutex;                  /* 互斥量：保护 thread_pool_t 结构内部字段 */    pthread_cond_t cond_taskq;              /* 条件变量：队列非空，shutdown时唤起 */    pthread_t *threads;                     /* 工作线程组 */    int num_threads;                        /* 线程数量 */    int shutdown;                           /* 0/1 关闭标识 */    task_node_t *head;                      /* 任务队列，队头 */    task_node_t *tail;                      /* 任务队列，队尾 */&#125; thread_pool_t;/* 为 thread_pool 分配空间 */thread_pool_t *thread_pool_create(int num_threads);/* 为 thread_pool 添加任务 */int thread_pool_add_task(void *(*task)(void *), void *args, thread_pool_t *pool);/* 释放 thread_pool 的空间 */void thread_pool_destroy(thread_pool_t *pool);/* 将 thread_pool 中所有线程合并 */void thread_pool_join_all(thread_pool_t *pool);#endif
-
-thread_pool.c#include &quot;thread_pool.h&quot;#include &lt;stdlib.h&gt;static task_node_t *thread_pool_task_node_create(void *(*task)(void *), void *args)&#123;    if (task == NULL) &#123;        return NULL;    &#125;    task_node_t *node = malloc(sizeof(task_node_t));    if (node == NULL) &#123;        return NULL;    &#125;    node-&gt;next = NULL;    node-&gt;task = task;    node-&gt;args = args;    return node;&#125;/* 将任务入队 */static void thread_pool_push_taskq(task_node_t *task_node, thread_pool_t *pool)&#123;    if (task_node == NULL || pool == NULL) &#123;        return;    &#125;    if (pool-&gt;tail == NULL) &#123;        pool-&gt;tail = pool-&gt;head = task_node;    &#125;    else &#123;        pool-&gt;tail-&gt;next = task_node;        pool-&gt;tail = task_node;    &#125;&#125;/* 将任务出队 */static task_node_t *thread_pool_pop_taskq(thread_pool_t *pool)&#123;    if (pool == NULL) &#123;        return NULL;    &#125;    task_node_t *task = pool-&gt;head;    pool-&gt;head = task-&gt;next;    if (pool-&gt;head == NULL) &#123;        pool-&gt;tail = NULL;    &#125;    return task;&#125;/* 任务工作者 */static void *task_worker(void *arg)&#123;    thread_pool_t *pool = (thread_pool_t *) arg;    while (1)    &#123;        pthread_mutex_lock(&amp;pool-&gt;mutex);        /* 无任务，池未关闭 */        while (pool-&gt;head == NULL &amp;&amp; !pool-&gt;shutdown)        &#123;            /* 得到至少一份任务 pool-&gt;head != NULL */            pthread_cond_wait(&amp;pool-&gt;cond_taskq, &amp;pool-&gt;mutex);        &#125;        /* 池已关闭，无任务 */        if (pool-&gt;shutdown &amp;&amp; pool-&gt;head == NULL) &#123;            pthread_mutex_unlock(&amp;pool-&gt;mutex);            break;        &#125;        /* 任务出队 */        task_node_t *task = thread_pool_pop_taskq(pool);        pthread_mutex_unlock(&amp;pool-&gt;mutex);        if (task != NULL) &#123;            task-&gt;task(task-&gt;args);        &#125;        free(task);    &#125;        return NULL;&#125;static int thread_pool_init(int num_threads, thread_pool_t *pool)&#123;    pool-&gt;num_threads = num_threads;    pool-&gt;head = pool-&gt;tail = NULL;    pool-&gt;shutdown = 0;    pthread_mutex_init(&amp;pool-&gt;mutex, NULL);    pthread_cond_init(&amp;pool-&gt;cond_taskq, NULL);    pool-&gt;threads = (pthread_t *)malloc(sizeof(pthread_t) * num_threads);    if (pool-&gt;threads == NULL) &#123;        return -1;    &#125;    return 0;&#125;thread_pool_t *thread_pool_create(int num_threads)&#123;    if (num_threads == 0) &#123;        return NULL;    &#125;        thread_pool_t *pool = malloc(sizeof(thread_pool_t));    if (pool == NULL) &#123;        return NULL;    &#125;    if (thread_pool_init(num_threads, pool) != 0) &#123;        free(pool);        return NULL;    &#125;    for (int i = 0; i &lt; num_threads; ++i)    &#123;        if (pthread_create(&amp;pool-&gt;threads[i], NULL, task_worker, (void *)pool) != 0) &#123;            pool-&gt;num_threads = i;            thread_pool_join_all(pool);            pthread_mutex_destroy(&amp;pool-&gt;mutex);            pthread_cond_destroy(&amp;pool-&gt;cond_taskq);            free(pool-&gt;threads);            free(pool);            return NULL;        &#125;    &#125;    return pool;&#125;/* 为 thread_pool 添加任务 */int thread_pool_add_task(void *(*task)(void *), void *args, thread_pool_t *pool)&#123;    if (pool == NULL || task == NULL) &#123;        return -1;    &#125;    task_node_t *task_node = thread_pool_task_node_create(task, args);    if (task_node == NULL) &#123;        return -1;    &#125;    pthread_mutex_lock(&amp;pool-&gt;mutex);    if (pool-&gt;shutdown) &#123;        pthread_mutex_unlock(&amp;pool-&gt;mutex);        free(task_node);        return -1;    &#125;    thread_pool_push_taskq(task_node, pool);    /* 唤醒一个等待线程 */    pthread_cond_signal(&amp;pool-&gt;cond_taskq);    pthread_mutex_unlock(&amp;pool-&gt;mutex);    return 0;&#125;/* 释放 thread_pool 的空间 */void thread_pool_destroy(thread_pool_t *pool)&#123;    if (pool == NULL) &#123;        return;    &#125;        pthread_mutex_lock(&amp;pool-&gt;mutex);    pool-&gt;shutdown = 1;    pthread_cond_broadcast(&amp;pool-&gt;cond_taskq);    pthread_mutex_unlock(&amp;pool-&gt;mutex);    thread_pool_join_all(pool);    free(pool-&gt;threads);    pthread_mutex_destroy(&amp;pool-&gt;mutex);    pthread_cond_destroy(&amp;pool-&gt;cond_taskq);    free(pool);&#125;/* 将 thread_pool 中所有线程合并 */void thread_pool_join_all(thread_pool_t *pool)&#123;    if (pool == NULL) &#123;        return;    &#125;    pool-&gt;shutdown = 1;    pthread_cond_broadcast(&amp;pool-&gt;cond_taskq);    for (int i = 0; i &lt; pool-&gt;num_threads; ++i) &#123;        pthread_join(pool-&gt;threads[i], NULL);    &#125;&#125;
-
-pzip.c#define _POSIX_C_SOURCE 200809L#include &lt;stdio.h&gt;#include &lt;unistd.h&gt;#include &lt;stdlib.h&gt;#include &lt;sys/stat.h&gt;#include &lt;sys/sysinfo.h&gt;#include &lt;sys/mman.h&gt;#include &lt;pthread.h&gt;#include &lt;string.h&gt;#include &lt;fcntl.h&gt;#include &quot;thread_pool.h&quot;// 压缩单元typedef struct &#123;    int count;    char ch;&#125; zip_elem;// 压缩缓存typedef struct &#123;    char *map_addr;             // 内存映射缓冲    off_t map_size;             // 内存映射空间    off_t elem_count;           // 内存元素数量&#125; map_buf;// 构建压缩缓存map_buf *map_buf_create(off_t map_size, int prot, int flags);// 销毁压缩缓存void map_buf_destroy(map_buf *mbuf);// 合并缓存void merge_zip_buf(map_buf *merge_buf, int len, map_buf **list);typedef struct &#123;    map_buf *zip_map;    off_t offset;    off_t length;    map_buf *main_map;&#125; task_arg;// 并行压缩任务void *task(void *arg)&#123;    task_arg *targ = (task_arg *)arg;    char *src = targ-&gt;main_map-&gt;map_addr + targ-&gt;offset;    size_t srclen = targ-&gt;length;    map_buf *zip_map = targ-&gt;zip_map;    size_t i = 0;    off_t elem_count = 0;    char *dst = zip_map-&gt;map_addr;    // 逐拷贝元素进行拷贝    while (i &lt; srclen) &#123;        int cnt = 0;        char ch = src[i];        while (i &lt; srclen &amp;&amp; src[i] == ch) &#123;            ++i;            ++cnt;        &#125;        memcpy(dst, &amp;cnt, sizeof(int));        dst += sizeof(int);        memcpy(dst, &amp;ch, sizeof(char));        dst += sizeof(char);        ++elem_count;    &#125;    zip_map-&gt;elem_count = elem_count;    return NULL;&#125;int main(int argc, char **argv)&#123;    const int file_count = argc - 1;    char **file_list = argv + 1;    if (file_count == 0) &#123;        fprintf(stderr, &quot;pzip: file1 [file2 ...]\n&quot;);        exit(1);    &#125;    const int threads = get_nprocs();    // 计算文件列表中所有的文件大小总和    off_t total_size = 0;    struct stat st;    for (int i = 0; i &lt; file_count; ++i) &#123;        if (stat(file_list[i], &amp;st) != 0) &#123;            fprintf(stderr, &quot;pzip: cannot stat %s\n&quot;, file_list[i]);            exit(1);        &#125;        total_size += st.st_size;    &#125;    if (total_size == 0) &#123;        return 0;    &#125;    // 将文件列表中的所有文件读入mmap缓冲    map_buf *main_map = map_buf_create(total_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS);    if (main_map == NULL) &#123;        fprintf(stderr, &quot;pzip: fail to mmap\n&quot;);        exit(1);    &#125;    // 被拷贝字节大小    off_t copied = 0;    for (int i = 0; i &lt; file_count; ++i) &#123;        if (file_list[i] == NULL) &#123;            continue;        &#125;        int fd = open(file_list[i], O_RDONLY);        if (fd &lt; 0) &#123;            fprintf(stderr, &quot;pzip: cannot open %s\n&quot;, file_list[i]);            continue;        &#125;        if (fstat(fd, &amp;st) != 0) &#123;            fprintf(stderr, &quot;pzip: cannot fstat %s\n&quot;, file_list[i]);            close(fd);            continue;        &#125;        if (st.st_size == 0) &#123;            close(fd);            continue;        &#125;        // 建立该文件的内存映射        char *file_map = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);        if (file_map == MAP_FAILED) &#123;            fprintf(stderr, &quot;pzip: cannot mmap %s\n&quot;, file_list[i]);            close(fd);            continue;        &#125;        // 合并文件        memcpy(main_map-&gt;map_addr + copied, file_map, st.st_size);        copied += st.st_size;        munmap(file_map, st.st_size);        close(fd);    &#125;    main_map-&gt;elem_count = copied;    // 资源分片    off_t piece_size = total_size / threads + 1;    map_buf **zip_bufs = malloc(sizeof(map_buf*) * threads);    task_arg *targs = malloc(sizeof(task_arg) * threads);   // 多线程任务参数    if (zip_bufs == NULL || targs == NULL) &#123;        fprintf(stderr, &quot;pzip: malloc failed\n&quot;);        exit(1);    &#125;    for (int i = 0; i &lt; threads; ++i) &#123;        // 最坏情况每个字符都不同，输出为输入的 5 倍 sizeof(int) + sizeof(char)        zip_bufs[i] = map_buf_create(piece_size * 5, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS);        if (zip_bufs[i] == NULL) &#123;            fprintf(stderr, &quot;pzip: fail to create zip buffer\n&quot;);            exit(1);        &#125;        // 多线程任务参数        targs[i].zip_map = zip_bufs[i];        targs[i].offset = i * piece_size;        if (targs[i].offset &gt;= total_size) &#123;            targs[i].offset = total_size;            targs[i].length = 0;        &#125; else if (targs[i].offset + piece_size &gt; total_size) &#123;            targs[i].length = total_size - targs[i].offset;        &#125; else &#123;            targs[i].length = piece_size;        &#125;        targs[i].main_map = main_map;    &#125;    // 并行压缩    thread_pool_t *thread_pool = thread_pool_create(threads);    if (thread_pool == NULL) &#123;        fprintf(stderr, &quot;pzip: fail to create thread pool\n&quot;);        exit(1);    &#125;    for (int i = 0; i &lt; threads; ++i) &#123;        if (targs[i].length &gt; 0) &#123;            thread_pool_add_task(task, &amp;targs[i], thread_pool);        &#125;    &#125;    // 线程收束，资源回收    thread_pool_destroy(thread_pool);    // 缓冲合并    const off_t sig_elem_size = sizeof(int) + sizeof(char);    off_t total_compressed = 0;    for (int i = 0; i &lt; threads; ++i) &#123;        total_compressed += zip_bufs[i]-&gt;elem_count * sig_elem_size;    &#125;    if (total_compressed == 0) &#123;        total_compressed = sig_elem_size;    &#125;    map_buf *merge_buf = map_buf_create(total_compressed, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS);    if (merge_buf == NULL) &#123;        fprintf(stderr, &quot;pzip: fail to create merge buffer\n&quot;);        exit(1);    &#125;    merge_zip_buf(merge_buf, threads, zip_bufs);    // 输出到 stdout    fwrite(merge_buf-&gt;map_addr, merge_buf-&gt;elem_count * sig_elem_size, 1, stdout);    // 资源回收    free(targs);    for (int i = 0; i &lt; threads; ++i) &#123;        map_buf_destroy(zip_bufs[i]);    &#125;    free(zip_bufs);    map_buf_destroy(merge_buf);    map_buf_destroy(main_map);    return 0;&#125;map_buf *map_buf_create(off_t map_size, int prot, int flags)&#123;    map_buf *mbuf = malloc(sizeof(map_buf));    if (mbuf == NULL) &#123;        return NULL;    &#125;    mbuf-&gt;map_addr = mmap(NULL, map_size, prot, flags, -1, 0);    if (mbuf-&gt;map_addr == MAP_FAILED) &#123;        free(mbuf);        return NULL;    &#125;    mbuf-&gt;map_size = map_size;    mbuf-&gt;elem_count = 0;    return mbuf;&#125;void map_buf_destroy(map_buf *mbuf)&#123;    if (mbuf == NULL) &#123;        return;    &#125;    if (mbuf-&gt;map_addr != MAP_FAILED) &#123;        munmap(mbuf-&gt;map_addr, mbuf-&gt;map_size);    &#125;    free(mbuf);&#125;void merge_zip_buf(map_buf *merge_buf, int len, map_buf **list)&#123;    const off_t sig_elem_size = sizeof(int) + sizeof(char);    off_t total_compressed = 0;    for (int i = 0; i &lt; len; ++i) &#123;        total_compressed += list[i]-&gt;elem_count * sig_elem_size;    &#125;    // 按需扩大合并缓冲区    if (total_compressed &gt; merge_buf-&gt;map_size) &#123;        munmap(merge_buf-&gt;map_addr, merge_buf-&gt;map_size);        merge_buf-&gt;map_addr = mmap(NULL, total_compressed,            PROT_READ | PROT_WRITE,            MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);        if (merge_buf-&gt;map_addr == MAP_FAILED) &#123;            fprintf(stderr, &quot;merge_zip_buf: mmap failed\n&quot;);            exit(1);        &#125;        merge_buf-&gt;map_size = total_compressed;    &#125;    // 合并    off_t write_offset = 0;    off_t total_elems = 0;    for (int i = 0; i &lt; len; ++i) &#123;        off_t cur_size = list[i]-&gt;elem_count * sig_elem_size;        if (cur_size == 0) &#123;            continue;        &#125;        // 检查与前一个分片的边界：前一片的最后一个元素和当前片的第一个元素        if (i &gt; 0 &amp;&amp; write_offset &gt;= sig_elem_size) &#123;            int pre_count;            char pre_ch;            memcpy(&amp;pre_count, merge_buf-&gt;map_addr + write_offset - sig_elem_size, sizeof(int));            memcpy(&amp;pre_ch, merge_buf-&gt;map_addr + write_offset - sig_elem_size + sizeof(int), sizeof(char));            int cur_count;            char cur_ch;            memcpy(&amp;cur_count, list[i]-&gt;map_addr, sizeof(int));            memcpy(&amp;cur_ch, list[i]-&gt;map_addr + sizeof(int), sizeof(char));            // 处理前后单元合并            if (cur_ch == pre_ch) &#123;                cur_count += pre_count;                memcpy(list[i]-&gt;map_addr, &amp;cur_count, sizeof(int));                write_offset -= sig_elem_size;                total_elems--;            &#125;        &#125;        // 并入merge_buf        memcpy(merge_buf-&gt;map_addr + write_offset, list[i]-&gt;map_addr, cur_size);        write_offset += cur_size;        total_elems += list[i]-&gt;elem_count;    &#125;    // 更新元素计数    merge_buf-&gt;elem_count = total_elems;&#125;
-
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>concurrency-sort</title>
-    <url>/CS/OS/xv6-labs/concurrency-sort/psort/</url>
-    <content><![CDATA[psort 程序设计项目文件结构concurrency-sort/├── Makefile              # 构建文件├── psort.md              # 程序设计文档├── README-zh.md          # 项目说明│├── Record.h              # 记录类型定义├── psort_utils.h/.c      # 内存文件映射 mfilemap├── test_utils.h          # 测试工具（随机文件生成、排序校验）├── thread_pool.h/.c      # 通用线程池│├── psort.h               # 排序组 &amp; 快速排序 &amp; 线性归并└── psort.c               # 主程序 &amp; 最小堆 k 路归并
-
-
-可用例程
-get_nprocs()
-get_nprocs_conf()
-mmap()
-fsync()
-read()
-fread()
-
-
-程序要求
-并行排序接收两个命令行参数
-input
-output
-
-
-
-prompt&gt; ./psort input output
-
-
-输入文件格式
-
-record: key 4byte | value 96byte
-
-
-程序操作
-
-将所有记录读入内存，对记录进行排序，随后将其写入输出文件
-在完成之前，通过调用 fsync() 对输出文件进行强制写入
-可以假设为一次性排序
-
-
-
-
-
-注意事项
-并行化排序
-在合适并行，在何时同步
-如何分配
-如何确定创建线程的数量
-
-
-高效执行每项工作
-AlphaSort 论文
-(2026&#x2F;06&#x2F;07) 该论文似乎已无法在服务器上找到，需要自行寻找
-找到了以下可用的PDF
-AlphaSort: A Cache-Sensitive Parallel External Sort
-
-
-
-
-
-
-高效访问输入&#x2F;输出文件
-fread() C库调用
-read() 原始系统调用
-mmap() 内存映射
-
-
-
-
-程序设计数据结构设计记录结构 Record（Record.h）
-定义 Record 类型，以及相应的依赖类型与相应宏，提供类型安全保证
-
-typedef uint32_t RecordKey;#define RECORD_SIZE 100#define RECORD_KEY_SIZE sizeof(RecordKey)#define RECORD_VALUE_SIZE (RECORD_SIZE - RECORD_KEY_SIZE)typedef union &#123;    struct &#123;        RecordKey key;        char value[RECORD_VALUE_SIZE];    &#125; fields;    const char bytes[RECORD_SIZE];&#125; Record;static inlinevoid set_Record_value(Record *record, const char *value) &#123;    strncpy(record-&gt;fields.value, value, RECORD_VALUE_SIZE);&#125;
-
-Record 使用 union 同时提供两种视图：
-
-fields 视图：按结构化字段访问 key 和 value
-bytes 视图：按原始字节数组访问整条记录（用于批量 I&#x2F;O）
-
-
-内存文件映射 mfilemap（psort_utils.h &#x2F; psort_utils.c）
-对 mmap 文件访问操作进行结构化封装，统一管理文件描述符、映射缓冲区和文件大小
-
-// memory file maptypedef struct &#123;    int fd;    char *mbuf;    off_t size;&#125; mfilemap;mfilemap mfilemap_read_open(const char *filename, int oflag,                             int mmapprot, int mmapflag);mfilemap mfilemap_write_open(const char *filename, size_t size, int oflag,                              int mmapprot, int mmapflag);void mfilemap_close(mfilemap file);
-
-读打开流程：
-mfilemap mfilemap_read_open(const char *filename, int oflag,                             int mmapprot, int mmapflag) &#123;    mfilemap file = &#123; .fd = -1, .mbuf = MAP_FAILED, .size = 0 &#125;;    // 1. stat() 获取文件大小    // 2. open(O_RDONLY | oflag)    // 3. mmap(NULL, size, PROT_READ | mmapprot, mmapflag, fd, 0)    //    强制 PROT_READ 保证可读    return file;&#125;
-
-写打开流程：
-mfilemap mfilemap_write_open(const char *filename, size_t size, int oflag,                              int mmapprot, int mmapflag) &#123;    mfilemap file = &#123; .fd = -1, .mbuf = MAP_FAILED, .size = 0 &#125;;    // 1. open(O_CREAT | O_RDWR | oflag, 0644)    // 2. ftruncate(fd, size) 预分配文件空间    // 3. mmap(NULL, size, PROT_WRITE | mmapprot, mmapflag, fd, 0)    //    强制 PROT_WRITE 保证可写    return file;&#125;
-
-关闭流程：
-void mfilemap_close(mfilemap file) &#123;    // 1. munmap(mbuf, size) 解除内存映射    // 2. close(fd) 关闭文件描述符&#125;
-
-
-线程池（thread_pool.h &#x2F; thread_pool.c）
-通用任务队列线程池，用于并行化排序任务
-
-// 任务结点typedef struct task_node_t &#123;    void *(*task)(void *);    void *args;    struct task_node_t *next;&#125; task_node_t;// 线程池类型typedef struct &#123;    pthread_mutex_t mutex;       // 互斥量：保护内部字段    pthread_cond_t cond_taskq;   // 条件变量：队列非空 / shutdown 时唤醒    pthread_t *threads;          // 工作线程组    int num_threads;             // 线程数量    int shutdown;                // 关闭标识 0/1    task_node_t *head;           // 任务队列队头    task_node_t *tail;           // 任务队列队尾&#125; thread_pool_t;
-
-接口：
-
-
-
-函数
-作用
-
-
-
-thread_pool_create(num)
-创建线程池，启动 num 个工作线程
-
-
-thread_pool_add_task(fn, arg, pool)
-将任务入队，唤醒一个等待线程
-
-
-thread_pool_destroy(pool)
-关闭线程池，等待所有线程完成，释放资源
-
-
-thread_pool_join_all(pool)
-等待所有工作线程结束
-
-
-工作线程逻辑：
-static void *task_worker(void *arg) &#123;    thread_pool_t *pool = (thread_pool_t *)arg;    while (1) &#123;        pthread_mutex_lock(&amp;pool-&gt;mutex);        // 等待：队列非空或池关闭        while (pool-&gt;head == NULL &amp;&amp; !pool-&gt;shutdown)            pthread_cond_wait(&amp;pool-&gt;cond_taskq, &amp;pool-&gt;mutex);        // 池关闭且无任务，退出        if (pool-&gt;shutdown &amp;&amp; pool-&gt;head == NULL) &#123;            pthread_mutex_unlock(&amp;pool-&gt;mutex);            break;        &#125;        // 出队一个任务        task_node_t *task = thread_pool_pop_taskq(pool);        pthread_mutex_unlock(&amp;pool-&gt;mutex);        // 执行任务        if (task != NULL) &#123;            task-&gt;task(task-&gt;args);        &#125;        free(task);    &#125;    return NULL;&#125;
-
-
-排序组与并行快速排序（psort.h）
-将输入数据划分为多个排序组，各组内使用快速排序并行执行
-
-sort_group 排序组typedef struct &#123;    Record **list;      // 指向 Record 指针的数组（指针排序，避免数据拷贝）    int num_records;    // 组内记录数    int iter;           // 归并迭代器（标记当前已归并位置）&#125; sort_group;void sort_group_init(sort_group *group, int num_records) &#123;    group-&gt;list = (Record **)malloc(sizeof(Record *) * num_records);    group-&gt;iter = 0;    group-&gt;num_records = num_records;&#125;
-
-
-设计要点：list 存储的是 Record 指针而非 Record 本身。排序时交换指针，不移动 100 字节的记录数据，避免大量内存拷贝。
-
-group_qsort 快速排序// 分区函数：以第一个元素为 pivot，Hoare 变体int group_qsort_partition(Record **list, int low, int high) &#123;    Record *tmp = list[low];    RecordKey pivot = list[low]-&gt;fields.key;    while (low &lt; high) &#123;        while (low &lt; high &amp;&amp; list[high]-&gt;fields.key &gt; pivot)            --high;        list[low] = list[high];        while (low &lt; high &amp;&amp; list[low]-&gt;fields.key &lt; pivot)            ++low;        list[high] = list[low];    &#125;    list[low] = tmp;    return low;&#125;// 递归快速排序void group_qsort(Record **list, int low, int high) &#123;    if (low &lt; high) &#123;        int pivot_idx = group_qsort_partition(list, low, high);        group_qsort(list, low, pivot_idx - 1);        group_qsort(list, pivot_idx + 1, high);    &#125;&#125;
-
-sort_group_get_next_record 线性归并（参考）// 每次遍历所有组的当前指针，取 key 最小的记录// 复杂度：O(k * m)，k = 组数，m = 总记录数Record *sort_group_get_next_record(sort_group *groups, int num_groups) &#123;    Record *min_record = NULL;    int min_idx = -1;    for (int i = 0; i &lt; num_groups; ++i) &#123;        if (groups[i].iter &lt; groups[i].num_records) &#123;            Record *cur = groups[i].list[groups[i].iter];            if (min_record == NULL || cur-&gt;fields.key &lt; min_record-&gt;fields.key) &#123;                min_record = cur;                min_idx = i;            &#125;        &#125;    &#125;    if (min_idx &gt;= 0) &#123;        groups[min_idx].iter++;    &#125;    return min_record;&#125;
-
-
-注：此函数为项目历史版本中的归并方式，保留作为对比参考。实际主程序使用下方的最小堆归并。
-
-
-最小堆 k 路归并（psort.c）
-将归并复杂度从 O(k * m) 降至 O(m log k)
-
-堆结点typedef struct &#123;    RecordKey key;    int group_idx;      // 记录来自哪个排序组&#125; heap_node_t;
-
-堆操作// 下沉：维护堆性质static void heap_sift_down(heap_node_t *heap, int size, int i) &#123;    while (1) &#123;        int smallest = i;        int left = 2 * i + 1;        int right = 2 * i + 2;        if (left &lt; size &amp;&amp; heap[left].key &lt; heap[smallest].key)            smallest = left;        if (right &lt; size &amp;&amp; heap[right].key &lt; heap[smallest].key)            smallest = right;        if (smallest == i) break;        // swap        heap_node_t tmp = heap[i];        heap[i] = heap[smallest];        heap[smallest] = tmp;        i = smallest;    &#125;&#125;// 上浮：插入新元素static void heap_sift_up(heap_node_t *heap, int i) &#123;    while (i &gt; 0) &#123;        int parent = (i - 1) / 2;        if (heap[i].key &gt;= heap[parent].key) break;        // swap        heap_node_t tmp = heap[i];        heap[i] = heap[parent];        heap[parent] = tmp;        i = parent;    &#125;&#125;static void heap_push(heap_node_t *heap, int *size,                       RecordKey key, int group_idx) &#123;    heap[*size].key = key;    heap[*size].group_idx = group_idx;    heap_sift_up(heap, *size);    (*size)++;&#125;static heap_node_t heap_pop(heap_node_t *heap, int *size) &#123;    heap_node_t top = heap[0];    (*size)--;    heap[0] = heap[*size];    heap_sift_down(heap, *size, 0);    return top;&#125;
-
-归并流程// 1. 建堆：每个非空排序组的首条记录入堆（O(k)）heap_node_t *heap = malloc(sizeof(heap_node_t) * threads);int heap_size = 0;for (int i = 0; i &lt; threads; ++i) &#123;    if (groups[i].num_records &gt; 0) &#123;        heap_push(heap, &amp;heap_size, groups[i].list[0]-&gt;fields.key, i);    &#125;&#125;// 2. k 路归并：每次弹出最小记录，同组补入下一条（O(m log k)）Record *out_records = (Record *)output.mbuf;int out_idx = 0;while (heap_size &gt; 0) &#123;    heap_node_t min = heap_pop(heap, &amp;heap_size);    sort_group *g = &amp;groups[min.group_idx];    memcpy(&amp;out_records[out_idx++], g-&gt;list[g-&gt;iter], RECORD_SIZE);    g-&gt;iter++;    if (g-&gt;iter &lt; g-&gt;num_records) &#123;        heap_push(heap, &amp;heap_size,                  g-&gt;list[g-&gt;iter]-&gt;fields.key, min.group_idx);    &#125;&#125;free(heap);
-
-复杂度对比：
-
-
-
-归并方式
-每次取最小
-总复杂度
-
-
-
-线性扫描
-O(k)
-O(k * m)
-
-
-最小堆
-O(log k)
-O(m log k)
-
-
-
-测试工具（test_utils.h）随机测试文件生成// 创建随机的符合Record类型格式的文件内容void create_random_Record_file(const char *filename, RecordKey base,                                int nrecords, float multiply, unsigned int seed);
-
-使用 Fisher-Yates 洗牌算法保证 key 唯一且随机分布，multiply 参数控制键空间大小（&gt;1.0 保证不重复）。
-// 写 Record 类型数据static inlinesize_t fwrite_Record(Record *record, FILE *stream) &#123;    return fwrite(record-&gt;bytes, sizeof(char), RECORD_SIZE, stream);&#125;// 随机字符串生成void rand_str(char *dest, size_t length);
-
-排序校验void check_Record_file_sorted(const char *filename) &#123;    // 1. mmap 打开输出文件    // 2. 逐条检查 key 是否非递减    // 3. 打印 sorted / not sorted 结果&#125;
-
-
-主程序流程（psort.c）int main(int argc, char *argv[])&#123;    // 0. 参数校验    if (argc != 3) &#123; /* error */ &#125;    const char *finput  = argv[1];    const char *foutput = argv[2];    // 1. 创建线程池（线程数 = CPU 核数）    int threads = get_nprocs();    thread_pool_t *thread_pool = thread_pool_create(threads);    // 2. mmap 映射输入文件    input = mfilemap_read_open(finput, 0, PROT_READ | PROT_NONE, MAP_PRIVATE);    int num_records  = input.size / RECORD_SIZE;    int num_per_group = (num_records + threads) / threads;    // 3. 将记录均分到各组，建立 Record* 指针列表    sort_group *groups = malloc(sizeof(sort_group) * threads);    for (int i = 0; i &lt; threads; ++i) &#123;        int group_records = (i != threads - 1)            ? num_per_group            : num_records - i * num_per_group;        sort_group_init(&amp;groups[i], group_records);        Record *rbase = (Record *)input.mbuf + i * num_per_group;        for (int j = 0; j &lt; groups[i].num_records; ++j) &#123;            groups[i].list[j] = rbase + j;        &#125;    &#125;    // 4. 并行排序：各组提交到线程池，执行 group_qsort    for (int i = 0; i &lt; threads; ++i) &#123;        thread_pool_add_task(sort_worker, &amp;groups[i], thread_pool);    &#125;    thread_pool_destroy(thread_pool);  // 等待所有排序线程完成    // 5. mmap 创建输出文件（预分配空间）    output = mfilemap_write_open(foutput, input.size, 0,                                  PROT_WRITE | PROT_NONE, MAP_SHARED);    // 6. 最小堆 k 路归并（O(m log k)）    //    a. 建堆：各组首条记录入堆    //    b. 循环 pop 最小记录写入输出，同组补入下一条    // 7. 资源释放 &amp; 刷盘    free(groups);    mfilemap_close(input);    fsync(output.fd);    mfilemap_close(output);    // 8. 校验输出文件是否有序    check_Record_file_sorted(foutput);    return 0;&#125;// 排序工作线程入口void* sort_worker(void *arg) &#123;    sort_group *group = (sort_group *)arg;    group_qsort(group-&gt;list, 0, group-&gt;num_records - 1);    return NULL;&#125;
-
-并行化设计要点：
-
-数据划分：将 mmap 映射的输入文件按记录数均分为 threads 组，各组独立排序
-指针排序：sort_group.list 存储 Record* 指针，排序时只交换指针不移动数据
-并发排序：各组通过线程池并行执行 group_qsort，thread_pool_destroy 确保全部排序完成后才进入归并阶段
-堆归并：归并使用最小堆，每组内部已经有序，每次从堆顶取全局最小记录写入输出文件
-强制刷盘：fsync(output.fd) 确保输出文件写入磁盘后再关闭
-
-
-Makefile 构建CC = gccINCDIR_AXC = -I.LIBDIR_AXC = -LLINK = -lpthread -lc -lmDEPEND = $(INCDIR_AXC) $(LINK)CMACRO = -D_POSIX_C_SOURCE=200812LSTDVER = -std=c11CFLAGS = -g -Wall $(STDVER) $(CMACRO) -OINCS = *.hSRCS = *.cTARGET = psort$(TARGET): $(INCS) $(SRCS)	$(CC) $(CFLAGS) $(DEPEND) $^ -o $@.PHONY: cleanclean:	rm $(TARGET)
-
-
-所有 .h 和 .c 文件一并编译为单一可执行文件 psort，链接 pthread、libc、libm。
-
-Record.hpsort.cpsort.hpsort_utils.cpsort_utils.htest_utils.h
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>concurrency-webserver</title>
-    <url>/CS/OS/xv6-labs/concurrency-webserver/concurrency-webserver/</url>
-    <content><![CDATA[wserver 程序解析
-仓库提供的源代码中，该 wserver 程序是可以直接进行 make 构建的
-
-TODO
-为服务器添加多线程功能
-pthread
-处理静态和动态请求
-主线程然后负责通过网络接受新的 HTTP 连接，并将此连接的描述符放入一个固定大小的缓冲区中
-主线程和工作线程处于生产者-消费者关系中，需要同步它们对共享缓冲区的访问。
-如果缓冲区已满，主线程必须阻塞并等待；如果缓冲区为空，工作线程必须等待。使用条件变量实现。
-
-
-
-
-实现不同的调度策略 FIFO SFF
-修改Web服务器的调用方式，使其能够处理新的输入参数
-
-
-原 wserver 程序处理过程
-监听并读取客户端套接字 accept_or_die
-
-处理客户端连接请求 request_handle
-
-读取并解析客户端请求，分析请求行
-
-根据请求类型 is_static 进行静态&#x2F;动态请求的响应
-
-静态请求request_serve_static：调用mmap建立文件内存映射，读取本地文件，返回响应
-
-动态请求request_serve_dynamic：通过调起子进程执行CGI程序处理
-
-
-
-
-
-处理完成，关闭连接 close_or_die
-
-
-
-
-
-初始环境可能的问题wserver.c 中的 optarg 未定义问题
-需要包含头文件 &lt;unistd.h&gt; 或 &lt;getopt.h&gt;
-头文件中已自然声明
-*char optarg 指向当前参数
-int optind 下一次调用 getopt() 时的下一个argv指针的索引
-int opterr 标志，设置为0，不会向 stderr 输出错误信息
-int optopt 最后一个未知选项
-
-
-
-
-
-带参数的选项要在传入 getopt() 函数的字符串中添加 : 字符
-
-如 “A:B:C:” 则标识了 -A -B -C 三种参数
-使用 :: 标识可选参数
-必须检查 optarg 字段是否为空
-getopt 默认会将选项参数进行重排，将非选项参数放至最后
-
-request.c 文件的编译问题
-会遇到 sprintf 函数，缓冲区溢出问题
-可通过将 sprintf 更换为 snprintf 函数来解决该问题，需要传入该缓冲区的实际大小，根据 snprintf 的返回值判断是否产生了缓冲区截断。
-也可以使用 asprintf 函数进行缓冲区的自动扩展
-
-
-
-
-设计生产者-消费者 划分生产者
-
-通过读取请求，写入缓冲
-在主线程使用 buffer_push 将 conn_fd 写入缓冲
-
-消费者
-
-通过从缓冲中读取请求，写回响应
-在子线程中使用 buffer_pop 将 conn_fd 从缓冲中读出
-
-线程池设计
-编写以下依赖thread_pool.hthread_pool.c
-
-提供以下API
-/* 任务结点 */typedef struct task_node_t &#123;    void *(*task)(void *);    void *args;    struct task_node_t *next;&#125; task_node_t;/* 线程池类型 */typedef struct &#123;    pthread_mutex_t mutex;                  /* 互斥量：保护 thread_pool_t 结构内部字段 */    pthread_cond_t cond_taskq;              /* 条件变量：队列非空，shutdown时唤起 */    pthread_t *threads;                     /* 工作线程组 */    int num_threads;                        /* 线程数量 */    int shutdown;                           /* 0/1 关闭标识 */    task_node_t *head;                      /* 任务队列，队头 */    task_node_t *tail;                      /* 任务队列，队尾 */&#125; thread_pool_t;/* 为 thread_pool 分配空间 */thread_pool_t *thread_pool_create(int num_threads);/* 为 thread_pool 添加任务 */int thread_pool_add_task(void *(*task)(void *), void *args, thread_pool_t *pool);/* 释放 thread_pool 的空间 */void thread_pool_destroy(thread_pool_t *pool);/* 将 thread_pool 中所有线程合并 */void thread_pool_join_all(thread_pool_t *pool);
-
-调度策略与缓冲区设计FIFO 策略缓冲
-编写以下依赖FIFO_buffer.hFIFO_buffer.c
-
-提供以下API
-typedef struct &#123;    int *conn_fds;                              /* 连接描述符，环形缓冲队列 */    int capacity;                               /* 缓冲区大小 */    int head, tail;                             /* 读写位置 */    int count;                                  /* 当前元素数 */    pthread_mutex_t mutex;                      /* 互斥量 */    pthread_cond_t cond_space_available;        /* 条件变量：缓冲区可写 */    pthread_cond_t cond_data_available;         /* 条件变量：缓冲区数据可读 */&#125; FIFO_buffer_t;FIFO_buffer_t *FIFO_buffer_create(int capacity);void FIFO_buffer_destroy(FIFO_buffer_t *buffer);int FIFO_buffer_count(FIFO_buffer_t *buffer);int FIFO_buffer_empty(FIFO_buffer_t *buffer);int FIFO_buffer_full(FIFO_buffer_t *buffer);int FIFO_buffer_push(int conn_fd, FIFO_buffer_t *buffer);int FIFO_buffer_pop(FIFO_buffer_t *buffer);
-
-SFF 策略缓冲
-编写以下依赖SFF_buffer.hSFF_buffer.c
-
-
-使用 MIN TOP HEAP 进行优化处理将 push&#x2F;pop 操作的复杂度改进为 O(log n)
-
-提供以下API
-#define PRELBUFSIZE (8192)#define SFF_BUFFER_MIN_ELEM(buffer) ((buffer)-&gt;elems[0])#define SFF_BUFFER_CAPACITY(buffer) ((buffer)-&gt;capacity)#define SFF_BUFFER_ELEM_COUNT(buffer) ((buffer)-&gt;count)typedef struct &#123;    int conn_fd;    int file_size;&#125; SFF_buffer_elem_t;typedef struct &#123;    SFF_buffer_elem_t *elems;                   /* 元素列表 */    int capacity;                               /* 缓冲容量 */    int count;                                  /* 元素数量 */    pthread_mutex_t mutex;                      /* 互斥量 */    pthread_cond_t cond_space_available;        /* 条件变量：缓冲区可写 */    pthread_cond_t cond_data_available;         /* 条件变量：缓冲区数据可读 */&#125; SFF_buffer_t;SFF_buffer_t *SFF_buffer_create(int capacity);void SFF_buffer_destroy(SFF_buffer_t *buffer);int SFF_buffer_count(SFF_buffer_t *buffer);int SFF_buffer_empty(SFF_buffer_t *buffer);int SFF_buffer_full(SFF_buffer_t *buffer);int SFF_buffer_push(SFF_buffer_elem_t elem, SFF_buffer_t *buffer);int SFF_buffer_pop(SFF_buffer_t *buffer, char *pre_line_buf);
-
-小顶堆堆结构
-static int parent_node(int idx) &#123;    return (idx - 1) &gt;&gt; 1;    &#125;static int left_node(int idx) &#123;    return (idx &lt;&lt; 1) + 1;&#125;static int right_node(int idx) &#123;    return (idx &lt;&lt; 1) + 2;&#125;static void shift_up(int idx, SFF_buffer_t *buffer)&#123;    if (idx == 0) &#123;        return;    &#125;    int parent = parent_node(idx);    SFF_buffer_elem_t *elems = buffer-&gt;elems;    while (idx &gt; 0        &amp;&amp; elems[idx].file_size &gt; elems[parent].file_size)    &#123;        /* 子节点上浮 */        SFF_buffer_elem_t tmp = elems[parent];        elems[parent] = elems[idx];        elems[idx] = tmp;        //        idx = parent;        parent = parent_node(idx);    &#125;&#125;static void shift_down(int idx, SFF_buffer_t *buffer)&#123;    SFF_buffer_elem_t *elems = buffer-&gt;elems;    int count = SFF_BUFFER_ELEM_COUNT(buffer);    while (1)    &#123;        int l = left_node(idx);        int r = right_node(idx);        int child = idx;        /* 检查子节点，是否更小 */        if (l &lt; count            &amp;&amp; elems[l].file_size &gt; elems[child].file_size)        &#123;            child = l;        &#125;        if (r &lt; count            &amp;&amp; elems[r].file_size &gt; elems[child].file_size)        &#123;            child = r;        &#125;        if (child == idx) &#123;            break;        &#125;        SFF_buffer_elem_t tmp = elems[idx];        elems[idx] = elems[child];        elems[child] = tmp;        /* 大值下沉 */        idx = child;    &#125;&#125;
-
-调度结构
-编写以下依赖scheduler.hscheduler.c
-
-/* NULL     调度*/#define SCHED_ALG_NULL      0x00/* FIFO     调度 */#define SCHED_ALG_FIFO      0x01/* SFF      调度 */#define SCHED_ALG_SFF       0x02#define SET_FIFO_SCHED(scheduler) ((scheduler)-&gt;sched_alg = SCHED_ALG_FIFO)#define SET_SFF_SCHED(scheduler) ((scheduler)-&gt;sched_alg = SCHED_ALG_SFF)#define IS_FIFO_SCHED(scheduler) ((scheduler)-&gt;sched_alg == SCHED_ALG_FIFO)#define IS_SFF_SCHED(scheduler) ((scheduler)-&gt;sched_alg == SCHED_ALG_SFF)#define IF_FIFO_SCHED(scheduler) if ((scheduler)-&gt;sched_alg == SCHED_ALG_FIFO)#define IF_SFF_SCHED(scheduler) if ((scheduler)-&gt;sched_alg == SCHED_ALG_SFF)#define FIFO_SCHED_BUFFER(scheduler) ((FIFO_buffer_t *)(scheduler)-&gt;sched_buffer)#define SFF_SCHED_BUFFER(scheduler) ((SFF_buffer_t *)(scheduler)-&gt;sched_buffer)typedef unsigned int sched_alg_t;typedef struct &#123;    sched_alg_t sched_alg;              /* 策略算法标识 */    void *sched_buffer;                 /* 策略缓冲 FIFO/SFF _buffer_t */&#125; scheduler_t;/* 创建调度缓冲 */scheduler_t *scheduler_create(int capacity, const char *schedalg);/* 销毁调度器 */void scheduler_destroy(scheduler_t *scheduler);/* 将连接符压入调度器 */void scheduler_push(int conn_fd, scheduler_t *scheduler);/* 从调度器中取出连接符 */int scheduler_pop(scheduler_t *scheduler, char *pre_line_buf);
-
-
-scheduler.hscheduler.c
-thread_pool.hthread_pool.c
-FIFO_buffer.hFIFO_buffer.c
-SFF_buffer.hSFF_buffer.c
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>initial-reverse</title>
-    <url>/CS/OS/xv6-labs/initial-reverse/initial-reverse/</url>
-    <content><![CDATA[reverse
-reverse 程序的功能分别是进行文件的压缩(wzip)与解压缩(wunzip)使用 游程编码(REL) 进行压缩
-
-prompt&gt; ./reverseprompt&gt; ./reverse input.txtprompt&gt; ./reverse input.txt output.txt
-
-依赖例程
-fopen()
-
-fgets()
-
-fclose()
-
-getline()
-
-printf()
-
-fwrite()
-
-fread()
-
-perror()
-
-strerror()
-
-
-实验需求
-输入与输出相同： 如果输入文件和输出文件是同一个文件
-
-打印错误消息 “Input and output file must differ” 并以返回码 1 退出。
-
-
-字符串长度： 你不能对一行的长度做任何假设。因此，你可能需要读取非常长的输入行…
-
-文件长度： 你不能对文件的长度做任何假设，即文件可能非常长。
-
-无效文件： 如果用户指定了输入文件或输出文件，但当你尝试打开该文件（例如 input.txt）时因某种原因失败，应打印以下精确的错误消息：error: cannot open file &#39;input.txt&#39;，然后以返回码 1 退出（即调用 exit(1);）。
-
-传递给程序的参数过多： 如果用户运行 reverse 时参数过多，打印 usage: reverse &lt;input&gt; &lt;output&gt; 并以返回码 1 退出。
-
-如何打印错误消息： 发生任何错误时，应使用 fprintf() 将错误打印到屏幕上，并将错误消息发送到 stderr（标准错误）而不是 stdout（标准输出）。在 C 代码中通过以下方式实现：fprintf(stderr, &quot;whatever the error message is\n&quot;);
-
-
-要退出，调用 exit(1)。你传递给 exit() 的数字（本例中为 1）可供用户查看程序是返回了错误（即返回非零值）还是正常退出（即返回了 0）。
-对于读取输入文件，以下例程会让你的工作变得轻松：fopen()、getline() 和 fclose()。
-对于打印（到屏幕或到文件），使用 fprintf()。注意，通过将 stdout 传递给 fprintf() 可以很容易地写入标准输出；通过传入 fopen 返回的 FILE * 也可以很容易地写入文件，例如：fp=fopen(...); fprintf(fp, ...);。
-
-
-流程分析reverse
-使用 fprintf(stderr, ...) 进行错误信息的反馈
-
-
-命令行参数
-
-./reverse
-./reverse input.txt
-./reverse intput.txt output.txt
-当 input.txt &#x3D;&#x3D; output.txt 时打印错误信息
-Input and output file must differ
-
-
-
-
-传参过多
-打印错误信息
-usage: reverse &lt;input&gt; &lt;output&gt;
-
-
-
-
-
-
-文件探查
-
-文件不存在
-打印错误信息
-error: cannot open file &#39;input.txt&#39;
-
-
-然后以返回码 1 退出 exit(1)
-
-
-
-
-文件处理
-
-不对读入的字符串与文件长度做出假设
-需要进行动态扩容
-或者直接使用 getline() 例程处理
-
-
-将指定输入文件中的数据并将其反转
-将文件中的各行按照与输入流相反的顺序打印
-
-
-
-
-文件关闭
-
-
-reverse.c
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>initial-kv</title>
-    <url>/CS/OS/xv6-labs/initial-kv/initial-kv/</url>
-    <content><![CDATA[kv程序设计程序要求命令设计
-put：
-
-格式: p,key,value
-
-
-其中 key 是 整数 ，value 是 任意字符串
-
-
-get：
-
-格式: g,key
-
-
-其中 key 是整数。
-键存在：系统应打印出key,value \n
-键不存在：单独一行打印错误消息，格式为 K not found，其中 K 是键的实际整数值
-
-
-
-
-delete：
-
-格式：d,key
-
-
-功能：
-删除相应的键值对（不打印任何内容）
-删除失败（并打印 K not found，其中 K 是键的实际值，即某个整数）。
-
-
-
-
-clear：
-
-格式: c
-
-
-功能：从数据库中移除所有键值对。
-
-
-all：
-
-格式: a
-
-
-功能：任意顺序打印数据库中的所有键值对，每行一个键值对 key,value
-
-
-
-合适的例程
-文件操作
-
-fopen
-fwrite
-fread
-getline
-fprintf
-
-
-字符串处理
-
-strsep(char** line, char** delim)
-char** token &#x3D; strsep(char** line, char** delim)按 delim 分割 *line
-
-返回 顺序第一个delim前的 token
-*line 指向 顺序第一个delim后的 token
-相当于 原 *line &#x3D; token append 后*line
-
-
-
-stoi
-
-
-
-
-
-程序流程
-命令行校验
-
-命令解析
-
-循环处理
-
-
-字符串解析
-
-
-命令操作
-
-标准输出
-
-printf()
-
-
-持久化处理
-
-文件操作 ABI格式 key,value
-
-
-fopen()
-fwrite()
-fread()
-
-
-错误&#x2F;异常处理
-
-使用 fprintf(err, ...) 进行提示
-
-
-错误命令
-非程序命令：
-bad command
-不影响剩余的命令解析
-
-
-意外错误：
-打印相应的异常&#x2F;错误信息
-
-
-
-
-
-
-
-
-
-
-
-
-graph TD
-    A[数据操作命令]
-    B[主程序]
-
-    subgraph E[数据流操作]
-        C[字符串解析]
-        D[文件操作]
-    end
-
-    F[异常处理]
-    F -.- E
-    F -.- A
-
-    C --&gt; A
-    D -- 命令行解析 --&gt; A
-    A --&gt; B
-
-
-
-
-kv.cutil.cutil.h
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>process-shell</title>
-    <url>/CS/OS/xv6-labs/process-shell/process-shell/</url>
-    <content><![CDATA[wish 程序设计设计目标
-进一步熟悉 Linux 编程环境
-学习进程的 创建、销毁、管理
-接触 shell 中的必要功能
-
-
-设计需求两种模式
-为每一个新命令创建一个进程
-
-交互模式
-提示符回显，循环，直接输入命令
-
-prompt&gt; ./wishwish&gt;
-
-允许用户直接输入命令。
-
-批处理模式
-无提示符回显，单次调用从文件读取需要执行的命令
-
-prompt&gt; ./wish batch.txt
-
-
-功能结构参考例程
-fopen()
-
-fclose()
-
-fprintf()
-
-getline()
-
-strsep()
-
-strdup()
-
-fork()
-
-execv()
-
-wait()
-
-waitpid()
-
-chdir()
-
-getcwd()
-
-access()
-
-
-
-基本Shell
-运行在一个 while 循环中，反复请求输入，接收执行命令
-使用 exit 退出
-对于两种模式
-交互模式：在一个循环中
-批处理模式：通过读文件，执行命令
-
-
-退出方式
-遇到 EOF 后，调用 exit(0) 退出
-
-
-
-
-
-路径用户必须指定一个 路径变量 来描述要搜索可执行文件的目录集合
-使用 绝对路径 或 相对路径 指定二进制文件
-内建命令每当shell接收一个命令时，检查该命令是否属于 内建命令
-本项目实现：
-
-exit
-退出shell程序
-
-
-cd
-总是接收1个参数。更改当前目录.
-
-
-path
-接收0&#x2F;多个参数。覆盖shell搜索路径
-
-
-
-
-重定向使用 &gt; 命令提供重定向功能
-并行命令通过 &amp; 实现命令并行
-一定同时运行 &amp; 两侧的命令
-程序错误
-打印 唯一且仅有的错误信息
-调用 exit(1) 退出
-
-
-注意
-针对 空白字符 健壮
-检查系统调用的返回码
-
-
-程序流程
-解析程序命令行
-
-交互式
-批处理
-
-
-根据命令行调用方式，处理程序
-
-循环在遇到 EOF 后，使用 exit(0) 退出
-
-
-交互式
-进行循环
-
-
-逐行读取命令
-输入 exit 内建命令退出
-
-
-批处理
-直接读取文件
-
-
-逐行读取命令
-完成后直接退出
-EOF 后，退出
-
-
-
-
-
-
-命令调用解析
-
-编写一个查找表结构进行处理
-
-
-内建命令
-exit
-path
-cd
-
-
-系统命令 
-path 更新pash_route
-
-
-命令调用
-为系统命令添加路径前缀
-
-access()
-snprintf()
-
-
-
-sys_cmd_full_cat();
-
-
-通过系统调用运行命令
-
-fork()
-execv()
-wait()&#x2F;waitpid()
-
-
-
-cmd_executor();
-fork() {
-execv();
-waitpid();
-
-
-}
-
-
-
-
-
-
-
-
-特性支持
-
-重定向并行命令
-
-
-添加 parse_line() 针对 &gt; &amp; 进行分词
-在shell_execute()中添加功能
-使用 &amp; 进行分段
-
-
-错误处理
-
-
-
-测试点
-按功能划分
-
-
-内建命令 (cd&#x2F;exit)：测试 1, 2, 5
-路径搜索：测试 6, 7, 15
-重定向：测试 8, 9, 10, 11, 12
-并行命令：测试 16, 17, 18, 19, 22
-重定向+并行组合：测试 20
-批处理模式：测试 3, 4, 13, 14
-边界：测试 21
-
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>initial-ultilities</title>
-    <url>/CS/OS/xv6-labs/initial-ultilities/initial-ultilities/</url>
-    <content><![CDATA[wcat
-wcat 程序的功能是读取用户指定的文件并打印文件内容
-
-prompt&gt; ./wcat main.c#include &lt;stdio.h&gt;...
-
-依赖例程
-fopen()
-
-fgets()
-
-fclose()
-
-printf()
-
-perror()
-
-strerror()
-
-
-实验需求
-你的程序 wcat 可以在命令行上使用一个或多个文件调用；
-它应该依次打印出每个文件。
-
-
-在所有非错误情况下，wcat 应以状态码 0 退出
-通常通过从 main() 返回 0（或调用 exit(0)）。
-
-
-如果命令行上没有指定任何文件，wcat 应直接退出并返回 0。
-注意，这与普通 UNIX cat 的行为略有不同（如果你愿意，可以找出不同之处）。
-
-
-如果程序尝试 fopen() 一个文件并失败，应打印精确的消息 “wcat: cannot open file”（后跟换行符）并以状态码 1 退出。如果命令行上指定了多个文件，应依次打印文件直到文件列表结束或遇到打开文件错误（此时打印错误消息并退出 wcat）。
-
-流程分析
-打开文件
-使用 fopen()
-
-
-未指定文件
-直接退出，返回0
-
-
-指定文件
-指定多个文件
-依次打印文件列表，直到 打开失败
-
-
-打开失败
-打印精确消息 “wcat: cannot open file\n”
-以状态码 1 退出
-
-
-打开成功：向下进行
-
-
-
-
-读取文件内容
-使用 fgets()
-
-
-可以打开多个文件，按照 **argv 的传参顺序进行提取
-需要 (buffer_ptr, buffer_size, FILE*)
-
-
-
-
-输出文件内容
-使用 printf()
-
-
-关闭文件
-使用 fclose()
-
-
-
-wcat.c
-
-
-
-wgrep
-wgrep 程序的功能是在行中查找用户指定的搜索词
-
-prompt&gt; ./wgrep foo bar.txtthis line has foo in it...
-
-依赖例程
-fopen()
-
-fgets()
-
-fclose()
-
-getline()
-
-printf()
-
-perror()
-
-strerror()
-
-
-实验需求
-你的程序 wgrep 总是接收一个搜索词和零个或多个要 grep 的文件（因此可能不止一个文件）。它应逐行检查搜索词是否存在于该行中；如果是，则应打印该行，如果不是，则应跳过该行。
-
-匹配区分大小写。因此，如果搜索 foo，包含 Foo 的行将不匹配。
-
-行可以任意长（也就是说，你可能会在遇到换行符 \n 之前看到很多很多字符）。wgrep 即使在非常长的行上也应正常工作。为此，你可能想查阅 getline() 库调用（而不是 fgets()），或者自己实现。
-
-如果 wgrep 没有收到任何命令行参数，应打印 “wgrep: searchterm [file …]”（后跟换行符）并以状态 1 退出。
-
-如果 wgrep 遇到无法打开的文件，应打印 “wgrep: cannot open file”（后跟换行符）并以状态 1 退出。
-
-在所有其他情况下，wgrep 应以返回码 0 退出。
-
-如果指定了搜索词但没有指定文件，wgrep 应正常工作，但不是从文件读取，wgrep 应从标准输入读取。这样做很容易，因为文件流 stdin 已经打开；你可以使用 fgets()（或类似例程）从中读取。
-
-为简单起见，如果传入的搜索字符串是空字符串，wgrep 可以选择不匹配任何行或匹配所有行，两者都可以接受。
-
-
-流程分析
-打开文件
-使用 fopen()
-
-
-未指定参数
-输出回显
-状态码 1 退出
-
-
-未指定文件
-从标准输入中读取
-getline(&amp;line, &amp;size, stdin)
-
-
-指定文件
-指定多个文件
-依次打印文件列表，直到 打开失败
-
-
-打开失败
-打印精确消息 “wgrep: cannot open file\n”
-以状态码 1 退出
-
-
-打开成功：向下进行
-
-
-
-
-读取文件内容
-使用 fgets()
-
-
-可以打开多个文件，按照 **argv 的传参顺序进行提取
-严格按行读取
-
-
-输出匹配文件行
-使用 printf()
-
-
-匹配区分大小写
-
-
-关闭文件
-使用 fclose()
-
-
-
-wgrep.c
-
-wzip 与 wunzip
-wzip-wunzip 程序的功能分别是进行文件的压缩(wzip)与解压缩(wunzip)使用 游程编码(REL) 进行压缩
-
-prompt&gt; ./wzip file.txt &gt; file.zprompt&gt; ./wunzip file.z
-
-依赖例程
-fopen()
-
-fgets()
-
-fclose()
-
-getline()
-
-printf()
-
-fwrite()
-
-fread()
-
-perror()
-
-strerror()
-
-
-实验需求
-正确调用应通过命令行向程序传递一个或多个文件
-
-如果没有指定文件，程序应以返回码 1 退出
-对于 wzip
-打印 “wzip: file1 [file2 …]”（后跟换行符）
-
-
-对于 wunzip
-打印 “wunzip: file1 [file2 …]”（后跟换行符）。
-
-
-
-
-压缩文件的格式必须与上述描述完全一致（每个游程为一个 4 字节整数后跟一个字符）。
-
-请注意，如果多个文件传递给 wzip，它们将被压缩为 一个 压缩输出，解压时也将变成 单个 未压缩的文本流（因此，最初有多个文件输入到 wzip 的信息将会丢失）。wunzip 也是如此。
-
-
-流程分析wzip
-探查文件
-
-使用 fopen()
-
-
-无指定文件
-打印 “wzip: file1 [file2 …]”（后跟换行符）
-返回码 1 退出
-
-
-
-
-压缩文件
-
-游程码为 4字节 整数 + 一个字符
-
-
-多文件同时压缩为一个文件
-注意，需要将所有文件预先读入同一个缓冲区，这样可以让前后文件相连，总体压缩
-
-
-
-
-将压缩文件打印至标准输出
-
-使用 fwrite()
-
-
-fwrite(&amp;src, sizeof(src), n, FILE*)
-注意使用四字节存储游程，直接使用原数据类型指针，作为源指针&amp;src
-
-
-
-
-
-wzip.c
-wunzip
-探查文件
-
-使用 fopen()
-
-
-读取压缩文件
-
-使用 fread()
-
-
-无指定文件
-打印 “wunzip: file1 [file2 …]”（后跟换行符）。
-返回码 1 退出
-
-
-
-
-文件解压缩
-
-游程码为 4字节 整数 + 一个字符
-
-
-压缩为一个文件的多文件不进行分割
-
-
-将解压的文件打印至标准输出
-
-printf()
-
-
-在使用 fread() 函数读后，需要使用 feof() 函数，探查是否已经读到文件结尾，此时可以退出读循环
-
-
-
-wunzip.c
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>initial xv6</title>
-    <url>/CS/OS/xv6-labs/xv6-riscv/initial-xv6/</url>
-    <content><![CDATA[initial xv6]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-        <tag>xv6-kernel</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>xv6 项目安装</title>
-    <url>/CS/OS/xv6-labs/xv6-riscv/install-xv6/</url>
-    <content><![CDATA[xv6 项目安装
-在课程仓库的 INSTALL-xv6.md 中，仅仅编写了 MacOS 下的实验初始化方法，接下来是简单的 Linux 系统初始化方法
-
-Linux项目仓库克隆使用 git clone https://github.com/mit-pdos/xv6-rsicv 进行项目克隆（我们使用 rsicv 架构版本，而非课程仓库中MacOS环境下的x86架构版本，接下来的所有实验操作都在此版本上进行）
-
-
-基础实验工具
-使用包管理器进行安装
-
-
-虚拟机
-
-qemu
-
-
-交叉编译工具
-
-riscv64-linux-gnu-gcc
-
-
-
-项目编译构建前
-&lt;your-clone-dir&gt;$ lskernel  LICENSE  Makefile  mkfs  README  test-xv6.py  user&lt;your-clone-dir&gt;$ make qemu
-
-构建后，新增了一个 fs.img 文件系统镜像文件
-&lt;your-clone-dir&gt;$ lsfs.img  kernel  LICENSE  Makefile  mkfs  README  test-xv6.py  user&lt;your-clone-dir&gt;$ make qemu
-
-在项目根目录下运行 make qemu 即可，在等待一段时间的构建与编译后，终端会显示 $ 提示符预示着已经进入 xv6* 系统的 qemu 界面，可以使用 ls 显示当前所有内建命令，使用 ctrl+a x (先 ctrl+a 再 x) 退出 qemu
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-        <tag>xv6-kernel</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>xv6-riscv 内核文件结构以及源码解析</title>
-    <url>/CS/OS/xv6-labs/xv6-riscv/xv6-rsic-ksrc-code/</url>
-    <content><![CDATA[xv6-riscv 内核文件结构以及源码解析
-RISC-V 架构的三种模式（保留了一种）
-
-
-
-
-Level
-Encode
-Name
-Abbreviation
-
-
-
-0
-00
-User&#x2F;Application 用户模式
-U
-
-
-1
-01
-Supervisor 监管者模式
-S
-
-
-2
-10
-Reserved 保留
--
-
-
-3
-11
-Machine 机器模式
-M
-
-
-
-xv6 系统启动流程
-阅读内核代码最好从启动入口开始，针对启动时的主要调用进行跟踪式的阅读
-
-在kernel&#x2F;目录下
-
-kernel.ld
-控制程序的内存模型
-控制 entry.S 的链接位置
-控制 _trampoline 在程序中的内存位置
-
-
-
-
-entry.S
-
-为每个hart(硬件线程)分配栈空间
-call start -&gt; start.c/start()
-
-
-start.c&#x2F;start() 启动时钟中断、 main.c&#x2F;main()
-
-w_mepc((uint64)main)
-asm volatile (mret) -&gt; main.c/main()
-
-
-main.c&#x2F;main()
-
-
-
-
-
-xv6 系统陷阱调用流程用户态陷入内核态
-用户触发陷阱，由 stvec [uservec] 跳入
-trampoline.S/uservec
-trampoline.S/uservec/jalr [trap.c/usertrap]
-trap.c/prepare_return()
-设置 sstatus 和 sepc
-
-
-trap.c/usertrap()/return satp
-
-
-
-
-trampoline.S/userret
-sret 利用 sepc 返回用户态
-
-
-
-
-
-内核态跳入用户态首次进入
-
-proc.c/scheduler()
-swtch.S/swtch()
-
-
-
-创建新进程
-
-proc.c/forkret()
-trap.c/prepare_return()
-设置 sstatus 和 sepc
-
-
-trampline.S/userret
-sret 利用 sepc 返回用户态
-
-
-
-
-
-内核态自身的独立陷阱
-内核触发陷阱，由 stvec [kernelvec] 跳入
-kernelvec.S/kernelvec/call [trap.c/kerneltrap()]
-yeild()
-设置 sstatus 和 sepc
-
-
-kernelvec.S/kernelvec
-sret 返回到内核中被中断的位置
-
-
-
-
-
-
-kernel&#x2F;
-以下代码文件在 xv6-riscv/kernel 目录下
-
-
-xv6-riscv/kernel 目录下共有 45 个文件.h 文件 17 个.c 文件 23 个.S 文件 4 个.ld 文件 1 个
-
-
-kernel.ld 链接器脚本
-是一个 链接器脚本描述链接器如何将编译产生的 多个目标文件(.o) 组合成一个可执行文件各段依次排列决定内核镜像的内存布局，约束生成的程序
-
-
-ALIGN(exp) 内置函数，返回当前 位置计数器( . ) ，向上对齐到到 exp 的整数倍后的地址（通常是2的幂次）保证后续的某个位置也满足对齐要求位置计数器 会自动累加，并不是说 . = 0x80000000 就定义了 当前 . 的值，而是指 . 从 0x80000000 这个初始值累加，记录地址段大小使用 ALIGN(exp) 就是返回将当前位置的 位置计数器 向上对齐后的值，通过 . = ALIGN(0x100) 将 . 更新为对齐后的计数器位置值
-
-
-_trampoline 代码独占一内存页，单独对齐，在xv6中，trampline页会同时被内核页表和用户页表以 相同虚拟地址 映射，当 CPU 在这页上执行时，就可以安全地切换页表。如果不独占一页，就可能混入其他内核代码，导致切换时出现安全或正确性问题。ASSERT 强制大小为一整页，防止生成有缺陷的内核
-
-OUTPUT_ARCH( &quot;riscv&quot; )      # 设置输出格式与架构ENTRY( _entry )             # 指定程序入口点# 定义各地址段SECTIONS&#123;  /*   * 确保 entry.S / _entry 在 0x80000000 地址处   * 保证 qemu -kernel 跳转到正确位置   */  . = 0x80000000;# 指令段  .text : &#123;    kernel/entry.o(_entry)  /* 指定 _entry 的位置，强制将 entry.S/_entry 段放入 .text 段的开头 */    *(.text .text.*)    . = ALIGN(0x1000);  /* 页对齐 */    _trampoline = .; /* trampoline 代码独占一页 */    *(trampsec)    . = ALIGN(0x1000);    ASSERT(. - _trampoline == 0x1000, &quot;error: trampoline larger than one page&quot;);    PROVIDE(etext = .);  &#125;# 只读数据段  .rodata : &#123;    . = ALIGN(16);  /* 段对齐 */    *(.srodata .srodata.*) /* 在 .rodata 段中不需要区分 .srodata .srodata.* 段划分 */    . = ALIGN(16);    *(.rodata .rodata.*)  &#125;# 数据段  .data : &#123;    . = ALIGN(16);    *(.sdata .sdata.*) /* do not need to distinguish this from .data */    . = ALIGN(16);    *(.data .data.*)  &#125;# 基址段  .bss : &#123;    . = ALIGN(16);    *(.sbss .sbss.*) /* do not need to distinguish this from .bss */    . = ALIGN(16);    *(.bss .bss.*)  &#125;# 标记内核镜像在内存中的末尾位置  PROVIDE(end = .);&#125;
-
-
-defs.h
-在 xv6 中，程序的组织被设计为，使用 kernel/defs.h 作为 全局声明汇总头文件 ，集成了几乎所有内核函数的原型声明，便于各个源文件进行调用。
-
-types.h
-定义了 xv6 系统源文件中的统一数据类型
-
-param.h
-定义了一组宏，描述 xv6 操作系统的各项基础参数
-
-memlayout.h
-定义了一组宏操作，定义了 xv6 操作系统在qemu模拟器中运行时的 物理内存布局(Physic Memory Layout)
-
-riscv.h
-定义了对 RISC-V 架构处理器的描述以及对底层寄存器的操作函数
-
-
-r_*() 读取处理器寄存器值
-w_*() 值写入处理器寄存器
-
-
-asm() 用于在C代码中嵌入汇编代码，即 内联汇编 技术。GCC编译器中 __asm()__ 与其等价。volatile 关键字可以避免编译器优化内联的汇编代码需要注意的是，内联的汇编代码通常与平台绑定，所以几乎无可移植性。
-
-gcc的内联汇编扩展
-asm [volatile] (    assembler template         /* 汇编指令 */    : output operands          /* 输出操作数 可选 */    : input operands           /* 输入操作数 可选 */    : clobbers                 /* 破坏列表 可选 */    : goto labels              /* 跳转 可选 */);
-
-
-汇编指令区域中 %0 %1 %... 表示操作数所使用的寄存器
-
-asm ( &quot;assemble template&quot;    : 输出操作数0, 输出操作数1, ...   /* %0, %1, ... %n */    : 输入操作数x, 输入操作数y, ...   /* %n+1, %n+2, ... 接着编号 */    : 破坏列表);
-如
-int sum = 0;int a = 0;int b = 0;asm( &quot;add %0, %1, %2&quot;    : &quot;=r&quot;(sum)    : &quot;r&quot;(a), &quot;r&quot;(b));
-
-如以下内联riscv架构汇编 rsicv.h
-// 读取 machine status register 即 mstatus 的值// output operands// &quot;=r&quot; 只写输出到 x值所在的 寄存器static inline uint64r_mstatus()&#123;  uint64 x;  asm volatile(&quot;csrr %0, mstatus&quot; : &quot;=r&quot;(x));  // csrr: Control and Status Register Read  return x;&#125;// 将 x 值写入 mstatus 寄存器// input operands// &quot;r&quot; 从存储x值通用寄存器写入 mstatus 寄存器static inline voidw_mstatus(uint64 x)&#123;  asm volatile(&quot;csrw mstatus, %0&quot; : : &quot;r&quot;(x));  // csrw: Control and Status Register Write&#125;
-
-proc.h
-定义了 xv6 操作系统下，cpu虚拟化相关的结构类型struct context 进程上下文struct cpu cpu 结构struct trapframe 陷阱帧struct proc 进程结构
-
-stat.h
-定义了 xv6 操作系统下，文件状态描述结构
-
-#define T_DIR    1 // Directory#define T_FILE   2 // File#define T_DEVICE 3 // Devicestruct stat &#123;  int dev;     // File system&#x27;s disk device  uint ino;    // Inode number  short type;  // Type of file  short nlink; // Number of links to file  uint64 size; // Size of file in bytes&#125;;
-
-
-主程序 main.c
-内核启动文件，是整个内核的入口函数
-
-其内部结构很简单，只包含一对简单的 if-else 条件分支，并进行内核程序的直接初始化以及调度程序 scheduler() 的启用
-其设计也很有意思，由于 xv6 是一个多核系统，则势必需要进行不同cpu核心的任务调度分配，在 if 条件分支中，为了区分不同核心的不同动态，使用 cpuid() 调用，在主核心进行内核程序的初始化，在 main.c 这一文件中还包含一个 volatile 修饰的静态全局变量 started ，使用 volatile 的作用是为了 **防止编译器优化 else 分支中的 while(started == 0) 这一忙等待循环。防止cpu读取寄存器中的缓存值，导致死循环。
-
-cpuid() 在 kernel/defs.c 中声明，在 kernel/proc.c 中定义，
-
-
-scheduler() 在 kernel/defs.c 中声明，在 kernel/proc.c 中定义是 xv6 的核心调度循环，在启动后持续运行，不断在各个进程（或空闲状态）之间切换。每个hart都会进入该调度器。实际上，main.c程序在关机前都不会结束，这个就是整个 xv6 系统的主函数。
-
-还可以看到 __atomic_thread_fence(__ATOMIC_SEQ_CST) 在设置 started 前后，保证在其前的 初始化操作都完成后 再将 started 赋值为1 (hart0 发布屏障)；在 忙等待 之后再进行 其它hart 的初始化。
-保证了多核之间的内存可见性顺序 ，构成一个 无锁同步 模式
-
-volatile 保障轮询的有效性(从内存中读取，以防止编译器优化，导致的寄存器缓存变量在忙等待中的死循环问题)
-__atomic_thread_fence(__ATOMIC_SEQ_CST) 屏障保障数据的发布与订阅顺序（保证程序的逻辑顺序在编译时不受指令重排影响）。
-
-
-volatile 关键字： 禁止编译器优化对变量的访问 ，表示不保证被修饰变量的值是否会在不知情的情况下被改变，在每次使用受 volatile 修饰的变量时都需要 从内存中 重新读取，而不使用寄存器中的缓存值。注意： volatile 不能保证原子性 ，也 不保证顺序 ，仅能保证在使用时读取内存中的值
-
-
-__atomic_thread_fence() 是 gcc 和 clang 提供的一个内置函数，用于生成一条硬件内存屏障指令，是 编译器内建的原子操作原语 ，是编译器内置的 内存屏障 。强制编译器不会将屏障前后的访存指令跨屏障重排，同时会生成一条 CPU 硬件屏障指令，禁止硬件运行时对内存操作进行乱序执行，即保证在编译时指令重排操作不影响程序的逻辑顺序
-
-
-hart 即 Hardware Thread(Tar T) 是 RSIC-V 指令集架构中的标准术语，表示 一个独立的硬件执行单元，或一个硬件线程一个 CPU 核心 通常包含一套完整的运算单元一个 hart 代表该核心上的一条独立指令执行流大多数简单系统中，一个核心就是一个执行流，此时 一个核心 &#x3D; 一个hart若该线程支持超线程，一个物理核心可以同时运行多条指令流，此时 一个核心 &#x3D; 多个hart
-
-主核心 cpu0
-cpuid() &#x3D;&#x3D; 0
-
-consoleinit();  // 初始化控制台输入输出printfinit();   // 初始化格式化输入/*    printf(&quot;\n&quot;);    printf(&quot;xv6 kernel is booting\n&quot;);    printf(&quot;\n&quot;);*/kinit();            // kalloc.c 物理页分配器kvminit();          // vm.c 创建内核页表kvminithart();      // vm.c 启动内核页表procinit();         // proc.c 初始化进程表trapinit();         // trap.c 初始化陷阱向量（初始化陷阱锁）trapinithart();     // trap.c 安装内核陷阱向量plicinit();         // plic.c 设置中断控制器 (riscv Platform Level Interrupt Controller, PLIC)plicinithart();     // plic.c 初始化PLIC设备中断binit();            // bio.c 缓冲区缓存iinit();            // fs.c 初始化inode表fileinit();         // fs.c 初始化文件表virtio_disk_init(); // virtio_disk.c 模拟硬盘userinit();         // proc.c 第一个用户进程__atomic_thread_fence(__ATOMIC_SEQ_CST);started = 1;
-
-
-riscv 平台级中断控制器 (riscv Platform-Level Interrupt Controller, PLIC)
-
-子cpuwhile (started == 0)  ;__atomic_thread_fence(__ATOMIC_SEQ_CST);/** * 回显硬件线程启动信息    printf(&quot;hart %d starting\n&quot;, cpuid());*/kvminithart();  // vm.c 启用分页trapinithart(); // trap.c 安装陷阱向量plicinithart(); // plic.c 初始化PLIC硬件中断
-
-启动进程调度程序scheduler();    // proc.c 启动调度程序
-
-
-start.c主要依赖 riscv.h 中riscv架构处理器寄存器操作函数、宏
-
-start()
-启动程序，调起 main.c/main()
-
-
-timerinit()
-初始化处理器时钟中断（定时器中断）
-
-
-
-设置机器状态，启动分页，调起时钟中断初始化，返回到 main()
-使用 w_mepc((uint64)main); 将 main() 函数的地址写入 mepc 寄存器，标识异常处理程序的起始地址
-
-mepc ：是“机器异常程序计数器”（Machine Exception Program Counter）。当 CPU 发生异常或中断而被迫跳转到 M-mode 的陷阱处理程序时，硬件会自动把被打断的指令地址（或下一条指令的地址）保存到 mepc 中。等内核处理完异常，执行 mret 指令时，CPU 就把 mepc 的值加载到普通 PC，从而实现精确返回。
-
-
-mret : 机器模式返回寄存器 (Machine Return)，从机器模式的陷阱处理中返回
-
-使用 asm volatile(&quot;mret&quot;); 利用RISC-V的陷阱返回机制， mret 指令查看 mstatus 的 MPP (M Previous Privilege mode)字段，该字段已经通过以下方式设置
-unsigned long x = r_mstatus();    // 获取mstatus寄存器的值x &amp;= ~MSTATUS_MPP_MASK;           // 重置mstatus寄存器的MPP段状态x |= MSTATUS_MPP_S;               // 设置mstatus寄存器的MPP段为S模式w_mstatus(x);                     // 将已设置的x_mstatus值写回mstatus寄存器// 完成mstatus寄存器MPP段的设置
-
-mret 检查 mepc 寄存器中的地址（即 main() 的地址）进行返回，跳转到 main.c/main() 函数
-// 通知每个硬件线程产生定时器中断voidtimerinit()&#123;    // 启用 Sstc 扩展(Supervisor Timmer Compate)，即stimecmp寄存器    w_menvcfg(r_menvcfg() | (1L &lt;&lt; 63));    // 允许监管者使用 stimecmp 和 time 寄存器    w_mcounteren(r_mcounteren() | 2);    // 请求(触发)第一个定时器中断    w_stimecmp(r_time() + 1000000);&#125;
-
-
-trap.c
-陷阱相关操作定义
-
-
-proc.c
-
-myproc()
-
-
-printf.c
-
-panic()
-
-
-
-// defs.hextern uint     ticks;void            trapinit(void);void            trapinithart(void);extern struct spinlock tickslock;void            prepare_return(void);
-
-struct spinlock tickslock;uint ticks;extern char trampoline[], uservec[]; // 从 trampoline.S 导入 trampoline、uservec 地址void kernelvec(); // 从 kernelvec.S 导入 kerneltrap() 函数定义extern int devintr(); // 导入设备中断处理程序 devintr()
-
-
-usertrap()
-用户陷阱
-
-
-在 trampoline.S/uservec 切换页表后调用，负责 分类处理所有来自用户态的陷阱 ，并最终返回用户态只能被用户态触发
-
-
-trampoline.S
-uservec 陷阱向量调用
-ld t0, 16(a0) … jalr t0 调用 p-&gt;trapframe-&gt;kernel_trap
-
-
-
-
-
-
-处理来自于用户态的中断、异常或系统调用从 trampoline.S 调用，并返回到 trampoline.S返回值是用户寄存器(保存指向用户页表物理地址的指针) satp 供 trampoline.S 切换使用
-satp 即 Supervisor Address Translation and Projection (监管者地址翻译与投影) 寄存器
-
-
-[核心] 使用 w_stvec((uint64)kernelvec) 更新 stvec 寄存器中的中断处理入口
-
-在我们身处内核态时，用于向 kerneltrap() 发送中断与异常，由 kernelvec 调起
-
-
-在陷阱帧中保存用户的程序计数器
-
-p-&gt;trapframe-&gt;epc = r_sepc(); 交由后续操作决定是否让出cpu
-
-
-[核心] 检查 scause (陷阱原因寄存器) 寄存器的值，根据 scause 分发处理
-
-系统调用
-scause == 0
-
-
-设备中断
-记录 witch_dev
-
-
-缺页异常
-scause == 15 加载页错误
-scause == 13 存储页错误
-惰性分配
-vmfault() 尝试处理惰性分配的页
-按需分配内存，避免提前分配，浪费内存
-
-
-
-
-预期外的陷阱
-
-
-进程退出检查
-
-if(killed(p)) kexit(-1);
-
-
-设备定时器中断时让出cpu
-
-if (witch_dev == 2) yield();
-触发定时中断，实现进程调度
-
-
-准备返回用户态
-
-prepare_return()
-
-
-返回用户页表地址给 trampoline.S
-
-用户页可交换
-uint64 satp = MAKE_SATP(p-&gt;pagetable); return satp;
-
-
-注意，此时已经返回到 trampoline 中，直接按序向下执行 trampoline.S/userret 程序
-
-
-
-使用汇编进行底层的上下文切换，C做高层的逻辑判断
-
-
-kerneltrap()
-内核陷阱
-
-
-在 trampoline.S/kernelvec 切换页表后调用，负责 分类处理所有来自内核态的陷阱 ，并最终返回内核态只能被内核态触发
-
-
-kernelvec.S
-kernelvec 陷阱向量程序调用
-
-
-riscv.h
-intr_get() 确定设备中断是否启用
-
-
-
-
-在保存调用者保存的寄存器后，调起 kerneltrap()kerneltrap() 返回内核中被中断的位置
-
-
-获取对应寄存器的值
-
-根据陷阱原因寄存器 scause 的值分发陷阱处理过程
-
-模式检测
-(sstatus &amp; SSTATUS_SPP) == 0
-检查是否通过监管者模式调起
-
-
-[核心] 检测重复中断
-intr_get() != 0
-防止内核陷阱处理过程本身被嵌套中断打断，内核陷阱必须在元自行的上下文中处理，避免竟态条件
-
-
-设备中断
-记录 witch_dev
-
-
-时钟中断
-which_dev == 2 &amp;&amp; myproc() != 0
-
-
-
-
-直接返回 kernelvec
-
-
-
-prepare_return(void)
-set up trapframe and control registers for a return to user space设置陷阱帧并控制寄存器返回到用户态
-
-voidprepare_return(void)&#123;  struct proc *p = myproc();  // 我们将要交换陷阱处理入口 stvec 由 kerneltrap() 变为 usertrap()  // 因为内核代码中的陷阱作为用户陷阱将是一场灾难，（用户陷阱入口被错误路由）  // 关闭中断  intr_off(); // 实际上是一种临界区保护  // 将未来的系统调用、中断以及异常导向 trampoline.S/uservec  uint64 trampoline_uservec = TRAMPOLINE + (uservec - trampoline);  w_stvec(trampoline_uservec);  // 设置进程跳入下一个内核陷阱时 trampoline.S/uservec 所需要的陷阱帧值，  p-&gt;trapframe-&gt;kernel_satp = r_satp();         // 内核页表  p-&gt;trapframe-&gt;kernel_sp = p-&gt;kstack + PGSIZE; // 进程的内核栈  p-&gt;trapframe-&gt;kernel_trap = (uint64)usertrap;  p-&gt;trapframe-&gt;kernel_hartid = r_tp(); // cpuid() 作为 hartid  // 设置寄存器，使 trampoline.S 中的 sret 指令返回用户态  // set S Previous Privilege mode to User.  // 将 S 模式的前一个特权级设置为用户模式  unsigned long x = r_sstatus();  x &amp;= ~SSTATUS_SPP; // 将SPP清理为0 设置为用户态  x |= SSTATUS_SPIE; // 设置 spie位 在用户模式下重启中断（保证用户态的中断是打开的）  w_sstatus(x);  // 设置 sepc (监管者异常程序计数器) 寄存器为被保存的用户程序计数器  w_sepc(p-&gt;trapframe-&gt;epc); // 由 sret 指令使用，返回到用户态&#125;
-
-
-proc.c
-定义了与进程相关的操作
-
-struct cpu cpus[NCPU];struct proc proc[NPROC];struct proc *initproc;int nextpid = 1;struct spinlock pid_lock;extern void forkret(void);static void freeproc(struct proc *p);extern char trampoline[]; // trampoline.S// helps ensure that wakeups of wait()ing// parents are not lost. helps obey the// memory model when using p-&gt;parent.// must be acquired before any p-&gt;lock.struct spinlock wait_lock;
-
-// 初始化进程表// 由 main.c/main() 函数调起voidprocinit(void)
-
-
-wfi 指令 Wait For Interrupt 等待中断指令
-
-可以使用 myproc() 获取指向当前执行的进程结构的指针
-// 返回当前执行指令的cpu结构// 执行该函数时，中断一定是不可用的（无中断产生，保证上下文语义的准确性）struct cpu *mycpu(void)&#123;  int id = cpuid();  struct cpu *c = &amp;cpus[id];    // 根据cpuid从cpus数组中获取当前cpu所在的偏移位置  return c;&#125;// 返回指向当前的进程结构的指针 struct proc * ， 或返回零表示什么也没有struct proc *myproc(void)&#123;  push_off();  struct cpu *c = mycpu();  struct proc *p = c-&gt;proc;  pop_off();  return p;&#125;
-
-// 每个CPU都要执行该调度器。// 每个CPU在设置好他们自己后都会调用 scheduler() 函数（main.c/main()）// 调度器自循环永不返回// 其功能是：//  - 选择一个进程运行//  - 调用 swtch 开始运行该进程//  - 最终，该进程通过 swtch 将控制权交换回调度器voidscheduler(void)&#123;  struct proc *p;  struct cpu *c = mycpu();  c-&gt;proc = 0;  for (;;) &#123;    // 最近运行的进程可能已关闭中断；    // 为避免所有进程都在等待时死锁，先启用中断。    // 然后再禁用中断，避免中断与 wfi 之间出现竞态。    intr_on();    intr_off();    int found = 0;    for (p = proc; p &lt; &amp;proc[NPROC]; p++) &#123;      acquire(&amp;p-&gt;lock);      if (p-&gt;state == RUNNABLE) &#123; // 进程处于可执行的就绪状态        // 切换到选定的进程。        // 释放它自己的锁，并在跳回我们之前重新获取该锁，        // 这是该进程自身的职责。        p-&gt;state = RUNNING;        c-&gt;proc = p;        swtch(&amp;c-&gt;context, &amp;p-&gt;context);        // 进程暂时停止运行。        // 在返回之前，它应该已经更改过自己的 p-&gt;state。        c-&gt;proc = 0;        found = 1;      &#125;      release(&amp;p-&gt;lock);    &#125;    if (found == 0) &#123; // 没有找到可执行的就绪进程      // 没有可运行的进程；停止该核心上的运行，直到中断发生。      asm volatile(&quot;wfi&quot;);    &#125;  &#125;&#125;// 交换到调度器。// 必须只持有的 p-&gt;lock 并且已经更改了 proc-&gt;state// 保存并恢复 intena 因为 intena 属于内核线程，而非该CPU// 理想情况下应保存为 proc-&gt;intena 且 proc-&gt;noff，// 但，这会在少数的“持有锁却没有对应线程”的场景下出错voidsched(void)&#123;  int intena;  struct proc *p = myproc();  if (!holding(&amp;p-&gt;lock)) // 未持有 p-&gt;lock    panic(&quot;sched p-&gt;lock&quot;);  if (mycpu()-&gt;noff != 1)    panic(&quot;sched locks&quot;);  if (p-&gt;state == RUNNING)    panic(&quot;sched RUNNING&quot;);  if (intr_get())    panic(&quot;sched interruptible&quot;);  intena = mycpu()-&gt;intena;  swtch(&amp;p-&gt;context, &amp;mycpu()-&gt;context); // 将进程上下文与当前cpu中处理的上下文进行交换  mycpu()-&gt;intena = intena;&#125;// 在通道链中进行睡眠，释放状态锁 lk// 当唤醒后重新获取 lk 锁voidsleep(void *chan, struct spinlock *lk)&#123;  struct proc *p = myproc();  // 必须获取 p-&gt;lock 更改 p-&gt;state 并且调用 sched 。  // 由于曾持有 p-&gt;lock ，我们能被保证，我们将不会错过任何一次唤醒（唤醒锁 p-&gt;lock），所以释放 lk 锁可接受  // 在此处先获取 p-&gt;lock 锁再释放 lk 锁  // 是为了保证进程原子的进入睡眠，设置睡眠状态  // 保证了无抢占窗口，保证之后设置的睡眠状态能被探查  acquire(&amp;p-&gt;lock); //DOC: sleeplock1  release(lk);  // 进入睡眠  p-&gt;chan = chan;  p-&gt;state = SLEEPING; // 设置进程状态为 SLEEPING  sched(); // 调度  // 清理通道  p-&gt;chan = 0;  // 重新获取锁  release(&amp;p-&gt;lock);  acquire(lk);&#125;
-
-
-uart.c
-UART 是 Universal Asynchronous Receiver&#x2F;Transmitter 通用异步收发传输器
-uart.c 通过 内存映射 I&#x2F;O (MMIO) 访问 UART 外设是为 16550a UART 编写的底层驱动，提供对 UART 设备的控制
-
-
-UART 的控制寄存器被映射到 UART0 为开头的地址区域。&#x2F;&#x2F; the UART control registers are memory-mapped at address UART0.
-
-// 这个宏返回 UART 在内存中映射的其中一个寄存器#define Reg(reg) ((volatile unsigned char *)(UART0 + (reg)))#define ReadReg(reg)     (*(Reg(reg)))#define WriteReg(reg, v) (*(Reg(reg)) = (v))
-
-
-UART 控制寄存器参考
-
-// UART 控制寄存器。// 有些寄存器在读取和写入时含义不同。#define RHR             0        // 接收保持寄存器（用于输入字节）#define THR             0        // 发送保持寄存器（用于输出字节）#define IER             1        // 中断使能寄存器#define IER_RX_ENABLE   (1 &lt;&lt; 0) // 接收中断#define IER_TX_ENABLE   (1 &lt;&lt; 1) // 发送中断#define FCR             2        // FIFO 控制寄存器#define FCR_FIFO_ENABLE (1 &lt;&lt; 0)#define FCR_FIFO_CLEAR  (3 &lt;&lt; 1) // 清除两个 FIFO 的内容#define ISR             2        // 中断状态寄存器#define LCR             3        // 线路控制寄存器#define LCR_EIGHT_BITS  (3 &lt;&lt; 0)#define LCR_BAUD_LATCH  (1 &lt;&lt; 7) // 设置波特率的特殊模式#define LSR             5        // 线路状态寄存器#define LSR_RX_READY    (1 &lt;&lt; 0) // RHR 中有输入数据等待读取#define LSR_TX_IDLE     (1 &lt;&lt; 5) // THR 可以接受下一个待发送字符
-
-// 供发送线程与 uart&quot;就绪&quot;中断 同步static struct spinlock tx_lock;static int tx_busy; // UART 是否在忙（正在发送）？static int tx_chan; // &amp;tx_chan 是 等待通道extern volatile int panicking; // from printf.cextern volatile int panicked;  // from printf.c
-
-// 将 buf[] 中的数据发送到 UART// 若 UART 正忙，该函数会阻塞// 所以该函数不能在中断上下文中被调用// 只能由 write() 系统调用调用voiduartwrite(char buf[], int n)&#123;  acquire(&amp;tx_lock);  int i = 0;  while (i &lt; n) &#123;    while (tx_busy != 0) &#123;      // 等待 UART 发送完成 中断设置 tx_buzy 为 0      sleep(&amp;tx_chan, &amp;tx_lock);    &#125;    WriteReg(THR, buf[i]);    i += 1;    tx_busy = 1;  &#125;  release(&amp;tx_lock);&#125;// 不使用中断的情况下，向uart设备写入一字节，// 供内核 printf() 使用，并用于回显字符。// 自旋等待 UART 输出寄存器空闲voiduartputc_sync(int c)&#123;  if (panicking == 0)    push_off();  if (panicked) &#123;    for (;;)      ;  &#125;  // wait for UART to set Transmit Holding Empty in LSR.  // 等待 UART 在状态设置寄存器中设置传输保持空闲  // #define LSR_TX_IDLE     (1 &lt;&lt; 5) // THR 可以接受下一个待发送字符  while ((ReadReg(LSR) &amp; LSR_TX_IDLE) == 0)    ;  WriteReg(THR, c);  if (panicking == 0)    pop_off();&#125;// 尝试从 UART 中读取一个输入字符// 若没有等待接收到字符，返回 -1static intuartgetc(void)&#123;  // 输入是否就绪？  if (ReadReg(LSR) &amp; LSR_RX_READY) &#123;    return ReadReg(RHR);  &#125; else &#123;    return -1;  &#125;&#125;// 处理一个 uart 中断，该中断因以下原因被触发：// 输入已到达，// uart 已准备好输出更多的数据，// 或两者同时发生// 由 devintr() 调起voiduartintr(void)&#123;  ReadReg(ISR); // 读取中断状态  acquire(&amp;tx_lock);  if (ReadReg(LSR) &amp; LSR_TX_IDLE) &#123;    // UART 完成发送；唤醒等待的发送线程    tx_busy = 0;    wakeup(&amp;tx_chan);  &#125;  release(&amp;tx_lock);  // 读取并处理 UART 输入的任何字符  while (1) &#123;    int c = uartgetc();    if (c == -1)      break;    consoleintr(c);  &#125;&#125;
-
-
-4份底层汇编文件entry.S
-xv6 系统真正的汇编入口，在每个CPU上都需要一个栈（在 start.c 中使用 __attribute__((aligned(16))) char stack0[4096 * NCPU]; 进行设置，定义了 stack0 ）_entry 为每个hart独立运行
-
-        # qemu -kernel 将内核加载到地址 0x80000000 位置        # 并且将所有hart(物理线程 在此处可以理解为cpu)跳转到该地址位置        # kernel.ld 将接下来的代码放入地址 0x80000000 处.section .text.global _entry_entry:        # 设置一个供C代码使用的栈        # stack0 已在 start.c 中定义        # 为每个cpu分配 4096 字节的栈空间        # 栈指针 sp = stack0 + ((hartid + 1) * 4096) 按hart编号为每个hart分配栈空间        # sp = stack0 + ((hartid + 1) * 4096) 为以下指令的功能，通过hardid区分各个hart所拥有的栈空间        la sp, stack0       # 将stack0的地址传入栈指针sp        li a0, 1024*4       # 将立即数 1024*4 (表示4KB) 传入寄存器a0        csrr a1, mhartid    # 控制与状态寄存器读取mhartid hart栈的索引        addi a1, a1, 1      # a1寄存器值增加1        mul a0, a0, a1      # 计算栈偏移 4byte * (mhardid + 1) 栈指针要指向栈顶（栈向低地址增长）        add sp, sp, a0      # 更新栈指针        call start          # 跳转到 start.c/start()spin:        # 自旋 作为保护，防止错误配置的mret或意外的_entry跳转，防止程序计数器混乱        j spin  # 跳转到spin段
-
-
-swtch.S
-上下文交换程序接口为：void swtch(struct context *old, struct context *new);保存当前的寄存器旧值，加载新的寄存器值
-
-.globl swtchswtch:        sd ra, 0(a0)        sd sp, 8(a0)        sd s0, 16(a0)        sd s1, 24(a0)        sd s2, 32(a0)        sd s3, 40(a0)        sd s4, 48(a0)        sd s5, 56(a0)        sd s6, 64(a0)        sd s7, 72(a0)        sd s8, 80(a0)        sd s9, 88(a0)        sd s10, 96(a0)        sd s11, 104(a0)        ld ra, 0(a1)        ld sp, 8(a1)        ld s0, 16(a1)        ld s1, 24(a1)        ld s2, 32(a1)        ld s3, 40(a1)        ld s4, 48(a1)        ld s5, 56(a1)        ld s6, 64(a1)        ld s7, 72(a1)        ld s8, 80(a1)        ld s9, 88(a1)        ld s10, 96(a1)        ld s11, 104(a1)                ret
-
-
-trampoline.S
-依赖 risv.h依赖 memlayout.h依赖 trap.c
-
-
-trap.c
-
-usertrap(void)
-prepare_return(void)
-
-
-proc.h
-
-提供 struct trapframe 类型 p-&gt;trapframe变量
-提供 struct proc 类型 p变量
-
-
-memlayout.h
-
-#define TRAMPOLINE (MAXVA - PGSIZE)
-#define TRAPFRAME (TRAMPOLINE - PGSIZE)
-
-
-
-
-跳板汇编程序用于处理 从用户空间到内核的陷阱的、从内核返回用户的 低级代码
-
-
-内核将持有这段代码的页，映射到用户和内核空间中的同一虚拟地址 (TRAMPOLINE)，使得它在切换页表时能够继续工作。kernel.ld 使此代码起始于一个页边界，并独立拥有该页
-
-#include &quot;riscv.h&quot;#include &quot;memlayout.h&quot;.section trampsec       # trampsec trampsec 段.globl trampoline       # 暴露 trampoline.globl usertrap         # 暴露 usertraptrampoline:             # trampoline 段.align 4.globl uservec          # 暴露 uservecuservec:                # uservec 段# ....globl userret          # 暴露 userretuserret:                # userret 段
-
-uservec 用户陷入内核态
-uservec:            # trap.c 设置 stvec 寄存器指向 uservec        # 所以 traps 用户态的陷阱会从这开始        # 在监管者模式下，但是仍在使用用户页表        # 保存用户的 a0 寄存器到 sscratch 寄存器        # a0 寄存器可以在 TRAPFRAME 中获取并被使用        csrw sscratch, a0        # 每个进程都有一个独立的 p-&gt;trapframe 内存区域        # 但是所有进程的用户页表中，这片区域都被映射到相同的虚拟地址 (TRAPFRAME)        # 所以可以直接使用立即数加载到 a0 寄存器中        li a0, TRAPFRAME                # 保存用户寄存器到 TRAPFRAME 陷阱帧        sd ra, 40(a0)        sd sp, 48(a0)        sd gp, 56(a0)        sd tp, 64(a0)        ...        # 保存 30 个寄存器的值    # 将用户寄存器 a0 保存至 p-&gt;trapframe-&gt;a0 中        csrr t0, sscratch        sd t0, 112(a0)        # 初始化内核栈指针 p-&gt;trapframe-&gt;kernel_sp        ld sp, 8(a0)        # make tp hold the current hartid, from p-&gt;trapframe-&gt;kernel_hartid        # 使用线程栈寄存器 tp 保存当前的 hartid p-&gt;trapframe-&gt;kernel_hartid        ld tp, 32(a0)        # 加载usertrap()的地址 p-&gt;trapframe-&gt;kernel_trap        ld t0, 16(a0)        # 取内核页表地址 p-&gt;trapframe-&gt;kernel_satp        ld t1, 0(a0)        # 等待之前所有的内存操作完成        # 确保这些操作都使用用户页表        sfence.vma zero, zero        # 安装内核页表        csrw satp, t1        # 刷新 TLB(转换检测缓冲区) 中现已过时的用户页表        sfence.vma zero, zero        # 调起 usertrap()        jalr t0
-
-userret 返回用户态
-userret:        # usertrap() 返回到此处 此时 a0 = 用户页表物理地址 即将写入 satp        # 从内核态返回用户态        # 交换(切换)到用户页表        sfence.vma zero, zero        csrw satp, a0        sfence.vma zero, zero        li a0, TRAPFRAME # a0 指向 TRAPFRAME 基址        # 从 TRAPFRAME 中恢复所有除 a0 之外的寄存器        ld ra, 40(a0)        ld sp, 48(a0)        ld gp, 56(a0)        ld tp, 64(a0)        ...    # 恢复用户寄存器 a0        ld a0, 112(a0)                # 返回用户态，恢复用户的程序计数器        # prepare_return() 设置 sstatus 以及 sepc 寄存器        sret # supervisor ret 监管者模式返回
-
-TRAPFRAME 在 任何进程的用户页表 中都指向进程自己的 trapframe 页面，而内核在创建进程时负责建立该映射。trampoline 的代码只有一份，但被映射到所有进程的同一虚拟地址
-kernelvec.S
-内核态，不通过 call 调用，而是硬件在 产生陷阱时自动跳转 而来
-
-
-trap.c
-kerneltrap()
-
-
-
-        # 在监管者模式下发生的中断和异常会来到这里        # 当前栈是内核栈        # 保存寄存器，调用 kerneltrap()        # 当 kerneltrap() 返回后，恢复寄存器并返回.globl kerneltrap.globl kernelvec.align 4kernelvec:        # 扩展栈空间保存寄存器        addi sp, sp, -256        # 保存调用者保存寄存器        sd ra, 0(sp)        # sd sp, 8(sp)        sd gp, 16(sp)        # sd tp, 24(sp)        sd t0, 32(sp)        sd t1, 40(sp)        sd t2, 48(sp)        sd a0, 72(sp)        sd a1, 80(sp)        sd a2, 88(sp)        sd a3, 96(sp)        sd a4, 104(sp)        sd a5, 112(sp)        sd a6, 120(sp)        sd a7, 128(sp)        sd t3, 216(sp)        sd t4, 224(sp)        sd t5, 232(sp)        sd t6, 240(sp)        # 调用trap.c代码中的C陷阱处理程序        call kerneltrap        # 恢复寄存器        ld ra, 0(sp)        # ld sp, 8(sp)        ld gp, 16(sp)        # not tp (contains hartid), in case we moved CPUs        ld t0, 32(sp)        ld t1, 40(sp)        ld t2, 48(sp)        ld a0, 72(sp)        ld a1, 80(sp)        ld a2, 88(sp)        ld a3, 96(sp)        ld a4, 104(sp)        ld a5, 112(sp)        ld a6, 120(sp)        ld a7, 128(sp)        ld t3, 216(sp)        ld t4, 224(sp)        ld t5, 232(sp)        ld t6, 240(sp)        addi sp, sp, 256        # 返回内核中被中断的位置        sret
-
-
-关于陷阱向量 uservec kernelvec ，都是由硬件进行调用，地址由 stvec 状态向量寄存器保存在用户态时， stvec 为 uservec 地址在内核态时， stvec 为 kernelvec 地址通过 riscv.h/w_stvec() 在状态切换到边缘动态更新该寄存器，保证CPU在各模式下，陷阱都能进入正确的处理入口
-从 xv6 的设计角度上，对于 内核态-用户态 模型， stvec 寄存器仅会保留 uservec kernelvec 这两种状态陷阱处理入口当然，这两种陷阱入口的名字可由个人喜好进行设定，只要保证对相应状态的处理功能完备， 理论上也可以保存任意合法的陷阱入口地址为什么仅有两种状态？因为上下文仅有 内核态、用户态 保证了设计的简洁性
-
-
-user&#x2F;
-以下代码文件在 xv6-riscv/user/ 目录下
-
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>xv6-project</tag>
-        <tag>Operating System</tag>
-        <tag>xv6-kernel</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C++ Boost::Thread</title>
     <url>/Tech/Framworks/c++boost/Boost-Thread/</url>
     <content><![CDATA[Thread
@@ -13065,6 +10763,2489 @@ s20 Comprehensive Agent
       </categories>
       <tags>
         <tag>AI Agent</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/CS/Web/about-web-api/</url>
+    <content><![CDATA[About Web API
+关于网页API
+
+Canvas2D可以通过 &lt;canvas&gt;网页元素，使用 javascript 脚本来绘制 HTML 元素，进行2D图形绘制
+栅格
+canvas grid
+
+通常来说网格中的一个单元相当于 canvas 元素中的一像素。栅格的起点为左上角（坐标为（0,0））。所有元素的位置都 相对于原点定位 。距离左边 X轴 x像素，距离上边 Y轴 y像素。
+绘制路径图形的基本元素是路径。路径是通过不同 颜色 和 宽度 的 线段 或 曲线 相连形成的不同形状的 点 的集合。一个路径，甚至一个子路径，都是 闭合的 。使用路径绘制图形需要一些额外的步骤。
+
+首先，你需要创建路径起始点。
+然后你使用画图命令去画出路径。
+之后你把路径封闭。
+一旦路径生成，你就能通过描边或填充路径区域来渲染图形。
+
+SVG在网页中由 &lt;svg&gt; 元素标记
+可缩放矢量图形 Scalable Vector Graphics，SVG 基于 XML 标记语言，用于描述 二维的矢量图形
+作为一个基于文本的开放 Web 标准，SVG 能够优雅而简洁地渲染不同大小的图形，并和 CSS、DOM、JavaScript 和 SMIL 等其他 Web 标准无缝衔接。本质上，SVG 相对于图像，就好比 HTML 相对于文本。
+SVG 图像及其相关行为被定义于 XML 文本文件之中，这意味着可以对它们进行搜索、索引、编写脚本以及压缩。此外，这也意味着可以使用任何文本编辑器和绘图软件来创建和编辑它们。
+和传统的 点阵 图像模式（如 JPEG 和 PNG）不同的是，SVG 格式提供的是 矢量图 ，这意味着它的图像 能够被无限放大而不失真或降低质量 ，并且可以方便地修改内容，无需图形编辑器。通过使用合适的库进行配合，SVG 文件甚至可以随时进行本地化。
+WebGL可以在 &lt;canvas&gt; 元素内使用
+WebGL（Web 图形库）是一种可在任何兼容的 Web 浏览器中无需使用插件即可渲染高性能交互式 3D 和 2D 图形的 JavaScript API。WebGL 通过引入一个与 OpenGL ES 2.0 高度一致的 API 来做到这一点，该 API 可以在 HTML  元素中使用。这种一致性使 API 可以利用用户设备提供的硬件图形加速。
+所有现代浏览器都支持 WebGL ，用户的设备也必须支持这些特性。
+WebGL 2 API 引入了对 OpenGL ES 3.0 特性集的广泛支持；它通过 WebGL2RenderingContext 接口提供。
+&lt;canvas&gt; 元素也被 Canvas API 用于在网页上进行 2D 图形处理。
+Web Audio处理过程可以视为一张有向无环图，图中的各个节点作为处理过程
+Web Audio API 使用户可以在 音频上下文 AudioContext 中进行音频操作，具有模块化路由的特点。在音频节点上进行基础的音频操作，它们连接在一起构成音频路由图。即使在单个上下文中也支持多源，尽管这些音频源具有多种不同类型通道布局。这种模块化设计提供了灵活创建 动态效果 的 复合音频 的方法。
+音频节点通过它们的输入输出相互连接，形成一个链或者一个简单的网。一般来说，这个链或网起始于一个或多个音频源。音频源可以提供以数组形式存储的一个片段一个片段的音频采样数据。
+这些节点的输出可以连接到其他节点的输入上，然后新节点可以对接收到的采样数据再进行其他的处理，再形成一个结果流。
+一个简单而典型的 web audio 流程如下：
+
+创建音频上下文
+在音频上下文里创建源 — 例如 &lt;audio&gt;, 振荡器，流
+创建效果节点，例如混响、双二阶滤波器、平移、压缩
+为音频选择一个目的地，例如你的系统扬声器
+连接源到效果器，对目的地进行效果输出
+
+使用这个 API，时间可以被非常精确地控制，几乎没有延迟，这样开发人员可以准确地响应事件，并且可以针对采样数据进行编程，甚至是较高的采样率。这样，鼓点和节拍是准确无误的。
+Web Audio API 也使我们能够控制音频的空间化。在基于 源 - 侦听器 模型的系统中，它允许控制 平移模型 和处理 距离引起的衰减 或 移动源（移动侦听）引起的多普勒效应。
+
+
+Canvas2D 是 立即模式 ：每帧 clearRect -&gt; 重新发路径&#x2F;填充命令 -&gt; 浏览器负责变成像素。这和 SDL3 的 SDL_RenderClear + 逐帧提交绘制命令是同一个心智模型。
+SVG / DOM / CSS 是 保留模式 ：你维护树结构，浏览器维护状态并负责渲染。
+
+
+
+立即模式：每帧重新描述 输出帧图像，系统不保留跨帧的绘制对象；绘制命令发出后即被消费，下一帧从空白开始
+保留模式：开发者维护一个跨帧持久的对象图（场景&#x2F;树），系统保留并负责在 需要时渲染 ；通过更改该对象图以间接影响画面，而非逐帧重发绘制指令
+
+判断标准只有一个：是否存在一个由系统维护、跨帧持久、你通过修改它来驱动渲染的对象图
+
+立即&#x2F;保留 不是二元标签，它取决于你看的是哪一层。同一个技术可以在命令层是立即的，在资源层是保留的。
+
+
+
+层面
+立即模式
+保留模式
+
+
+
+绘制命令层
+每帧重新发 draw 调用；命令发完即弃
+系统根据对象图自行决定何时、如何发命令
+
+
+资源层（几何、纹理、缓冲区）
+几乎不存在纯立即的资源管理
+VBO、纹理、Image 对象跨帧保留，这是常态
+
+
+对象图&#x2F;场景层
+没有持久对象图
+有：DOM 树、SVG 树、Three.js Scene
+
+
+]]></content>
+  </entry>
+  <entry>
+    <title>应用层杂记</title>
+    <url>/CS/Basic/Network/application-layer/</url>
+    <content><![CDATA[
+基于 《计算机网络：自顶向下方法》
+
+
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>NetWorking</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机网络概观</title>
+    <url>/CS/Basic/Network/computer-network-overview/</url>
+    <content><![CDATA[
+基于 《计算机网络：自顶向下方法》
+
+
+因特网是一个世界范围内的计算机网络
+
+入网设备 被称为 主机(host) 或 段系统(end system)
+端系统通过
+
+通信链路 (communication link)
+分组交换机 (packet switch)
+
+的网络连接在一起。
+
+通信链路 是一组物理媒介，是信息流的载体。
+
+
+链路 有由其性质决定的 传输速率(transmission rate) 以 bit&#x2F;s (bps) 为度量。
+
+网络中的信息是以信息包的形式被 分组(packet) 流通的，从始端由网络传送至目的端，并在目的端装配复原。
+当今，因特网中有两种常见的交换机：
+
+路由器 (router) 通常用于网络核心中
+链路层交换机 (link-layer switch) 通常用于接入网中
+
+
+
+二者的功能都是向目的端转发分组。
+
+路径 (route &#x2F; path) 从 发送端系统 到 接收端系统 ，一个分组所经历的 一系列通信链路 和 分组交换机
+
+
+端系统 通过 因特网服务商 (Internet Service Provider , IPS) 接入因特网。
+
+端系统，分组交换机和其他英特网组件都要运行多个 协议（protocol） 这些协议控制英特网中信息的接收和发送。
+因特网的主题协议统称为 TCP&#x2F;IP
+
+TCP (Transmission Control Protocol, 传输控制协议)
+IP (Internet Protocol, 网际协议) 定义了在路由器和端系统之间，发送和接收分组的格式。
+
+因特网标准 (Internet Standard) 由 因特网工程任务组 (Internet Engineering Task Fore, IETF) 研发。其标准文档称为 请求评论 (Requst For Comment, RFC)
+涉及多个相互交换数据的应用称为 分布式应用 (distributed application) 。（如：社交媒体、多人游戏、交通信息… …）
+与因特网相连的端系统提供了一个 套接字接口 (Socket interface) 套接字接口规定了运行在一端系统上的程序 请求 因特网基础设施向运行在另一台端系统上的 特定目的程序 交付数据 的方式，是入网设备必须遵守的规则集合。
+协议（protocol）
+因特网广泛使用协议，不同协议用于完成不同的通信任务为完成一项工作，要求两个（或多个） 通信实体 运行相同的协议。
+
+
+协议 定义了在两个（或多个）通信实体之间交换报文的格式和顺序 ，以及报文的 发送&#x2F;接收 或遇到其他事件时应采取的操作。
+
+边缘网络
+端系统身处因特网边缘，故有此称谓。
+
+端系统，因其容纳应用程序，故可称作 主机（host），分为两类：
+
+客户端（client）
+服务器（server）
+
+
+接入网： 将端系统物理连接到 边缘路由器 (Edge router) 的网络。该路由器是端系统接入网络后的第一台路由器。
+
+对于每个 传输器-接收器 对，一比特(1 bit)通过传播电磁波或光脉冲的方式，跨越物理媒介 (physical medium) 进行发送。且对于路径上的每个 传输器-接收器 对而言，不必具有相同类型。物理媒介分为两种类型：
+
+导引型媒介 (guided media)
+非导引型媒介 (unguided media)
+
+
+物理链路的成本与其他网络成本相比是最小的，但是其安装与铺设成本才是其昂贵的原因。
+
+网络核心
+端系统间彼此交换 报文 (message) ，该报文可以 执行某种控制功能 或 承载某些数据。
+
+为了从 源端系统 向 目标端系统 发送一个 报文 ，源将 长报文 划分为较小的数据块，这一划分报文，使其适于网络传送的过程成为 分组 (packet) 。在源于目的之间，每个分组都通过 通信链路 和 分组交换机 (packet switch) 传送，交换主机主要有 路由器 (router) 和 链路层交换机 (link-layer switch) 两类。
+文分组以 等于 该链路最大传输速率的速度通过通信链路。即，若发送一个 *L bit 的分组，链路的传输速率为 R bit ，则分组通过链路的时间为 L&#x2F;R sec
+多数交换机在 输入端 使用 存储转发器 (store-and-forward transmission) 机制。先缓存一个接收的分组后，再将其发出。即，接收-转发 时间延迟为：
+
+d_{end-end} &#x3D; N * L&#x2F;R
+总时间延迟为：L&#x2F;R + (N-2) * L&#x2F;R + L&#x2F;R &#x3D; N * L&#x2F;RP 个分组经过N条链路的时间延迟为 (N + P - 1) * L&#x2F;R
+
+
+
+每台交换机有多条链路与之相连，对于每条相连的链路，该分组交换机具有一个 （输出缓存, output buffer 也称为 输出队列 output queue） 用于存储路由器准备发往某条链路的分组。
+即，一个分组在链路中存在：
+
+转发时延
+排队时延 (queuing delay)在缓存占满后，将出现 分组丢失 (丢包 packet loss) 问题，从到达分组或已排队分组之一选择丢弃。
+
+因特网中所采用的转发方式
+根据网络包中的 源端系统 的 IP地址 ，相同一台 相邻路由器 进行转发，由每台路由器自己维护 转发表 (forwarding table) 进行控制。每个分组包括每台路由器在传输中都不知道某一个分组在网络中的完整路径，路由器仅知道某个分组发往的下一台 路由器&#x2F;交换机（网络节点）。
+路由器的 转发表 (forwarding table) 由 路由选择协议 (routing protocol) 来规范其 自动设置转发表的行为。
+
+以上为 分组交换 (packet switching) 机制
+
+
+频分复用 (Frequency-Division Multiplexing, FDM) 
+链路的频谱由跨越链路创建的所有连接共享。特别的，在连接期间，链路对每条连接专门设定一个 频段 （电话网络中通常是 4Hz 宽）。该频段宽度就是 带宽 (bandwidth) 链路频谱中按带宽分有多个不同的频段。（每条链路持续得到部分带宽）
+
+
+时分复用 (Time-Division Multiplexing, TDM)
+时间被划分为固定时段的 帧 ，每个帧有被划分为固定数量的 时隙 。网络跨越一条链路，创建一条链接，网络在每个帧中为该连接指定一个时隙。
+[帧 是一系列任务的集合] 每条电路得到一个时隙，在 **静默期（silent period）**专用电路处于空闲状态，并不被利用。
+
+
+
+
+段系统经由一个 接入 ISP 与因特网相连，但为使各入网端系统互联互通，则需要 接入ISP 自身互联 组建 网络的网络（因特网）
+因特网网络结构的构成发展
+
+网络结构 1
+使用单一的 全球传输ISP(供应商) 互联所有的 接入ISP(客户)
+
+
+网络结构 2 两层结构
+多个公司建立并运营各自的全球传输LSP，相互竞争各自争取接入ISP。且多个全球传输ISP之间，必须互联。
+
+
+网络结构 3 等级化网络结构（两层客户端-供应端关系）
+任何给定的区域有其自身的 区域ISP(reginal ISP) 。每个区域ISP都与 第一层ISP(tier-1 ISP) 相连。（第一层ISP位于该等级结构的顶部）
+
+
+网络结构 4
+在等级话网络结构3上增加， 存在点(Point of Presence, PoP) 、 多宿(multi-home) 、 对等(peer to peer) 、 英特网交换点(Internet Exchange Point, IXP) 构成的一个生态系统
+PoP
+存在于等级结构的 所有层次 中,底层（接入ISP）除外。PoP是 供应商网络 中的一台或一组路由器（在相同位置）群组。其中， 客户ISP 与 供应商ISP 连接，从第三方电信供应商租用高速链路并将其路由器之一直接与PoP的一台路由器相连
+
+
+多宿
+除第一层ISP，其他任何ISP都可以选择多宿，与 多个供应商ISP 相连，以保障其与其它网络的连接
+
+
+对等
+不与上层供应商产生通信流量，而是与 平级ISP 相连，将两个平级ISP的网络相连，跨网传输不需要向上层供应商ISP产生路由成本。平级ISP间传输，无流量结算。
+
+
+IXP
+是一个汇合点，多个ISP可以在此处一起对等
+
+
+
+
+网络结构 5
+在网络结构4的顶部增加 内容供应商网络(content provider network) 构建而成
+
+
+
+
+网络时延在分组从一台主机经历通信链路传输到另一台主机的过程中，其必定在每个节点都会受到集中不同类型的时延制约。
+
+total modal delay
+节点处理时延(nodal processing delay)
+排队时延(queuing delay)
+是最复杂的成分，受某时刻的网络环境影响
+分组大小，到达顺序，相对位置等都会产生影响
+在表征排队时延时，通常使用统计量进行度量
+
+
+传输时延(transmission delay)
+节点向链路发送整个分组的时间
+
+
+传播时延(propagation delay)
+分组在两个节点间链路中传播的时间，受制于传播媒介的物理性质
+
+
+…
+
+
+
+
+协议栈OSI网络分层(7层)
+
+应用层
+表示层
+会话层
+传输层
+网络层
+数据链路层
+物理层
+
+目前常使用的是 5层 协议栈（TCP&#x2F;IP协议簇）
+
+应用层
+网络应用程序和应用层协议所在之处，位于应用层的消息分组成为 报文(message)
+
+
+运输层
+英特网中的运输层在程序端点之间传送应用层报文，位于运输层的分组称为 报文段(segment)
+
+
+网络层
+英特网的网络层负责将称为 数据报(datagram) 的网络层分组从一台主机传输到另一端主机
+
+
+链路层
+为了将分组从一个节点移动到路径上的下一个节点，网络层必须依靠 链路层的服务
+链路层提供的服务取决于应用于该链路的特定的链路层协议
+链路层的分组称为 帧(frame)
+
+
+物理层
+将 帧 中的一个个 bit 从一个节点移动到下一个节点
+
+
+
+在各个层中，使用上一层传来的分组，加上该层的 首部 ，即， 首部字段 + 有效载荷字段(来自上一层的分组)
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>NetWorking</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>xv6-catalog</title>
+    <url>/CS/Basic/OS/xv6-labs/xv6-catalog/</url>
+    <content><![CDATA[
+关于编写 C&#x2F;Linux 实验（流程设计）：
+
+建立一个自己的项目目录
+阅读各个实验子项的 README.md 文档
+阅读 man page 分析各个程序的功能实现
+设计程序流程
+编写程序
+
+
+CATALOG
+
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>concurrency-pzip</title>
+    <url>/CS/Basic/OS/xv6-labs/concurrency-pzip/concurrency-pzip/</url>
+    <content><![CDATA[pzip程序设计实验目标
+熟悉 Linux pthreads。
+学习如何并行化程序。
+学习如何为高性能编程。
+
+程序要求
+参考 initial-utilities&#x2F;wzip (wunzip) 游程压缩 原理，编写 pzip 程序
+考虑使用 mmap 调用，将文件映射至内存中进行处理
+
+
+
+合适例程
+get_nprocs()
+
+get_nproces_conf()
+
+read()
+
+fread()
+
+mmap()
+
+
+调用方式prompt&gt; ./pzip file &gt; file.z
+
+程序流程
+并行化配置
+
+使用 get_nprocs() 例程，获得逻辑线程总数，表征可用线程
+
+
+并行化处理
+
+文件读取
+
+使用 struct stat 获得文件列表中各个文件的大小
+调用 mmap 分配文件总大小空间，将文件内容写入该缓存
+将所有文件读入同一个缓冲区
+
+
+文件压缩
+
+将 mmap 的总体缓冲进行均分分片处理
+针对各片建立mmap并行进行压缩
+子线程
+task 处理压缩内存映射
+
+
+主线程
+将各片的缓冲进行合并，将各片的头、尾进行对比，合并相同字符信息
+合并各线程缓存 merge_zip_buf()
+
+
+
+
+
+
+
+
+文件输出
+
+默认输出至 stdout
+
+
+尾后处理
+
+释放线程资源
+munmap 释放虚拟页映射缓冲
+
+
+
+高性能编程理解
+通过 mmap 建立内存-文件映射，减少IO操作，转换为内存操作
+通过编写 thread_pool 统一管理任务线程
+
+
+Source Codethread_pool.h#ifndef THREAD_POOL_H#define THREAD_POOL_H#include &lt;pthread.h&gt;/* 任务结点 */typedef struct task_node_t &#123;    void *(*task)(void *);    void *args;    struct task_node_t *next;&#125; task_node_t;/* 线程池类型 */typedef struct &#123;    pthread_mutex_t mutex;                  /* 互斥量：保护 thread_pool_t 结构内部字段 */    pthread_cond_t cond_taskq;              /* 条件变量：队列非空，shutdown时唤起 */    pthread_t *threads;                     /* 工作线程组 */    int num_threads;                        /* 线程数量 */    int shutdown;                           /* 0/1 关闭标识 */    task_node_t *head;                      /* 任务队列，队头 */    task_node_t *tail;                      /* 任务队列，队尾 */&#125; thread_pool_t;/* 为 thread_pool 分配空间 */thread_pool_t *thread_pool_create(int num_threads);/* 为 thread_pool 添加任务 */int thread_pool_add_task(void *(*task)(void *), void *args, thread_pool_t *pool);/* 释放 thread_pool 的空间 */void thread_pool_destroy(thread_pool_t *pool);/* 将 thread_pool 中所有线程合并 */void thread_pool_join_all(thread_pool_t *pool);#endif
+
+thread_pool.c#include &quot;thread_pool.h&quot;#include &lt;stdlib.h&gt;static task_node_t *thread_pool_task_node_create(void *(*task)(void *), void *args)&#123;    if (task == NULL) &#123;        return NULL;    &#125;    task_node_t *node = malloc(sizeof(task_node_t));    if (node == NULL) &#123;        return NULL;    &#125;    node-&gt;next = NULL;    node-&gt;task = task;    node-&gt;args = args;    return node;&#125;/* 将任务入队 */static void thread_pool_push_taskq(task_node_t *task_node, thread_pool_t *pool)&#123;    if (task_node == NULL || pool == NULL) &#123;        return;    &#125;    if (pool-&gt;tail == NULL) &#123;        pool-&gt;tail = pool-&gt;head = task_node;    &#125;    else &#123;        pool-&gt;tail-&gt;next = task_node;        pool-&gt;tail = task_node;    &#125;&#125;/* 将任务出队 */static task_node_t *thread_pool_pop_taskq(thread_pool_t *pool)&#123;    if (pool == NULL) &#123;        return NULL;    &#125;    task_node_t *task = pool-&gt;head;    pool-&gt;head = task-&gt;next;    if (pool-&gt;head == NULL) &#123;        pool-&gt;tail = NULL;    &#125;    return task;&#125;/* 任务工作者 */static void *task_worker(void *arg)&#123;    thread_pool_t *pool = (thread_pool_t *) arg;    while (1)    &#123;        pthread_mutex_lock(&amp;pool-&gt;mutex);        /* 无任务，池未关闭 */        while (pool-&gt;head == NULL &amp;&amp; !pool-&gt;shutdown)        &#123;            /* 得到至少一份任务 pool-&gt;head != NULL */            pthread_cond_wait(&amp;pool-&gt;cond_taskq, &amp;pool-&gt;mutex);        &#125;        /* 池已关闭，无任务 */        if (pool-&gt;shutdown &amp;&amp; pool-&gt;head == NULL) &#123;            pthread_mutex_unlock(&amp;pool-&gt;mutex);            break;        &#125;        /* 任务出队 */        task_node_t *task = thread_pool_pop_taskq(pool);        pthread_mutex_unlock(&amp;pool-&gt;mutex);        if (task != NULL) &#123;            task-&gt;task(task-&gt;args);        &#125;        free(task);    &#125;        return NULL;&#125;static int thread_pool_init(int num_threads, thread_pool_t *pool)&#123;    pool-&gt;num_threads = num_threads;    pool-&gt;head = pool-&gt;tail = NULL;    pool-&gt;shutdown = 0;    pthread_mutex_init(&amp;pool-&gt;mutex, NULL);    pthread_cond_init(&amp;pool-&gt;cond_taskq, NULL);    pool-&gt;threads = (pthread_t *)malloc(sizeof(pthread_t) * num_threads);    if (pool-&gt;threads == NULL) &#123;        return -1;    &#125;    return 0;&#125;thread_pool_t *thread_pool_create(int num_threads)&#123;    if (num_threads == 0) &#123;        return NULL;    &#125;        thread_pool_t *pool = malloc(sizeof(thread_pool_t));    if (pool == NULL) &#123;        return NULL;    &#125;    if (thread_pool_init(num_threads, pool) != 0) &#123;        free(pool);        return NULL;    &#125;    for (int i = 0; i &lt; num_threads; ++i)    &#123;        if (pthread_create(&amp;pool-&gt;threads[i], NULL, task_worker, (void *)pool) != 0) &#123;            pool-&gt;num_threads = i;            thread_pool_join_all(pool);            pthread_mutex_destroy(&amp;pool-&gt;mutex);            pthread_cond_destroy(&amp;pool-&gt;cond_taskq);            free(pool-&gt;threads);            free(pool);            return NULL;        &#125;    &#125;    return pool;&#125;/* 为 thread_pool 添加任务 */int thread_pool_add_task(void *(*task)(void *), void *args, thread_pool_t *pool)&#123;    if (pool == NULL || task == NULL) &#123;        return -1;    &#125;    task_node_t *task_node = thread_pool_task_node_create(task, args);    if (task_node == NULL) &#123;        return -1;    &#125;    pthread_mutex_lock(&amp;pool-&gt;mutex);    if (pool-&gt;shutdown) &#123;        pthread_mutex_unlock(&amp;pool-&gt;mutex);        free(task_node);        return -1;    &#125;    thread_pool_push_taskq(task_node, pool);    /* 唤醒一个等待线程 */    pthread_cond_signal(&amp;pool-&gt;cond_taskq);    pthread_mutex_unlock(&amp;pool-&gt;mutex);    return 0;&#125;/* 释放 thread_pool 的空间 */void thread_pool_destroy(thread_pool_t *pool)&#123;    if (pool == NULL) &#123;        return;    &#125;        pthread_mutex_lock(&amp;pool-&gt;mutex);    pool-&gt;shutdown = 1;    pthread_cond_broadcast(&amp;pool-&gt;cond_taskq);    pthread_mutex_unlock(&amp;pool-&gt;mutex);    thread_pool_join_all(pool);    free(pool-&gt;threads);    pthread_mutex_destroy(&amp;pool-&gt;mutex);    pthread_cond_destroy(&amp;pool-&gt;cond_taskq);    free(pool);&#125;/* 将 thread_pool 中所有线程合并 */void thread_pool_join_all(thread_pool_t *pool)&#123;    if (pool == NULL) &#123;        return;    &#125;    pool-&gt;shutdown = 1;    pthread_cond_broadcast(&amp;pool-&gt;cond_taskq);    for (int i = 0; i &lt; pool-&gt;num_threads; ++i) &#123;        pthread_join(pool-&gt;threads[i], NULL);    &#125;&#125;
+
+pzip.c#define _POSIX_C_SOURCE 200809L#include &lt;stdio.h&gt;#include &lt;unistd.h&gt;#include &lt;stdlib.h&gt;#include &lt;sys/stat.h&gt;#include &lt;sys/sysinfo.h&gt;#include &lt;sys/mman.h&gt;#include &lt;pthread.h&gt;#include &lt;string.h&gt;#include &lt;fcntl.h&gt;#include &quot;thread_pool.h&quot;// 压缩单元typedef struct &#123;    int count;    char ch;&#125; zip_elem;// 压缩缓存typedef struct &#123;    char *map_addr;             // 内存映射缓冲    off_t map_size;             // 内存映射空间    off_t elem_count;           // 内存元素数量&#125; map_buf;// 构建压缩缓存map_buf *map_buf_create(off_t map_size, int prot, int flags);// 销毁压缩缓存void map_buf_destroy(map_buf *mbuf);// 合并缓存void merge_zip_buf(map_buf *merge_buf, int len, map_buf **list);typedef struct &#123;    map_buf *zip_map;    off_t offset;    off_t length;    map_buf *main_map;&#125; task_arg;// 并行压缩任务void *task(void *arg)&#123;    task_arg *targ = (task_arg *)arg;    char *src = targ-&gt;main_map-&gt;map_addr + targ-&gt;offset;    size_t srclen = targ-&gt;length;    map_buf *zip_map = targ-&gt;zip_map;    size_t i = 0;    off_t elem_count = 0;    char *dst = zip_map-&gt;map_addr;    // 逐拷贝元素进行拷贝    while (i &lt; srclen) &#123;        int cnt = 0;        char ch = src[i];        while (i &lt; srclen &amp;&amp; src[i] == ch) &#123;            ++i;            ++cnt;        &#125;        memcpy(dst, &amp;cnt, sizeof(int));        dst += sizeof(int);        memcpy(dst, &amp;ch, sizeof(char));        dst += sizeof(char);        ++elem_count;    &#125;    zip_map-&gt;elem_count = elem_count;    return NULL;&#125;int main(int argc, char **argv)&#123;    const int file_count = argc - 1;    char **file_list = argv + 1;    if (file_count == 0) &#123;        fprintf(stderr, &quot;pzip: file1 [file2 ...]\n&quot;);        exit(1);    &#125;    const int threads = get_nprocs();    // 计算文件列表中所有的文件大小总和    off_t total_size = 0;    struct stat st;    for (int i = 0; i &lt; file_count; ++i) &#123;        if (stat(file_list[i], &amp;st) != 0) &#123;            fprintf(stderr, &quot;pzip: cannot stat %s\n&quot;, file_list[i]);            exit(1);        &#125;        total_size += st.st_size;    &#125;    if (total_size == 0) &#123;        return 0;    &#125;    // 将文件列表中的所有文件读入mmap缓冲    map_buf *main_map = map_buf_create(total_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS);    if (main_map == NULL) &#123;        fprintf(stderr, &quot;pzip: fail to mmap\n&quot;);        exit(1);    &#125;    // 被拷贝字节大小    off_t copied = 0;    for (int i = 0; i &lt; file_count; ++i) &#123;        if (file_list[i] == NULL) &#123;            continue;        &#125;        int fd = open(file_list[i], O_RDONLY);        if (fd &lt; 0) &#123;            fprintf(stderr, &quot;pzip: cannot open %s\n&quot;, file_list[i]);            continue;        &#125;        if (fstat(fd, &amp;st) != 0) &#123;            fprintf(stderr, &quot;pzip: cannot fstat %s\n&quot;, file_list[i]);            close(fd);            continue;        &#125;        if (st.st_size == 0) &#123;            close(fd);            continue;        &#125;        // 建立该文件的内存映射        char *file_map = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);        if (file_map == MAP_FAILED) &#123;            fprintf(stderr, &quot;pzip: cannot mmap %s\n&quot;, file_list[i]);            close(fd);            continue;        &#125;        // 合并文件        memcpy(main_map-&gt;map_addr + copied, file_map, st.st_size);        copied += st.st_size;        munmap(file_map, st.st_size);        close(fd);    &#125;    main_map-&gt;elem_count = copied;    // 资源分片    off_t piece_size = total_size / threads + 1;    map_buf **zip_bufs = malloc(sizeof(map_buf*) * threads);    task_arg *targs = malloc(sizeof(task_arg) * threads);   // 多线程任务参数    if (zip_bufs == NULL || targs == NULL) &#123;        fprintf(stderr, &quot;pzip: malloc failed\n&quot;);        exit(1);    &#125;    for (int i = 0; i &lt; threads; ++i) &#123;        // 最坏情况每个字符都不同，输出为输入的 5 倍 sizeof(int) + sizeof(char)        zip_bufs[i] = map_buf_create(piece_size * 5, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS);        if (zip_bufs[i] == NULL) &#123;            fprintf(stderr, &quot;pzip: fail to create zip buffer\n&quot;);            exit(1);        &#125;        // 多线程任务参数        targs[i].zip_map = zip_bufs[i];        targs[i].offset = i * piece_size;        if (targs[i].offset &gt;= total_size) &#123;            targs[i].offset = total_size;            targs[i].length = 0;        &#125; else if (targs[i].offset + piece_size &gt; total_size) &#123;            targs[i].length = total_size - targs[i].offset;        &#125; else &#123;            targs[i].length = piece_size;        &#125;        targs[i].main_map = main_map;    &#125;    // 并行压缩    thread_pool_t *thread_pool = thread_pool_create(threads);    if (thread_pool == NULL) &#123;        fprintf(stderr, &quot;pzip: fail to create thread pool\n&quot;);        exit(1);    &#125;    for (int i = 0; i &lt; threads; ++i) &#123;        if (targs[i].length &gt; 0) &#123;            thread_pool_add_task(task, &amp;targs[i], thread_pool);        &#125;    &#125;    // 线程收束，资源回收    thread_pool_destroy(thread_pool);    // 缓冲合并    const off_t sig_elem_size = sizeof(int) + sizeof(char);    off_t total_compressed = 0;    for (int i = 0; i &lt; threads; ++i) &#123;        total_compressed += zip_bufs[i]-&gt;elem_count * sig_elem_size;    &#125;    if (total_compressed == 0) &#123;        total_compressed = sig_elem_size;    &#125;    map_buf *merge_buf = map_buf_create(total_compressed, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS);    if (merge_buf == NULL) &#123;        fprintf(stderr, &quot;pzip: fail to create merge buffer\n&quot;);        exit(1);    &#125;    merge_zip_buf(merge_buf, threads, zip_bufs);    // 输出到 stdout    fwrite(merge_buf-&gt;map_addr, merge_buf-&gt;elem_count * sig_elem_size, 1, stdout);    // 资源回收    free(targs);    for (int i = 0; i &lt; threads; ++i) &#123;        map_buf_destroy(zip_bufs[i]);    &#125;    free(zip_bufs);    map_buf_destroy(merge_buf);    map_buf_destroy(main_map);    return 0;&#125;map_buf *map_buf_create(off_t map_size, int prot, int flags)&#123;    map_buf *mbuf = malloc(sizeof(map_buf));    if (mbuf == NULL) &#123;        return NULL;    &#125;    mbuf-&gt;map_addr = mmap(NULL, map_size, prot, flags, -1, 0);    if (mbuf-&gt;map_addr == MAP_FAILED) &#123;        free(mbuf);        return NULL;    &#125;    mbuf-&gt;map_size = map_size;    mbuf-&gt;elem_count = 0;    return mbuf;&#125;void map_buf_destroy(map_buf *mbuf)&#123;    if (mbuf == NULL) &#123;        return;    &#125;    if (mbuf-&gt;map_addr != MAP_FAILED) &#123;        munmap(mbuf-&gt;map_addr, mbuf-&gt;map_size);    &#125;    free(mbuf);&#125;void merge_zip_buf(map_buf *merge_buf, int len, map_buf **list)&#123;    const off_t sig_elem_size = sizeof(int) + sizeof(char);    off_t total_compressed = 0;    for (int i = 0; i &lt; len; ++i) &#123;        total_compressed += list[i]-&gt;elem_count * sig_elem_size;    &#125;    // 按需扩大合并缓冲区    if (total_compressed &gt; merge_buf-&gt;map_size) &#123;        munmap(merge_buf-&gt;map_addr, merge_buf-&gt;map_size);        merge_buf-&gt;map_addr = mmap(NULL, total_compressed,            PROT_READ | PROT_WRITE,            MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);        if (merge_buf-&gt;map_addr == MAP_FAILED) &#123;            fprintf(stderr, &quot;merge_zip_buf: mmap failed\n&quot;);            exit(1);        &#125;        merge_buf-&gt;map_size = total_compressed;    &#125;    // 合并    off_t write_offset = 0;    off_t total_elems = 0;    for (int i = 0; i &lt; len; ++i) &#123;        off_t cur_size = list[i]-&gt;elem_count * sig_elem_size;        if (cur_size == 0) &#123;            continue;        &#125;        // 检查与前一个分片的边界：前一片的最后一个元素和当前片的第一个元素        if (i &gt; 0 &amp;&amp; write_offset &gt;= sig_elem_size) &#123;            int pre_count;            char pre_ch;            memcpy(&amp;pre_count, merge_buf-&gt;map_addr + write_offset - sig_elem_size, sizeof(int));            memcpy(&amp;pre_ch, merge_buf-&gt;map_addr + write_offset - sig_elem_size + sizeof(int), sizeof(char));            int cur_count;            char cur_ch;            memcpy(&amp;cur_count, list[i]-&gt;map_addr, sizeof(int));            memcpy(&amp;cur_ch, list[i]-&gt;map_addr + sizeof(int), sizeof(char));            // 处理前后单元合并            if (cur_ch == pre_ch) &#123;                cur_count += pre_count;                memcpy(list[i]-&gt;map_addr, &amp;cur_count, sizeof(int));                write_offset -= sig_elem_size;                total_elems--;            &#125;        &#125;        // 并入merge_buf        memcpy(merge_buf-&gt;map_addr + write_offset, list[i]-&gt;map_addr, cur_size);        write_offset += cur_size;        total_elems += list[i]-&gt;elem_count;    &#125;    // 更新元素计数    merge_buf-&gt;elem_count = total_elems;&#125;
+
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>concurrency-mapreduce 实验指导</title>
+    <url>/CS/Basic/OS/xv6-labs/concurrency-mapreduce/lab-guid/</url>
+    <content><![CDATA[
+该实验指导文档在实验编写完成后进行了修缮与逆向更新更贴合实际的项目进度
+
+MapReduce 实验指导实验分析本项目是 OSTEP（Operating Systems: Three Easy Pieces） 的并发 MapReduce 实验。目标是实现一个单机多线程简化版 MapReduce 框架，核心是实现 mapreduce.h 中声明的函数并设计线程安全的中心数据结构。
+
+1. 理解数据流整个框架的数据流是：
+argv[1..n] 文件列表  → Mapper 线程池 (num_mappers 个线程) → 调用用户的 Map()    → Map() 内部调用 MR_Emit(key, value) 发射中间数据      → 中间数据按 Partitioner 分区 → MR_Emit 内部完成 key 去重与 value 聚合        → map 全部完成后，每个分区按 key 升序排序          → Reducer 线程池 (num_reducers 个线程) → 每个唯一 key 调用一次 Reduce()
+
+在写代码之前，建议把这条数据流画在纸上，标注每一步的输入和输出。这是理解后续所有实现细节的基础。
+
+
+
+2. 设计核心数据结构（最关键的难点）需要一个线程安全的数据结构来承接 MR_Emit() 发射的键&#x2F;值对，并能被 reducer 线程按分区、按键排序地读取。
+实际采用方案：分区内按 key 聚合 + 延迟分配采用三层嵌套结构：
+MR_master &#123;    partitions[] &#123;                    // 顶层：分区数组        MR_partition &#123;               // 分区层：一把互斥锁 + 动态数组            mutex            kvs_groups[] &#123;           // 键-值列表对层                key                  // 深拷贝的键                values[]             // 深拷贝的值列表（动态扩容）                values_iter          // 迭代器指针（reduce 阶段消费用）                mutex                // 键级锁（保护迭代器）            &#125;        &#125;    &#125;&#125;
+
+关键特性：
+
+分区粒度锁：每个 MR_partition 持有独立的 pthread_mutex_t，不同分区的并发写入天然无竞争。
+键级锁：每个 MR_key_values 内部持有独立的 pthread_mutex_t，保护 values_iter 迭代器，保证 reducer 线程安全消费。
+写入时去重：MR_Emit 阶段即完成 key 去重——同一 key 的多次 emit 会将 value 追加到同一个 MR_key_values.values[] 中，无需 map 后额外合并。
+延迟分配：kvs_groups 数组预分配骨架（raw memory），仅在 key 首次出现时才调用 MR_key_values_init 初始化对应 slot。未使用的 slot 仅占裸内存，无资源泄漏。
+深拷贝：框架对 key 和 value 均进行 malloc + strcpy，不依赖用户内存生命周期。
+
+数据结构类型定义// 中间键-值列表对单元typedef struct MR_key_values &#123;    char *key;              // 键（深拷贝）    char **values;          // 值列表（动态数组）    int values_size;        // 当前值数量    int values_capacity;    // 值列表容量    int values_iter;        // 迭代器索引    pthread_mutex_t mutex;  // 键级互斥锁&#125; MR_key_values;// 分区typedef struct MR_partition &#123;    pthread_mutex_t mutex;          // 分区级互斥锁    MR_key_values *kvs_groups;      // 键值列表对数组    int groups_capacity;            // 数组容量    int num_kvs_groups;             // 当前已使用的唯一 key 数量&#125; MR_partition;// 中心数据结构typedef struct MR_master &#123;    MR_partition *partitions;       // 分区数组    int num_partitions;             // 分区数量&#125; MR_master;
+
+
+3. 实现步骤
+
+
+步骤
+内容
+涉及文件
+
+
+
+Step 1
+实现线程池 — thread_pool.h/.c，生产者-消费者模型，支持创建&#x2F;添加任务&#x2F;销毁
+thread_pool.c
+
+
+Step 2
+实现中心数据结构 — MR_key_values、MR_partition、MR_master 的 init&#x2F;destroy&#x2F;push 操作
+MR_master.c
+
+
+Step 3
+实现 MR_DefaultHashPartition() — djb2 哈希算法，hash = hash * 33 + c
+mapreduce.c
+
+
+Step 4
+实现 MR_Emit() — 通过 Partitioner 计算分区索引，调用 MR_partition_push() 写入
+mapreduce.c
+
+
+Step 5
+实现 MR_Run() 的 mapper 阶段 — 创建线程池，为每个文件创建一个 map 任务，等待全部完成
+mapreduce.c
+
+
+Step 6
+实现排序 — quick_kv_sort() 对每个分区内的 kvs_groups 按 key 字典序排序
+MR_master.c
+
+
+Step 7
+实现 MR_partition_iter_get() — Getter 迭代器：按 key 查找 MR_key_values，加锁返回下一个 value
+mapreduce.c
+
+
+Step 8
+实现 MR_Run() 的 reducer 阶段 — 为每个唯一 key 创建 reduce 任务，等待全部完成
+mapreduce.c
+
+
+Step 9
+实现释放链 — MR_master_destroy → MR_partition_destroy → MR_key_values_destroy
+MR_master.c
+
+
+Step 10
+编写 wordcount 测试 + 编译运行验证
+main.c
+
+
+
+4. 并发控制要点两级锁设计
+分区级锁（MR_partition.mutex）：保护 kvs_groups 数组的结构变更（添加新 key、扩容）。多个 mapper 线程并发写入不同分区时天然无竞争；写入同一分区时互斥。
+键级锁（MR_key_values.mutex）：保护 values_iter 迭代器。reduce 阶段 reducer 线程迭代消费 value 时加锁。
+
+同步点
+Map → Sort：thread_pool_destroy(map_pool) 内部 pthread_join 等待所有 mapper 完成后，才开始排序。
+Sort → Reduce：排序在单线程中完成（MR_Run 主线程），之后才创建 reduce 任务。
+Reduce 只读：reduce 阶段不再有写入，MR_partition_has_key() 无锁查找是安全的。
+
+为什么不在 map 阶段就开始排序（流水线化）第一版不做流水线是正确性优先的选择。map 全部完成再统一排序和 reduce，避免了”排序中又有新 key 插入”的复杂同步问题。如果需要性能优化，可以在后续版本中引入条件变量做流水线。
+
+5. 内存管理要点
+深拷贝：MR_Emit 传入的 key&#x2F;value 可能来自用户的栈或短期堆内存（如 strsep 返回的指针），框架必须在 MR_key_values_init 和 MR_key_values_push_value 中进行 malloc + strcpy。
+释放链：释放顺序与创建顺序相反。MR_key_values_destroy 释放 key 和 values 的内部内存，但不释放 kvs 结构体本身——它由 partition-&gt;kvs_groups 数组统一 free。
+延迟分配：MR_partition_init 仅分配数组骨架，不初始化内部 slot。未使用的 slot 不会泄漏 mutex 或 values 数组。扩容时 (realloc) 新增的 slot 同样是 raw memory，在取用时才 MR_key_values_init。
+排序注意事项：quick_kv_sort 对 MR_key_values 做原地交换（struct swap）。由于 MR_key_values 包含 pthread_mutex_t，在 Linux NPTL 实现下 pthread_mutex_t 是清零内存，realloc 的逐字节拷贝和排序中的 struct swap 在实际运行中安全。从标准严格角度看，包含 mutex 的结构体不应逐字节拷贝——可考虑将 mutex 改为指针或单独分配来规避，但在本实验中保持简洁。
+
+
+6. 测试程序main.c 中实现了 Word Count：
+
+Map：逐行读取文件，strsep 按空白字符分词，对每个 token 调用 MR_Emit(token, &quot;1&quot;)
+Reduce：通过 Getter 迭代计数 &quot;1&quot; 的出现次数，输出 &quot;%s %d\n&quot;
+
+# 编译make# 运行./mapreduce test.txt           # 单文件./mapreduce file1.txt file2.txt # 多文件并发
+
+Makefile 关键配置：
+CC = gccCFLAGS = -g -Wall -Werror -OLINK = -lpthread -lc
+
+
+7. 总结
+线程池 — 可复用的通用组件，先实现并验证
+中心数据结构 — MR_key_values → MR_partition → MR_master，自底向上
+MR_DefaultHashPartition() + MR_Emit() — 数据能写入
+MR_Run() mapper 阶段 — 多线程 map 跑通
+排序 — quick_kv_sort 按 key 字典序
+MR_partition_iter_get() — Getter 迭代器实现
+MR_Run() reducer 阶段 — 多线程 reduce 跑通
+释放链 — 全部 destroy 正确调用
+wordcount 测试 — ./mapreduce test.txt 验证输出
+
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>concurrency-mapreduce</title>
+    <url>/CS/Basic/OS/xv6-labs/concurrency-mapreduce/mapreduce/</url>
+    <content><![CDATA[MapReduce 程序设计
+原始论文
+
+
+实验目标
+学习 MapReduce 范式的通用特性
+使用线程和相关函数实现一个正确且高效的 MapReduce 框架
+获得更多编写并发代码的经验
+
+
+MapReduce框架总体思路用户只需要定义 Map() 与 Reduce() 函数，交由框架处理该函数指针即可
+
+Map(): 接受一个输入对，并产生一组中间键值对。
+Reduce(): MapReduce库 将具有相同中间键K的中间值分组在一起，传入该函数
+接受一个中间键K和该键的一组值。将这些值进行合并为更小的集合
+通常，每次对 Reduce() 的调用产生零个或一个输出值
+中间值通过迭代器提供给用户的reduce函数
+
+
+
+MapReduce 可将许多不同类型的相关计算映射到该框架上。并且多个 mapper 可以同时运行，多个 reducer 也可以同时运行。用户不必亲自操作编写并行化程序，只需要编写 Map() 与 Reduce() 函数，并交由该框架提供的相关基础设施即可。
+
+
+
+框架总体流程
+argv[1..n] 文件列表作为输入分片
+Mapper 线程池 (num_mappers 个线程) -&gt; 并发调用用户的 Map()
+Map() 内部调用 MR_Emit(key, value) 发射中间数据
+MR_Emit 根据 Partitioner 将 key 路由到目标分区，在分区内部完成 key 去重与 value 聚合（同一 key 的多个 value 归入同一 MR_key_values）
+所有 map 任务完成后，每个分区内的 kvs_groups 按 key 字典序升序排序
+Reducer 线程池 (num_reducers 个线程) -&gt; 为每个唯一 key 创建一个 reduce 任务，调用 Reduce()
+
+
+框架结构用户侧
+定义 Map 函数
+将传入的 (k0, v0) 转化为中间键值对 (k1, v1)
+调用 MR_Emit() 函数，发送中间键值对
+
+
+定义 Reduce 函数
+通过 Getter 函数迭代获取分区中该 key 对应的所有 value
+对 values 进行归并，输出最终结果
+
+
+
+数据结构层中心数据结构——三层嵌套
+MR_master &#123;    partitions[] &#123;               // 分区层：按 Partitioner 哈希分桶        MR_partition &#123;           // 每个分区持有独立的互斥锁            kvs_groups[] &#123;       // 键-值列表对层：每个唯一 key 对应一个 MR_key_values                key              // 键（深拷贝）                values[]         // 该键对应的所有值（深拷贝）            &#125;        &#125;    &#125;&#125;
+
+
+MR_master：顶层中心数据结构，持有一个 MR_partition 数组。分区数量 &#x3D; 输入文件数量。
+MR_partition：每个分区通过独立的 pthread_mutex_t 实现分区级别的并发保护——不同分区的写操作天然无竞争。内部通过 MR_key_values *kvs_groups 动态数组管理该分区内的所有唯一 key。
+MR_key_values：每个唯一 key 对应一个 MR_key_values 实例。内部持有该 key 的所有 value（动态 char **values 数组扩容），以及一个 values_iter 迭代器指针和独立的 pthread_mutex_t，供 reducer 线程安全地迭代消费。
+
+框架层mapreduce.h 提供的公共接口
+
+
+
+函数
+说明
+
+
+
+MR_Run()
+启动 MapReduce 框架，创建线程池、调度 map&#x2F;reduce 任务
+
+
+MR_Emit()
+被 Map 函数调用，发射中间键值对到分区
+
+
+MR_DefaultHashPartition()
+默认哈希分区函数（DJB hash）
+
+
+MR_master.h 提供的数据结构操作
+
+
+
+函数
+说明
+
+
+
+MR_key_values_init()
+初始化一个 MR_key_values 实例（深拷贝 key、预分配 values 数组、初始化互斥锁）
+
+
+MR_key_values_destroy()
+释放 key 和所有 value、销毁互斥锁（不释放 kvs 结构体本身——由所属数组统一管理）
+
+
+MR_key_values_push_value()
+向 MR_key_values 追加一个 value（深拷贝、自动扩容）
+
+
+MR_partition_init()
+初始化分区（延迟分配：仅分配 kvs_groups 数组骨架，不初始化内部 slot）
+
+
+MR_partition_destroy()
+释放分区内所有已使用的 MR_key_values 及其数组
+
+
+MR_partition_has_key()
+在分区内线性查找指定 key，返回其 MR_key_values 指针或 NULL
+
+
+MR_partition_push()
+线程安全地将 (key, value) 写入分区：查重 → 添加新 key 或追加 value
+
+
+MR_master_create()
+创建中心数据结构，初始化所有分区
+
+
+MR_master_destroy()
+销毁所有分区并释放中心结构
+
+
+quick_kv_sort()
+对分区内的 kvs_groups 按 key 字典序升序进行快速排序
+
+
+内部静态函数
+
+
+
+函数
+说明
+
+
+
+MR_partition_add_key()
+在分区内添加一个新 key（检查重复、扩容 kvs_groups、初始化新 slot）
+
+
+MR_partition_iter_get()
+Getter 实现：通过 key 查找 MR_key_values，加锁返回下一个 value，value 耗尽时返回 NULL 并解锁
+
+
+map_task_worker()
+线程池任务包装：调用用户的 Map 函数
+
+
+reduce_task_worker()
+线程池任务包装：调用用户的 Reduce 函数
+
+
+
+原头文件提供的声明// MapReduce使用的不同的函数指针类型typedef char *(*Getter)(char *key, int partition_number);typedef void (*Mapper)(char *file_name);typedef void (*Reducer)(char *key, Getter get_func, int partition_number);typedef unsigned long (*Partitioner)(char *key, int num_partitions);// 需要实现的外部函数void MR_Emit(char *key, char *value);unsigned long MR_DefaultHashPartition(char *key, int num_partitions);/** * 接收: * - 给定程序的命令行参数 * - 指向Map函数的指针 * - MapReduce库创建的线程数量 * - 指向Reduce函数的指针 * - reducer数量 * - 指向分区函数的指针*/void MR_Run(int argc, char *argv[], 	    Mapper map, int num_mappers, 	    Reducer reduce, int num_reducers, 	    Partitioner partition);
+
+
+该库需要创建 num_mappers 个线程（线程池）执行map任务
+
+创建 num_reducers 个线程执行reduce任务
+
+该库需要创建一种内部数据结构将键值对从mapper传递到reducer
+
+MR_Emit() 函数，从许多不同的mapper接收键值对，并以一种后续reducer可访问的方式存储
+
+该实验的关键就在于如何设计这个数据结构
+
+
+MR_DefaultHashPartition() 函数，接收一个key，将其映射为 0 到 num_partitions - 1 的数字
+
+在MapReduce内部使用
+
+
+对于每个分区，键应该按照键的升序排列；当特定的reducer线程工作时，Reduce函数应按顺序对该分区的每个键进行调用
+
+
+
+关键设计决策线程安全策略采用两级锁设计：
+
+分区级锁（MR_partition.mutex）：保护 kvs_groups 数组的结构变更（添加新 key、扩容）。map 阶段多个 mapper 线程并发写入不同分区时天然无竞争；写入同一分区时互斥。
+键级锁（MR_key_values.mutex）：保护 values_iter 迭代器。reduce 阶段多个 reducer 线程迭代不同 key 时天然无竞争；理论上同一 key 不会被多个 reducer 消费，但锁保证了防御性安全。
+
+MR_partition_has_key() 本身不加锁——在 map 阶段它仅在 MR_partition_push() 持有分区锁时调用；在 reduce 阶段数据已只读，无需锁。
+内存管理策略深拷贝：MR_Emit 传入的 key 和 value 均为用户栈&#x2F;堆内存（可能在 Map 返回后失效），框架在 MR_key_values_init 和 MR_key_values_push_value 中一律 malloc + strcpy 进行深拷贝。框架拥有所有数据副本的生命周期。
+延迟分配：MR_partition_init 仅分配 kvs_groups 数组的骨架内存（raw memory），不调用 MR_key_values_init 初始化内部 slot。当 key 首次出现时，MR_partition_add_key 才对对应 slot 进行初始化（MR_key_values_init(kvs, key, 1)）。未被使用的 slot 仅占裸内存，无资源泄漏。kvs_groups 初始容量为 0 时首次扩容设为 4，之后按 2 倍扩容。
+释放链：MR_master_destroy → MR_partition_destroy → MR_key_values_destroy → free 各层内存。MR_key_values_destroy 不释放 kvs 结构体自身——它由 partition-&gt;kvs_groups 数组统一释放。
+排序对每个分区内的 kvs_groups（MR_key_values 数组）按 key 字段字典序进行快速排序。排序在 map 全部完成、reduce 启动之前执行，保证 reduce 按 key 升序遍历。
+
+线程池实现通用的生产者-消费者线程池（与 concurrency-webserver 实验相同）：
+
+thread_pool_create(n)：创建 n 个工作线程 + 任务队列
+thread_pool_add_task(task, arg, pool)：将任务节点入队，pthread_cond_signal 唤醒一个等待线程
+thread_pool_destroy(pool)：设置 shutdown 标志，pthread_cond_broadcast 唤醒所有线程，pthread_join 等待全部退出
+
+
+测试用例main.c 实现了 Word Count(实验项目README.md文件中提供)：
+
+Map：逐行读取文件，strsep 按空白字符分词，对每个 token 调用 MR_Emit(token, &quot;1&quot;)
+Reduce：通过 Getter 迭代计数 “1” 的出现次数，输出 key count
+
+./mapreduce test.txt         # 单文件./mapreduce file1 file2 ...  # 多文件并发
+
+
+项目文件结构concurrency-mapreduce/├── mapreduce.h          # 公共接口声明（MR_Run, MR_Emit, MR_DefaultHashPartition）├── mapreduce.c          # 框架主逻辑（MR_Run 调度、迭代器、线程任务包装）├── MR_master.h          # 中心数据结构声明（MR_key_values, MR_partition, MR_master）├── MR_master.c          # 数据结构操作实现（init/destroy/push/sort）├── thread_pool.h        # 线程池声明├── thread_pool.c        # 线程池实现├── main.c               # 测试用例：Word Count├── Makefile└── mapreduce.md         # 本文档
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>concurrency-webserver</title>
+    <url>/CS/Basic/OS/xv6-labs/concurrency-webserver/concurrency-webserver/</url>
+    <content><![CDATA[wserver 程序解析
+仓库提供的源代码中，该 wserver 程序是可以直接进行 make 构建的
+
+TODO
+为服务器添加多线程功能
+pthread
+处理静态和动态请求
+主线程然后负责通过网络接受新的 HTTP 连接，并将此连接的描述符放入一个固定大小的缓冲区中
+主线程和工作线程处于生产者-消费者关系中，需要同步它们对共享缓冲区的访问。
+如果缓冲区已满，主线程必须阻塞并等待；如果缓冲区为空，工作线程必须等待。使用条件变量实现。
+
+
+
+
+实现不同的调度策略 FIFO SFF
+修改Web服务器的调用方式，使其能够处理新的输入参数
+
+
+原 wserver 程序处理过程
+监听并读取客户端套接字 accept_or_die
+
+处理客户端连接请求 request_handle
+
+读取并解析客户端请求，分析请求行
+
+根据请求类型 is_static 进行静态&#x2F;动态请求的响应
+
+静态请求request_serve_static：调用mmap建立文件内存映射，读取本地文件，返回响应
+
+动态请求request_serve_dynamic：通过调起子进程执行CGI程序处理
+
+
+
+
+
+处理完成，关闭连接 close_or_die
+
+
+
+
+
+初始环境可能的问题wserver.c 中的 optarg 未定义问题
+需要包含头文件 &lt;unistd.h&gt; 或 &lt;getopt.h&gt;
+头文件中已自然声明
+*char optarg 指向当前参数
+int optind 下一次调用 getopt() 时的下一个argv指针的索引
+int opterr 标志，设置为0，不会向 stderr 输出错误信息
+int optopt 最后一个未知选项
+
+
+
+
+
+带参数的选项要在传入 getopt() 函数的字符串中添加 : 字符
+
+如 “A:B:C:” 则标识了 -A -B -C 三种参数
+使用 :: 标识可选参数
+必须检查 optarg 字段是否为空
+getopt 默认会将选项参数进行重排，将非选项参数放至最后
+
+request.c 文件的编译问题
+会遇到 sprintf 函数，缓冲区溢出问题
+可通过将 sprintf 更换为 snprintf 函数来解决该问题，需要传入该缓冲区的实际大小，根据 snprintf 的返回值判断是否产生了缓冲区截断。
+也可以使用 asprintf 函数进行缓冲区的自动扩展
+
+
+
+
+设计生产者-消费者 划分生产者
+
+通过读取请求，写入缓冲
+在主线程使用 buffer_push 将 conn_fd 写入缓冲
+
+消费者
+
+通过从缓冲中读取请求，写回响应
+在子线程中使用 buffer_pop 将 conn_fd 从缓冲中读出
+
+线程池设计
+编写以下依赖thread_pool.hthread_pool.c
+
+提供以下API
+/* 任务结点 */typedef struct task_node_t &#123;    void *(*task)(void *);    void *args;    struct task_node_t *next;&#125; task_node_t;/* 线程池类型 */typedef struct &#123;    pthread_mutex_t mutex;                  /* 互斥量：保护 thread_pool_t 结构内部字段 */    pthread_cond_t cond_taskq;              /* 条件变量：队列非空，shutdown时唤起 */    pthread_t *threads;                     /* 工作线程组 */    int num_threads;                        /* 线程数量 */    int shutdown;                           /* 0/1 关闭标识 */    task_node_t *head;                      /* 任务队列，队头 */    task_node_t *tail;                      /* 任务队列，队尾 */&#125; thread_pool_t;/* 为 thread_pool 分配空间 */thread_pool_t *thread_pool_create(int num_threads);/* 为 thread_pool 添加任务 */int thread_pool_add_task(void *(*task)(void *), void *args, thread_pool_t *pool);/* 释放 thread_pool 的空间 */void thread_pool_destroy(thread_pool_t *pool);/* 将 thread_pool 中所有线程合并 */void thread_pool_join_all(thread_pool_t *pool);
+
+调度策略与缓冲区设计FIFO 策略缓冲
+编写以下依赖FIFO_buffer.hFIFO_buffer.c
+
+提供以下API
+typedef struct &#123;    int *conn_fds;                              /* 连接描述符，环形缓冲队列 */    int capacity;                               /* 缓冲区大小 */    int head, tail;                             /* 读写位置 */    int count;                                  /* 当前元素数 */    pthread_mutex_t mutex;                      /* 互斥量 */    pthread_cond_t cond_space_available;        /* 条件变量：缓冲区可写 */    pthread_cond_t cond_data_available;         /* 条件变量：缓冲区数据可读 */&#125; FIFO_buffer_t;FIFO_buffer_t *FIFO_buffer_create(int capacity);void FIFO_buffer_destroy(FIFO_buffer_t *buffer);int FIFO_buffer_count(FIFO_buffer_t *buffer);int FIFO_buffer_empty(FIFO_buffer_t *buffer);int FIFO_buffer_full(FIFO_buffer_t *buffer);int FIFO_buffer_push(int conn_fd, FIFO_buffer_t *buffer);int FIFO_buffer_pop(FIFO_buffer_t *buffer);
+
+SFF 策略缓冲
+编写以下依赖SFF_buffer.hSFF_buffer.c
+
+
+使用 MIN TOP HEAP 进行优化处理将 push&#x2F;pop 操作的复杂度改进为 O(log n)
+
+提供以下API
+#define PRELBUFSIZE (8192)#define SFF_BUFFER_MIN_ELEM(buffer) ((buffer)-&gt;elems[0])#define SFF_BUFFER_CAPACITY(buffer) ((buffer)-&gt;capacity)#define SFF_BUFFER_ELEM_COUNT(buffer) ((buffer)-&gt;count)typedef struct &#123;    int conn_fd;    int file_size;&#125; SFF_buffer_elem_t;typedef struct &#123;    SFF_buffer_elem_t *elems;                   /* 元素列表 */    int capacity;                               /* 缓冲容量 */    int count;                                  /* 元素数量 */    pthread_mutex_t mutex;                      /* 互斥量 */    pthread_cond_t cond_space_available;        /* 条件变量：缓冲区可写 */    pthread_cond_t cond_data_available;         /* 条件变量：缓冲区数据可读 */&#125; SFF_buffer_t;SFF_buffer_t *SFF_buffer_create(int capacity);void SFF_buffer_destroy(SFF_buffer_t *buffer);int SFF_buffer_count(SFF_buffer_t *buffer);int SFF_buffer_empty(SFF_buffer_t *buffer);int SFF_buffer_full(SFF_buffer_t *buffer);int SFF_buffer_push(SFF_buffer_elem_t elem, SFF_buffer_t *buffer);int SFF_buffer_pop(SFF_buffer_t *buffer, char *pre_line_buf);
+
+小顶堆堆结构
+static int parent_node(int idx) &#123;    return (idx - 1) &gt;&gt; 1;    &#125;static int left_node(int idx) &#123;    return (idx &lt;&lt; 1) + 1;&#125;static int right_node(int idx) &#123;    return (idx &lt;&lt; 1) + 2;&#125;static void shift_up(int idx, SFF_buffer_t *buffer)&#123;    if (idx == 0) &#123;        return;    &#125;    int parent = parent_node(idx);    SFF_buffer_elem_t *elems = buffer-&gt;elems;    while (idx &gt; 0        &amp;&amp; elems[idx].file_size &gt; elems[parent].file_size)    &#123;        /* 子节点上浮 */        SFF_buffer_elem_t tmp = elems[parent];        elems[parent] = elems[idx];        elems[idx] = tmp;        //        idx = parent;        parent = parent_node(idx);    &#125;&#125;static void shift_down(int idx, SFF_buffer_t *buffer)&#123;    SFF_buffer_elem_t *elems = buffer-&gt;elems;    int count = SFF_BUFFER_ELEM_COUNT(buffer);    while (1)    &#123;        int l = left_node(idx);        int r = right_node(idx);        int child = idx;        /* 检查子节点，是否更小 */        if (l &lt; count            &amp;&amp; elems[l].file_size &gt; elems[child].file_size)        &#123;            child = l;        &#125;        if (r &lt; count            &amp;&amp; elems[r].file_size &gt; elems[child].file_size)        &#123;            child = r;        &#125;        if (child == idx) &#123;            break;        &#125;        SFF_buffer_elem_t tmp = elems[idx];        elems[idx] = elems[child];        elems[child] = tmp;        /* 大值下沉 */        idx = child;    &#125;&#125;
+
+调度结构
+编写以下依赖scheduler.hscheduler.c
+
+/* NULL     调度*/#define SCHED_ALG_NULL      0x00/* FIFO     调度 */#define SCHED_ALG_FIFO      0x01/* SFF      调度 */#define SCHED_ALG_SFF       0x02#define SET_FIFO_SCHED(scheduler) ((scheduler)-&gt;sched_alg = SCHED_ALG_FIFO)#define SET_SFF_SCHED(scheduler) ((scheduler)-&gt;sched_alg = SCHED_ALG_SFF)#define IS_FIFO_SCHED(scheduler) ((scheduler)-&gt;sched_alg == SCHED_ALG_FIFO)#define IS_SFF_SCHED(scheduler) ((scheduler)-&gt;sched_alg == SCHED_ALG_SFF)#define IF_FIFO_SCHED(scheduler) if ((scheduler)-&gt;sched_alg == SCHED_ALG_FIFO)#define IF_SFF_SCHED(scheduler) if ((scheduler)-&gt;sched_alg == SCHED_ALG_SFF)#define FIFO_SCHED_BUFFER(scheduler) ((FIFO_buffer_t *)(scheduler)-&gt;sched_buffer)#define SFF_SCHED_BUFFER(scheduler) ((SFF_buffer_t *)(scheduler)-&gt;sched_buffer)typedef unsigned int sched_alg_t;typedef struct &#123;    sched_alg_t sched_alg;              /* 策略算法标识 */    void *sched_buffer;                 /* 策略缓冲 FIFO/SFF _buffer_t */&#125; scheduler_t;/* 创建调度缓冲 */scheduler_t *scheduler_create(int capacity, const char *schedalg);/* 销毁调度器 */void scheduler_destroy(scheduler_t *scheduler);/* 将连接符压入调度器 */void scheduler_push(int conn_fd, scheduler_t *scheduler);/* 从调度器中取出连接符 */int scheduler_pop(scheduler_t *scheduler, char *pre_line_buf);
+
+
+scheduler.hscheduler.c
+thread_pool.hthread_pool.c
+FIFO_buffer.hFIFO_buffer.c
+SFF_buffer.hSFF_buffer.c
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>initial-reverse</title>
+    <url>/CS/Basic/OS/xv6-labs/initial-reverse/initial-reverse/</url>
+    <content><![CDATA[reverse
+reverse 程序的功能分别是进行文件的压缩(wzip)与解压缩(wunzip)使用 游程编码(REL) 进行压缩
+
+prompt&gt; ./reverseprompt&gt; ./reverse input.txtprompt&gt; ./reverse input.txt output.txt
+
+依赖例程
+fopen()
+
+fgets()
+
+fclose()
+
+getline()
+
+printf()
+
+fwrite()
+
+fread()
+
+perror()
+
+strerror()
+
+
+实验需求
+输入与输出相同： 如果输入文件和输出文件是同一个文件
+
+打印错误消息 “Input and output file must differ” 并以返回码 1 退出。
+
+
+字符串长度： 你不能对一行的长度做任何假设。因此，你可能需要读取非常长的输入行…
+
+文件长度： 你不能对文件的长度做任何假设，即文件可能非常长。
+
+无效文件： 如果用户指定了输入文件或输出文件，但当你尝试打开该文件（例如 input.txt）时因某种原因失败，应打印以下精确的错误消息：error: cannot open file &#39;input.txt&#39;，然后以返回码 1 退出（即调用 exit(1);）。
+
+传递给程序的参数过多： 如果用户运行 reverse 时参数过多，打印 usage: reverse &lt;input&gt; &lt;output&gt; 并以返回码 1 退出。
+
+如何打印错误消息： 发生任何错误时，应使用 fprintf() 将错误打印到屏幕上，并将错误消息发送到 stderr（标准错误）而不是 stdout（标准输出）。在 C 代码中通过以下方式实现：fprintf(stderr, &quot;whatever the error message is\n&quot;);
+
+
+要退出，调用 exit(1)。你传递给 exit() 的数字（本例中为 1）可供用户查看程序是返回了错误（即返回非零值）还是正常退出（即返回了 0）。
+对于读取输入文件，以下例程会让你的工作变得轻松：fopen()、getline() 和 fclose()。
+对于打印（到屏幕或到文件），使用 fprintf()。注意，通过将 stdout 传递给 fprintf() 可以很容易地写入标准输出；通过传入 fopen 返回的 FILE * 也可以很容易地写入文件，例如：fp=fopen(...); fprintf(fp, ...);。
+
+
+流程分析reverse
+使用 fprintf(stderr, ...) 进行错误信息的反馈
+
+
+命令行参数
+
+./reverse
+./reverse input.txt
+./reverse intput.txt output.txt
+当 input.txt &#x3D;&#x3D; output.txt 时打印错误信息
+Input and output file must differ
+
+
+
+
+传参过多
+打印错误信息
+usage: reverse &lt;input&gt; &lt;output&gt;
+
+
+
+
+
+
+文件探查
+
+文件不存在
+打印错误信息
+error: cannot open file &#39;input.txt&#39;
+
+
+然后以返回码 1 退出 exit(1)
+
+
+
+
+文件处理
+
+不对读入的字符串与文件长度做出假设
+需要进行动态扩容
+或者直接使用 getline() 例程处理
+
+
+将指定输入文件中的数据并将其反转
+将文件中的各行按照与输入流相反的顺序打印
+
+
+
+
+文件关闭
+
+
+reverse.c
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>concurrency-sort</title>
+    <url>/CS/Basic/OS/xv6-labs/concurrency-sort/psort/</url>
+    <content><![CDATA[psort 程序设计项目文件结构concurrency-sort/├── Makefile              # 构建文件├── psort.md              # 程序设计文档├── README-zh.md          # 项目说明│├── Record.h              # 记录类型定义├── psort_utils.h/.c      # 内存文件映射 mfilemap├── test_utils.h          # 测试工具（随机文件生成、排序校验）├── thread_pool.h/.c      # 通用线程池│├── psort.h               # 排序组 &amp; 快速排序 &amp; 线性归并└── psort.c               # 主程序 &amp; 最小堆 k 路归并
+
+
+可用例程
+get_nprocs()
+get_nprocs_conf()
+mmap()
+fsync()
+read()
+fread()
+
+
+程序要求
+并行排序接收两个命令行参数
+input
+output
+
+
+
+prompt&gt; ./psort input output
+
+
+输入文件格式
+
+record: key 4byte | value 96byte
+
+
+程序操作
+
+将所有记录读入内存，对记录进行排序，随后将其写入输出文件
+在完成之前，通过调用 fsync() 对输出文件进行强制写入
+可以假设为一次性排序
+
+
+
+
+
+注意事项
+并行化排序
+在合适并行，在何时同步
+如何分配
+如何确定创建线程的数量
+
+
+高效执行每项工作
+AlphaSort 论文
+(2026&#x2F;06&#x2F;07) 该论文似乎已无法在服务器上找到，需要自行寻找
+找到了以下可用的PDF
+AlphaSort: A Cache-Sensitive Parallel External Sort
+
+
+
+
+
+
+高效访问输入&#x2F;输出文件
+fread() C库调用
+read() 原始系统调用
+mmap() 内存映射
+
+
+
+
+程序设计数据结构设计记录结构 Record（Record.h）
+定义 Record 类型，以及相应的依赖类型与相应宏，提供类型安全保证
+
+typedef uint32_t RecordKey;#define RECORD_SIZE 100#define RECORD_KEY_SIZE sizeof(RecordKey)#define RECORD_VALUE_SIZE (RECORD_SIZE - RECORD_KEY_SIZE)typedef union &#123;    struct &#123;        RecordKey key;        char value[RECORD_VALUE_SIZE];    &#125; fields;    const char bytes[RECORD_SIZE];&#125; Record;static inlinevoid set_Record_value(Record *record, const char *value) &#123;    strncpy(record-&gt;fields.value, value, RECORD_VALUE_SIZE);&#125;
+
+Record 使用 union 同时提供两种视图：
+
+fields 视图：按结构化字段访问 key 和 value
+bytes 视图：按原始字节数组访问整条记录（用于批量 I&#x2F;O）
+
+
+内存文件映射 mfilemap（psort_utils.h &#x2F; psort_utils.c）
+对 mmap 文件访问操作进行结构化封装，统一管理文件描述符、映射缓冲区和文件大小
+
+// memory file maptypedef struct &#123;    int fd;    char *mbuf;    off_t size;&#125; mfilemap;mfilemap mfilemap_read_open(const char *filename, int oflag,                             int mmapprot, int mmapflag);mfilemap mfilemap_write_open(const char *filename, size_t size, int oflag,                              int mmapprot, int mmapflag);void mfilemap_close(mfilemap file);
+
+读打开流程：
+mfilemap mfilemap_read_open(const char *filename, int oflag,                             int mmapprot, int mmapflag) &#123;    mfilemap file = &#123; .fd = -1, .mbuf = MAP_FAILED, .size = 0 &#125;;    // 1. stat() 获取文件大小    // 2. open(O_RDONLY | oflag)    // 3. mmap(NULL, size, PROT_READ | mmapprot, mmapflag, fd, 0)    //    强制 PROT_READ 保证可读    return file;&#125;
+
+写打开流程：
+mfilemap mfilemap_write_open(const char *filename, size_t size, int oflag,                              int mmapprot, int mmapflag) &#123;    mfilemap file = &#123; .fd = -1, .mbuf = MAP_FAILED, .size = 0 &#125;;    // 1. open(O_CREAT | O_RDWR | oflag, 0644)    // 2. ftruncate(fd, size) 预分配文件空间    // 3. mmap(NULL, size, PROT_WRITE | mmapprot, mmapflag, fd, 0)    //    强制 PROT_WRITE 保证可写    return file;&#125;
+
+关闭流程：
+void mfilemap_close(mfilemap file) &#123;    // 1. munmap(mbuf, size) 解除内存映射    // 2. close(fd) 关闭文件描述符&#125;
+
+
+线程池（thread_pool.h &#x2F; thread_pool.c）
+通用任务队列线程池，用于并行化排序任务
+
+// 任务结点typedef struct task_node_t &#123;    void *(*task)(void *);    void *args;    struct task_node_t *next;&#125; task_node_t;// 线程池类型typedef struct &#123;    pthread_mutex_t mutex;       // 互斥量：保护内部字段    pthread_cond_t cond_taskq;   // 条件变量：队列非空 / shutdown 时唤醒    pthread_t *threads;          // 工作线程组    int num_threads;             // 线程数量    int shutdown;                // 关闭标识 0/1    task_node_t *head;           // 任务队列队头    task_node_t *tail;           // 任务队列队尾&#125; thread_pool_t;
+
+接口：
+
+
+
+函数
+作用
+
+
+
+thread_pool_create(num)
+创建线程池，启动 num 个工作线程
+
+
+thread_pool_add_task(fn, arg, pool)
+将任务入队，唤醒一个等待线程
+
+
+thread_pool_destroy(pool)
+关闭线程池，等待所有线程完成，释放资源
+
+
+thread_pool_join_all(pool)
+等待所有工作线程结束
+
+
+工作线程逻辑：
+static void *task_worker(void *arg) &#123;    thread_pool_t *pool = (thread_pool_t *)arg;    while (1) &#123;        pthread_mutex_lock(&amp;pool-&gt;mutex);        // 等待：队列非空或池关闭        while (pool-&gt;head == NULL &amp;&amp; !pool-&gt;shutdown)            pthread_cond_wait(&amp;pool-&gt;cond_taskq, &amp;pool-&gt;mutex);        // 池关闭且无任务，退出        if (pool-&gt;shutdown &amp;&amp; pool-&gt;head == NULL) &#123;            pthread_mutex_unlock(&amp;pool-&gt;mutex);            break;        &#125;        // 出队一个任务        task_node_t *task = thread_pool_pop_taskq(pool);        pthread_mutex_unlock(&amp;pool-&gt;mutex);        // 执行任务        if (task != NULL) &#123;            task-&gt;task(task-&gt;args);        &#125;        free(task);    &#125;    return NULL;&#125;
+
+
+排序组与并行快速排序（psort.h）
+将输入数据划分为多个排序组，各组内使用快速排序并行执行
+
+sort_group 排序组typedef struct &#123;    Record **list;      // 指向 Record 指针的数组（指针排序，避免数据拷贝）    int num_records;    // 组内记录数    int iter;           // 归并迭代器（标记当前已归并位置）&#125; sort_group;void sort_group_init(sort_group *group, int num_records) &#123;    group-&gt;list = (Record **)malloc(sizeof(Record *) * num_records);    group-&gt;iter = 0;    group-&gt;num_records = num_records;&#125;
+
+
+设计要点：list 存储的是 Record 指针而非 Record 本身。排序时交换指针，不移动 100 字节的记录数据，避免大量内存拷贝。
+
+group_qsort 快速排序// 分区函数：以第一个元素为 pivot，Hoare 变体int group_qsort_partition(Record **list, int low, int high) &#123;    Record *tmp = list[low];    RecordKey pivot = list[low]-&gt;fields.key;    while (low &lt; high) &#123;        while (low &lt; high &amp;&amp; list[high]-&gt;fields.key &gt; pivot)            --high;        list[low] = list[high];        while (low &lt; high &amp;&amp; list[low]-&gt;fields.key &lt; pivot)            ++low;        list[high] = list[low];    &#125;    list[low] = tmp;    return low;&#125;// 递归快速排序void group_qsort(Record **list, int low, int high) &#123;    if (low &lt; high) &#123;        int pivot_idx = group_qsort_partition(list, low, high);        group_qsort(list, low, pivot_idx - 1);        group_qsort(list, pivot_idx + 1, high);    &#125;&#125;
+
+sort_group_get_next_record 线性归并（参考）// 每次遍历所有组的当前指针，取 key 最小的记录// 复杂度：O(k * m)，k = 组数，m = 总记录数Record *sort_group_get_next_record(sort_group *groups, int num_groups) &#123;    Record *min_record = NULL;    int min_idx = -1;    for (int i = 0; i &lt; num_groups; ++i) &#123;        if (groups[i].iter &lt; groups[i].num_records) &#123;            Record *cur = groups[i].list[groups[i].iter];            if (min_record == NULL || cur-&gt;fields.key &lt; min_record-&gt;fields.key) &#123;                min_record = cur;                min_idx = i;            &#125;        &#125;    &#125;    if (min_idx &gt;= 0) &#123;        groups[min_idx].iter++;    &#125;    return min_record;&#125;
+
+
+注：此函数为项目历史版本中的归并方式，保留作为对比参考。实际主程序使用下方的最小堆归并。
+
+
+最小堆 k 路归并（psort.c）
+将归并复杂度从 O(k * m) 降至 O(m log k)
+
+堆结点typedef struct &#123;    RecordKey key;    int group_idx;      // 记录来自哪个排序组&#125; heap_node_t;
+
+堆操作// 下沉：维护堆性质static void heap_sift_down(heap_node_t *heap, int size, int i) &#123;    while (1) &#123;        int smallest = i;        int left = 2 * i + 1;        int right = 2 * i + 2;        if (left &lt; size &amp;&amp; heap[left].key &lt; heap[smallest].key)            smallest = left;        if (right &lt; size &amp;&amp; heap[right].key &lt; heap[smallest].key)            smallest = right;        if (smallest == i) break;        // swap        heap_node_t tmp = heap[i];        heap[i] = heap[smallest];        heap[smallest] = tmp;        i = smallest;    &#125;&#125;// 上浮：插入新元素static void heap_sift_up(heap_node_t *heap, int i) &#123;    while (i &gt; 0) &#123;        int parent = (i - 1) / 2;        if (heap[i].key &gt;= heap[parent].key) break;        // swap        heap_node_t tmp = heap[i];        heap[i] = heap[parent];        heap[parent] = tmp;        i = parent;    &#125;&#125;static void heap_push(heap_node_t *heap, int *size,                       RecordKey key, int group_idx) &#123;    heap[*size].key = key;    heap[*size].group_idx = group_idx;    heap_sift_up(heap, *size);    (*size)++;&#125;static heap_node_t heap_pop(heap_node_t *heap, int *size) &#123;    heap_node_t top = heap[0];    (*size)--;    heap[0] = heap[*size];    heap_sift_down(heap, *size, 0);    return top;&#125;
+
+归并流程// 1. 建堆：每个非空排序组的首条记录入堆（O(k)）heap_node_t *heap = malloc(sizeof(heap_node_t) * threads);int heap_size = 0;for (int i = 0; i &lt; threads; ++i) &#123;    if (groups[i].num_records &gt; 0) &#123;        heap_push(heap, &amp;heap_size, groups[i].list[0]-&gt;fields.key, i);    &#125;&#125;// 2. k 路归并：每次弹出最小记录，同组补入下一条（O(m log k)）Record *out_records = (Record *)output.mbuf;int out_idx = 0;while (heap_size &gt; 0) &#123;    heap_node_t min = heap_pop(heap, &amp;heap_size);    sort_group *g = &amp;groups[min.group_idx];    memcpy(&amp;out_records[out_idx++], g-&gt;list[g-&gt;iter], RECORD_SIZE);    g-&gt;iter++;    if (g-&gt;iter &lt; g-&gt;num_records) &#123;        heap_push(heap, &amp;heap_size,                  g-&gt;list[g-&gt;iter]-&gt;fields.key, min.group_idx);    &#125;&#125;free(heap);
+
+复杂度对比：
+
+
+
+归并方式
+每次取最小
+总复杂度
+
+
+
+线性扫描
+O(k)
+O(k * m)
+
+
+最小堆
+O(log k)
+O(m log k)
+
+
+
+测试工具（test_utils.h）随机测试文件生成// 创建随机的符合Record类型格式的文件内容void create_random_Record_file(const char *filename, RecordKey base,                                int nrecords, float multiply, unsigned int seed);
+
+使用 Fisher-Yates 洗牌算法保证 key 唯一且随机分布，multiply 参数控制键空间大小（&gt;1.0 保证不重复）。
+// 写 Record 类型数据static inlinesize_t fwrite_Record(Record *record, FILE *stream) &#123;    return fwrite(record-&gt;bytes, sizeof(char), RECORD_SIZE, stream);&#125;// 随机字符串生成void rand_str(char *dest, size_t length);
+
+排序校验void check_Record_file_sorted(const char *filename) &#123;    // 1. mmap 打开输出文件    // 2. 逐条检查 key 是否非递减    // 3. 打印 sorted / not sorted 结果&#125;
+
+
+主程序流程（psort.c）int main(int argc, char *argv[])&#123;    // 0. 参数校验    if (argc != 3) &#123; /* error */ &#125;    const char *finput  = argv[1];    const char *foutput = argv[2];    // 1. 创建线程池（线程数 = CPU 核数）    int threads = get_nprocs();    thread_pool_t *thread_pool = thread_pool_create(threads);    // 2. mmap 映射输入文件    input = mfilemap_read_open(finput, 0, PROT_READ | PROT_NONE, MAP_PRIVATE);    int num_records  = input.size / RECORD_SIZE;    int num_per_group = (num_records + threads) / threads;    // 3. 将记录均分到各组，建立 Record* 指针列表    sort_group *groups = malloc(sizeof(sort_group) * threads);    for (int i = 0; i &lt; threads; ++i) &#123;        int group_records = (i != threads - 1)            ? num_per_group            : num_records - i * num_per_group;        sort_group_init(&amp;groups[i], group_records);        Record *rbase = (Record *)input.mbuf + i * num_per_group;        for (int j = 0; j &lt; groups[i].num_records; ++j) &#123;            groups[i].list[j] = rbase + j;        &#125;    &#125;    // 4. 并行排序：各组提交到线程池，执行 group_qsort    for (int i = 0; i &lt; threads; ++i) &#123;        thread_pool_add_task(sort_worker, &amp;groups[i], thread_pool);    &#125;    thread_pool_destroy(thread_pool);  // 等待所有排序线程完成    // 5. mmap 创建输出文件（预分配空间）    output = mfilemap_write_open(foutput, input.size, 0,                                  PROT_WRITE | PROT_NONE, MAP_SHARED);    // 6. 最小堆 k 路归并（O(m log k)）    //    a. 建堆：各组首条记录入堆    //    b. 循环 pop 最小记录写入输出，同组补入下一条    // 7. 资源释放 &amp; 刷盘    free(groups);    mfilemap_close(input);    fsync(output.fd);    mfilemap_close(output);    // 8. 校验输出文件是否有序    check_Record_file_sorted(foutput);    return 0;&#125;// 排序工作线程入口void* sort_worker(void *arg) &#123;    sort_group *group = (sort_group *)arg;    group_qsort(group-&gt;list, 0, group-&gt;num_records - 1);    return NULL;&#125;
+
+并行化设计要点：
+
+数据划分：将 mmap 映射的输入文件按记录数均分为 threads 组，各组独立排序
+指针排序：sort_group.list 存储 Record* 指针，排序时只交换指针不移动数据
+并发排序：各组通过线程池并行执行 group_qsort，thread_pool_destroy 确保全部排序完成后才进入归并阶段
+堆归并：归并使用最小堆，每组内部已经有序，每次从堆顶取全局最小记录写入输出文件
+强制刷盘：fsync(output.fd) 确保输出文件写入磁盘后再关闭
+
+
+Makefile 构建CC = gccINCDIR_AXC = -I.LIBDIR_AXC = -LLINK = -lpthread -lc -lmDEPEND = $(INCDIR_AXC) $(LINK)CMACRO = -D_POSIX_C_SOURCE=200812LSTDVER = -std=c11CFLAGS = -g -Wall $(STDVER) $(CMACRO) -OINCS = *.hSRCS = *.cTARGET = psort$(TARGET): $(INCS) $(SRCS)	$(CC) $(CFLAGS) $(DEPEND) $^ -o $@.PHONY: cleanclean:	rm $(TARGET)
+
+
+所有 .h 和 .c 文件一并编译为单一可执行文件 psort，链接 pthread、libc、libm。
+
+Record.hpsort.cpsort.hpsort_utils.cpsort_utils.htest_utils.h
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>initial-kv</title>
+    <url>/CS/Basic/OS/xv6-labs/initial-kv/initial-kv/</url>
+    <content><![CDATA[kv程序设计程序要求命令设计
+put：
+
+格式: p,key,value
+
+
+其中 key 是 整数 ，value 是 任意字符串
+
+
+get：
+
+格式: g,key
+
+
+其中 key 是整数。
+键存在：系统应打印出key,value \n
+键不存在：单独一行打印错误消息，格式为 K not found，其中 K 是键的实际整数值
+
+
+
+
+delete：
+
+格式：d,key
+
+
+功能：
+删除相应的键值对（不打印任何内容）
+删除失败（并打印 K not found，其中 K 是键的实际值，即某个整数）。
+
+
+
+
+clear：
+
+格式: c
+
+
+功能：从数据库中移除所有键值对。
+
+
+all：
+
+格式: a
+
+
+功能：任意顺序打印数据库中的所有键值对，每行一个键值对 key,value
+
+
+
+合适的例程
+文件操作
+
+fopen
+fwrite
+fread
+getline
+fprintf
+
+
+字符串处理
+
+strsep(char** line, char** delim)
+char** token &#x3D; strsep(char** line, char** delim)按 delim 分割 *line
+
+返回 顺序第一个delim前的 token
+*line 指向 顺序第一个delim后的 token
+相当于 原 *line &#x3D; token append 后*line
+
+
+
+stoi
+
+
+
+
+
+程序流程
+命令行校验
+
+命令解析
+
+循环处理
+
+
+字符串解析
+
+
+命令操作
+
+标准输出
+
+printf()
+
+
+持久化处理
+
+文件操作 ABI格式 key,value
+
+
+fopen()
+fwrite()
+fread()
+
+
+错误&#x2F;异常处理
+
+使用 fprintf(err, ...) 进行提示
+
+
+错误命令
+非程序命令：
+bad command
+不影响剩余的命令解析
+
+
+意外错误：
+打印相应的异常&#x2F;错误信息
+
+
+
+
+
+
+
+
+
+
+
+
+graph TD
+    A[数据操作命令]
+    B[主程序]
+
+    subgraph E[数据流操作]
+        C[字符串解析]
+        D[文件操作]
+    end
+
+    F[异常处理]
+    F -.- E
+    F -.- A
+
+    C --&gt; A
+    D -- 命令行解析 --&gt; A
+    A --&gt; B
+
+
+
+
+kv.cutil.cutil.h
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>process-shell</title>
+    <url>/CS/Basic/OS/xv6-labs/process-shell/process-shell/</url>
+    <content><![CDATA[wish 程序设计设计目标
+进一步熟悉 Linux 编程环境
+学习进程的 创建、销毁、管理
+接触 shell 中的必要功能
+
+
+设计需求两种模式
+为每一个新命令创建一个进程
+
+交互模式
+提示符回显，循环，直接输入命令
+
+prompt&gt; ./wishwish&gt;
+
+允许用户直接输入命令。
+
+批处理模式
+无提示符回显，单次调用从文件读取需要执行的命令
+
+prompt&gt; ./wish batch.txt
+
+
+功能结构参考例程
+fopen()
+
+fclose()
+
+fprintf()
+
+getline()
+
+strsep()
+
+strdup()
+
+fork()
+
+execv()
+
+wait()
+
+waitpid()
+
+chdir()
+
+getcwd()
+
+access()
+
+
+
+基本Shell
+运行在一个 while 循环中，反复请求输入，接收执行命令
+使用 exit 退出
+对于两种模式
+交互模式：在一个循环中
+批处理模式：通过读文件，执行命令
+
+
+退出方式
+遇到 EOF 后，调用 exit(0) 退出
+
+
+
+
+
+路径用户必须指定一个 路径变量 来描述要搜索可执行文件的目录集合
+使用 绝对路径 或 相对路径 指定二进制文件
+内建命令每当shell接收一个命令时，检查该命令是否属于 内建命令
+本项目实现：
+
+exit
+退出shell程序
+
+
+cd
+总是接收1个参数。更改当前目录.
+
+
+path
+接收0&#x2F;多个参数。覆盖shell搜索路径
+
+
+
+
+重定向使用 &gt; 命令提供重定向功能
+并行命令通过 &amp; 实现命令并行
+一定同时运行 &amp; 两侧的命令
+程序错误
+打印 唯一且仅有的错误信息
+调用 exit(1) 退出
+
+
+注意
+针对 空白字符 健壮
+检查系统调用的返回码
+
+
+程序流程
+解析程序命令行
+
+交互式
+批处理
+
+
+根据命令行调用方式，处理程序
+
+循环在遇到 EOF 后，使用 exit(0) 退出
+
+
+交互式
+进行循环
+
+
+逐行读取命令
+输入 exit 内建命令退出
+
+
+批处理
+直接读取文件
+
+
+逐行读取命令
+完成后直接退出
+EOF 后，退出
+
+
+
+
+
+
+命令调用解析
+
+编写一个查找表结构进行处理
+
+
+内建命令
+exit
+path
+cd
+
+
+系统命令 
+path 更新pash_route
+
+
+命令调用
+为系统命令添加路径前缀
+
+access()
+snprintf()
+
+
+
+sys_cmd_full_cat();
+
+
+通过系统调用运行命令
+
+fork()
+execv()
+wait()&#x2F;waitpid()
+
+
+
+cmd_executor();
+fork() {
+execv();
+waitpid();
+
+
+}
+
+
+
+
+
+
+
+
+特性支持
+
+重定向并行命令
+
+
+添加 parse_line() 针对 &gt; &amp; 进行分词
+在shell_execute()中添加功能
+使用 &amp; 进行分段
+
+
+错误处理
+
+
+
+测试点
+按功能划分
+
+
+内建命令 (cd&#x2F;exit)：测试 1, 2, 5
+路径搜索：测试 6, 7, 15
+重定向：测试 8, 9, 10, 11, 12
+并行命令：测试 16, 17, 18, 19, 22
+重定向+并行组合：测试 20
+批处理模式：测试 3, 4, 13, 14
+边界：测试 21
+
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>initial-ultilities</title>
+    <url>/CS/Basic/OS/xv6-labs/initial-ultilities/initial-ultilities/</url>
+    <content><![CDATA[wcat
+wcat 程序的功能是读取用户指定的文件并打印文件内容
+
+prompt&gt; ./wcat main.c#include &lt;stdio.h&gt;...
+
+依赖例程
+fopen()
+
+fgets()
+
+fclose()
+
+printf()
+
+perror()
+
+strerror()
+
+
+实验需求
+你的程序 wcat 可以在命令行上使用一个或多个文件调用；
+它应该依次打印出每个文件。
+
+
+在所有非错误情况下，wcat 应以状态码 0 退出
+通常通过从 main() 返回 0（或调用 exit(0)）。
+
+
+如果命令行上没有指定任何文件，wcat 应直接退出并返回 0。
+注意，这与普通 UNIX cat 的行为略有不同（如果你愿意，可以找出不同之处）。
+
+
+如果程序尝试 fopen() 一个文件并失败，应打印精确的消息 “wcat: cannot open file”（后跟换行符）并以状态码 1 退出。如果命令行上指定了多个文件，应依次打印文件直到文件列表结束或遇到打开文件错误（此时打印错误消息并退出 wcat）。
+
+流程分析
+打开文件
+使用 fopen()
+
+
+未指定文件
+直接退出，返回0
+
+
+指定文件
+指定多个文件
+依次打印文件列表，直到 打开失败
+
+
+打开失败
+打印精确消息 “wcat: cannot open file\n”
+以状态码 1 退出
+
+
+打开成功：向下进行
+
+
+
+
+读取文件内容
+使用 fgets()
+
+
+可以打开多个文件，按照 **argv 的传参顺序进行提取
+需要 (buffer_ptr, buffer_size, FILE*)
+
+
+
+
+输出文件内容
+使用 printf()
+
+
+关闭文件
+使用 fclose()
+
+
+
+wcat.c
+
+
+
+wgrep
+wgrep 程序的功能是在行中查找用户指定的搜索词
+
+prompt&gt; ./wgrep foo bar.txtthis line has foo in it...
+
+依赖例程
+fopen()
+
+fgets()
+
+fclose()
+
+getline()
+
+printf()
+
+perror()
+
+strerror()
+
+
+实验需求
+你的程序 wgrep 总是接收一个搜索词和零个或多个要 grep 的文件（因此可能不止一个文件）。它应逐行检查搜索词是否存在于该行中；如果是，则应打印该行，如果不是，则应跳过该行。
+
+匹配区分大小写。因此，如果搜索 foo，包含 Foo 的行将不匹配。
+
+行可以任意长（也就是说，你可能会在遇到换行符 \n 之前看到很多很多字符）。wgrep 即使在非常长的行上也应正常工作。为此，你可能想查阅 getline() 库调用（而不是 fgets()），或者自己实现。
+
+如果 wgrep 没有收到任何命令行参数，应打印 “wgrep: searchterm [file …]”（后跟换行符）并以状态 1 退出。
+
+如果 wgrep 遇到无法打开的文件，应打印 “wgrep: cannot open file”（后跟换行符）并以状态 1 退出。
+
+在所有其他情况下，wgrep 应以返回码 0 退出。
+
+如果指定了搜索词但没有指定文件，wgrep 应正常工作，但不是从文件读取，wgrep 应从标准输入读取。这样做很容易，因为文件流 stdin 已经打开；你可以使用 fgets()（或类似例程）从中读取。
+
+为简单起见，如果传入的搜索字符串是空字符串，wgrep 可以选择不匹配任何行或匹配所有行，两者都可以接受。
+
+
+流程分析
+打开文件
+使用 fopen()
+
+
+未指定参数
+输出回显
+状态码 1 退出
+
+
+未指定文件
+从标准输入中读取
+getline(&amp;line, &amp;size, stdin)
+
+
+指定文件
+指定多个文件
+依次打印文件列表，直到 打开失败
+
+
+打开失败
+打印精确消息 “wgrep: cannot open file\n”
+以状态码 1 退出
+
+
+打开成功：向下进行
+
+
+
+
+读取文件内容
+使用 fgets()
+
+
+可以打开多个文件，按照 **argv 的传参顺序进行提取
+严格按行读取
+
+
+输出匹配文件行
+使用 printf()
+
+
+匹配区分大小写
+
+
+关闭文件
+使用 fclose()
+
+
+
+wgrep.c
+
+wzip 与 wunzip
+wzip-wunzip 程序的功能分别是进行文件的压缩(wzip)与解压缩(wunzip)使用 游程编码(REL) 进行压缩
+
+prompt&gt; ./wzip file.txt &gt; file.zprompt&gt; ./wunzip file.z
+
+依赖例程
+fopen()
+
+fgets()
+
+fclose()
+
+getline()
+
+printf()
+
+fwrite()
+
+fread()
+
+perror()
+
+strerror()
+
+
+实验需求
+正确调用应通过命令行向程序传递一个或多个文件
+
+如果没有指定文件，程序应以返回码 1 退出
+对于 wzip
+打印 “wzip: file1 [file2 …]”（后跟换行符）
+
+
+对于 wunzip
+打印 “wunzip: file1 [file2 …]”（后跟换行符）。
+
+
+
+
+压缩文件的格式必须与上述描述完全一致（每个游程为一个 4 字节整数后跟一个字符）。
+
+请注意，如果多个文件传递给 wzip，它们将被压缩为 一个 压缩输出，解压时也将变成 单个 未压缩的文本流（因此，最初有多个文件输入到 wzip 的信息将会丢失）。wunzip 也是如此。
+
+
+流程分析wzip
+探查文件
+
+使用 fopen()
+
+
+无指定文件
+打印 “wzip: file1 [file2 …]”（后跟换行符）
+返回码 1 退出
+
+
+
+
+压缩文件
+
+游程码为 4字节 整数 + 一个字符
+
+
+多文件同时压缩为一个文件
+注意，需要将所有文件预先读入同一个缓冲区，这样可以让前后文件相连，总体压缩
+
+
+
+
+将压缩文件打印至标准输出
+
+使用 fwrite()
+
+
+fwrite(&amp;src, sizeof(src), n, FILE*)
+注意使用四字节存储游程，直接使用原数据类型指针，作为源指针&amp;src
+
+
+
+
+
+wzip.c
+wunzip
+探查文件
+
+使用 fopen()
+
+
+读取压缩文件
+
+使用 fread()
+
+
+无指定文件
+打印 “wunzip: file1 [file2 …]”（后跟换行符）。
+返回码 1 退出
+
+
+
+
+文件解压缩
+
+游程码为 4字节 整数 + 一个字符
+
+
+压缩为一个文件的多文件不进行分割
+
+
+将解压的文件打印至标准输出
+
+printf()
+
+
+在使用 fread() 函数读后，需要使用 feof() 函数，探查是否已经读到文件结尾，此时可以退出读循环
+
+
+
+wunzip.c
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>initial xv6</title>
+    <url>/CS/Basic/OS/xv6-labs/xv6-riscv/initial-xv6/</url>
+    <content><![CDATA[initial xv6]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+        <tag>xv6-kernel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>xv6 项目安装</title>
+    <url>/CS/Basic/OS/xv6-labs/xv6-riscv/install-xv6/</url>
+    <content><![CDATA[xv6 项目安装
+在课程仓库的 INSTALL-xv6.md 中，仅仅编写了 MacOS 下的实验初始化方法，接下来是简单的 Linux 系统初始化方法
+
+Linux项目仓库克隆使用 git clone https://github.com/mit-pdos/xv6-rsicv 进行项目克隆（我们使用 rsicv 架构版本，而非课程仓库中MacOS环境下的x86架构版本，接下来的所有实验操作都在此版本上进行）
+
+
+基础实验工具
+使用包管理器进行安装
+
+
+虚拟机
+
+qemu
+
+
+交叉编译工具
+
+riscv64-linux-gnu-gcc
+
+
+
+项目编译构建前
+&lt;your-clone-dir&gt;$ lskernel  LICENSE  Makefile  mkfs  README  test-xv6.py  user&lt;your-clone-dir&gt;$ make qemu
+
+构建后，新增了一个 fs.img 文件系统镜像文件
+&lt;your-clone-dir&gt;$ lsfs.img  kernel  LICENSE  Makefile  mkfs  README  test-xv6.py  user&lt;your-clone-dir&gt;$ make qemu
+
+在项目根目录下运行 make qemu 即可，在等待一段时间的构建与编译后，终端会显示 $ 提示符预示着已经进入 xv6* 系统的 qemu 界面，可以使用 ls 显示当前所有内建命令，使用 ctrl+a x (先 ctrl+a 再 x) 退出 qemu
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+        <tag>xv6-kernel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>xv6-riscv 内核文件结构以及源码解析</title>
+    <url>/CS/Basic/OS/xv6-labs/xv6-riscv/xv6-rsic-ksrc-code/</url>
+    <content><![CDATA[xv6-riscv 内核文件结构以及源码解析
+RISC-V 架构的三种模式（保留了一种）
+
+
+
+
+Level
+Encode
+Name
+Abbreviation
+
+
+
+0
+00
+User&#x2F;Application 用户模式
+U
+
+
+1
+01
+Supervisor 监管者模式
+S
+
+
+2
+10
+Reserved 保留
+-
+
+
+3
+11
+Machine 机器模式
+M
+
+
+
+xv6 系统启动流程
+阅读内核代码最好从启动入口开始，针对启动时的主要调用进行跟踪式的阅读
+
+在kernel&#x2F;目录下
+
+kernel.ld
+控制程序的内存模型
+控制 entry.S 的链接位置
+控制 _trampoline 在程序中的内存位置
+
+
+
+
+entry.S
+
+为每个hart(硬件线程)分配栈空间
+call start -&gt; start.c/start()
+
+
+start.c&#x2F;start() 启动时钟中断、 main.c&#x2F;main()
+
+w_mepc((uint64)main)
+asm volatile (mret) -&gt; main.c/main()
+
+
+main.c&#x2F;main()
+
+
+
+
+
+xv6 系统陷阱调用流程用户态陷入内核态
+用户触发陷阱，由 stvec [uservec] 跳入
+trampoline.S/uservec
+trampoline.S/uservec/jalr [trap.c/usertrap]
+trap.c/prepare_return()
+设置 sstatus 和 sepc
+
+
+trap.c/usertrap()/return satp
+
+
+
+
+trampoline.S/userret
+sret 利用 sepc 返回用户态
+
+
+
+
+
+内核态跳入用户态首次进入
+
+proc.c/scheduler()
+swtch.S/swtch()
+
+
+
+创建新进程
+
+proc.c/forkret()
+trap.c/prepare_return()
+设置 sstatus 和 sepc
+
+
+trampline.S/userret
+sret 利用 sepc 返回用户态
+
+
+
+
+
+内核态自身的独立陷阱
+内核触发陷阱，由 stvec [kernelvec] 跳入
+kernelvec.S/kernelvec/call [trap.c/kerneltrap()]
+yeild()
+设置 sstatus 和 sepc
+
+
+kernelvec.S/kernelvec
+sret 返回到内核中被中断的位置
+
+
+
+
+
+
+kernel&#x2F;
+以下代码文件在 xv6-riscv/kernel 目录下
+
+
+xv6-riscv/kernel 目录下共有 45 个文件.h 文件 17 个.c 文件 23 个.S 文件 4 个.ld 文件 1 个
+
+
+kernel.ld 链接器脚本
+是一个 链接器脚本描述链接器如何将编译产生的 多个目标文件(.o) 组合成一个可执行文件各段依次排列决定内核镜像的内存布局，约束生成的程序
+
+
+ALIGN(exp) 内置函数，返回当前 位置计数器( . ) ，向上对齐到到 exp 的整数倍后的地址（通常是2的幂次）保证后续的某个位置也满足对齐要求位置计数器 会自动累加，并不是说 . = 0x80000000 就定义了 当前 . 的值，而是指 . 从 0x80000000 这个初始值累加，记录地址段大小使用 ALIGN(exp) 就是返回将当前位置的 位置计数器 向上对齐后的值，通过 . = ALIGN(0x100) 将 . 更新为对齐后的计数器位置值
+
+
+_trampoline 代码独占一内存页，单独对齐，在xv6中，trampline页会同时被内核页表和用户页表以 相同虚拟地址 映射，当 CPU 在这页上执行时，就可以安全地切换页表。如果不独占一页，就可能混入其他内核代码，导致切换时出现安全或正确性问题。ASSERT 强制大小为一整页，防止生成有缺陷的内核
+
+OUTPUT_ARCH( &quot;riscv&quot; )      # 设置输出格式与架构ENTRY( _entry )             # 指定程序入口点# 定义各地址段SECTIONS&#123;  /*   * 确保 entry.S / _entry 在 0x80000000 地址处   * 保证 qemu -kernel 跳转到正确位置   */  . = 0x80000000;# 指令段  .text : &#123;    kernel/entry.o(_entry)  /* 指定 _entry 的位置，强制将 entry.S/_entry 段放入 .text 段的开头 */    *(.text .text.*)    . = ALIGN(0x1000);  /* 页对齐 */    _trampoline = .; /* trampoline 代码独占一页 */    *(trampsec)    . = ALIGN(0x1000);    ASSERT(. - _trampoline == 0x1000, &quot;error: trampoline larger than one page&quot;);    PROVIDE(etext = .);  &#125;# 只读数据段  .rodata : &#123;    . = ALIGN(16);  /* 段对齐 */    *(.srodata .srodata.*) /* 在 .rodata 段中不需要区分 .srodata .srodata.* 段划分 */    . = ALIGN(16);    *(.rodata .rodata.*)  &#125;# 数据段  .data : &#123;    . = ALIGN(16);    *(.sdata .sdata.*) /* do not need to distinguish this from .data */    . = ALIGN(16);    *(.data .data.*)  &#125;# 基址段  .bss : &#123;    . = ALIGN(16);    *(.sbss .sbss.*) /* do not need to distinguish this from .bss */    . = ALIGN(16);    *(.bss .bss.*)  &#125;# 标记内核镜像在内存中的末尾位置  PROVIDE(end = .);&#125;
+
+
+defs.h
+在 xv6 中，程序的组织被设计为，使用 kernel/defs.h 作为 全局声明汇总头文件 ，集成了几乎所有内核函数的原型声明，便于各个源文件进行调用。
+
+types.h
+定义了 xv6 系统源文件中的统一数据类型
+
+param.h
+定义了一组宏，描述 xv6 操作系统的各项基础参数
+
+memlayout.h
+定义了一组宏操作，定义了 xv6 操作系统在qemu模拟器中运行时的 物理内存布局(Physic Memory Layout)
+
+riscv.h
+定义了对 RISC-V 架构处理器的描述以及对底层寄存器的操作函数
+
+
+r_*() 读取处理器寄存器值
+w_*() 值写入处理器寄存器
+
+
+asm() 用于在C代码中嵌入汇编代码，即 内联汇编 技术。GCC编译器中 __asm()__ 与其等价。volatile 关键字可以避免编译器优化内联的汇编代码需要注意的是，内联的汇编代码通常与平台绑定，所以几乎无可移植性。
+
+gcc的内联汇编扩展
+asm [volatile] (    assembler template         /* 汇编指令 */    : output operands          /* 输出操作数 可选 */    : input operands           /* 输入操作数 可选 */    : clobbers                 /* 破坏列表 可选 */    : goto labels              /* 跳转 可选 */);
+
+
+汇编指令区域中 %0 %1 %... 表示操作数所使用的寄存器
+
+asm ( &quot;assemble template&quot;    : 输出操作数0, 输出操作数1, ...   /* %0, %1, ... %n */    : 输入操作数x, 输入操作数y, ...   /* %n+1, %n+2, ... 接着编号 */    : 破坏列表);
+如
+int sum = 0;int a = 0;int b = 0;asm( &quot;add %0, %1, %2&quot;    : &quot;=r&quot;(sum)    : &quot;r&quot;(a), &quot;r&quot;(b));
+
+如以下内联riscv架构汇编 rsicv.h
+// 读取 machine status register 即 mstatus 的值// output operands// &quot;=r&quot; 只写输出到 x值所在的 寄存器static inline uint64r_mstatus()&#123;  uint64 x;  asm volatile(&quot;csrr %0, mstatus&quot; : &quot;=r&quot;(x));  // csrr: Control and Status Register Read  return x;&#125;// 将 x 值写入 mstatus 寄存器// input operands// &quot;r&quot; 从存储x值通用寄存器写入 mstatus 寄存器static inline voidw_mstatus(uint64 x)&#123;  asm volatile(&quot;csrw mstatus, %0&quot; : : &quot;r&quot;(x));  // csrw: Control and Status Register Write&#125;
+
+proc.h
+定义了 xv6 操作系统下，cpu虚拟化相关的结构类型struct context 进程上下文struct cpu cpu 结构struct trapframe 陷阱帧struct proc 进程结构
+
+stat.h
+定义了 xv6 操作系统下，文件状态描述结构
+
+#define T_DIR    1 // Directory#define T_FILE   2 // File#define T_DEVICE 3 // Devicestruct stat &#123;  int dev;     // File system&#x27;s disk device  uint ino;    // Inode number  short type;  // Type of file  short nlink; // Number of links to file  uint64 size; // Size of file in bytes&#125;;
+
+
+主程序 main.c
+内核启动文件，是整个内核的入口函数
+
+其内部结构很简单，只包含一对简单的 if-else 条件分支，并进行内核程序的直接初始化以及调度程序 scheduler() 的启用
+其设计也很有意思，由于 xv6 是一个多核系统，则势必需要进行不同cpu核心的任务调度分配，在 if 条件分支中，为了区分不同核心的不同动态，使用 cpuid() 调用，在主核心进行内核程序的初始化，在 main.c 这一文件中还包含一个 volatile 修饰的静态全局变量 started ，使用 volatile 的作用是为了 **防止编译器优化 else 分支中的 while(started == 0) 这一忙等待循环。防止cpu读取寄存器中的缓存值，导致死循环。
+
+cpuid() 在 kernel/defs.c 中声明，在 kernel/proc.c 中定义，
+
+
+scheduler() 在 kernel/defs.c 中声明，在 kernel/proc.c 中定义是 xv6 的核心调度循环，在启动后持续运行，不断在各个进程（或空闲状态）之间切换。每个hart都会进入该调度器。实际上，main.c程序在关机前都不会结束，这个就是整个 xv6 系统的主函数。
+
+还可以看到 __atomic_thread_fence(__ATOMIC_SEQ_CST) 在设置 started 前后，保证在其前的 初始化操作都完成后 再将 started 赋值为1 (hart0 发布屏障)；在 忙等待 之后再进行 其它hart 的初始化。
+保证了多核之间的内存可见性顺序 ，构成一个 无锁同步 模式
+
+volatile 保障轮询的有效性(从内存中读取，以防止编译器优化，导致的寄存器缓存变量在忙等待中的死循环问题)
+__atomic_thread_fence(__ATOMIC_SEQ_CST) 屏障保障数据的发布与订阅顺序（保证程序的逻辑顺序在编译时不受指令重排影响）。
+
+
+volatile 关键字： 禁止编译器优化对变量的访问 ，表示不保证被修饰变量的值是否会在不知情的情况下被改变，在每次使用受 volatile 修饰的变量时都需要 从内存中 重新读取，而不使用寄存器中的缓存值。注意： volatile 不能保证原子性 ，也 不保证顺序 ，仅能保证在使用时读取内存中的值
+
+
+__atomic_thread_fence() 是 gcc 和 clang 提供的一个内置函数，用于生成一条硬件内存屏障指令，是 编译器内建的原子操作原语 ，是编译器内置的 内存屏障 。强制编译器不会将屏障前后的访存指令跨屏障重排，同时会生成一条 CPU 硬件屏障指令，禁止硬件运行时对内存操作进行乱序执行，即保证在编译时指令重排操作不影响程序的逻辑顺序
+
+
+hart 即 Hardware Thread(Tar T) 是 RSIC-V 指令集架构中的标准术语，表示 一个独立的硬件执行单元，或一个硬件线程一个 CPU 核心 通常包含一套完整的运算单元一个 hart 代表该核心上的一条独立指令执行流大多数简单系统中，一个核心就是一个执行流，此时 一个核心 &#x3D; 一个hart若该线程支持超线程，一个物理核心可以同时运行多条指令流，此时 一个核心 &#x3D; 多个hart
+
+主核心 cpu0
+cpuid() &#x3D;&#x3D; 0
+
+consoleinit();  // 初始化控制台输入输出printfinit();   // 初始化格式化输入/*    printf(&quot;\n&quot;);    printf(&quot;xv6 kernel is booting\n&quot;);    printf(&quot;\n&quot;);*/kinit();            // kalloc.c 物理页分配器kvminit();          // vm.c 创建内核页表kvminithart();      // vm.c 启动内核页表procinit();         // proc.c 初始化进程表trapinit();         // trap.c 初始化陷阱向量（初始化陷阱锁）trapinithart();     // trap.c 安装内核陷阱向量plicinit();         // plic.c 设置中断控制器 (riscv Platform Level Interrupt Controller, PLIC)plicinithart();     // plic.c 初始化PLIC设备中断binit();            // bio.c 缓冲区缓存iinit();            // fs.c 初始化inode表fileinit();         // fs.c 初始化文件表virtio_disk_init(); // virtio_disk.c 模拟硬盘userinit();         // proc.c 第一个用户进程__atomic_thread_fence(__ATOMIC_SEQ_CST);started = 1;
+
+
+riscv 平台级中断控制器 (riscv Platform-Level Interrupt Controller, PLIC)
+
+子cpuwhile (started == 0)  ;__atomic_thread_fence(__ATOMIC_SEQ_CST);/** * 回显硬件线程启动信息    printf(&quot;hart %d starting\n&quot;, cpuid());*/kvminithart();  // vm.c 启用分页trapinithart(); // trap.c 安装陷阱向量plicinithart(); // plic.c 初始化PLIC硬件中断
+
+启动进程调度程序scheduler();    // proc.c 启动调度程序
+
+
+start.c主要依赖 riscv.h 中riscv架构处理器寄存器操作函数、宏
+
+start()
+启动程序，调起 main.c/main()
+
+
+timerinit()
+初始化处理器时钟中断（定时器中断）
+
+
+
+设置机器状态，启动分页，调起时钟中断初始化，返回到 main()
+使用 w_mepc((uint64)main); 将 main() 函数的地址写入 mepc 寄存器，标识异常处理程序的起始地址
+
+mepc ：是“机器异常程序计数器”（Machine Exception Program Counter）。当 CPU 发生异常或中断而被迫跳转到 M-mode 的陷阱处理程序时，硬件会自动把被打断的指令地址（或下一条指令的地址）保存到 mepc 中。等内核处理完异常，执行 mret 指令时，CPU 就把 mepc 的值加载到普通 PC，从而实现精确返回。
+
+
+mret : 机器模式返回寄存器 (Machine Return)，从机器模式的陷阱处理中返回
+
+使用 asm volatile(&quot;mret&quot;); 利用RISC-V的陷阱返回机制， mret 指令查看 mstatus 的 MPP (M Previous Privilege mode)字段，该字段已经通过以下方式设置
+unsigned long x = r_mstatus();    // 获取mstatus寄存器的值x &amp;= ~MSTATUS_MPP_MASK;           // 重置mstatus寄存器的MPP段状态x |= MSTATUS_MPP_S;               // 设置mstatus寄存器的MPP段为S模式w_mstatus(x);                     // 将已设置的x_mstatus值写回mstatus寄存器// 完成mstatus寄存器MPP段的设置
+
+mret 检查 mepc 寄存器中的地址（即 main() 的地址）进行返回，跳转到 main.c/main() 函数
+// 通知每个硬件线程产生定时器中断voidtimerinit()&#123;    // 启用 Sstc 扩展(Supervisor Timmer Compate)，即stimecmp寄存器    w_menvcfg(r_menvcfg() | (1L &lt;&lt; 63));    // 允许监管者使用 stimecmp 和 time 寄存器    w_mcounteren(r_mcounteren() | 2);    // 请求(触发)第一个定时器中断    w_stimecmp(r_time() + 1000000);&#125;
+
+
+trap.c
+陷阱相关操作定义
+
+
+proc.c
+
+myproc()
+
+
+printf.c
+
+panic()
+
+
+
+// defs.hextern uint     ticks;void            trapinit(void);void            trapinithart(void);extern struct spinlock tickslock;void            prepare_return(void);
+
+struct spinlock tickslock;uint ticks;extern char trampoline[], uservec[]; // 从 trampoline.S 导入 trampoline、uservec 地址void kernelvec(); // 从 kernelvec.S 导入 kerneltrap() 函数定义extern int devintr(); // 导入设备中断处理程序 devintr()
+
+
+usertrap()
+用户陷阱
+
+
+在 trampoline.S/uservec 切换页表后调用，负责 分类处理所有来自用户态的陷阱 ，并最终返回用户态只能被用户态触发
+
+
+trampoline.S
+uservec 陷阱向量调用
+ld t0, 16(a0) … jalr t0 调用 p-&gt;trapframe-&gt;kernel_trap
+
+
+
+
+
+
+处理来自于用户态的中断、异常或系统调用从 trampoline.S 调用，并返回到 trampoline.S返回值是用户寄存器(保存指向用户页表物理地址的指针) satp 供 trampoline.S 切换使用
+satp 即 Supervisor Address Translation and Projection (监管者地址翻译与投影) 寄存器
+
+
+[核心] 使用 w_stvec((uint64)kernelvec) 更新 stvec 寄存器中的中断处理入口
+
+在我们身处内核态时，用于向 kerneltrap() 发送中断与异常，由 kernelvec 调起
+
+
+在陷阱帧中保存用户的程序计数器
+
+p-&gt;trapframe-&gt;epc = r_sepc(); 交由后续操作决定是否让出cpu
+
+
+[核心] 检查 scause (陷阱原因寄存器) 寄存器的值，根据 scause 分发处理
+
+系统调用
+scause == 0
+
+
+设备中断
+记录 witch_dev
+
+
+缺页异常
+scause == 15 加载页错误
+scause == 13 存储页错误
+惰性分配
+vmfault() 尝试处理惰性分配的页
+按需分配内存，避免提前分配，浪费内存
+
+
+
+
+预期外的陷阱
+
+
+进程退出检查
+
+if(killed(p)) kexit(-1);
+
+
+设备定时器中断时让出cpu
+
+if (witch_dev == 2) yield();
+触发定时中断，实现进程调度
+
+
+准备返回用户态
+
+prepare_return()
+
+
+返回用户页表地址给 trampoline.S
+
+用户页可交换
+uint64 satp = MAKE_SATP(p-&gt;pagetable); return satp;
+
+
+注意，此时已经返回到 trampoline 中，直接按序向下执行 trampoline.S/userret 程序
+
+
+
+使用汇编进行底层的上下文切换，C做高层的逻辑判断
+
+
+kerneltrap()
+内核陷阱
+
+
+在 trampoline.S/kernelvec 切换页表后调用，负责 分类处理所有来自内核态的陷阱 ，并最终返回内核态只能被内核态触发
+
+
+kernelvec.S
+kernelvec 陷阱向量程序调用
+
+
+riscv.h
+intr_get() 确定设备中断是否启用
+
+
+
+
+在保存调用者保存的寄存器后，调起 kerneltrap()kerneltrap() 返回内核中被中断的位置
+
+
+获取对应寄存器的值
+
+根据陷阱原因寄存器 scause 的值分发陷阱处理过程
+
+模式检测
+(sstatus &amp; SSTATUS_SPP) == 0
+检查是否通过监管者模式调起
+
+
+[核心] 检测重复中断
+intr_get() != 0
+防止内核陷阱处理过程本身被嵌套中断打断，内核陷阱必须在元自行的上下文中处理，避免竟态条件
+
+
+设备中断
+记录 witch_dev
+
+
+时钟中断
+which_dev == 2 &amp;&amp; myproc() != 0
+
+
+
+
+直接返回 kernelvec
+
+
+
+prepare_return(void)
+set up trapframe and control registers for a return to user space设置陷阱帧并控制寄存器返回到用户态
+
+voidprepare_return(void)&#123;  struct proc *p = myproc();  // 我们将要交换陷阱处理入口 stvec 由 kerneltrap() 变为 usertrap()  // 因为内核代码中的陷阱作为用户陷阱将是一场灾难，（用户陷阱入口被错误路由）  // 关闭中断  intr_off(); // 实际上是一种临界区保护  // 将未来的系统调用、中断以及异常导向 trampoline.S/uservec  uint64 trampoline_uservec = TRAMPOLINE + (uservec - trampoline);  w_stvec(trampoline_uservec);  // 设置进程跳入下一个内核陷阱时 trampoline.S/uservec 所需要的陷阱帧值，  p-&gt;trapframe-&gt;kernel_satp = r_satp();         // 内核页表  p-&gt;trapframe-&gt;kernel_sp = p-&gt;kstack + PGSIZE; // 进程的内核栈  p-&gt;trapframe-&gt;kernel_trap = (uint64)usertrap;  p-&gt;trapframe-&gt;kernel_hartid = r_tp(); // cpuid() 作为 hartid  // 设置寄存器，使 trampoline.S 中的 sret 指令返回用户态  // set S Previous Privilege mode to User.  // 将 S 模式的前一个特权级设置为用户模式  unsigned long x = r_sstatus();  x &amp;= ~SSTATUS_SPP; // 将SPP清理为0 设置为用户态  x |= SSTATUS_SPIE; // 设置 spie位 在用户模式下重启中断（保证用户态的中断是打开的）  w_sstatus(x);  // 设置 sepc (监管者异常程序计数器) 寄存器为被保存的用户程序计数器  w_sepc(p-&gt;trapframe-&gt;epc); // 由 sret 指令使用，返回到用户态&#125;
+
+
+proc.c
+定义了与进程相关的操作
+
+struct cpu cpus[NCPU];struct proc proc[NPROC];struct proc *initproc;int nextpid = 1;struct spinlock pid_lock;extern void forkret(void);static void freeproc(struct proc *p);extern char trampoline[]; // trampoline.S// helps ensure that wakeups of wait()ing// parents are not lost. helps obey the// memory model when using p-&gt;parent.// must be acquired before any p-&gt;lock.struct spinlock wait_lock;
+
+// 初始化进程表// 由 main.c/main() 函数调起voidprocinit(void)
+
+
+wfi 指令 Wait For Interrupt 等待中断指令
+
+可以使用 myproc() 获取指向当前执行的进程结构的指针
+// 返回当前执行指令的cpu结构// 执行该函数时，中断一定是不可用的（无中断产生，保证上下文语义的准确性）struct cpu *mycpu(void)&#123;  int id = cpuid();  struct cpu *c = &amp;cpus[id];    // 根据cpuid从cpus数组中获取当前cpu所在的偏移位置  return c;&#125;// 返回指向当前的进程结构的指针 struct proc * ， 或返回零表示什么也没有struct proc *myproc(void)&#123;  push_off();  struct cpu *c = mycpu();  struct proc *p = c-&gt;proc;  pop_off();  return p;&#125;
+
+// 每个CPU都要执行该调度器。// 每个CPU在设置好他们自己后都会调用 scheduler() 函数（main.c/main()）// 调度器自循环永不返回// 其功能是：//  - 选择一个进程运行//  - 调用 swtch 开始运行该进程//  - 最终，该进程通过 swtch 将控制权交换回调度器voidscheduler(void)&#123;  struct proc *p;  struct cpu *c = mycpu();  c-&gt;proc = 0;  for (;;) &#123;    // 最近运行的进程可能已关闭中断；    // 为避免所有进程都在等待时死锁，先启用中断。    // 然后再禁用中断，避免中断与 wfi 之间出现竞态。    intr_on();    intr_off();    int found = 0;    for (p = proc; p &lt; &amp;proc[NPROC]; p++) &#123;      acquire(&amp;p-&gt;lock);      if (p-&gt;state == RUNNABLE) &#123; // 进程处于可执行的就绪状态        // 切换到选定的进程。        // 释放它自己的锁，并在跳回我们之前重新获取该锁，        // 这是该进程自身的职责。        p-&gt;state = RUNNING;        c-&gt;proc = p;        swtch(&amp;c-&gt;context, &amp;p-&gt;context);        // 进程暂时停止运行。        // 在返回之前，它应该已经更改过自己的 p-&gt;state。        c-&gt;proc = 0;        found = 1;      &#125;      release(&amp;p-&gt;lock);    &#125;    if (found == 0) &#123; // 没有找到可执行的就绪进程      // 没有可运行的进程；停止该核心上的运行，直到中断发生。      asm volatile(&quot;wfi&quot;);    &#125;  &#125;&#125;// 交换到调度器。// 必须只持有的 p-&gt;lock 并且已经更改了 proc-&gt;state// 保存并恢复 intena 因为 intena 属于内核线程，而非该CPU// 理想情况下应保存为 proc-&gt;intena 且 proc-&gt;noff，// 但，这会在少数的“持有锁却没有对应线程”的场景下出错voidsched(void)&#123;  int intena;  struct proc *p = myproc();  if (!holding(&amp;p-&gt;lock)) // 未持有 p-&gt;lock    panic(&quot;sched p-&gt;lock&quot;);  if (mycpu()-&gt;noff != 1)    panic(&quot;sched locks&quot;);  if (p-&gt;state == RUNNING)    panic(&quot;sched RUNNING&quot;);  if (intr_get())    panic(&quot;sched interruptible&quot;);  intena = mycpu()-&gt;intena;  swtch(&amp;p-&gt;context, &amp;mycpu()-&gt;context); // 将进程上下文与当前cpu中处理的上下文进行交换  mycpu()-&gt;intena = intena;&#125;// 在通道链中进行睡眠，释放状态锁 lk// 当唤醒后重新获取 lk 锁voidsleep(void *chan, struct spinlock *lk)&#123;  struct proc *p = myproc();  // 必须获取 p-&gt;lock 更改 p-&gt;state 并且调用 sched 。  // 由于曾持有 p-&gt;lock ，我们能被保证，我们将不会错过任何一次唤醒（唤醒锁 p-&gt;lock），所以释放 lk 锁可接受  // 在此处先获取 p-&gt;lock 锁再释放 lk 锁  // 是为了保证进程原子的进入睡眠，设置睡眠状态  // 保证了无抢占窗口，保证之后设置的睡眠状态能被探查  acquire(&amp;p-&gt;lock); //DOC: sleeplock1  release(lk);  // 进入睡眠  p-&gt;chan = chan;  p-&gt;state = SLEEPING; // 设置进程状态为 SLEEPING  sched(); // 调度  // 清理通道  p-&gt;chan = 0;  // 重新获取锁  release(&amp;p-&gt;lock);  acquire(lk);&#125;
+
+
+uart.c
+UART 是 Universal Asynchronous Receiver&#x2F;Transmitter 通用异步收发传输器
+uart.c 通过 内存映射 I&#x2F;O (MMIO) 访问 UART 外设是为 16550a UART 编写的底层驱动，提供对 UART 设备的控制
+
+
+UART 的控制寄存器被映射到 UART0 为开头的地址区域。&#x2F;&#x2F; the UART control registers are memory-mapped at address UART0.
+
+// 这个宏返回 UART 在内存中映射的其中一个寄存器#define Reg(reg) ((volatile unsigned char *)(UART0 + (reg)))#define ReadReg(reg)     (*(Reg(reg)))#define WriteReg(reg, v) (*(Reg(reg)) = (v))
+
+
+UART 控制寄存器参考
+
+// UART 控制寄存器。// 有些寄存器在读取和写入时含义不同。#define RHR             0        // 接收保持寄存器（用于输入字节）#define THR             0        // 发送保持寄存器（用于输出字节）#define IER             1        // 中断使能寄存器#define IER_RX_ENABLE   (1 &lt;&lt; 0) // 接收中断#define IER_TX_ENABLE   (1 &lt;&lt; 1) // 发送中断#define FCR             2        // FIFO 控制寄存器#define FCR_FIFO_ENABLE (1 &lt;&lt; 0)#define FCR_FIFO_CLEAR  (3 &lt;&lt; 1) // 清除两个 FIFO 的内容#define ISR             2        // 中断状态寄存器#define LCR             3        // 线路控制寄存器#define LCR_EIGHT_BITS  (3 &lt;&lt; 0)#define LCR_BAUD_LATCH  (1 &lt;&lt; 7) // 设置波特率的特殊模式#define LSR             5        // 线路状态寄存器#define LSR_RX_READY    (1 &lt;&lt; 0) // RHR 中有输入数据等待读取#define LSR_TX_IDLE     (1 &lt;&lt; 5) // THR 可以接受下一个待发送字符
+
+// 供发送线程与 uart&quot;就绪&quot;中断 同步static struct spinlock tx_lock;static int tx_busy; // UART 是否在忙（正在发送）？static int tx_chan; // &amp;tx_chan 是 等待通道extern volatile int panicking; // from printf.cextern volatile int panicked;  // from printf.c
+
+// 将 buf[] 中的数据发送到 UART// 若 UART 正忙，该函数会阻塞// 所以该函数不能在中断上下文中被调用// 只能由 write() 系统调用调用voiduartwrite(char buf[], int n)&#123;  acquire(&amp;tx_lock);  int i = 0;  while (i &lt; n) &#123;    while (tx_busy != 0) &#123;      // 等待 UART 发送完成 中断设置 tx_buzy 为 0      sleep(&amp;tx_chan, &amp;tx_lock);    &#125;    WriteReg(THR, buf[i]);    i += 1;    tx_busy = 1;  &#125;  release(&amp;tx_lock);&#125;// 不使用中断的情况下，向uart设备写入一字节，// 供内核 printf() 使用，并用于回显字符。// 自旋等待 UART 输出寄存器空闲voiduartputc_sync(int c)&#123;  if (panicking == 0)    push_off();  if (panicked) &#123;    for (;;)      ;  &#125;  // wait for UART to set Transmit Holding Empty in LSR.  // 等待 UART 在状态设置寄存器中设置传输保持空闲  // #define LSR_TX_IDLE     (1 &lt;&lt; 5) // THR 可以接受下一个待发送字符  while ((ReadReg(LSR) &amp; LSR_TX_IDLE) == 0)    ;  WriteReg(THR, c);  if (panicking == 0)    pop_off();&#125;// 尝试从 UART 中读取一个输入字符// 若没有等待接收到字符，返回 -1static intuartgetc(void)&#123;  // 输入是否就绪？  if (ReadReg(LSR) &amp; LSR_RX_READY) &#123;    return ReadReg(RHR);  &#125; else &#123;    return -1;  &#125;&#125;// 处理一个 uart 中断，该中断因以下原因被触发：// 输入已到达，// uart 已准备好输出更多的数据，// 或两者同时发生// 由 devintr() 调起voiduartintr(void)&#123;  ReadReg(ISR); // 读取中断状态  acquire(&amp;tx_lock);  if (ReadReg(LSR) &amp; LSR_TX_IDLE) &#123;    // UART 完成发送；唤醒等待的发送线程    tx_busy = 0;    wakeup(&amp;tx_chan);  &#125;  release(&amp;tx_lock);  // 读取并处理 UART 输入的任何字符  while (1) &#123;    int c = uartgetc();    if (c == -1)      break;    consoleintr(c);  &#125;&#125;
+
+
+4份底层汇编文件entry.S
+xv6 系统真正的汇编入口，在每个CPU上都需要一个栈（在 start.c 中使用 __attribute__((aligned(16))) char stack0[4096 * NCPU]; 进行设置，定义了 stack0 ）_entry 为每个hart独立运行
+
+        # qemu -kernel 将内核加载到地址 0x80000000 位置        # 并且将所有hart(物理线程 在此处可以理解为cpu)跳转到该地址位置        # kernel.ld 将接下来的代码放入地址 0x80000000 处.section .text.global _entry_entry:        # 设置一个供C代码使用的栈        # stack0 已在 start.c 中定义        # 为每个cpu分配 4096 字节的栈空间        # 栈指针 sp = stack0 + ((hartid + 1) * 4096) 按hart编号为每个hart分配栈空间        # sp = stack0 + ((hartid + 1) * 4096) 为以下指令的功能，通过hardid区分各个hart所拥有的栈空间        la sp, stack0       # 将stack0的地址传入栈指针sp        li a0, 1024*4       # 将立即数 1024*4 (表示4KB) 传入寄存器a0        csrr a1, mhartid    # 控制与状态寄存器读取mhartid hart栈的索引        addi a1, a1, 1      # a1寄存器值增加1        mul a0, a0, a1      # 计算栈偏移 4byte * (mhardid + 1) 栈指针要指向栈顶（栈向低地址增长）        add sp, sp, a0      # 更新栈指针        call start          # 跳转到 start.c/start()spin:        # 自旋 作为保护，防止错误配置的mret或意外的_entry跳转，防止程序计数器混乱        j spin  # 跳转到spin段
+
+
+swtch.S
+上下文交换程序接口为：void swtch(struct context *old, struct context *new);保存当前的寄存器旧值，加载新的寄存器值
+
+.globl swtchswtch:        sd ra, 0(a0)        sd sp, 8(a0)        sd s0, 16(a0)        sd s1, 24(a0)        sd s2, 32(a0)        sd s3, 40(a0)        sd s4, 48(a0)        sd s5, 56(a0)        sd s6, 64(a0)        sd s7, 72(a0)        sd s8, 80(a0)        sd s9, 88(a0)        sd s10, 96(a0)        sd s11, 104(a0)        ld ra, 0(a1)        ld sp, 8(a1)        ld s0, 16(a1)        ld s1, 24(a1)        ld s2, 32(a1)        ld s3, 40(a1)        ld s4, 48(a1)        ld s5, 56(a1)        ld s6, 64(a1)        ld s7, 72(a1)        ld s8, 80(a1)        ld s9, 88(a1)        ld s10, 96(a1)        ld s11, 104(a1)                ret
+
+
+trampoline.S
+依赖 risv.h依赖 memlayout.h依赖 trap.c
+
+
+trap.c
+
+usertrap(void)
+prepare_return(void)
+
+
+proc.h
+
+提供 struct trapframe 类型 p-&gt;trapframe变量
+提供 struct proc 类型 p变量
+
+
+memlayout.h
+
+#define TRAMPOLINE (MAXVA - PGSIZE)
+#define TRAPFRAME (TRAMPOLINE - PGSIZE)
+
+
+
+
+跳板汇编程序用于处理 从用户空间到内核的陷阱的、从内核返回用户的 低级代码
+
+
+内核将持有这段代码的页，映射到用户和内核空间中的同一虚拟地址 (TRAMPOLINE)，使得它在切换页表时能够继续工作。kernel.ld 使此代码起始于一个页边界，并独立拥有该页
+
+#include &quot;riscv.h&quot;#include &quot;memlayout.h&quot;.section trampsec       # trampsec trampsec 段.globl trampoline       # 暴露 trampoline.globl usertrap         # 暴露 usertraptrampoline:             # trampoline 段.align 4.globl uservec          # 暴露 uservecuservec:                # uservec 段# ....globl userret          # 暴露 userretuserret:                # userret 段
+
+uservec 用户陷入内核态
+uservec:            # trap.c 设置 stvec 寄存器指向 uservec        # 所以 traps 用户态的陷阱会从这开始        # 在监管者模式下，但是仍在使用用户页表        # 保存用户的 a0 寄存器到 sscratch 寄存器        # a0 寄存器可以在 TRAPFRAME 中获取并被使用        csrw sscratch, a0        # 每个进程都有一个独立的 p-&gt;trapframe 内存区域        # 但是所有进程的用户页表中，这片区域都被映射到相同的虚拟地址 (TRAPFRAME)        # 所以可以直接使用立即数加载到 a0 寄存器中        li a0, TRAPFRAME                # 保存用户寄存器到 TRAPFRAME 陷阱帧        sd ra, 40(a0)        sd sp, 48(a0)        sd gp, 56(a0)        sd tp, 64(a0)        ...        # 保存 30 个寄存器的值    # 将用户寄存器 a0 保存至 p-&gt;trapframe-&gt;a0 中        csrr t0, sscratch        sd t0, 112(a0)        # 初始化内核栈指针 p-&gt;trapframe-&gt;kernel_sp        ld sp, 8(a0)        # make tp hold the current hartid, from p-&gt;trapframe-&gt;kernel_hartid        # 使用线程栈寄存器 tp 保存当前的 hartid p-&gt;trapframe-&gt;kernel_hartid        ld tp, 32(a0)        # 加载usertrap()的地址 p-&gt;trapframe-&gt;kernel_trap        ld t0, 16(a0)        # 取内核页表地址 p-&gt;trapframe-&gt;kernel_satp        ld t1, 0(a0)        # 等待之前所有的内存操作完成        # 确保这些操作都使用用户页表        sfence.vma zero, zero        # 安装内核页表        csrw satp, t1        # 刷新 TLB(转换检测缓冲区) 中现已过时的用户页表        sfence.vma zero, zero        # 调起 usertrap()        jalr t0
+
+userret 返回用户态
+userret:        # usertrap() 返回到此处 此时 a0 = 用户页表物理地址 即将写入 satp        # 从内核态返回用户态        # 交换(切换)到用户页表        sfence.vma zero, zero        csrw satp, a0        sfence.vma zero, zero        li a0, TRAPFRAME # a0 指向 TRAPFRAME 基址        # 从 TRAPFRAME 中恢复所有除 a0 之外的寄存器        ld ra, 40(a0)        ld sp, 48(a0)        ld gp, 56(a0)        ld tp, 64(a0)        ...    # 恢复用户寄存器 a0        ld a0, 112(a0)                # 返回用户态，恢复用户的程序计数器        # prepare_return() 设置 sstatus 以及 sepc 寄存器        sret # supervisor ret 监管者模式返回
+
+TRAPFRAME 在 任何进程的用户页表 中都指向进程自己的 trapframe 页面，而内核在创建进程时负责建立该映射。trampoline 的代码只有一份，但被映射到所有进程的同一虚拟地址
+kernelvec.S
+内核态，不通过 call 调用，而是硬件在 产生陷阱时自动跳转 而来
+
+
+trap.c
+kerneltrap()
+
+
+
+        # 在监管者模式下发生的中断和异常会来到这里        # 当前栈是内核栈        # 保存寄存器，调用 kerneltrap()        # 当 kerneltrap() 返回后，恢复寄存器并返回.globl kerneltrap.globl kernelvec.align 4kernelvec:        # 扩展栈空间保存寄存器        addi sp, sp, -256        # 保存调用者保存寄存器        sd ra, 0(sp)        # sd sp, 8(sp)        sd gp, 16(sp)        # sd tp, 24(sp)        sd t0, 32(sp)        sd t1, 40(sp)        sd t2, 48(sp)        sd a0, 72(sp)        sd a1, 80(sp)        sd a2, 88(sp)        sd a3, 96(sp)        sd a4, 104(sp)        sd a5, 112(sp)        sd a6, 120(sp)        sd a7, 128(sp)        sd t3, 216(sp)        sd t4, 224(sp)        sd t5, 232(sp)        sd t6, 240(sp)        # 调用trap.c代码中的C陷阱处理程序        call kerneltrap        # 恢复寄存器        ld ra, 0(sp)        # ld sp, 8(sp)        ld gp, 16(sp)        # not tp (contains hartid), in case we moved CPUs        ld t0, 32(sp)        ld t1, 40(sp)        ld t2, 48(sp)        ld a0, 72(sp)        ld a1, 80(sp)        ld a2, 88(sp)        ld a3, 96(sp)        ld a4, 104(sp)        ld a5, 112(sp)        ld a6, 120(sp)        ld a7, 128(sp)        ld t3, 216(sp)        ld t4, 224(sp)        ld t5, 232(sp)        ld t6, 240(sp)        addi sp, sp, 256        # 返回内核中被中断的位置        sret
+
+
+关于陷阱向量 uservec kernelvec ，都是由硬件进行调用，地址由 stvec 状态向量寄存器保存在用户态时， stvec 为 uservec 地址在内核态时， stvec 为 kernelvec 地址通过 riscv.h/w_stvec() 在状态切换到边缘动态更新该寄存器，保证CPU在各模式下，陷阱都能进入正确的处理入口
+从 xv6 的设计角度上，对于 内核态-用户态 模型， stvec 寄存器仅会保留 uservec kernelvec 这两种状态陷阱处理入口当然，这两种陷阱入口的名字可由个人喜好进行设定，只要保证对相应状态的处理功能完备， 理论上也可以保存任意合法的陷阱入口地址为什么仅有两种状态？因为上下文仅有 内核态、用户态 保证了设计的简洁性
+
+
+user&#x2F;
+以下代码文件在 xv6-riscv/user/ 目录下
+
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>xv6-project</tag>
+        <tag>Operating System</tag>
+        <tag>xv6-kernel</tag>
       </tags>
   </entry>
 </search>
