@@ -21,12 +21,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"iloging.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":100,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="资料：  trac.ffmpeg.org   ffmpeg.org&#x2F;documentation   《深入理解ffmpeg》(刘歧)    TODO   精力占比 学习方向 为什么重要    30% FFmpeg 的 libavcodec API 开发 如果你要做播放器、转码服务，必须懂 avcodec_send_packet &#x2F; avcodec_receive_frame">
+    <meta name="description" content="资料：  trac.ffmpeg.org ffmpeg.org&#x2F;documentation 《深入理解ffmpeg》(刘歧)    TODO   精力占比 学习方向 为什么重要    30% FFmpeg 的 libavcodec API 开发 如果你要做播放器、转码服务，必须懂 avcodec_send_packet &#x2F; avcodec_receive_frame 的调用流">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ffmpeg-note">
 <meta property="og:url" content="https://iloging.github.io/Tech/Tools/ffmpeg-note/index.html">
 <meta property="og:site_name" content="Volador235&#39;s blog">
-<meta property="og:description" content="资料：  trac.ffmpeg.org   ffmpeg.org&#x2F;documentation   《深入理解ffmpeg》(刘歧)    TODO   精力占比 学习方向 为什么重要    30% FFmpeg 的 libavcodec API 开发 如果你要做播放器、转码服务，必须懂 avcodec_send_packet &#x2F; avcodec_receive_frame">
+<meta property="og:description" content="资料：  trac.ffmpeg.org ffmpeg.org&#x2F;documentation 《深入理解ffmpeg》(刘歧)    TODO   精力占比 学习方向 为什么重要    30% FFmpeg 的 libavcodec API 开发 如果你要做播放器、转码服务，必须懂 avcodec_send_packet &#x2F; avcodec_receive_frame 的调用流">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://iloging.github.io/resource/ffmpeg/ffmpeg-basic-modul.jpg">
 <meta property="og:image" content="https://iloging.github.io/resource/ffmpeg/ffmpeg-workflow.jpg">
@@ -67,7 +67,7 @@
 <meta property="og:image" content="https://iloging.github.io/resource/ffmpeg/FFmpeg-img-filter-arg.jpg">
 <meta property="og:image" content="https://iloging.github.io/resource/ffmpeg/FFmpeg-filter-overlay-arg.jpg">
 <meta property="article:published_time" content="2026-10-07T13:21:40.000Z">
-<meta property="article:modified_time" content="2026-10-26T10:10:47.633Z">
+<meta property="article:modified_time" content="2026-11-24T09:34:00.992Z">
 <meta property="article:author" content="iLogIng">
 <meta property="article:tag" content="FFmpeg">
 <meta property="article:tag" content="tool">
@@ -414,7 +414,7 @@ mjx-container[display="true"] + br {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-10-26 18:10:47" itemprop="dateModified" datetime="2026-10-26T18:10:47+08:00">2026-10-26</time>
+      <time title="修改时间：2026-11-24 17:34:00" itemprop="dateModified" datetime="2026-11-24T17:34:00+08:00">2026-11-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -445,8 +445,8 @@ mjx-container[display="true"] + br {
     <div class="post-body" itemprop="articleBody"><blockquote>
 <p>资料：</p>
 <ul>
-<li><span class="exturl" data-url="aHR0cHM6Ly90cmFjLmZmbXBlZy5vcmcv">trac.ffmpeg.org<i class="fa fa-external-link-alt"></i></span>  </li>
-<li><span class="exturl" data-url="aHR0cHM6Ly9mZm1wZWcub3JnL2RvY3VtZW50YXRpb24uaHRtbA==">ffmpeg.org&#x2F;documentation<i class="fa fa-external-link-alt"></i></span>  </li>
+<li><span class="exturl" data-url="aHR0cHM6Ly90cmFjLmZmbXBlZy5vcmcv">trac.ffmpeg.org<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9mZm1wZWcub3JnL2RvY3VtZW50YXRpb24uaHRtbA==">ffmpeg.org&#x2F;documentation<i class="fa fa-external-link-alt"></i></span></li>
 <li>《深入理解ffmpeg》(刘歧)</li>
 </ul>
 </blockquote>
@@ -472,7 +472,7 @@ mjx-container[display="true"] + br {
 <tr>
 <td align="center">20%</td>
 <td align="center">自适应码率（ABR）与封装</td>
-<td align="center">把编码与之前的 fMP4&#x2F;HLS 结合，研究如何生成多码率阶梯（如 1080p@5M, <span class="exturl" data-url="bWFpbHRvOiYjNTU7JiN4MzI7JiN4MzA7JiN4NzA7JiN4NDA7JiM1MDsmI3gyZTsmI3gzNTsmI3g0ZDs=">720p@2.5M<i class="fa fa-external-link-alt"></i></span>），并写入 master.m3u8。</td>
+<td align="center">把编码与之前的 fMP4&#x2F;HLS 结合，研究如何生成多码率阶梯（如 1080p@5M, <span class="exturl" data-url="bWFpbHRvOiYjeDM3OyYjeDMyOyYjeDMwOyYjeDcwOyYjNjQ7JiM1MDsmIzQ2OyYjNTM7JiN4NGQ7">720p@2.5M<i class="fa fa-external-link-alt"></i></span>），并写入 master.m3u8。</td>
 </tr>
 <tr>
 <td align="center">20%</td>
@@ -482,6 +482,8 @@ mjx-container[display="true"] + br {
 </tbody></table>
 </li>
 </ul>
+<span id="more"></span>
+
 <h1 id="ffmpeg"><a href="#ffmpeg" class="headerlink" title="ffmpeg"></a>ffmpeg</h1><ul>
 <li><a href="#%E6%95%B0%E6%8D%AE%E7%BB%84%E7%BB%87">数据组织</a></li>
 <li><a href="#%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9D%97">基础模块</a></li>
@@ -513,14 +515,14 @@ mjx-container[display="true"] + br {
 <li>容器&#x2F;封装格式<ul>
 <li><em><strong>container &#x2F; wrapper format</strong></em></li>
 <li>定义：如何把多条编码后的音视频流、字幕流、元数据、索引、时间戳组织在一个文件里。一般会有一个特定的后缀名标识。</li>
-<li>实际上是数据的一种组织形式，<strong>不负责压缩视频和音频</strong><br> 如，mp4实际上是容器，H.264是一种音视频编码，acc是音频编码，而mp4是能够装载这些编码的容器</li>
+<li>实际上是数据的一种组织形式，<strong>不负责压缩视频和音频</strong><br>如，mp4实际上是容器，H.264是一种音视频编码，acc是音频编码，而mp4是能够装载这些编码的容器</li>
 </ul>
 </li>
 <li>封装&#x2F;解封装<ul>
 <li><strong><em>muxing&#x2F;demuxing</em> 复用&#x2F;解复用</strong></li>
 <li>muxing: 把编码后的视频流、音频流、字幕流，按照某种容器规范，写成一个文件。</li>
-<li>demuxing: 从一个容器文件里，把视频流、音频流、字幕流分离出来。<br> <code>ffmpeg</code> 中 <code>-f mp4</code> 表示输出容器为 mp4</li>
-<li><code>-c copy</code> 不重新编码，只是把流从旧容器复制到新容器，这叫做 <strong>转封装</strong><br> <code>ffmpeg -i input.mp4 -c copy output.mkv</code> 不改变容器内的数据与编码形式，通常来讲，数据效果不变</li>
+<li>demuxing: 从一个容器文件里，把视频流、音频流、字幕流分离出来。<br><code>ffmpeg</code> 中 <code>-f mp4</code> 表示输出容器为 mp4</li>
+<li><code>-c copy</code> 不重新编码，只是把流从旧容器复制到新容器，这叫做 <strong>转封装</strong><br><code>ffmpeg -i input.mp4 -c copy output.mkv</code> 不改变容器内的数据与编码形式，通常来讲，数据效果不变</li>
 </ul>
 </li>
 <li>编码&#x2F;解码<ul>
@@ -734,7 +736,7 @@ mjx-container[display="true"] + br {
 <blockquote>
 <p>MP4（ISO Base Media File Format，ISO&#x2F;IEC 14496-12）中所有多字节整数字段都按大端序（Big-Endian）序列化<br>包括 box 头里的 size、largesize，以及各种 box 内部的 16&#x2F;32&#x2F;64 位整数字段。没有 little-endian 的标准变体</p>
 </blockquote>
-<p>MP4文件由许多box与FullBox组成，基本结构如下  </p>
+<p>MP4文件由许多box与FullBox组成，基本结构如下</p>
 <ul>
 <li>|size|type| 组成共8Byte的header<ul>
 <li>size 是块包含头的总大小</li>
@@ -745,7 +747,7 @@ mjx-container[display="true"] + br {
 <li>box 可以分层嵌套，此时，该box也称为 Container box (容器box)</li>
 </ul>
 </li>
-<li>header包含了整个box的长度大小（size）和类型（type），类型是一个典型的4字符的标签，一般被称为 <strong>FourCC</strong><br>当size等于0时，代表这个box是文件的最后一个box；<br>当size等于1时，说明box长度需要更多的位来描述，在后面会定义一个64位的largesize来描述box的长度<br>当type为uuid时，说明这个box中的数据是用户自定义扩展类型  </li>
+<li>header包含了整个box的长度大小（size）和类型（type），类型是一个典型的4字符的标签，一般被称为 <strong>FourCC</strong><br>当size等于0时，代表这个box是文件的最后一个box；<br>当size等于1时，说明box长度需要更多的位来描述，在后面会定义一个64位的largesize来描述box的长度<br>当type为uuid时，说明这个box中的数据是用户自定义扩展类型</li>
 <li>FullBox是box的扩展，以box结构为基础，在header中添加8bit的version标志和24bit的flags标志，以确保能灵活扩展(<code>version</code>)，flags标志在特定的FullBox中定义</li>
 </ul>
 <p><strong>box</strong></p>
@@ -866,7 +868,7 @@ mjx-container[display="true"] + br {
 <li>采样表：Sample Table（stbl子容器，描述具体的数据与时间、位置等信息的对应关系）</li>
 </ul>
 <h4 id="dinf-解析"><a href="#dinf-解析" class="headerlink" title="dinf 解析"></a>dinf 解析</h4><p>dinf是一个描述数据信息的容器，定义了音视频数据的信息，它包含子容器dref。</p>
-<h4 id="stbl-解析"><a href="#stbl-解析" class="headerlink" title="stbl 解析"></a>stbl 解析</h4><p>stbl为采样列表容器（Sample Table box），该容器包含转化媒体时间到实际的sample（样本或者采样点）的信息，<br>也表征了如何进一步解析sample的信息，例如，视频数据是否需要解压缩、解压缩采用的是什么编码算法等  </p>
+<h4 id="stbl-解析"><a href="#stbl-解析" class="headerlink" title="stbl 解析"></a>stbl 解析</h4><p>stbl为采样列表容器（Sample Table box），该容器包含转化媒体时间到实际的sample（样本或者采样点）的信息，<br>也表征了如何进一步解析sample的信息，例如，视频数据是否需要解压缩、解压缩采用的是什么编码算法等</p>
 <p>它包含的子容器如下:</p>
 <ul>
 <li>采样描述容器：Sample Description box（stsd）</li>
@@ -877,7 +879,7 @@ mjx-container[display="true"] + br {
 <li>Chunk偏移容器：Chunk Offset box（stco）</li>
 <li>Shadow同步容器：Shadow Sync box（stsh）</li>
 </ul>
-<p>stbl包含track中media sample的 <strong>所有时间和数据索引</strong> ，利用stbl，就可以 <strong>定位sample到媒体时间、文件位置的映射关系</strong> ，<br>决定其类型、大小，以及如何在其他容器中找到紧邻的sample。<br>如果它所在的track没有引用任何数据，那么它就不是一个有用的media track，不需要包含任何子box。  </p>
+<p>stbl包含track中media sample的 <strong>所有时间和数据索引</strong> ，利用stbl，就可以 <strong>定位sample到媒体时间、文件位置的映射关系</strong> ，<br>决定其类型、大小，以及如何在其他容器中找到紧邻的sample。<br>如果它所在的track没有引用任何数据，那么它就不是一个有用的media track，不需要包含任何子box。</p>
 <p>如果它 <strong>所在的track引用了数据</strong> ，那么必须包含以下子box:</p>
 <ul>
 <li>采样描述容器（stsd）：它主要包含解码器所需要的基本信息，里面的细节规定一般与特定的编码器相关。<br>一般新的Codec需要注册一下，可以参考<span class="exturl" data-url="aHR0cDovL21wNHJhLm9yZy8jIy9jb2RlY3M=">mp4ra.org<i class="fa fa-external-link-alt"></i></span>，从中查到已经注册的Codec的描述信息及对应的标准。</li>
@@ -897,7 +899,7 @@ mjx-container[display="true"] + br {
 <blockquote>
 <p>((track (chunks (samples …) …) …) …)</p>
 </blockquote>
-<p>一个track由连续的chunk组成，而chunk则包含多个连续的sample。<br>track和sample的概念比较容易理解，chunk这个概念则需要多思考一下，其原因主要是 <strong>增加了一个中间层</strong><br>这样的好处是不用直接做track到sample的映射，这些box的大小可以通过增加的chunk层得以 <strong>可控</strong><br>每个轨道都有一个stbl容器，因此每个track有自己的一套完整的采样表。<br>chunk在轨道间并非完美的交错  </p>
+<p>一个track由连续的chunk组成，而chunk则包含多个连续的sample。<br>track和sample的概念比较容易理解，chunk这个概念则需要多思考一下，其原因主要是 <strong>增加了一个中间层</strong><br>这样的好处是不用直接做track到sample的映射，这些box的大小可以通过增加的chunk层得以 <strong>可控</strong><br>每个轨道都有一个stbl容器，因此每个track有自己的一套完整的采样表。<br>chunk在轨道间并非完美的交错</p>
 <blockquote>
 <p>使用chunk、sample这样的两级结构，使得描述最终sample所需要的数据量大为减少，这是通过增加一个间接的层chunk实现的。</p>
 </blockquote>
@@ -1026,18 +1028,18 @@ mjx-container[display="true"] + br {
 <li>FLV文件内容。</li>
 </ul>
 <blockquote>
-<p>对于整型数据，按小端方式进行存储<br><strong>FLV文件头</strong><br><img src="/./resource/ffmpeg/FLV-header.jpg" alt="FLV-header"> </p>
+<p>对于整型数据，按小端方式进行存储<br><strong>FLV文件头</strong><br><img src="/./resource/ffmpeg/FLV-header.jpg" alt="FLV-header"></p>
 </blockquote>
 <p>FLV文件内容格式主要为FLVTAG。FLVTAG分为两部分，分别为 <strong>Header</strong> 部分与 <strong>Body</strong> 部分</p>
-<p><strong>FLV文件TAG排列方式</strong><br><img src="/./resource/ffmpeg/FLV-TAG-list.jpg" alt="FLV-TAG"> </p>
-<p><strong>FLVTAG格式</strong><br><img src="/./resource/ffmpeg/FLV-TAG-format.jpg" alt="FLV-TAG-format"> </p>
+<p><strong>FLV文件TAG排列方式</strong><br><img src="/./resource/ffmpeg/FLV-TAG-list.jpg" alt="FLV-TAG"></p>
+<p><strong>FLVTAG格式</strong><br><img src="/./resource/ffmpeg/FLV-TAG-format.jpg" alt="FLV-TAG-format"></p>
 <p><strong>VideoTag数据格式</strong></p>
 <blockquote>
-<p>如果从FLVTAG的Header中读取到TagType为0x09，则该TAG为视频数据TAG，FLV支持多种视频格式<br><img src="/./resource/ffmpeg/VideoTag-data-format-1.jpg" alt="VideoTag-data-format-1"><br><img src="/./resource/ffmpeg/VideoTag-data-format-2.jpg" alt="VideoTag-data-format-2"> </p>
+<p>如果从FLVTAG的Header中读取到TagType为0x09，则该TAG为视频数据TAG，FLV支持多种视频格式<br><img src="/./resource/ffmpeg/VideoTag-data-format-1.jpg" alt="VideoTag-data-format-1"><br><img src="/./resource/ffmpeg/VideoTag-data-format-2.jpg" alt="VideoTag-data-format-2"></p>
 </blockquote>
 <p><strong>AudioTag数据格式</strong></p>
 <blockquote>
-<p>从FLVTAG的Header中解析到TagType为0x08，则这个TAG为音频TAG，与视频TAG类似，音频TAG里面可以封装的压缩音频编码也可以有很多种<br><img src="/./resource/ffmpeg/AudioTag-data-format-1.jpg" alt="AudioTag-data-format-1"><br><img src="/./resource/ffmpeg/AudioTag-data-format-2.jpg" alt="AudioTag-data-format-2"> </p>
+<p>从FLVTAG的Header中解析到TagType为0x08，则这个TAG为音频TAG，与视频TAG类似，音频TAG里面可以封装的压缩音频编码也可以有很多种<br><img src="/./resource/ffmpeg/AudioTag-data-format-1.jpg" alt="AudioTag-data-format-1"><br><img src="/./resource/ffmpeg/AudioTag-data-format-2.jpg" alt="AudioTag-data-format-2"></p>
 </blockquote>
 <p><strong>ScriptData数据格式</strong></p>
 <blockquote>
@@ -1049,14 +1051,14 @@ mjx-container[display="true"] + br {
 <h4 id="MPEG-TS"><a href="#MPEG-TS" class="headerlink" title="MPEG-TS"></a>MPEG-TS</h4><blockquote>
 <p><span class="exturl" data-url="aHR0cHM6Ly93d3cuaXNvLm9yZy9zdGFuZGFyZC83NTkyOC5odG1s">详情请见<i class="fa fa-external-link-alt"></i></span></p>
 </blockquote>
-<p>MPEG-TS在MPEG-2第1部分中被标准化 ，最初专门为 <strong>数字视频广播（DVB）</strong> 应用而设计，<br>与其对应的MPEG-PS多用于存储媒体，并在DVD中得到应用。<br>相较而言，MPEG-TS <strong>面向传输</strong> ，它将流 <strong>划分为基本流</strong> ，这些流被分割成小块。<br>同时，系统信息以固定的时间间隔发送，因此接收器可以随时播放流。<br>此外，该格式使用 <strong>前向纠错（Forward Error Correction，FEC）技术</strong> ， <strong>允许在 <em>接收器</em> 处纠正传输错误</strong><br>MPEG-TS格式显然是为在 <strong>有损传输通道</strong> 上使用而设计的。  </p>
-<p>从系统层面定义，TS&#x2F;PS文件可以分成3层: </p>
+<p>MPEG-TS在MPEG-2第1部分中被标准化 ，最初专门为 <strong>数字视频广播（DVB）</strong> 应用而设计，<br>与其对应的MPEG-PS多用于存储媒体，并在DVD中得到应用。<br>相较而言，MPEG-TS <strong>面向传输</strong> ，它将流 <strong>划分为基本流</strong> ，这些流被分割成小块。<br>同时，系统信息以固定的时间间隔发送，因此接收器可以随时播放流。<br>此外，该格式使用 <strong>前向纠错（Forward Error Correction，FEC）技术</strong> ， <strong>允许在 <em>接收器</em> 处纠正传输错误</strong><br>MPEG-TS格式显然是为在 <strong>有损传输通道</strong> 上使用而设计的。</p>
+<p>从系统层面定义，TS&#x2F;PS文件可以分成3层:</p>
 <ul>
 <li>ES层：由单独的音频流（如MP3）、视频流（如H.264）组成基本数据流（Elementary Stream，ES）。</li>
 <li>PES层：将ES按一定的规则进行封装，例如H.264以访问单元（Access Unit，AU）作为拆分单元，并打上时间戳，<br>组成分组的基本数据流（Packetized Elementary Stream，PES）。</li>
 <li>TS&#x2F;PS层：将PES包进行切分后再封装成固定大小（通常为188字节）的 <strong>传输流（Transport Stream，TS）包</strong> ，<br>同时还将一些节目信息也封装成TS包，又称为 <strong>片段（section）</strong> , 两者共同组成TS层。</li>
 </ul>
-<p><strong>MPEG-TS&#x2F;PS打包流程</strong><br><img src="/./resource/ffmpeg/MPEG-TS-PS-pkg.jpg" alt="MPEG-TS&#x2F;PS打包流程"> </p>
+<p><strong>MPEG-TS&#x2F;PS打包流程</strong><br><img src="/./resource/ffmpeg/MPEG-TS-PS-pkg.jpg" alt="MPEG-TS&#x2F;PS打包流程"></p>
 <blockquote>
 <p>每个TS数据包头都带有PID（packet identifier，数据包标识符），PID将TS数据包和TS数据包中的基本流联系起来</p>
 </blockquote>
@@ -1138,12 +1140,12 @@ mjx-container[display="true"] + br {
 </ul>
 </li>
 <li>在预测之后，就得到残差块（预测分区与真实分区的差值），然后用某种方式对残差块进行变换，就得到一些结果。<br>这样在随后的步骤中，对这些变换后的结果进行分析，就可以知道哪些像素丢弃后依然能保持图像的整体质量了。<br><strong>DCT</strong> 无疑是最重要的变换方式之一，可以使用它将一张图像转换到 <strong>频域</strong> ，这时候大多数能量就会集中到 <strong>低频部分</strong> ，<br>所以丢掉高频系数能减少描述图像所需的数据量，同时不会牺牲太多的图像质量。</li>
-<li>接下来 <strong>对系数进行量化</strong> 以达到压缩的目的，最后一步则是对量化后的数据执行无损的熵编码，这主要是利用了语法元素间的相关性以进一步压缩，<br>这样就产生了适合存储或者传输的码流。<blockquote>
+<li>接下来 <strong>对系数进行量化</strong> 以达到压缩的目的，最后一步则是对量化后的数据执行无损的熵编码，这主要是利用了语法元素间的相关性以进一步压缩，<br>这样就产生了适合存储或者传输的码流。</li>
+</ul>
+<blockquote>
 <p>以上就是编码的基本流程，解码流程反其道而行之即可。</p>
 </blockquote>
-</li>
-</ul>
-<p>编解码器的发展基本上分为几个“流派”，以解决没有一个编解码器能适合所有使用情况的问题。<br>下面是几个主要的视频编码标准制定的“流派”: </p>
+<p>编解码器的发展基本上分为几个“流派”，以解决没有一个编解码器能适合所有使用情况的问题。<br>下面是几个主要的视频编码标准制定的“流派”:</p>
 <ul>
 <li>标准制定组织。ITU-T视频编码专家组（VCEG）和ISO&#x2F;IEC JTC1运动图像专家组（MPEG）。</li>
 <li>基于公司&#x2F;联盟的组织。典型的如开放媒体联盟（AOMedia）。</li>
@@ -1152,7 +1154,7 @@ mjx-container[display="true"] + br {
 <blockquote>
 <p>虽然几派都专注于改善媒体传输，但它们之间的关键区别在于：<br>ITU-T和ISO&#x2F;IEC JTC1标准制定组织创造了专利技术，需要为编解码器的部署支付专利费；<br>开放媒体联盟则是开发开源的编解码器；而AVS系列则着重于自主编码标准和国产化问题。<br>然而需要注意的是，尽管如此，对于这些编解码器的“开放”程度一直存在一些争议。</p>
 </blockquote>
-<p><strong>软编码H.264</strong>  </p>
+<p><strong>软编码H.264</strong></p>
 <p>当前网络中常见的视频编码格式要数H.264（AVC）。<br>持H.264的封装格式很多，如RTMP、FLV、MP4、HLS（M3U8）、MKV、TS等。<br>FFmpeg本身并 <strong>不支持H.264编码器</strong> ，而是采用了 <strong>集成第三方模块的方式进行支持</strong> ，如x264和OpenH264。<br>x264和OpenH264二者各有各的优势，OpenH264开源比较晚，最初主要是为了让RTC等低延迟场景且版权更为宽松一些。<br>不过目前x264还是最常用的H.264编码器，主要因为其优异的压缩性能和良好的工程实践。</p>
 <blockquote>
 <p>H.264即AVC（Advanced Video Coding），H.265即HEVC（High-Efficiency Video Coding），<br>它们都有两个名称，主要是因为是这两个编解码器标准都是由MPEG和国际电信联盟（ITU）联合标准化的。<br>H.266即VVC（Versatile Video Coding），原因相同。</p>
@@ -1357,15 +1359,15 @@ mjx-container[display="true"] + br {
 <li>一方面是它基于TCP传输，导致链路抖动时并不能很好地使用带宽，且使用非公共端口，可能会被防火墙阻拦；</li>
 <li>另一方面是它是Adobe私有协议，对于浏览器生态并不友好。<br>目前业界一直在探索各种方向以替换该协议，主要的原因是Adobe拥有该协议的版权，但又放弃了该协议的发展，<br>在对新Codec及其他特性的支持上也停滞不前。<ul>
 <li>在下行分发领域，RTMP面临着HLS、MPEG-DASH等基于HTTP传输协议的竞争，</li>
-<li>在上行领域也面临一些新的技术方案比如DASH-IF Live Media Ingest Protocol、WebRTC-HTTP Ingestion Protocol（WHIP）等协议的竞争。<blockquote>
-<p>不过即便这样，从市场占有率来说，RTMP依旧是值得研究的技术之一，它也是第一个被广泛使用的流媒体协议。</p>
-</blockquote>
-</li>
+<li>在上行领域也面临一些新的技术方案比如DASH-IF Live Media Ingest Protocol、WebRTC-HTTP Ingestion Protocol（WHIP）等协议的竞争。</li>
 </ul>
 </li>
 </ol>
-<p><strong>RTMP URL基本格式及意义</strong><br><img src="/./resource/ffmpeg/RTMP-URL-struct.jpg" alt="RTMP-URL-struct"> </p>
-<p><strong>FFmpeg拉取RTMP直播流可以使用的参考参数</strong>：<br><img src="/./resource/ffmpeg/FFmpeg-RTMP-args-1.jpg" alt="RTMP-args-1"><br><img src="/./resource/ffmpeg/FFmpeg-RTMP-args-2.jpg" alt="RTMP-args-2">   </p>
+<blockquote>
+<p>不过即便这样，从市场占有率来说，RTMP依旧是值得研究的技术之一，它也是第一个被广泛使用的流媒体协议。</p>
+</blockquote>
+<p><strong>RTMP URL基本格式及意义</strong><br><img src="/./resource/ffmpeg/RTMP-URL-struct.jpg" alt="RTMP-URL-struct"></p>
+<p><strong>FFmpeg拉取RTMP直播流可以使用的参考参数</strong>：<br><img src="/./resource/ffmpeg/FFmpeg-RTMP-args-1.jpg" alt="RTMP-args-1"><br><img src="/./resource/ffmpeg/FFmpeg-RTMP-args-2.jpg" alt="RTMP-args-2"></p>
 <h4 id="录制并发布RTSP流"><a href="#录制并发布RTSP流" class="headerlink" title="录制并发布RTSP流"></a>录制并发布RTSP流</h4><blockquote>
 <p>Real Time Streaming Protocol<br><code>ffmpeg -h demuxer=RTSP</code></p>
 </blockquote>
@@ -1379,15 +1381,15 @@ mjx-container[display="true"] + br {
 <li>TEARDOWN：客户端说：“再见，断开连接。”</li>
 </ul>
 </li>
-<li>传输（Transport）：RTSP <strong>不负责</strong>  <em><strong>搬运</strong></em> 具体的音视频数据（比如 H.264 的 NALU 单元）。它只负责“控制”，不负责“搬砖”。</li>
+<li>传输（Transport）：RTSP <strong>不负责</strong> <em><strong>搬运</strong></em> 具体的音视频数据（比如 H.264 的 NALU 单元）。它只负责“控制”，不负责“搬砖”。</li>
 </ul>
 </blockquote>
 <blockquote>
 <p>RTP 专门负责在网络上实时传输音视频数据。是“搬运工”：它<br>它给每个数据包打上时间戳（Timestamp）和序列号（Sequence Number），这样接收端才能按顺序、同步地还原出视频和音频。</p>
 </blockquote>
-<p>是一种信令协议，是曾经最常见的直播方式，目前常用于 安防等领域<br>FFmpeg 目前仅支持 RTSP1.0，目前协议已发展至2.0版本<br>RTSP本身定义了信令，其传输协议并未确定。在当前的实现中，大部分情况下都使用 <em><strong>RTP</strong></em> 来传输数据，<br>但实际上，仍然有Real Data Transport（RDT）这样的私有传输协议被使用。<br>RTSP是一个典型的CS架构，其基本交互流程如图：<br><img src="/./resource/ffmpeg/RTSP-basic-interactive.jpg" alt="RTSP-basic-interactive"> </p>
+<p>是一种信令协议，是曾经最常见的直播方式，目前常用于 安防等领域<br>FFmpeg 目前仅支持 RTSP1.0，目前协议已发展至2.0版本<br>RTSP本身定义了信令，其传输协议并未确定。在当前的实现中，大部分情况下都使用 <em><strong>RTP</strong></em> 来传输数据，<br>但实际上，仍然有Real Data Transport（RDT）这样的私有传输协议被使用。<br>RTSP是一个典型的CS架构，其基本交互流程如图：<br><img src="/./resource/ffmpeg/RTSP-basic-interactive.jpg" alt="RTSP-basic-interactive"></p>
 <blockquote>
-<p>RTSP是以demuxer实现的，而RTMP是以protocol实现的。<br><img src="/./resource/ffmpeg/RTSP-demuxer-1.jpg" alt="RTSP-demuxer-1"><br><img src="/./resource/ffmpeg/RTSP-demuxer-2.jpg" alt="RTSP-demuxer-2">   </p>
+<p>RTSP是以demuxer实现的，而RTMP是以protocol实现的。<br><img src="/./resource/ffmpeg/RTSP-demuxer-1.jpg" alt="RTSP-demuxer-1"><br><img src="/./resource/ffmpeg/RTSP-demuxer-2.jpg" alt="RTSP-demuxer-2"></p>
 </blockquote>
 <p>FFmpeg默认使用的拉取RTSP流方式为 <em><strong>UDP</strong></em> 传输方式，为了避免丢包导致的花屏、绿屏、灰屏、马赛克等问题，可以考虑将UDP改为TCP方式。</p>
 <p>RSTP demuxer可以支持UDP或者TCP传输数据，当通过UDP接收数据时，解封装器会尝试对收到的数据包重新排序（因为它们可能不按顺序到达，或者数据包完全丢失）。<br>这可以通过将最大的解封装延迟设置为0来禁用该功能，这样可以控制RTSP demuxer带来的延迟（通过设置AVFormatContext的max_delay字段）。</p>
@@ -1396,7 +1398,7 @@ mjx-container[display="true"] + br {
 </blockquote>
 <p>在流媒体服务当中，HTTP服务最为常见，尤其是点播。当然，直播也支持HTTP服务，<br>例如使用HTTP传输FLV、TS直播流，或者使用HTTP传输使用M3U8及TS文件的HLS格式等。<br>FFmpeg的HTTP既可以作为客户端使用，又可以作为服务端使用，但作为客户端使用的场景更多</p>
 <h4 id="录制与发布UDP-TCP流"><a href="#录制与发布UDP-TCP流" class="headerlink" title="录制与发布UDP&#x2F;TCP流"></a>录制与发布UDP&#x2F;TCP流</h4><blockquote>
-<p><code>ffmpeg -h protocol=udp</code><br><code>ffmpeg -h protocol=tcp</code>  </p>
+<p><code>ffmpeg -h protocol=udp</code><br><code>ffmpeg -h protocol=tcp</code></p>
 </blockquote>
 <p>FFmpeg不仅支持RTMP、HTTP这类高层协议，同样支持UDP、TCP这类较为底层的协议，而且可以支持UDP、TCP流媒体的录制与发布。</p>
 <h4 id="多路流输出"><a href="#多路流输出" class="headerlink" title="多路流输出"></a>多路流输出</h4><p>早期FFmpeg在转码后输出直播流时并不支持一次编码后同时输出多路直播流，需要使用管道方式输出。<br>而在新版本的FFmpeg中已经支持tee文件封装及协议输出，可以使用tee进行多路流输出。</p>
@@ -1486,13 +1488,13 @@ mjx-container[display="true"] + br {
 </li>
 </ul>
 <h4 id="视频水印操作"><a href="#视频水印操作" class="headerlink" title="视频水印操作"></a>视频水印操作</h4><p>在视频中增加文字水印的要求比较多，需要有文字的字库处理相关文件，<br>在编译FFmpeg时需要支持FreeType、FontConfig、iconv，系统中要有需要的字库。<br>在FFmpeg中增加纯字母水印可以使用drawtext滤镜进行支持</p>
-<p><img src="/./resource/ffmpeg/FFmpeg-text-filter-arg.jpg" alt="FFmpeg-text-filter-arg"> </p>
+<p><img src="/./resource/ffmpeg/FFmpeg-text-filter-arg.jpg" alt="FFmpeg-text-filter-arg"></p>
 <p><strong>添加文字水印</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -vf <span class="string">&quot;drawtext=fontsize=100:fontfile=FreeSerif.ttf:text=&#x27;hello world&#x27;:x=20:y=20&quot;</span> output.mp4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 让水印每三秒出现一次</span></span><br><span class="line">ffmpeg -re -i input.mp4 -vf <span class="string">&quot;drawtext=fontsize=60:fontfile=FreeSerif.ttf:text=&#x27;test&#x27;:fontcolor=green:box=1:boxcolor=yellow:enable=lt(mod(t,3),1)&quot;</span> output.mp4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 中文水印，需要中文字体支持</span></span><br><span class="line">ffmpeg -re -i input.mp4 -vf <span class="string">&quot;drawtext=fontsize=50:fontfile=/Library/Fonts/Songti.ttc:text=&#x27;文字水印测试&#x27;:fontcolor=green:box=1:boxcolor=yellow&quot;</span> output.mp4</span><br></pre></td></tr></table></figure>
 
 <p><strong>添加图片水印</strong><br><strong>可以使用movie滤镜参数</strong><br><img src="/./resource/ffmpeg/FFmpeg-img-filter-arg.jpg" alt="FFmpeg-img-filter-arg"></p>
 <h4 id="画中画操作"><a href="#画中画操作" class="headerlink" title="画中画操作"></a>画中画操作</h4><p>在 FFmpeg 的滤镜中，可以将多个视频流、多个多媒体采集设备、多个视频文件合并到一个界面中，生成画中画的效果，<br>这可以通过overlay进行操作。</p>
-<p><img src="/./resource/ffmpeg/FFmpeg-filter-overlay-arg.jpg" alt="FFmpeg-filter-overlay-arg"> </p>
+<p><img src="/./resource/ffmpeg/FFmpeg-filter-overlay-arg.jpg" alt="FFmpeg-filter-overlay-arg"></p>
 <h4 id="视频多宫格处理"><a href="#视频多宫格处理" class="headerlink" title="视频多宫格处理"></a>视频多宫格处理</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 1.avi -i 2.avi -i 3.avi -i 4.avi -filter_complex <span class="string">&quot;nullsrc=size=640x480 [base]; \</span></span><br><span class="line"><span class="string">[0:v] setpts=PTS-STARTPTS, scale=320x240 [upperleft]; \</span></span><br><span class="line"><span class="string">[1:v]setpts=PTS-STARTPTS, scale=320x240 [upperright]; \</span></span><br><span class="line"><span class="string">[2:v] setpts=PTS-STARTPTS, scale=320x240 [lowerleft]; \</span></span><br><span class="line"><span class="string">[3:v]setpts=PTS-STARTPTS, scale=320x240 [lowerright]; \</span></span><br><span class="line"><span class="string">[base][upperleft]overlay=shortest=1 [tmp1]; \</span></span><br><span class="line"><span class="string">[tmp1][upperright]overlay=shortest=1:x=320 [tmp2]; \</span></span><br><span class="line"><span class="string">[tmp2][lowerleft]overlay=shortest=1:y=240 [tmp3]; \</span></span><br><span class="line"><span class="string">[tmp3][lowerright]overlay=shortest=1:x=320:y=240&quot;</span> \</span><br><span class="line">-c:v libx264 output.flv</span><br></pre></td></tr></table></figure>
 
 <h4 id="视频字幕操作"><a href="#视频字幕操作" class="headerlink" title="视频字幕操作"></a>视频字幕操作</h4><p>为视频添加字幕的方式大概可以分为两种：</p>

@@ -3964,6 +3964,8 @@ ffplay
 
 
 
+
+
 上述三个工具的命令行都会产生以下文本
 head
 
@@ -4006,6 +4008,8 @@ Universal media converterusage: ffmpeg [options] [[infile options] -i infile]...
     <url>/Tech/Tools/ffprobe-ffplay-note/</url>
     <content><![CDATA[ffprobe
 是一个非常强大的 多媒体分析工具 ，可以从媒体文件或者媒体流中获得用户想要了解的 媒体信息 ，比如音频的格式、视频的宽高、媒体文件的时长等参数信息等。它除了用于分析媒体容器中音频的 编码格式、采样率、通道数目 ，以及视频的 编码格式、宽高等 以外，还用于分析媒体文件中媒体的 总时长、复合码率等 信息。使用ffprobe还可以深入分析媒体文件中 每个压缩媒体包的长度、包的类型、包对应的帧的信息等
+
+
 
 # 查看基本信息ffprobe input.mp4# 以JSON格式输出所有流的详细信息，便于脚本解析ffprobe -v quiet -print_format json -show_format -show_streams input.mp4
 
@@ -4203,8 +4207,8 @@ gcc -fPIC -c foo.c -o foo.ogcc -fPIC -c bar.c -o bar.ogcc -shared -o libfoo.so f
     <content><![CDATA[
 资料：
 
-trac.ffmpeg.org  
-ffmpeg.org&#x2F;documentation  
+trac.ffmpeg.org
+ffmpeg.org&#x2F;documentation
 《深入理解ffmpeg》(刘歧)
 
 
@@ -4240,6 +4244,8 @@ FFmpeg 的 libavcodec API 开发
 
 
 
+
+
 ffmpeg
 数据组织
 基础模块
@@ -4271,14 +4277,14 @@ Linux 平台编译
 容器&#x2F;封装格式
 container &#x2F; wrapper format
 定义：如何把多条编码后的音视频流、字幕流、元数据、索引、时间戳组织在一个文件里。一般会有一个特定的后缀名标识。
-实际上是数据的一种组织形式，不负责压缩视频和音频 如，mp4实际上是容器，H.264是一种音视频编码，acc是音频编码，而mp4是能够装载这些编码的容器
+实际上是数据的一种组织形式，不负责压缩视频和音频如，mp4实际上是容器，H.264是一种音视频编码，acc是音频编码，而mp4是能够装载这些编码的容器
 
 
 封装&#x2F;解封装
 muxing&#x2F;demuxing 复用&#x2F;解复用
 muxing: 把编码后的视频流、音频流、字幕流，按照某种容器规范，写成一个文件。
-demuxing: 从一个容器文件里，把视频流、音频流、字幕流分离出来。 ffmpeg 中 -f mp4 表示输出容器为 mp4
--c copy 不重新编码，只是把流从旧容器复制到新容器，这叫做 转封装 ffmpeg -i input.mp4 -c copy output.mkv 不改变容器内的数据与编码形式，通常来讲，数据效果不变
+demuxing: 从一个容器文件里，把视频流、音频流、字幕流分离出来。ffmpeg 中 -f mp4 表示输出容器为 mp4
+-c copy 不重新编码，只是把流从旧容器复制到新容器，这叫做 转封装ffmpeg -i input.mp4 -c copy output.mkv 不改变容器内的数据与编码形式，通常来讲，数据效果不变
 
 
 编码&#x2F;解码
@@ -4492,7 +4498,7 @@ MP4标准间的关系
 
 MP4（ISO Base Media File Format，ISO&#x2F;IEC 14496-12）中所有多字节整数字段都按大端序（Big-Endian）序列化包括 box 头里的 size、largesize，以及各种 box 内部的 16&#x2F;32&#x2F;64 位整数字段。没有 little-endian 的标准变体
 
-MP4文件由许多box与FullBox组成，基本结构如下  
+MP4文件由许多box与FullBox组成，基本结构如下
 
 |size|type| 组成共8Byte的header
 size 是块包含头的总大小
@@ -4503,7 +4509,7 @@ type 是 FourCC 标签，moov与mdat存放在这里
 box 可以分层嵌套，此时，该box也称为 Container box (容器box)
 
 
-header包含了整个box的长度大小（size）和类型（type），类型是一个典型的4字符的标签，一般被称为 FourCC当size等于0时，代表这个box是文件的最后一个box；当size等于1时，说明box长度需要更多的位来描述，在后面会定义一个64位的largesize来描述box的长度当type为uuid时，说明这个box中的数据是用户自定义扩展类型  
+header包含了整个box的长度大小（size）和类型（type），类型是一个典型的4字符的标签，一般被称为 FourCC当size等于0时，代表这个box是文件的最后一个box；当size等于1时，说明box长度需要更多的位来描述，在后面会定义一个64位的largesize来描述box的长度当type为uuid时，说明这个box中的数据是用户自定义扩展类型
 FullBox是box的扩展，以box结构为基础，在header中添加8bit的version标志和24bit的flags标志，以确保能灵活扩展(version)，flags标志在特定的FullBox中定义
 
 box
@@ -4624,7 +4630,7 @@ minf 解析minf包含了很多重要的子容器，例如与音视频采样等�
 采样表：Sample Table（stbl子容器，描述具体的数据与时间、位置等信息的对应关系）
 
 dinf 解析dinf是一个描述数据信息的容器，定义了音视频数据的信息，它包含子容器dref。
-stbl 解析stbl为采样列表容器（Sample Table box），该容器包含转化媒体时间到实际的sample（样本或者采样点）的信息，也表征了如何进一步解析sample的信息，例如，视频数据是否需要解压缩、解压缩采用的是什么编码算法等  
+stbl 解析stbl为采样列表容器（Sample Table box），该容器包含转化媒体时间到实际的sample（样本或者采样点）的信息，也表征了如何进一步解析sample的信息，例如，视频数据是否需要解压缩、解压缩采用的是什么编码算法等
 它包含的子容器如下:
 
 采样描述容器：Sample Description box（stsd）
@@ -4635,7 +4641,7 @@ Chunk采样容器：Sample To Chunk box（stsc）
 Chunk偏移容器：Chunk Offset box（stco）
 Shadow同步容器：Shadow Sync box（stsh）
 
-stbl包含track中media sample的 所有时间和数据索引 ，利用stbl，就可以 定位sample到媒体时间、文件位置的映射关系 ，决定其类型、大小，以及如何在其他容器中找到紧邻的sample。如果它所在的track没有引用任何数据，那么它就不是一个有用的media track，不需要包含任何子box。  
+stbl包含track中media sample的 所有时间和数据索引 ，利用stbl，就可以 定位sample到媒体时间、文件位置的映射关系 ，决定其类型、大小，以及如何在其他容器中找到紧邻的sample。如果它所在的track没有引用任何数据，那么它就不是一个有用的media track，不需要包含任何子box。
 如果它 所在的track引用了数据 ，那么必须包含以下子box:
 
 采样描述容器（stsd）：它主要包含解码器所需要的基本信息，里面的细节规定一般与特定的编码器相关。一般新的Codec需要注册一下，可以参考mp4ra.org，从中查到已经注册的Codec的描述信息及对应的标准。
@@ -4655,7 +4661,7 @@ sample：采样，与一个时间戳相关的所有数据，一般对应视频�
 
 ((track (chunks (samples …) …) …) …)
 
-一个track由连续的chunk组成，而chunk则包含多个连续的sample。track和sample的概念比较容易理解，chunk这个概念则需要多思考一下，其原因主要是 增加了一个中间层这样的好处是不用直接做track到sample的映射，这些box的大小可以通过增加的chunk层得以 可控每个轨道都有一个stbl容器，因此每个track有自己的一套完整的采样表。chunk在轨道间并非完美的交错  
+一个track由连续的chunk组成，而chunk则包含多个连续的sample。track和sample的概念比较容易理解，chunk这个概念则需要多思考一下，其原因主要是 增加了一个中间层这样的好处是不用直接做track到sample的映射，这些box的大小可以通过增加的chunk层得以 可控每个轨道都有一个stbl容器，因此每个track有自己的一套完整的采样表。chunk在轨道间并非完美的交错
 
 使用chunk、sample这样的两级结构，使得描述最终sample所需要的数据量大为减少，这是通过增加一个间接的层chunk实现的。
 
@@ -4784,18 +4790,18 @@ FLV文件头
 FLV文件内容。
 
 
-对于整型数据，按小端方式进行存储FLV文件头 
+对于整型数据，按小端方式进行存储FLV文件头
 
 FLV文件内容格式主要为FLVTAG。FLVTAG分为两部分，分别为 Header 部分与 Body 部分
-FLV文件TAG排列方式 
-FLVTAG格式 
+FLV文件TAG排列方式
+FLVTAG格式
 VideoTag数据格式
 
-如果从FLVTAG的Header中读取到TagType为0x09，则该TAG为视频数据TAG，FLV支持多种视频格式 
+如果从FLVTAG的Header中读取到TagType为0x09，则该TAG为视频数据TAG，FLV支持多种视频格式
 
 AudioTag数据格式
 
-从FLVTAG的Header中解析到TagType为0x08，则这个TAG为音频TAG，与视频TAG类似，音频TAG里面可以封装的压缩音频编码也可以有很多种 
+从FLVTAG的Header中解析到TagType为0x08，则这个TAG为音频TAG，与视频TAG类似，音频TAG里面可以封装的压缩音频编码也可以有很多种
 
 ScriptData数据格式
 
@@ -4807,14 +4813,14 @@ ScriptData数据格式
 MPEG-TS
 详情请见
 
-MPEG-TS在MPEG-2第1部分中被标准化 ，最初专门为 数字视频广播（DVB） 应用而设计，与其对应的MPEG-PS多用于存储媒体，并在DVD中得到应用。相较而言，MPEG-TS 面向传输 ，它将流 划分为基本流 ，这些流被分割成小块。同时，系统信息以固定的时间间隔发送，因此接收器可以随时播放流。此外，该格式使用 前向纠错（Forward Error Correction，FEC）技术 ， 允许在 接收器 处纠正传输错误MPEG-TS格式显然是为在 有损传输通道 上使用而设计的。  
-从系统层面定义，TS&#x2F;PS文件可以分成3层: 
+MPEG-TS在MPEG-2第1部分中被标准化 ，最初专门为 数字视频广播（DVB） 应用而设计，与其对应的MPEG-PS多用于存储媒体，并在DVD中得到应用。相较而言，MPEG-TS 面向传输 ，它将流 划分为基本流 ，这些流被分割成小块。同时，系统信息以固定的时间间隔发送，因此接收器可以随时播放流。此外，该格式使用 前向纠错（Forward Error Correction，FEC）技术 ， 允许在 接收器 处纠正传输错误MPEG-TS格式显然是为在 有损传输通道 上使用而设计的。
+从系统层面定义，TS&#x2F;PS文件可以分成3层:
 
 ES层：由单独的音频流（如MP3）、视频流（如H.264）组成基本数据流（Elementary Stream，ES）。
 PES层：将ES按一定的规则进行封装，例如H.264以访问单元（Access Unit，AU）作为拆分单元，并打上时间戳，组成分组的基本数据流（Packetized Elementary Stream，PES）。
 TS&#x2F;PS层：将PES包进行切分后再封装成固定大小（通常为188字节）的 传输流（Transport Stream，TS）包 ，同时还将一些节目信息也封装成TS包，又称为 片段（section） , 两者共同组成TS层。
 
-MPEG-TS&#x2F;PS打包流程 
+MPEG-TS&#x2F;PS打包流程
 
 每个TS数据包头都带有PID（packet identifier，数据包标识符），PID将TS数据包和TS数据包中的基本流联系起来
 
@@ -4897,11 +4903,11 @@ HEVC混合编码框架
 
 在预测之后，就得到残差块（预测分区与真实分区的差值），然后用某种方式对残差块进行变换，就得到一些结果。这样在随后的步骤中，对这些变换后的结果进行分析，就可以知道哪些像素丢弃后依然能保持图像的整体质量了。DCT 无疑是最重要的变换方式之一，可以使用它将一张图像转换到 频域 ，这时候大多数能量就会集中到 低频部分 ，所以丢掉高频系数能减少描述图像所需的数据量，同时不会牺牲太多的图像质量。
 接下来 对系数进行量化 以达到压缩的目的，最后一步则是对量化后的数据执行无损的熵编码，这主要是利用了语法元素间的相关性以进一步压缩，这样就产生了适合存储或者传输的码流。
+
+
 以上就是编码的基本流程，解码流程反其道而行之即可。
 
-
-
-编解码器的发展基本上分为几个“流派”，以解决没有一个编解码器能适合所有使用情况的问题。下面是几个主要的视频编码标准制定的“流派”: 
+编解码器的发展基本上分为几个“流派”，以解决没有一个编解码器能适合所有使用情况的问题。下面是几个主要的视频编码标准制定的“流派”:
 
 标准制定组织。ITU-T视频编码专家组（VCEG）和ISO&#x2F;IEC JTC1运动图像专家组（MPEG）。
 基于公司&#x2F;联盟的组织。典型的如开放媒体联盟（AOMedia）。
@@ -4910,7 +4916,7 @@ HEVC混合编码框架
 
 虽然几派都专注于改善媒体传输，但它们之间的关键区别在于：ITU-T和ISO&#x2F;IEC JTC1标准制定组织创造了专利技术，需要为编解码器的部署支付专利费；开放媒体联盟则是开发开源的编解码器；而AVS系列则着重于自主编码标准和国产化问题。然而需要注意的是，尽管如此，对于这些编解码器的“开放”程度一直存在一些争议。
 
-软编码H.264  
+软编码H.264
 当前网络中常见的视频编码格式要数H.264（AVC）。持H.264的封装格式很多，如RTMP、FLV、MP4、HLS（M3U8）、MKV、TS等。FFmpeg本身并 不支持H.264编码器 ，而是采用了 集成第三方模块的方式进行支持 ，如x264和OpenH264。x264和OpenH264二者各有各的优势，OpenH264开源比较晚，最初主要是为了让RTC等低延迟场景且版权更为宽松一些。不过目前x264还是最常用的H.264编码器，主要因为其优异的压缩性能和良好的工程实践。
 
 H.264即AVC（Advanced Video Coding），H.265即HEVC（High-Efficiency Video Coding），它们都有两个名称，主要是因为是这两个编解码器标准都是由MPEG和国际电信联盟（ITU）联合标准化的。H.266即VVC（Versatile Video Coding），原因相同。
@@ -5116,14 +5122,14 @@ RTMP的延迟相对较低，一般延时为1～3秒，对于延迟不是特别�
 另一方面是它是Adobe私有协议，对于浏览器生态并不友好。目前业界一直在探索各种方向以替换该协议，主要的原因是Adobe拥有该协议的版权，但又放弃了该协议的发展，在对新Codec及其他特性的支持上也停滞不前。
 在下行分发领域，RTMP面临着HLS、MPEG-DASH等基于HTTP传输协议的竞争，
 在上行领域也面临一些新的技术方案比如DASH-IF Live Media Ingest Protocol、WebRTC-HTTP Ingestion Protocol（WHIP）等协议的竞争。
+
+
+
+
 不过即便这样，从市场占有率来说，RTMP依旧是值得研究的技术之一，它也是第一个被广泛使用的流媒体协议。
 
-
-
-
-
-RTMP URL基本格式及意义 
-FFmpeg拉取RTMP直播流可以使用的参考参数：   
+RTMP URL基本格式及意义
+FFmpeg拉取RTMP直播流可以使用的参考参数：
 录制并发布RTSP流
 Real Time Streaming Protocolffmpeg -h demuxer=RTSP
 
@@ -5137,15 +5143,15 @@ PAUSE：客户端说：“暂停。”
 TEARDOWN：客户端说：“再见，断开连接。”
 
 
-传输（Transport）：RTSP 不负责  搬运 具体的音视频数据（比如 H.264 的 NALU 单元）。它只负责“控制”，不负责“搬砖”。
+传输（Transport）：RTSP 不负责 搬运 具体的音视频数据（比如 H.264 的 NALU 单元）。它只负责“控制”，不负责“搬砖”。
 
 
 
 RTP 专门负责在网络上实时传输音视频数据。是“搬运工”：它它给每个数据包打上时间戳（Timestamp）和序列号（Sequence Number），这样接收端才能按顺序、同步地还原出视频和音频。
 
-是一种信令协议，是曾经最常见的直播方式，目前常用于 安防等领域FFmpeg 目前仅支持 RTSP1.0，目前协议已发展至2.0版本RTSP本身定义了信令，其传输协议并未确定。在当前的实现中，大部分情况下都使用 RTP 来传输数据，但实际上，仍然有Real Data Transport（RDT）这样的私有传输协议被使用。RTSP是一个典型的CS架构，其基本交互流程如图： 
+是一种信令协议，是曾经最常见的直播方式，目前常用于 安防等领域FFmpeg 目前仅支持 RTSP1.0，目前协议已发展至2.0版本RTSP本身定义了信令，其传输协议并未确定。在当前的实现中，大部分情况下都使用 RTP 来传输数据，但实际上，仍然有Real Data Transport（RDT）这样的私有传输协议被使用。RTSP是一个典型的CS架构，其基本交互流程如图：
 
-RTSP是以demuxer实现的，而RTMP是以protocol实现的。   
+RTSP是以demuxer实现的，而RTMP是以protocol实现的。
 
 FFmpeg默认使用的拉取RTSP流方式为 UDP 传输方式，为了避免丢包导致的花屏、绿屏、灰屏、马赛克等问题，可以考虑将UDP改为TCP方式。
 RSTP demuxer可以支持UDP或者TCP传输数据，当通过UDP接收数据时，解封装器会尝试对收到的数据包重新排序（因为它们可能不按顺序到达，或者数据包完全丢失）。这可以通过将最大的解封装延迟设置为0来禁用该功能，这样可以控制RTSP demuxer带来的延迟（通过设置AVFormatContext的max_delay字段）。
@@ -5154,7 +5160,7 @@ ffmpeg -h protocol=http
 
 在流媒体服务当中，HTTP服务最为常见，尤其是点播。当然，直播也支持HTTP服务，例如使用HTTP传输FLV、TS直播流，或者使用HTTP传输使用M3U8及TS文件的HLS格式等。FFmpeg的HTTP既可以作为客户端使用，又可以作为服务端使用，但作为客户端使用的场景更多
 录制与发布UDP&#x2F;TCP流
-ffmpeg -h protocol=udpffmpeg -h protocol=tcp  
+ffmpeg -h protocol=udpffmpeg -h protocol=tcp
 
 FFmpeg不仅支持RTMP、HTTP这类高层协议，同样支持UDP、TCP这类较为底层的协议，而且可以支持UDP、TCP流媒体的录制与发布。
 多路流输出早期FFmpeg在转码后输出直播流时并不支持一次编码后同时输出多路直播流，需要使用管道方式输出。而在新版本的FFmpeg中已经支持tee文件封装及协议输出，可以使用tee进行多路流输出。
@@ -5244,13 +5250,13 @@ FFmpeg 的表达式可以由多个表达式通过分号组合成一个新的表�
 
 
 视频水印操作在视频中增加文字水印的要求比较多，需要有文字的字库处理相关文件，在编译FFmpeg时需要支持FreeType、FontConfig、iconv，系统中要有需要的字库。在FFmpeg中增加纯字母水印可以使用drawtext滤镜进行支持
- 
+
 添加文字水印
 ffmpeg -i input.mp4 -vf &quot;drawtext=fontsize=100:fontfile=FreeSerif.ttf:text=&#x27;hello world&#x27;:x=20:y=20&quot; output.mp4# 让水印每三秒出现一次ffmpeg -re -i input.mp4 -vf &quot;drawtext=fontsize=60:fontfile=FreeSerif.ttf:text=&#x27;test&#x27;:fontcolor=green:box=1:boxcolor=yellow:enable=lt(mod(t,3),1)&quot; output.mp4# 中文水印，需要中文字体支持ffmpeg -re -i input.mp4 -vf &quot;drawtext=fontsize=50:fontfile=/Library/Fonts/Songti.ttc:text=&#x27;文字水印测试&#x27;:fontcolor=green:box=1:boxcolor=yellow&quot; output.mp4
 
 添加图片水印可以使用movie滤镜参数
 画中画操作在 FFmpeg 的滤镜中，可以将多个视频流、多个多媒体采集设备、多个视频文件合并到一个界面中，生成画中画的效果，这可以通过overlay进行操作。
- 
+
 视频多宫格处理ffmpeg -i 1.avi -i 2.avi -i 3.avi -i 4.avi -filter_complex &quot;nullsrc=size=640x480 [base]; \[0:v] setpts=PTS-STARTPTS, scale=320x240 [upperleft]; \[1:v]setpts=PTS-STARTPTS, scale=320x240 [upperright]; \[2:v] setpts=PTS-STARTPTS, scale=320x240 [lowerleft]; \[3:v]setpts=PTS-STARTPTS, scale=320x240 [lowerright]; \[base][upperleft]overlay=shortest=1 [tmp1]; \[tmp1][upperright]overlay=shortest=1:x=320 [tmp2]; \[tmp2][lowerleft]overlay=shortest=1:y=240 [tmp3]; \[tmp3][lowerright]overlay=shortest=1:x=320:y=240&quot; \-c:v libx264 output.flv
 
 视频字幕操作为视频添加字幕的方式大概可以分为两种：
@@ -6285,6 +6291,7 @@ Lecture 03变换
 
 
 
+
 这样，就使用一个矩阵囊括了 平移、缩放、切变、旋转 操作，且变换矩阵作为仿射变换时的最后一行总是为 0 0 1
 使用齐次坐标表示：
 切变与平移：
@@ -6322,7 +6329,7 @@ Lecture 03变换
 虽然矩阵没有交换律，但是可以使用结合律进行变换合成（需要注意，矩阵运算自右向左）
 即： 
 变换也可以进行分解
-如：想让图形以一个确定点进行旋转，则可以将该点先移动到原点位置，然后进行旋转，最后再将该点移至原来的位置
+如：想让图形以 一个确定点 进行旋转，则可以将该点 先移动到原点位置 ，然后进行旋转，最后再将该点移至原来的位置
 
 3D 变换
 3D point: 
@@ -6389,7 +6396,6 @@ Lecture 04变换深入
 在3D空间中进行任意的旋转
 
 
-
 即，将旋转分解为分别绕x y z三个轴的旋转的合成
 
 罗德里格斯旋转公式：
@@ -6422,9 +6428,9 @@ Undefined control sequence \bm
 模型变换 model transformation 搭建场景
 视图变换 view transformation 变换摄像头
 投影变换 projection thransformation 将3D投影至2D
+
+
 以上变换成为MPV变换(Model View Projection)
-
-
 
 定义相机：
 
@@ -6438,8 +6444,6 @@ Undefined control sequence \bm
 将相机放在标准位置——坐标轴原点——上。y轴为上，z轴负方向朝向物体。
 
 先将相机移动至原点
-
-
 
 
 
@@ -6555,7 +6559,9 @@ Undefined control sequence \bm
 
 由此可知：
 视锥压缩为正交立方体
+
 正交投影
+
 
 
 最后可以得到透视投影变换矩阵：
